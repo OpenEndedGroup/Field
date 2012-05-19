@@ -12,11 +12,6 @@ import java.util.Set;
 
 import org.eclipse.swt.widgets.Display;
 
-import com.apple.eawt.AppEvent.OpenFilesEvent;
-import com.apple.eawt.Application;
-import com.apple.eawt.ApplicationEvent;
-import com.apple.eawt.OpenFilesHandler;
-
 import field.core.Platform;
 import field.core.util.AppleScript;
 import field.util.MiscNative;
@@ -37,8 +32,7 @@ public class Launcher {
 
 	static List<iOpenFileHandler> openFileHandlers = new ArrayList<iOpenFileHandler>();
 
-	static List<ApplicationEvent> openEvents = new ArrayList<ApplicationEvent>();
-
+	
 	public static String[] args = {};
 
 	static public final Object lock = new Object();

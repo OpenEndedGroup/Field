@@ -16,6 +16,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>Contents</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>OpenCL.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/lib/OpenCL.jar</locationURI>
@@ -81,11 +86,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/lib/jogl.all.jar</locationURI>
 		</link>
 		<link>
-			<name>jruby-complete-1.6.7.2.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-2-ECLIPSE_HOME/fieldwork/field/Contents/lib/jruby-complete-1.6.7.2.jar</locationURI>
-		</link>
-		<link>
 			<name>jython-complete.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/lib/jython-complete.jar</locationURI>
@@ -144,6 +144,16 @@
 			<name>xstream-SNAPSHOT.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/lib/xstream-SNAPSHOT.jar</locationURI>
+		</link>
+		<link>
+			<name>Contents/lib</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>Contents/lib/jruby-complete-1.6.7.2.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-2-ECLIPSE_HOME/field/Contents/lib/jruby-complete-1.6.7.2.jar</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

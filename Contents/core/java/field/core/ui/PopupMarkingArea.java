@@ -28,7 +28,7 @@ import field.core.Platform;
 import field.core.Platform.OS;
 import field.core.ui.SimpleVoronoi.Pnt;
 import field.core.ui.SmallMenu.BetterPopup;
-import field.core.uii.HTMLLabelTools;
+import field.core.util.HTMLLabelTools;
 import field.launch.Launcher;
 import field.launch.iUpdateable;
 import field.math.linalg.Vector2;

@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import quicktime.streaming.EditEntry;
-
 import field.namespace.diagram.Channel;
 import field.namespace.diagram.Channel.Marker;
 import field.namespace.diagram.DiagramZero.iChannel;
@@ -15,7 +13,6 @@ import field.namespace.diagram.DiagramZero.iMarker;
 import field.namespace.diagram.DiagramZero.iMarkerIterator;
 import field.namespace.generic.Generics.Pair;
 import field.util.ExternalHashMap.iEquality;
-import field.util.diff.ChannelDifferences.EditRelationship;
 import field.util.diff.Diff.Change;
 
 public class ChannelDifferences<A> {

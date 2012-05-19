@@ -58,7 +58,7 @@ public class FieldMenus2 {
 
 					MessageBox mb = new MessageBox(hiddenWindow, SWT.OK | SWT.ICON_INFORMATION);
 					mb.setText("About Field");
-					mb.setMessage("Field 14a Ñ http://openendedgroup.com/field");
+					mb.setMessage("Field 14a - http://openendedgroup.com/field");
 					mb.open();
 
 				}
