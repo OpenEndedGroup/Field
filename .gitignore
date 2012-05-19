@@ -6,6 +6,9 @@
 # um, that jdk
 *.jdk
 *.jre
+*.log
+*.pkc
+*.idx
 
 # emacs
 *~
@@ -14,5 +17,4 @@
 ######################
 .DS_Store*
 ehthumbs.db
-Icon?
 Thumbs.db
