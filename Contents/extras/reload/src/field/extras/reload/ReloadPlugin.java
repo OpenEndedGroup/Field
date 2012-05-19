@@ -61,7 +61,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 
 		this.container = new Composite(ToolBarFolder.currentFolder.getContainer(), SWT.NO_BACKGROUND);
 
-		ToolBarFolder.currentFolder.add("R", container);
+		ToolBarFolder.currentFolder.add("icons/reload.png", container);
 
 		toolbar = new Composite(container, SWT.BACKGROUND);
 		Color backgroundColor = ToolBarFolder.currentFolder.firstLineBackground;

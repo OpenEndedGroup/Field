@@ -244,7 +244,7 @@ public class JSRPlugin extends BaseSimplePlugin {
 
 		ui.layout();
 
-		stack.add("\u03bb", container);
+		stack.add("icons/lambda.png", container);
 	}
 
 	static public Object getInterface(String name) {
