@@ -1,0 +1,3 @@
+Field-Property-Append-java-source-paths: ../extras/graphics/src
+Field-RedirectionPath: ../extras/graphics/bin
+Field-PluginClass: field.extras.graphics.FieldGraphicsPlugin

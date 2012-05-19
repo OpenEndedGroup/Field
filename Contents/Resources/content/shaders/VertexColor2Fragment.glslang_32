@@ -1,0 +1,10 @@
+#version 150
+in vec4 vertexColor;
+in vec4 vertexColor1;
+
+out vec4[2] _out;
+void main()
+{
+	_out[0] = vertexColor;
+	_out[1] = vertexColor1;
+}

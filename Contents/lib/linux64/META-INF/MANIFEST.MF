@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.6.5
+Created-By: 1.4.2_09-b05 (Sun Microsystems Inc.)
+
+Name: libjogl_awt.so
+SHA1-Digest: K3AVR+R6JtlzqhvcqMMYUGmuHjA=
+
+Name: libjogl.so
+SHA1-Digest: 4cWmGzdZiuVLyuyl5JEG45OHxsY=
+
+Name: libjogl_cg.so
+SHA1-Digest: 8xttkb3tL5CqTvHYZ8wVKTfcLDg=
+

@@ -1,0 +1,2 @@
+Field-Property-Append-java-source-paths: /Users/marc/fieldwork/personal/java
+Field-RedirectionPath: /Users/marc/fieldwork/personal/classes

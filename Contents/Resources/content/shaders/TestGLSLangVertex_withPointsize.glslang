@@ -1,0 +1,18 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+attribute vec4 s_Color;
+attribute vec4 s_Texture;
+
+attribute vec4 s_PointParameters;
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = ftransform();//gl_ModelViewProjectionMatrix * gl_Vertex;
+	
+	vertexColor = s_Color;;
+	vertexTexture = s_Texture;
+	
+	gl_PointSize = s_PointParameters.x;
+	
+}

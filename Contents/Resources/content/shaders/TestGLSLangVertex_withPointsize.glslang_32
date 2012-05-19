@@ -1,0 +1,28 @@
+#version 150
+out vec4 vertexColor;
+out vec4 vertexTexture;
+
+in vec3 position;
+
+in vec4 s_Color;
+in vec4 s_Texture;
+
+in vec4 s_PointParameters;
+
+uniform mat4 _viewMatrix;
+uniform mat4 _projMatrix;
+
+
+void main()
+{
+	// Transforming The Vertex
+
+	gl_Position = _projMatrix * _viewMatrix * vec4(position,1.0);     
+
+	
+	vertexColor = s_Color;;
+	vertexTexture = s_Texture;
+	
+//	gl_PointSize = s_PointParameters.x;
+	
+}

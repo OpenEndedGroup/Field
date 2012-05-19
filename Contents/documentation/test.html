@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://localhost:10010/documentation/scripts/mootools.js"></script>
+
+<style type="text/css">
+body
+{
+line-height:18px; font-size:12px; background-color:#d3d3d3;
+font-family:"Gill Sans";
+}
+h1
+{
+font-size:18px;
+background-color:#bbb;
+margin-left:-10px;
+padding-left:10px;
+padding:10px;
+text-align:center;
+text-decoration: none !important;
+}
+h2
+{
+font-size:14px;
+background-color:#bbb;
+margin-left:-10px;
+padding-left:10px;
+padding:5px;
+text-align:center;
+text-decoration: none !important;
+}
+h3
+{
+font-size:14px;
+background-color:#bbb;
+margin-left:-10px;
+padding-left:10px;
+padding:5px;
+text-align:center;
+text-decoration: none !important;
+text-underline-style: hidden !important;
+}
+ 
+A:link {text-decoration: underline; color: black; background-color:#bbb; text-underline-style: dotted;}
+A:visited {text-decoration: none; color: grey;}
+A:active {text-decoration: none; color: dark-red; background-color: #ebb;}
+A:hover {text-decoration: underline; background-color: #cbb;}
+
+
+
+</style>
+
+
+
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+	<h1><span>Moo.fx: Super Lightweight Javascript Effects Library</span></h1>
+      </div>
+      <div id="content">
+	
+	<h3 class="toggler introduction"><a href="#introduction">introduction</a></h3>
+	<div class="accordion">
+	  
+	  <p><strong>moo</strong>.fx is a <em>superlightweight</em>, <i>ultratiny</i>, <em>megasmall</em> javascript effects library, to be used with <a href="http://prototype.conio.net">prototype.js</a> or the <a href="http://mootools.net">mootools framework</a>.</p>
+	  
+	  <p>It's <em>very easy to use</em>, <em>blazing fast</em>, <em>cross-browser</em>, <em>standards compliant</em>,  provides controls to modify any CSS property of any HTML element, including colors, with builtin checks that won't let a user break the effect with multiple, crazy clicks. <em>Optimized</em> to make you write the lesser code possible, the new moo.fx is so modular you can create any kind of effect with it.</p>
+	  
+	  <p><strong>moo</strong>.fx is open source, released under the very liberal <a href="License.txt">MIT License</a>, so feel free to do anything you want with it.</p>
+	  
+	</div>
+	
+	
+	<h3 class="toggler news"><a href="#whatsnew">what's new</a></h3>
+	<div class="accordion">
+	  <p><strong>moo</strong>.fx<sup>2</sup> Introduces a lot of new stuff: beginning with <em>Fx</em>.<em>Style</em>, to modify any chosen CSS property, then <em>Fx</em>.<em>Styles</em>, to modify any number of CSS properties at once. Those two are the most powerful effects, and if you're hardcore enough, the ones you'll ever need. They are infact included in the basic package, <strong>moo</strong>.fx.js. </p> 
+	  
+	  <p>Then in <strong>moo</strong>.fx.<em>pack</em> we have <em>Fx</em>.<em>Color</em>, to modify the color properties of your elements and <em>Fx</em>.<em>Scroll</em>, to internally scroll your long divs.</p> 
+	  
+	  <p>A completely rewritten <em>Accordion</em> has its own script now, with multiple options to let you decide every aspect of it.</p> 
+	  
+	  <p>For the nostalgics there is even <strong>moo</strong>.fx.<em>utils</em>, containing <em>Fx</em>.<em>Height</em>, <em>Fx</em>.<em>Width</em> and <em>Fx</em>.<em>Opacity</em>. <strong>moo</strong>.fx.<em>utils</em> is only useful if you want to toggle your values, and toggle only works with no padding/margin/borders, and in a strict doctype.</p>
+	  
+	  <p>If it werent enough, <strong>moo</strong>.fx is now fully compatible with <a href="http://www.robertpenner.com/easing/">Robert Penner Easing equations</a>, so there's also <strong>moo</strong>.fx.<em>transitions</em> in the package. Use it if you like to give your page a more personalized look!</p>
+	</div>
+	
+      </div>
+    </div>
+    <script type="text/javascript">
+      
+      //scripts have been put here as a courtesy to you, the sourcecode viewer.
+      
+      //this script uses mootools: http://mootools.net
+      
+      var stretchers = $$('div.accordion');
+      var togglers = $$('h3');
+      
+      stretchers.setStyles({'height': '0', 'overflow': 'hidden'});
+      
+      window.addEvent('load', function(){
+      
+      //initialization of togglers effects
+      
+      togglers.each(function(toggler, i){
+      toggler.color = toggler.getStyle('background-color');
+      toggler.$tmp.first = toggler.getFirst();
+      toggler.$tmp.fx = new Fx.Style(toggler, 'background-color', {'wait': false, 'transition': Fx.Transitions.Quart.easeOut});
+      });
+      
+      //the accordion
+      
+      var myAccordion = new Accordion(togglers, stretchers, {
+      
+      'opacity': false,
+      
+      'start': false,
+      
+      'transition': Fx.Transitions.Quad.easeOut,
+      
+      onActive: function(toggler){
+      toggler.$tmp.fx.start('#e555555');
+      toggler.$tmp.first.setStyle('color', '#000');
+      },
+      
+      onBackground: function(toggler){
+      toggler.$tmp.fx.stop();
+      toggler.setStyle('background-color', toggler.color).$tmp.first.setStyle('color', '#222');
+      }
+      });
+      
+      //open the accordion section relative to the url
+      
+      var found = 0;
+      $$('h3.toggler a').each(function(link, i){
+      if (window.location.hash.test(link.hash)) found = i;
+      });
+      myAccordion.display(found);
+      
+      //the draggable ball
+      
+      var ball = $('header').getElement('h1');
+      var ballfx = new Fx.Styles(ball, {duration: 1000, 'transition': Fx.Transitions.Elastic.easeOut});
+      new Drag.Base(ball, {
+      onComplete: function(){
+      ballfx.start({'top': 13, 'left': 358});
+      }
+      });
+      
+      });
+      
+    </script>
+  </body>
+</html>

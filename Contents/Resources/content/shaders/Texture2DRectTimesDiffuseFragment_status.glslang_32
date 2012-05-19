@@ -1,0 +1,13 @@
+#version 150
+
+in vec4 vertexColor;
+in vec4 vertexTexture;
+uniform sampler2DRect tex;
+
+out vec4 __output;
+
+void main()
+{
+	__output = texture(tex, vertexTexture.st)*vertexColor;
+
+}

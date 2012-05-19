@@ -1,0 +1,14 @@
+Signature-Version: 1.0
+SHA1-Digest-Manifest-Main-Attributes: pZ4MHlSOcZfCRx97aS8B8wcv2IQ=
+Created-By: 1.6.0 (Sun Microsystems Inc.)
+SHA1-Digest-Manifest: mR+Wm79PMOTzQ/jT9WQ6v/zOE5o=
+
+Name: libjogl_awt.so
+SHA1-Digest: UQ8Q/OE4HAS4cfFWSwmJEJZ3/4k=
+
+Name: libjogl.so
+SHA1-Digest: q1RSa7DnfgJkdRI9mdB40Vcb+Ws=
+
+Name: libjogl_cg.so
+SHA1-Digest: V7IEEpIy4//6U8j/9gu/oSZ9iMY=
+

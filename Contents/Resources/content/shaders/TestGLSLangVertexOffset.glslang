@@ -1,0 +1,19 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+attribute vec4 s_Color;
+attribute vec4 s_Texture;
+
+uniform vec4 offset;
+
+uniform vec4 fade;
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+	
+	gl_Position.xy += offset.xy*gl_Position.w;
+
+	vertexColor = s_Color;//*(1.0-fade.x);
+	vertexTexture = s_Texture;
+}

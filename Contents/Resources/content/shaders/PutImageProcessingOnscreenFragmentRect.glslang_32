@@ -1,0 +1,16 @@
+#version 150
+in vec4 vertexColor;
+in vec4 vertexTexture;
+out vec4 _output;
+
+uniform sampler2DRect depthTexture;
+uniform vec4 offset;
+uniform vec4 mul;
+
+void main()
+{
+	vec4 c2 = texture(depthTexture, vertexTexture.st);
+	
+	_output = (c2-offset)*mul+offset;
+	_output.w=mul.w;	
+}

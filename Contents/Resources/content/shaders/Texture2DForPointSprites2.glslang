@@ -1,0 +1,17 @@
+#version 120
+varying vec4 vertexColor;
+uniform sampler2D texture;
+
+void main()
+{
+	vec4 sample = texture2D(texture, gl_TexCoord[0].xy);
+
+	 gl_FragColor = sample*vertexColor;
+	 gl_FragColor.w = dot(sample.xyz, vec3(1.0, 1.0, 1.0)/3.0);
+
+	 if (gl_FragColor.w<0.01)
+	 {
+		discard;
+	 }
+	 gl_FragDepth = 1.0;
+} 

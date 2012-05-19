@@ -1,0 +1,8 @@
+varying vec4 vertexColor;
+varying vec4 vertexColor1;
+
+void main()
+{
+	gl_FragData[0] = vertexColor;
+	gl_FragData[1] = vertexColor1;
+}

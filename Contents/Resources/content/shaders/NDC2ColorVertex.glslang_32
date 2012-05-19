@@ -1,0 +1,30 @@
+#version 150
+out vec4 vertexColor;
+out vec4 vertexColor1;
+out vec4 vertexTexture;
+out vec4 vertexTexture1;
+out vec4 vertexNormal;
+
+in vec3 position;
+
+in vec4 s_Color;
+in vec4 s_Four;
+in vec4 s_Texture;
+in vec4 s_Texture1;
+in vec4 s_Normal;
+in vec4 s_Last;
+
+
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = vec4(position, 1.0);
+	gl_Position.w = 1.0;
+
+	vertexColor = s_Color;
+	vertexColor1 = s_Four;
+	vertexTexture = s_Texture;
+	vertexTexture1 = s_Texture1;
+	vertexNormal= s_Normal;
+}

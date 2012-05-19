@@ -1,0 +1,1 @@
+Field-Property-Append-java-source-paths: ../core/java

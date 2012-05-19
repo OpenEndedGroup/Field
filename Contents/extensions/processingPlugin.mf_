@@ -1,0 +1,3 @@
+Field-Property-Append-java-source-paths: ../extras/processing/src
+Field-RedirectionPath: ../extras/processing/bin:../extras/processing/lib/antlr.jar
+Field-PluginClass: field.extras.plugins.processing.ProcessingPlugin

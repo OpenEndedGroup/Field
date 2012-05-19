@@ -1,0 +1,29 @@
+#version 150
+
+in vec4 vertexColor;
+in vec4 vertexTexture;
+in vec4 vertexTexture1;
+
+uniform sampler2D tex;
+uniform sampler2D texture2;
+
+in vec4 textureBlend;
+
+uniform vec4 mul;
+uniform vec4 add;
+
+out vec4 __output;
+
+void main()
+{
+
+	vec4 c1 = (texture(tex, vertexTexture.st)  *vertexColor +add)*mul;
+	vec4 c2 = (vec4(1,1,1,1)*vertexColor+add)*mul;
+	
+
+	__output = mix(c1, c2, textureBlend.x);
+
+
+
+//	__output = vec4(1,0,0,1);
+}

@@ -1,0 +1,18 @@
+# Compiled source #
+###################
+*.class
+
+
+# um, that jdk
+*.jdk
+*.jre
+
+# emacs
+*~
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db

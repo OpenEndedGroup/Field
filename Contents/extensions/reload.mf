@@ -1,0 +1,3 @@
+Field-Property-Append-java-source-paths: ../extras/reload/src
+Field-RedirectionPath: ../extras/reload/bin
+Field-PluginClass: field.extras.reload.ReloadPlugin

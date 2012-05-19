@@ -1,0 +1,16 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+uniform sampler2D depthTexture;
+
+uniform vec4 offset;
+uniform vec4 mul;
+
+
+void main()
+{
+	vec4 c2 = texture2D(depthTexture, vertexTexture.st);
+	
+	gl_FragColor = (c2)*mul+offset;
+
+	gl_FragColor.w=1.0;	
+}

@@ -1,0 +1,27 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+varying vec4 vertexTexture1;
+varying vec4 vertexNormal;
+
+attribute vec4 s_Color;
+attribute vec4 s_Texture;
+attribute vec4 s_Texture1;
+attribute vec4 s_Normal;
+attribute vec4 s_Last;
+
+uniform vec4 screenDimensions;
+
+uniform vec4 fade;
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = vec4(gl_Vertex.x*screenDimensions.x-screenDimensions.z, gl_Vertex.y*screenDimensions.y-screenDimensions.w, gl_Vertex.z, 1.0);
+
+	vertexColor = s_Color*(1.0-fade.x);
+	vertexTexture = s_Texture;
+	
+	vertexTexture1 = s_Texture1;
+//	vertexNormal= s_Last;
+	vertexNormal= s_Normal;
+}

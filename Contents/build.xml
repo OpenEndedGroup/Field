@@ -1,0 +1,241 @@
+
+
+<project>
+  <target name="clean">
+    <delete dir="core/classes/" />
+    <delete dir="core/.apt_generated" />
+    <delete dir="extras/cl/bin" />
+    <delete dir="extras/graphics/bin" />    
+    <delete dir="extras/jfbxlib/bin" />
+    <delete dir="extras/jsrscripting/bin" />    
+    <delete dir="extras/modal/bin" /> 
+    <delete dir="extras/online/bin" /> 
+    <delete dir="extras/osc/bin" />    
+    <delete dir="extras/reload/bin" />  
+    <delete dir="extras/scrubber/bin" />    
+    <delete dir="extras/topology/bin" />    
+    <delete dir="extras/typing/bin" /> 
+    <delete dir="extras/wrap/bin" />
+    <delete dir="extras/maxfield/bin" /> 
+    <delete dir="extras/processing/bin" />      
+    <delete dir="extras/maxfieldMXJ/bin" /> 
+  </target>
+
+
+  <target name="build_apt">
+    <mkdir dir="core/.apt_generated" />
+    <mkdir dir="core/classes/" />
+    <apt srcdir="core/java" destdir="./core/.apt_generated" factory="field.apt.GenMethodsFactory" debug="true">
+      <classpath>
+	<fileset dir="./lib/">
+          <include name="*.jar"/>
+	</fileset>
+	<fileset dir="./lib/">
+          <include name="writeMethodAPT.jar"/>
+	</fileset>
+      </classpath>      
+    </apt>
+  </target>
+
+  <target name="build_core" depends="build_apt">
+    <mkdir dir="core/.apt_generated" />
+    <mkdir dir="core/classes/" />
+    <javac srcdir="core/java" destdir="core/classes" classpath="./core/.apt_generated/" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+	<fileset dir="./lib/">
+          <include name="*.jar"/>
+	</fileset>
+      </classpath>
+      <compilerarg line="-processorpath ./lib/writeMethodAPT.jar"/>
+      <compilerarg line="-s core/.apt_generated"/>
+    </javac>
+
+    <copy todir="core/classes/">
+      <fileset dir="core/.apt_generated"
+           includes="**/*.class" />
+    </copy>
+  </target>
+
+  <target name="extras_cl" depends="build_core">
+    <mkdir dir="extras/cl/bin" />
+    <javac srcdir="extras/cl/src" destdir="extras/cl/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_graphics" depends="build_core">
+    <mkdir dir="extras/graphics/bin" />    
+    <javac srcdir="extras/graphics/src" destdir="extras/graphics/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_jfbxlib" depends="build_core">
+    <mkdir dir="extras/jfbxlib/bin" />    
+    <javac srcdir="extras/jfbxlib/src" destdir="extras/jfbxlib/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_jsrscripting" depends="build_core">
+    <mkdir dir="extras/jsrscripting/bin" />    
+    <javac srcdir="extras/jsrscripting/src" destdir="extras/jsrscripting/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_modal" depends="build_core">
+    <mkdir dir="extras/modal/bin" />    
+    <javac srcdir="extras/modal/src" destdir="extras/modal/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_online" depends="build_core">
+    <mkdir dir="extras/online/bin" />    
+    <javac srcdir="extras/online/src" destdir="extras/online/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_osc" depends="build_core">
+    <mkdir dir="extras/osc/bin" />    
+    <javac srcdir="extras/osc/src" destdir="extras/osc/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_reload" depends="build_core">
+    <mkdir dir="extras/reload/bin" />    
+    <javac srcdir="extras/reload/src" destdir="extras/reload/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_scrubber" depends="build_core">
+    <mkdir dir="extras/scrubber/bin" />    
+    <javac srcdir="extras/scrubber/src" destdir="extras/scrubber/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_topology" depends="build_core,extras_modal">
+    <mkdir dir="extras/topology/bin" />    
+    <javac srcdir="extras/topology/src" destdir="extras/topology/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+     <pathelement path="./extras/modal/bin"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_typing" depends="build_core">
+    <mkdir dir="extras/typing/bin" />    
+    <javac srcdir="extras/typing/src" destdir="extras/typing/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_wrap" depends="build_core">
+    <mkdir dir="extras/wrap/bin" />    
+    <javac srcdir="extras/wrap/src" destdir="extras/wrap/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_maxfield" depends="build_core">
+    <mkdir dir="extras/maxfield/bin" />    
+    <javac srcdir="extras/maxfield/src" destdir="extras/maxfield/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="/Applications/Max6/Cycling '74/java/lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_processing" depends="build_core">
+    <mkdir dir="extras/processing/bin" />    
+    <javac srcdir="extras/processing/src" destdir="extras/processing/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="extras/processing/lib/">
+          <include name="*.jar"/>
+        </fileset>
+     </classpath>
+    </javac>
+  </target>
+
+  <target name="extras_maxfieldMXJ" depends="build_core">
+    <mkdir dir="extras/maxfieldMXJ/bin" />    
+    <javac srcdir="extras/maxfieldMXJ/src" destdir="extras/maxfieldMXJ/bin" classpath="./core/classes" debug="true" debuglevel="lines,vars,source">
+      <classpath>
+        <fileset dir="./lib/">
+          <include name="*.jar"/>
+        </fileset>
+        <fileset dir="/Applications/Max6/Cycling '74/java/lib/">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </javac>
+  </target>
+
+
+
+  <target name="extras_all" depends="extras_cl,extras_graphics,extras_jfbxlib,extras_jsrscripting,extras_maxfield,extras_maxfieldMXJ,extras_modal,extras_online,extras_osc,extras_reload,extras_scrubber,extras_topology,extras_typing,extras_wrap,extras_processing">
+  </target>
+
+
+
+</project>

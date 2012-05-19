@@ -1,0 +1,2 @@
+Field-RedirectionPath: ../extras/jfbxlib/bin
+Field-Property-Append-java-source-paths: ../extras/jfbxlib/src

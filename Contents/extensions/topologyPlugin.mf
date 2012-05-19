@@ -1,0 +1,3 @@
+Field-Property-Append-java-source-paths: ../extras/topology/src
+Field-RedirectionPath: ../extras/topology/bin
+Field-PluginClass: marc.plugins.topology.TopologyPlugin

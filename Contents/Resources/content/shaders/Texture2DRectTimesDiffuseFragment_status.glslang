@@ -1,0 +1,8 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+uniform sampler2DRect texture;
+
+void main()
+{
+	gl_FragColor = texture2DRect(texture, vertexTexture.st)*vertexColor;
+}

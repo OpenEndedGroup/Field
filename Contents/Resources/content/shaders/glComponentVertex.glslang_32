@@ -1,0 +1,37 @@
+#version 150
+
+in vec3 position;
+
+uniform mat4 _viewMatrix;
+uniform mat4 _projMatrix;
+
+
+
+out vec4 vertexColor;
+out vec4 vertexTexture;
+out vec4 vertexTexture1;
+
+
+in vec4 s_Color;
+in vec4 s_Texture;
+in vec4 s_Texture1;
+in vec4 s_Four;
+
+uniform vec4 fade;
+out vec4 textureBlend;
+
+void main()
+{
+	// Transforming The Vertex
+//	gl_Position = _projMatrix * _viewMatrix * vec4(position, 1.0);        //ftransform();//gl_ModelViewProjectionMatrix * gl_Vertex;
+
+	gl_Position = _projMatrix * _viewMatrix * vec4(position.xy, 0.0, 1.0);        //ftransform();//gl_ModelViewProjectionMatrix * gl_Vertex;
+	
+
+//	gl_Position = vec4(position/2000.0, 1.0);        //ftransform();//gl_ModelViewProjectionMatrix * gl_Vertex;
+
+	vertexColor = s_Color;//*(1.0-fade.x);
+	vertexTexture = s_Texture;
+	vertexTexture1= s_Texture1;
+	textureBlend = s_Four;
+}

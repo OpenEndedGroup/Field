@@ -1,0 +1,3 @@
+
+def gogogo():
+	print "gone"

@@ -1,0 +1,21 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+varying vec4 vertexTexture1;
+
+uniform sampler2D tex;
+uniform sampler2D texture2;
+
+varying vec4 textureBlend;
+
+uniform vec4 mul;
+uniform vec4 add;
+
+void main()
+{
+
+	vec4 c1 = (texture2D(tex, vertexTexture.st)*vertexColor+add)*mul;
+	vec4 c2 = (vec4(1,1,1,1)*vertexColor+add)*mul;
+	
+	gl_FragColor = mix(c1, c2, textureBlend.x);
+
+}

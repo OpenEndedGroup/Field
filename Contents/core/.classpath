@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="antlr.jar"/>
+	<classpathentry kind="lib" path="asm-all-3.2.jar"/>
+	<classpathentry kind="lib" path="batik-all.jar"/>
+	<classpathentry kind="lib" path="glazedlists-1.8.0_java15.jar"/>
+	<classpathentry kind="lib" path="gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="itext-2.0.6.jar"/>
+	<classpathentry kind="lib" path="jai_codec.jar"/>
+	<classpathentry kind="lib" path="jai_core.jar"/>
+	<classpathentry kind="lib" path="java-engine.jar"/>
+	<classpathentry kind="lib" path="jogl.all.jar"/>
+	<classpathentry kind="lib" path="jython-complete.jar" sourcepath="/Volumes/c1/Users/marc/fieldwork/temp/jython/src"/>
+	<classpathentry kind="lib" path="lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="lwjgl.jar"/>
+	<classpathentry kind="lib" path="OpenCL.jar"/>
+	<classpathentry kind="lib" path="parboiled4j-snapshot.jar"/>
+	<classpathentry kind="lib" path="pegdown-0.8.5.4.jar"/>
+	<classpathentry kind="lib" path="qdox-2.0-20100906.201255-1.jar"/>
+	<classpathentry kind="lib" path="serializer.jar"/>
+	<classpathentry kind="lib" path="swt.jar"/>
+	<classpathentry kind="lib" path="WebSocket.jar"/>
+	<classpathentry kind="lib" path="writeMethodAPT.jar"/>
+	<classpathentry kind="lib" path="xalan.jar"/>
+	<classpathentry kind="lib" path="xpp3-1.1.3.4d_b4_min.jar"/>
+	<classpathentry kind="lib" path="xstream-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="clojure-1.4.0.jar"/>
+	<classpathentry kind="lib" path="jruby-complete-1.6.7.2.jar"/>
+	<classpathentry kind="src" path=".apt_generated">
+		<attributes>
+			<attribute name="optional" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

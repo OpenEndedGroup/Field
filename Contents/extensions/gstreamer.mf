@@ -1,0 +1,5 @@
+Field-Property-gstreamer_dir: ../extras/gstreamer
+Field-RedirectionPath: ../extras/gstreamer/lib/gstreamer-java.jar:../extras/gstreamer/lib/jna.jar:../extras/gstreamer/bin/
+Field-PluginClass: field.extras.gstreamer.GStreamerPlugin
+
+

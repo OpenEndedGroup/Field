@@ -1,0 +1,3 @@
+Field-Property-Append-java-source-paths: ../extras/osc/src
+Field-RedirectionPath: ../extras/osc/bin
+Field-PluginClass: field.extras.osc.OSCPlugin
