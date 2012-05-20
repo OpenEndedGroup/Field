@@ -293,7 +293,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 		} else if (error) {
 			Composite status = new Composite(folder.getContainer(), 0);
 
-			folder.add("P", status);
+			folder.add("icons/p_16x16.png", status);
 
 			;//;//System.out.println(" status is :" + nothing + " " + error);
 			status.setBackground(ToolBarFolder.firstLineBackground);
@@ -341,7 +341,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 			scroller = new ScrolledComposite(folder.getContainer(), SWT.VERTICAL | SWT.HORIZONTAL);
 			contents = new Composite(scroller, SWT.NONE);
 
-			NewInspector2 inspect = new NewInspector2("P", folder, scroller, contents);
+			NewInspector2 inspect = new NewInspector2("icons/p_16x16.png", folder, scroller, contents);
 
 			inspect.new InfoControl(new iIO<Object>("Field/Processing is enabled") {
 
