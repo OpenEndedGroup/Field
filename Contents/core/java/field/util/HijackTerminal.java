@@ -47,7 +47,7 @@ public class HijackTerminal {
 				}
 				else
 				{
-					System.out.println(" can't write file ?");
+					;//System.out.println(" can't write file ?");
 				}
 
 			} catch (FileNotFoundException e) {

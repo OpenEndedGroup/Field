@@ -35,7 +35,7 @@ public class FieldMaxPyObjectAdaptor {
 	public static void initialize() {
 		if (!initialized) {
 
-			System.out.println(" initializing adaptor2 ");
+			;//;//System.out.println(" initializing adaptor2 ");
 
 			ExtensiblePyObjectAdapter a = Py.getAdapter();
 			fieldPyObjectAdaptor = new FieldMaxPyObjectAdaptor().install(a);

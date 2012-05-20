@@ -42,7 +42,7 @@ public class YieldSupport {
 		yi.lastReturn = wasReturn;
 		yi.next = resumeLabel;
 		
-		//System.out.println(" yield store is <"+yi+">");
+		//;//System.out.println(" yield store is <"+yi+">");
 		
 		return wasReturn;
 	}
@@ -52,7 +52,7 @@ public class YieldSupport {
 		globalYieldInfo.remove(fromThis);
 		assert yi != null : "yieldLoad befor yeildIndexFor";
 		
-		//System.out.println(" yield load is <"+yi+">");
+		//;//System.out.println(" yield load is <"+yi+">");
 
 		return yi.localStack;
 	}

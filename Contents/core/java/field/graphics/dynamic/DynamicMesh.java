@@ -147,7 +147,7 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 
 	public void copyFrom(SubMesh subMesh) {
 
-//		System.out.println(" copy from <" + subMesh.delegate.cachedVertexBuffer + " " + subMesh.delegate.cachedTriangleBuffer);
+//		;//System.out.println(" copy from <" + subMesh.delegate.cachedVertexBuffer + " " + subMesh.delegate.cachedTriangleBuffer);
 
 		if (subMesh.delegate.cachedVertexBuffer == null)
 			return;
@@ -203,7 +203,7 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 
 		// dirty = true;
 
-		// System.out.println(" about to copy <"+vertex.limit()+"> <"+triangle.limit()+">");
+		// ;//System.out.println(" about to copy <"+vertex.limit()+"> <"+triangle.limit()+">");
 
 		int offset = (oldVertexCursor - vertexCursor);
 
@@ -211,7 +211,7 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 		cachedVertexBuffer.position(vertexCursor * 3);
 		int originalVertexCursor = vertexCursor;
 
-		// System.out.println(cachedVertexBuffer + " " + vertex);
+		// ;//System.out.println(cachedVertexBuffer + " " + vertex);
 
 		safePut(cachedVertexBuffer, vertex);
 		// cachedVertexBuffer.put(vertex);
@@ -324,7 +324,7 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 	int elementAt = 0;
 
 	public void nextFace(int v1) {
-//		System.out.println(" next face <" + v1 + "> : " + elementAt + " " + elementFace[0] + " " + elementFace[1]);
+//		;//System.out.println(" next face <" + v1 + "> : " + elementAt + " " + elementFace[0] + " " + elementFace[1]);
 
 		if (elementAt == 2) {
 			nextFace(elementFace[0], elementFace[1], v1);

@@ -60,7 +60,7 @@ public class DispatchSupport {
 	}
 
 	public void enter(String uniq, String fromName, Object fromThis, String methodName, Map<String, Object> parameterName, Object[] argArray, String className) {
-		if (StandardTrampoline.debug) if (StandardTrampoline.debug) System.out.println(" ---- enter <" + uniq + ">");
+		if (StandardTrampoline.debug) if (StandardTrampoline.debug) ;//System.out.println(" ---- enter <" + uniq + ">");
 		// is this level already running?
 		Stack<Level> stack = ongoing.get();
 		String name = (String) parameterName.get("id");
@@ -68,7 +68,7 @@ public class DispatchSupport {
 		if (stack.size() == 0 || (!(stack.peek().name.equals(name)) || name.equals(""))) {
 			try {
 				if (StandardTrampoline.debug)
-					if (StandardTrampoline.debug) System.out.println(" paramemters <" + parameterName + ">");
+					if (StandardTrampoline.debug) ;//System.out.println(" paramemters <" + parameterName + ">");
 				DispatchProvider c = null;
 				if (parameterName.containsKey("topology_cached")) {
 					c = (DispatchProvider) parameterName.get("topology_cached");
@@ -102,11 +102,11 @@ public class DispatchSupport {
 			stack.peek().seen++;
 			stack.peek().provider.notifyExecuteBegin(fromThis, parameterName);
 		}
-		if (StandardTrampoline.debug) if (StandardTrampoline.debug) System.out.println(" stack is now <" + stack + ">");
+		if (StandardTrampoline.debug) if (StandardTrampoline.debug) ;//System.out.println(" stack is now <" + stack + ">");
 	}
 
 	public Object exit(String string, Object fromThis, Object returningThis, Map<String, Object> parameterName, String className) {
-		if (StandardTrampoline.debug) if (StandardTrampoline.debug) System.out.println(" ---- exit <" + string + "> stack is <" + ongoing.get() + ">");
+		if (StandardTrampoline.debug) if (StandardTrampoline.debug) ;//System.out.println(" ---- exit <" + string + "> stack is <" + ongoing.get() + ">");
 		// is this level already running?
 		Stack<Level> stack = ongoing.get();
 		String name = (String) parameterName.get("id");

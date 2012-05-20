@@ -106,7 +106,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 					// OverlayAnimationManager.requestRepaint(root);
 					
 					
-					System.out.println(" setting tool to be <"+icon+"> / "+currentHandler);
+					;//;//System.out.println(" setting tool to be <"+icon+"> / "+currentHandler);
 					
 					currentHandler = h;
 				}
@@ -142,7 +142,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 			});
 
 			
-			System.out.println(" -- adding contextual help for <"+icon+"> --"+a.getControl());
+			;//;//System.out.println(" -- adding contextual help for <"+icon+"> --"+a.getControl());
 			
 			HelpBrowser helpbrowser = HelpBrowser.helpBrowser.get(root);
 			helpbrowser.getContextualHelp().addContextualHelpForToolItem(icon, a, new iProvider<String>() {
@@ -281,7 +281,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 			}
 		});
 
-		System.out.println(" fastContext is <" + fastContext + ">");
+		;//;//System.out.println(" fastContext is <" + fastContext + ">");
 
 		rootComponent.addMousePeer(new iMousePeer() {
 
@@ -398,7 +398,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 
 			public void mouseDragged(ComponentContainer inside, Event arg0) {
 
-				System.out.println(" inside mouse drag <" + currentMode + " " + currentHandler);
+				;//;//System.out.println(" inside mouse drag <" + currentMode + " " + currentHandler);
 
 				if (currentMode != Mode.drag)
 					if (currentHandler != null)
@@ -432,7 +432,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 
 			public void mouseReleased(ComponentContainer inside, Event arg0) {
 				
-				System.out.println(" palette2 released : isOneShot "+isOneShot+" "+palette2.getTool());
+				;//;//System.out.println(" palette2 released : isOneShot "+isOneShot+" "+palette2.getTool());
 				
 				Vector2 a = new Vector2(arg0.x, arg0.y);
 				if (a.distanceFrom(pressedAt) < 2) {
@@ -518,7 +518,7 @@ public class HierarchyPlugin extends BaseSimplePlugin {
 		if (currentHandler != null)
 			currentHandler.idle();
 
-		// System.out.println(" current mode <" +
+		// ;//;//System.out.println(" current mode <" +
 		// currentMode + ">
 		// handler <" + currentHandler + ">");
 	}

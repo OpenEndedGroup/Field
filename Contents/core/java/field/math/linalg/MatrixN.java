@@ -1043,10 +1043,10 @@ public class MatrixN implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Shorthand for System.out.println(String). Make private.
+	 * Shorthand for ;//System.out.println(String). Make private.
 	 */
 	protected static void print(String s) {
-		System.out.println(s);
+		;//System.out.println(s);
 	}
 
 	/**

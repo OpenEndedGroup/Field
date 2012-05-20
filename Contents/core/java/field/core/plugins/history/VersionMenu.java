@@ -86,7 +86,7 @@ public class VersionMenu {
 			s[0] = "Current";
 			for (int ii = 1; ii < v.size(); ii++) {
 				final VersionsOfFile f = v.get(ii);
-				System.out.println(" date is :" + f.date);
+				;//System.out.println(" date is :" + f.date);
 				s[ii] = f.date;
 				actions.add(new iUpdateable() {
 					@Override
@@ -95,29 +95,29 @@ public class VersionMenu {
 					}
 				});
 			}
-			System.out.println(" 0 ");
+			;//System.out.println(" 0 ");
 
 			diffs = new ArrayList<DiffSet>();
 			for (int ii = 0; ii < v.size() - 1; ii++) {
-				System.out.println(" making diff <" + ii + "> of <" + v.size() + ">");
+				;//System.out.println(" making diff <" + ii + "> of <" + v.size() + ">");
 				diffs.add(q.new DiffSet(v.get(ii).getContents().split("\n"), v.get(ii + 1).getContents().split("\n")));
 			}
-			System.out.println(" 1 ");
+			;//System.out.println(" 1 ");
 
 			streamline(s);
 
-			System.out.println(" A ");
+			;//System.out.println(" A ");
 
 			box.setLabelsWithHTML(s);
-			System.out.println(" B ");
+			;//System.out.println(" B ");
 			box.currentlySelected = -1;
 			// box.combo.setText("\u261E");
-			System.out.println(" C ");
+			;//System.out.println(" C ");
 			box.setHoverUpdate(new iHoverUpdate() {
 
 				@Override
 				public void update(int index) {
-					System.out.println(" hu -- " + index);
+					;//System.out.println(" hu -- " + index);
 
 					swapInText_next(element, v.get(index - 1).getContents().replaceFirst("string>", ""));
 
@@ -125,15 +125,15 @@ public class VersionMenu {
 
 				@Override
 				public void cancel() {
-					System.out.println(" -- cancelling ! --");
+					;//System.out.println(" -- cancelling ! --");
 					swapInText_next(element, originalText);
 					new Exception().printStackTrace();
 				}
 
 			});
-			System.out.println(" E ");
+			;//System.out.println(" E ");
 		} else {
-			System.out.println(" doing line analysis");
+			;//System.out.println(" doing line analysis");
 			originalText = editor.getText();
 
 			int start = editor.getInputEditor().getLineAtOffset(range.x);
@@ -161,7 +161,7 @@ public class VersionMenu {
 				Integer ns = ds.mapLineOut(start);
 				Integer ne = ds.mapLineOut(end - 1);
 
-				System.out.println(" mapped " + start + " -> " + end + "  to " + ns + " " + ne);
+				;//System.out.println(" mapped " + start + " -> " + end + "  to " + ns + " " + ne);
 
 				if (ns == null || ne == null)
 					break;
@@ -172,7 +172,7 @@ public class VersionMenu {
 				start = ns;
 				end = ne;
 
-				System.out.println(" snippet text is <" + s.contents + ">");
+				;//System.out.println(" snippet text is <" + s.contents + ">");
 
 				if (s.contents.equals(ls)) {
 				} else {
@@ -192,7 +192,7 @@ public class VersionMenu {
 			streamline(ss);
 			box.setLabelsWithHTML(ss);
 			box.currentlySelected = -1;
-			System.out.println(" C ");
+			;//System.out.println(" C ");
 			box.setHoverUpdate(new iHoverUpdate() {
 
 				@Override
@@ -203,7 +203,7 @@ public class VersionMenu {
 
 				@Override
 				public void cancel() {
-					System.out.println(" --- cancelling !! --- ");
+					;//System.out.println(" --- cancelling !! --- ");
 					swapInText_next(element, originalText);
 				}
 
@@ -229,7 +229,7 @@ public class VersionMenu {
 			if (d == -1)
 				d = m.get(0).length;
 			else if (d != m.get(m.size() - 1).length) {
-				System.out.println(" length mismatch <" + d + " " + m.get(m.size() - 1).length + ">");
+				;//System.out.println(" length mismatch <" + d + " " + m.get(m.size() - 1).length + ">");
 				return;
 			}
 		}
@@ -240,7 +240,7 @@ public class VersionMenu {
 
 			s[i] = "";
 			for (int dd = 0; dd < a.length; dd++) {
-				System.out.println(" comparing <" + a[dd] + "> <" + b[dd] + "> <" + dd + ">");
+				;//System.out.println(" comparing <" + a[dd] + "> <" + b[dd] + "> <" + dd + ">");
 
 				String end = dd == 3 || dd == 4 ? ":" : " ";
 				if (a[dd].equals(b[dd])) {

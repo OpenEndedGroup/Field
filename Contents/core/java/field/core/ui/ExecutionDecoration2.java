@@ -67,7 +67,7 @@ public abstract class ExecutionDecoration2 {
 
 		s = Launcher.display.map(GLComponentWindow.getCurrentWindow(component).getCanvas(), null, s);
 
-		System.out.println(" popping open builder at <"+s+">");
+		;//System.out.println(" popping open builder at <"+s+">");
 		PopupMarkingArea menu = builder.getMenu(GLComponentWindow.getCurrentWindow(component).getCanvas(), s);
 	}
 

@@ -34,7 +34,7 @@ public class ExecuteCommand {
 	}
 
 	public String getOutput() {
-		// System.out.println(" output is <\n"+allOut+"\n>");
+		// ;//System.out.println(" output is <\n"+allOut+"\n>");
 		return allOut.toString();
 	}
 
@@ -118,7 +118,7 @@ public class ExecuteCommand {
 
 	private void go(String directory, boolean redirectError, String[] s) {
 
-		System.out.println(":::::::::::::::::::::::::::::::::::: " + Arrays.asList(s) + " " + redirectError);
+		;//System.out.println(":::::::::::::::::::::::::::::::::::: " + Arrays.asList(s) + " " + redirectError);
 		// new Exception().printStackTrace();
 
 		command = Arrays.asList(s);

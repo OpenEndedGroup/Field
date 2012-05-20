@@ -813,7 +813,7 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 		int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 		assert status == GL_FRAMEBUFFER_COMPLETE : status;
 
-		System.out.println(" fbo complete ? " + this + " " + status + " " + GL_FRAMEBUFFER_COMPLETE + " " + useFloat + " " + useRect + " " + width + " " + height);
+		;//System.out.println(" fbo complete ? " + this + " " + status + " " + GL_FRAMEBUFFER_COMPLETE + " " + useFloat + " " + useRect + " " + width + " " + height);
 		// new Exception().printStackTrace();
 
 		BasicContextManager.putId(this, fbo[0]);
@@ -974,7 +974,7 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 		}
 
 		first = false;
-//		System.out.println(" << image processing update ");
+//		;//System.out.println(" << image processing update ");
 
 	}
 

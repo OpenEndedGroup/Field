@@ -154,7 +154,7 @@ public class PythonInterface implements ScriptingInterface {
 		// System.setProperty("python.security.respectJavaAccessibility",
 		// "false");
 		
-		System.out.println(" python path is <" + System.getProperty("python.path") + "> classloader is <" + this.getClass().getClassLoader() + ">");
+		;//System.out.println(" python path is <" + System.getProperty("python.path") + "> classloader is <" + this.getClass().getClassLoader() + ">");
 		
 		localDictionary = new LocalDictionary();
 		state = new PySystemState();
@@ -202,10 +202,10 @@ public class PythonInterface implements ScriptingInterface {
 		List<String> ex = Trampoline2.extendedClassPaths;
 		for (String s : ex) {
 			if (s.endsWith(".jar")) {
-				System.out.println(" add package <" + s + ">");
+				;//System.out.println(" add package <" + s + ">");
 				PySystemState.add_package(s);
 			} else {
-				System.out.println(" add classdir <" + s + ">");
+				;//System.out.println(" add classdir <" + s + ">");
 				PySystemState.add_classdir(s);
 			}
 		}
@@ -503,7 +503,7 @@ public class PythonInterface implements ScriptingInterface {
 	
 	private void exec(final PythonInterpreter i, final String f) {
 		
-		//System.out.println(" inside exec <" + i + " " + f + "> <" + Thread.currentThread() + ">");
+		//;//System.out.println(" inside exec <" + i + " " + f + "> <" + Thread.currentThread() + ">");
 		//new Exception().printStackTrace();
 		
         //		if (ThreadedLauncher.isTimer2Thread()) {
@@ -525,7 +525,7 @@ public class PythonInterface implements ScriptingInterface {
         //					// {
         //					
         //					try {
-        //						System.out.println(" thread2 about to exec");
+        //						;//System.out.println(" thread2 about to exec");
         //						i.exec(f);
         //					} finally {
         //						run[0] = true;
@@ -535,10 +535,10 @@ public class PythonInterface implements ScriptingInterface {
         //				}
         //			};
         //			while (!run[0]) {
-        //				System.out.println(" thread1 about to go sync");
+        //				;//System.out.println(" thread1 about to go sync");
         //				while (!run[0]) {
         //					
-        //					System.out.println(" waiting ...");
+        //					;//System.out.println(" waiting ...");
         //					try {
         //						Thread.sleep(100);
         //					} catch (InterruptedException e1) {
@@ -549,10 +549,10 @@ public class PythonInterface implements ScriptingInterface {
         //						if (ThreadedLauncher.lock2.tryLock(10, TimeUnit.MILLISECONDS)) {
         //							try {
         //								
-        //								System.out.println(" got lock? ");
+        //								;//System.out.println(" got lock? ");
         //								
         //								c.await(10, TimeUnit.MILLISECONDS);
-        //								System.out.println(" await finished ");
+        //								;//System.out.println(" await finished ");
         //							} catch (InterruptedException e) {
         //								e.printStackTrace();
         //							} finally {
@@ -591,7 +591,7 @@ public class PythonInterface implements ScriptingInterface {
         //					// {
         //					
         //					try {
-        //						System.out.println(" thread2 about to exec");
+        //						;//System.out.println(" thread2 about to exec");
         //						i.exec(f);
         //					} finally {
         //						run[0] = true;
@@ -605,10 +605,10 @@ public class PythonInterface implements ScriptingInterface {
 	}
 	
     //	private void park(final iUpdateable next, final iUpdateable end, final boolean[] run, final Condition c) {
-    //		System.out.println(" thread1 about to go sync");
+    //		;//System.out.println(" thread1 about to go sync");
     //		while (!run[0]) {
     //			
-    //			System.out.println(" waiting ...");
+    //			;//System.out.println(" waiting ...");
     //			try {
     //				Thread.sleep(100);
     //			} catch (InterruptedException e1) {
@@ -619,10 +619,10 @@ public class PythonInterface implements ScriptingInterface {
     //				if (ThreadedLauncher.lock2.tryLock(10, TimeUnit.MILLISECONDS)) {
     //					try {
     //						
-    //						System.out.println(" got lock? ");
+    //						;//System.out.println(" got lock? ");
     //						
     //						c.await(10, TimeUnit.MILLISECONDS);
-    //						System.out.println(" await finished ");
+    //						;//System.out.println(" await finished ");
     //					} catch (InterruptedException e) {
     //						e.printStackTrace();
     //					} finally {
@@ -638,9 +638,9 @@ public class PythonInterface implements ScriptingInterface {
     //					
     //					@Override
     //					public void next() {
-    //						System.out.println(" about to wait");
+    //						;//System.out.println(" about to wait");
     //						next.update();
-    //						System.out.println(" about to park again");
+    //						;//System.out.println(" about to park again");
     //						park(next, end, run, c);
     //					}
     //				});
@@ -678,7 +678,7 @@ public class PythonInterface implements ScriptingInterface {
 	public PyObject executeStringReturnPyObject(String script, String tag) {
 		script = clean(script);
 		try {
-			// System.out.println(" executing\n"+script);
+			// ;//System.out.println(" executing\n"+script);
 			exec(interpreter, script);
 			PyObject py = (interpreter).get(tag);
 			return py;
@@ -803,7 +803,7 @@ public class PythonInterface implements ScriptingInterface {
 	
 	public void importJava(String pack, String clas) {
 		
-		System.out.println("exec<" + "from " + pack + " import " + clas + ">");
+		;//System.out.println("exec<" + "from " + pack + " import " + clas + ">");
 		execString("from " + pack + " import " + clas);
 	}
 	
@@ -906,7 +906,7 @@ public class PythonInterface implements ScriptingInterface {
 		if (!script.contains("\u000b"))
 			return script;
 		
-		System.out.println(" cleaning <" + script + ">");
+		;//System.out.println(" cleaning <" + script + ">");
 		
 		String[] lines = script.split("\n");
 		StringBuilder b = new StringBuilder(script.length() + 5);
@@ -963,7 +963,7 @@ public class PythonInterface implements ScriptingInterface {
 				String m = "<html>" + PopupInfoWindow.title("Exception") + PopupInfoWindow.content(t.getMessage() + " / (" + t.getClass().getSimpleName() + ")") + "<br>";
 				StackTraceElement[] trace = t.getStackTrace();
 				
-				System.out.println(" stack trace is <" + Arrays.asList(trace) + ">");
+				;//System.out.println(" stack trace is <" + Arrays.asList(trace) + ">");
 				if (t instanceof PyException) {
 					PyException ee = ((PyException) t);
 					
@@ -999,35 +999,35 @@ public class PythonInterface implements ScriptingInterface {
 	 * useful for stopping the python execution from sigint handler
 	 */
 	public void forceExit() {
-		System.out.println(" -- inside forceExit");
+		;//System.out.println(" -- inside forceExit");
 		Launcher.shuttingDown = true;
 		if (ts.frame != null)
 			ts.frame.tracefunc = ts.tracefunc = new TraceFunction() {
 				
 				@Override
 				public TraceFunction traceReturn(PyFrame frame, PyObject ret) {
-					System.out.println(frame + " " + ret);
+					;//System.out.println(frame + " " + ret);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
 				
 				@Override
 				public TraceFunction traceLine(PyFrame frame, int line) {
-					System.out.println(frame + " " + line);
+					;//System.out.println(frame + " " + line);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
 				
 				@Override
 				public TraceFunction traceException(PyFrame frame, PyException exc) {
-					System.out.println(frame + " " + exc);
+					;//System.out.println(frame + " " + exc);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
 				
 				@Override
 				public TraceFunction traceCall(PyFrame frame) {
-					System.out.println(frame);
+					;//System.out.println(frame);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}

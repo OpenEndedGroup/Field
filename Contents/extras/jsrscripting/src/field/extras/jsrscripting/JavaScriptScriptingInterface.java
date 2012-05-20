@@ -36,7 +36,7 @@ public class JavaScriptScriptingInterface extends JSRInterface {
 		{
 			return "need to install js.jar (from "+UbiquitousLinks.links.simpleLink("http://www.mozilla.org/rhino/")+") and js-engine.jar (from "+UbiquitousLinks.links.simpleLink("http://scripting.dev.java.net")+") into classpath using the Plugin Manager";
 		}
-		System.out.println(" no javascript?");
+		;//;//System.out.println(" no javascript?");
 		return "unspecified error";
 	}
 

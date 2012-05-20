@@ -38,7 +38,7 @@ public class OptimizeCachedLineSet {
 		int newSize = cache.size();
 		c.addAll(cache.values());
 		c.addAll(extra);
-		System.out.println(" optimized <" + old + " -> " + newSize + ">");
+		;//System.out.println(" optimized <" + old + " -> " + newSize + ">");
 	}
 
 	private long getHashFor(CachedLine cc, Set<String> ex) {

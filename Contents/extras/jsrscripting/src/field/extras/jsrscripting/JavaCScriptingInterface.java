@@ -169,7 +169,7 @@ public class JavaCScriptingInterface extends JSRInterface {
 		super.postBind(evaluation, eval);
 
 		if (evaluation instanceof Class) {
-			// System.out.println(" name is <" + ((Class)
+			// ;//;//System.out.println(" name is <" + ((Class)
 			// evaluation).getSimpleName() + ">");
 			propagateAttribute(((Class) evaluation).getSimpleName(), evaluation);
 		}
@@ -206,7 +206,7 @@ public class JavaCScriptingInterface extends JSRInterface {
 		} catch (ClassNotFoundException e) {
 			return "need to install java-engine.jar (from " + UbiquitousLinks.links.simpleLink("http://scripting.dev.java.net") + ") into classpath using the Plugin Manager";
 		}
-		System.out.println(" no javac");
+		;//;//System.out.println(" no javac");
 		return "unspecified error";
 	}
 

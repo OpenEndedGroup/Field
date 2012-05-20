@@ -85,7 +85,7 @@ public class SimplePDFImageDrawing {
 							gs1.setBlendMode(new PdfName("Multiply"));
 							context.getOutput().setGState(gs1);
 							
-							System.out.println(" rev eng :"+destination+" "+extents+" "+scale+" "+placement);
+							;//System.out.println(" rev eng :"+destination+" "+extents+" "+scale+" "+placement);
 							
 							context.getOutput().addImage(pdfimage, (float) (placement.w), 0, 0, (float) (placement.h), (float) placement.x, (float) (-destination.y+ot.w-(placement.h)));
 							context.getOutput().restoreState();

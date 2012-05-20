@@ -92,7 +92,7 @@ public class PlaneRansac {
 		Math.max(size, Math.max(axes[1].positiveLength, axes[1].negativeLength));
 		Math.max(size, Math.max(axes[2].positiveLength, axes[2].negativeLength));
 
-		System.out.println(" cloud size is <" + size + ">");
+		;//System.out.println(" cloud size is <" + size + ">");
 
 		for (int i = 0; i < numIterations; i++) {
 			Triple<Vector3, Vector3, Vector3> model = randomModel(points);
@@ -103,7 +103,7 @@ public class PlaneRansac {
 			int num = 0;
 			for (Vector3 v : points) {
 
-				// System.out.println(" distances from <"+m+"> to <"+v+"> is <"+m.distanceTo(v)+">");
+				// ;//System.out.println(" distances from <"+m+"> to <"+v+"> is <"+m.distanceTo(v)+">");
 
 				if (m.distanceTo(v) < inside) {
 					insidePoints.add(v);
@@ -111,20 +111,20 @@ public class PlaneRansac {
 				}
 			}
 			if (num < minMembership) {
-				//System.out.println(" membership is only <" + num + ">");
+				//;//System.out.println(" membership is only <" + num + ">");
 				if (num>maxMembership)
 					maxMembership = num;
 				continue;
 			}
 
 			Model m2 = new Model(insidePoints, m);
-			System.out.println(m + " " + m2 + "   m1/m2");
+			;//System.out.println(m + " " + m2 + "   m1/m2");
 
 			float d = 0;
 			int num2 = 0;
 			for (Vector3 v : points) {
 
-				// System.out.println(" distances from <" + m +
+				// ;//System.out.println(" distances from <" + m +
 				// "> to <" + v + "> is <" + m.distanceTo(v) +
 				// ">");
 
@@ -136,10 +136,10 @@ public class PlaneRansac {
 			}
 
 			float areaDensity = num2 / m2.area;
-			//System.out.println(" area density is <" + areaDensity + ">");
+			//;//System.out.println(" area density is <" + areaDensity + ">");
 
 			if (num2 < minMembership) {
-				//System.out.println(" membership2 is only <" + num2 + ">");
+				//;//System.out.println(" membership2 is only <" + num2 + ">");
 				continue;
 			}
 

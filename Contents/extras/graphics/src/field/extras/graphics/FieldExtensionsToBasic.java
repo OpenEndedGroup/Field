@@ -36,8 +36,6 @@ import org.python.core.PySlice;
 import org.python.core.PyString;
 import org.python.core.PyType;
 
-import com.sun.xml.internal.rngom.digested.DEmptyPattern;
-
 import field.bytecode.protect.iInside;
 import field.bytecode.protect.dispatch.Cont;
 import field.bytecode.protect.dispatch.Cont.ReturnCode;
@@ -60,7 +58,6 @@ import field.graphics.core.Base.iBuildable;
 import field.graphics.core.Base.iSceneListElement;
 import field.graphics.core.BasicFrameBuffers.iDisplayable;
 import field.graphics.core.BasicGLSLangProgram;
-import field.graphics.core.CoreHelpers;
 import field.graphics.core.BasicGLSLangProgram.BasicGLSLangElement;
 import field.graphics.core.BasicGLSLangProgram.SetIntegerUniform;
 import field.graphics.core.BasicGLSLangProgram.SetMatrixUniform;
@@ -72,6 +69,7 @@ import field.graphics.core.BasicGeometry.TriangleMesh;
 import field.graphics.core.BasicGeometry.TriangleMesh_long;
 import field.graphics.core.BasicSceneList;
 import field.graphics.core.BasicTextures.TextureUnit;
+import field.graphics.core.CoreHelpers;
 import field.graphics.core.RawMesh2;
 import field.graphics.dynamic.DynamicLine_long;
 import field.graphics.dynamic.DynamicMesh;
@@ -645,16 +643,16 @@ public class FieldExtensionsToBasic {
 					if (m == null) {
 						perGeometryShaderValues.put(mesh, m = new HashMap<String, Object>());
 
-						System.out.println(" --- new per geometry shader values --");
+						;//;//System.out.println(" --- new per geometry shader values --");
 					}
 
-					System.out.println(" values were <" + m + ">");
+					;//;//System.out.println(" values were <" + m + ">");
 
 					installUniformUpdator((BasicSceneList) mesh.getUnderlyingGeometry(), m);
 
 					m.put(nn, Py.tojava(value, Object.class));
 
-					System.out.println(" values now <" + m + ">");
+					;//;//System.out.println(" values now <" + m + ">");
 
 					return Py.None;
 				}
@@ -925,7 +923,7 @@ public class FieldExtensionsToBasic {
 				@Override
 				public PyObject __call__(PyObject name, final PyObject value) {
 
-					System.out.println(" inside setattr for dynamicmesh_long");
+					;//;//System.out.println(" inside setattr for dynamicmesh_long");
 
 					PyException was;
 					try {
@@ -958,16 +956,16 @@ public class FieldExtensionsToBasic {
 					Map<String, Object> m = perGeometryShaderValues.get(Mesh_long.getUnderlyingGeometry());
 					if (m == null) {
 						perGeometryShaderValues.put(Mesh_long.getUnderlyingGeometry(), m = new HashMap<String, Object>());
-						System.out.println(" --- new per geometry shader values --");
+						;//;//System.out.println(" --- new per geometry shader values --");
 					}
 
-					System.out.println(" values were <" + m + ">");
+					;//;//System.out.println(" values were <" + m + ">");
 
 					installUniformUpdator((BasicSceneList) Mesh_long.getUnderlyingGeometry(), m);
 
 					m.put(nn, Py.tojava(value, Object.class));
 
-					System.out.println(" values now <" + m + ">");
+					;//;//System.out.println(" values now <" + m + ">");
 
 					return Py.None;
 				}
@@ -1222,7 +1220,7 @@ public class FieldExtensionsToBasic {
 		iUpdateable u = perGeometryShaderUpdators.get(underlyingGeometry);
 
 		if (u == null) {
-			System.out.println(" installing per shader updator for <" + underlyingGeometry + ">");
+			;//;//System.out.println(" installing per shader updator for <" + underlyingGeometry + ">");
 
 			class PushPullPair {
 
@@ -1236,7 +1234,7 @@ public class FieldExtensionsToBasic {
 						public void update() {
 
 							Map<String, Object> m = lookupIn;
-							// System.out.println(" -- push <"
+							// ;//;//System.out.println(" -- push <"
 							// + underlyingGeometry
 							// +
 							// "> <"+BasicGLSLangProgram.currentProgram+"> <"+lookupIn+">");
@@ -1250,7 +1248,7 @@ public class FieldExtensionsToBasic {
 										// (underlyingGeometry
 										// instanceof
 										// Instance)
-										// System.out.println(" setting "
+										// ;//;//System.out.println(" setting "
 										// +
 										// id
 										// +
@@ -1293,7 +1291,7 @@ public class FieldExtensionsToBasic {
 											// (underlyingGeometry
 											// instanceof
 											// Instance)
-											// System.out.println(" unsetting "
+											// ;//;//System.out.println(" unsetting "
 											// +
 											// id
 											// +
@@ -1333,7 +1331,7 @@ public class FieldExtensionsToBasic {
 
 		if (value instanceof Vector4) {
 			glUniform4f(id, ((Vector4) value).x, ((Vector4) value).y, ((Vector4) value).z, ((Vector4) value).w);
-			// System.out.println(" set uniform right now <" + id +
+			// ;//;//System.out.println(" set uniform right now <" + id +
 			// " " + value + ">");
 		} else if (value instanceof Vector3) {
 			glUniform3f(id, ((Vector3) value).x, ((Vector3) value).y, ((Vector3) value).z);
@@ -1393,7 +1391,7 @@ public class FieldExtensionsToBasic {
 			if (t instanceof SetIntegerUniform) {
 				if (((SetIntegerUniform) t).name.equals(k)) {
 
-					System.out.println(" found integer uniform ");
+					;//;//System.out.println(" found integer uniform ");
 
 					if ((((SetIntegerUniform) t).value instanceof iProvider.Constant)) {
 						((iProvider.Constant) ((SetIntegerUniform) t).value).set(o);
@@ -1766,7 +1764,7 @@ public class FieldExtensionsToBasic {
 		final BasicGLSLangProgram program = new BasicGLSLangProgram();
 
 		String vs = vertexShader.get(element);
-		System.out.println(" initial vs is <" + vs + ">");
+		;//;//System.out.println(" initial vs is <" + vs + ">");
 		if (vs == null || vs.trim().length() == 0) {
 
 			vs = "varying vec4 vertexColor;\n" + "attribute vec4 s_Color;\n" + "\n" + "void main()\n" + "{\n" + "\tgl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n" + "\tvertexColor = s_Color;\n" + "}";
@@ -1776,10 +1774,10 @@ public class FieldExtensionsToBasic {
 			vertexShader.set(element, element, vs);
 		}
 
-		System.out.println(" initial vs is <" + vs + ">");
+		;//;//System.out.println(" initial vs is <" + vs + ">");
 
 		String fs = fragmentShader.get(element);
-		System.out.println(" initial fs is <" + fs + ">");
+		;//;//System.out.println(" initial fs is <" + fs + ">");
 		if (fs == null || fs.trim().length() == 0) {
 
 			fs = "varying vec4 vertexColor;\n" + "\n" + "void main()\n" + "{\n" + "\tgl_FragColor = vertexColor+vec4(0.1, 0.1, 0.1, 0.1);\n" + "}\n";
@@ -1789,7 +1787,7 @@ public class FieldExtensionsToBasic {
 			fragmentShader.set(element, element, fs);
 		}
 
-		System.out.println(" initial fs is <" + fs + ">");
+		;//;//System.out.println(" initial fs is <" + fs + ">");
 
 		final Stack<Writer> redir = new Stack<Writer>();
 		redir.addAll(PythonInterface.getPythonInterface().getErrorRedirects());
@@ -1801,7 +1799,7 @@ public class FieldExtensionsToBasic {
 
 		PythonPluginEditor.python_customToolbar.addToList(ArrayList.class, element, new Pair<String, iUpdateable>("Refresh shader", new iUpdateable() {
 			public void update() {
-				System.out.println(" refreshing shader ");
+				;//;//System.out.println(" refreshing shader ");
 
 				program.deferReload();
 				e1.reload(vertexShader.get(element), new BasicGLSLangProgram.iErrorHandler() {

@@ -52,7 +52,7 @@ public class SyntaxHighlightingStyles2 {
 
 		// Color background = ed.getBackground();
 
-		System.out.println(" background color is <" + background + "> <"+colors[PythonScanner.TokenTypes.keyword.ordinal()]+">");
+		;//System.out.println(" background color is <" + background + "> <"+colors[PythonScanner.TokenTypes.keyword.ordinal()]+">");
 
 	}
 	
@@ -105,7 +105,7 @@ public class SyntaxHighlightingStyles2 {
 				@Override
 				public void setValue(Vector4 s) {
 					
-					System.out.println(" setting color <"+name+"> now to be <"+s+">");
+					;//System.out.println(" setting color <"+name+"> now to be <"+s+">");
 					
 					try {
 						((Vector4) SyntaxHighlightingStyles2.class.getField(name).get(null)).set(s);

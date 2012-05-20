@@ -41,7 +41,7 @@ public class ProcessingIsh {
 		PdePreprocessor pdePreprocessor = new PdePreprocessor("FieldSketch");
 		try {
 
-			System.out.println(" constructors <" + Arrays.asList(CharScanner.class.getDeclaredConstructors()) + ">");
+			;//;//System.out.println(" constructors <" + Arrays.asList(CharScanner.class.getDeclaredConstructors()) + ">");
 
 			StringWriter out = new StringWriter();
 

@@ -33,7 +33,7 @@ public class MaxExecution implements iUpdateable {
 
 		ep = new iExecutesPromise() {
 			public void addActive(iFloatProvider timeProvider, Promise p) {
-				System.out.println("add active : " + ((LocalPromise) p).element+"  "+p.getText());
+				;//;//System.out.println("add active : " + ((LocalPromise) p).element+"  "+p.getText());
 				
 				executeFragment( ((LocalPromise)p).element, p.getText(), null);
 			}
@@ -116,7 +116,7 @@ public class MaxExecution implements iUpdateable {
 
 	protected void executeReturningValue(iVisualElement e, String fragment, EditorExecutionInterface delegateTo, final LocalFuture lf) {
 
-		System.out.println(" execute returning value <" + fragment + "> <" + delegateTo + "> ");
+		;//;//System.out.println(" execute returning value <" + fragment + "> <" + delegateTo + "> ");
 
 		String command = "evalxvalue(_, r\"\"\"" + fragment + "\"\"\", \"/return/" + (talkback) + "\")";
 
@@ -128,11 +128,11 @@ public class MaxExecution implements iUpdateable {
 
 				String ss = (String) args[0];
 
-				System.out.println(" prepickled <" + ss + "> len <" + ss.length() + "> <" + args.length + ">");
+				;//;//System.out.println(" prepickled <" + ss + "> len <" + ss.length() + "> <" + args.length + ">");
 
 				Object r = field.core.execution.PythonInterface.getPythonInterface().eval("cPickle.loads(r\"\"\"" + ss + "\"\"\")");
 
-				System.out.println(" unpickled and got <" + r + ">");
+				;//;//System.out.println(" unpickled and got <" + r + ">");
 
 				lf.set(new PickledCompletionInformation((List) r));
 			}
@@ -145,7 +145,7 @@ public class MaxExecution implements iUpdateable {
 
 	protected void executeFragment(iVisualElement e, String fragment, EditorExecutionInterface delegateTo) {
 
-		System.out.println(" execute fragment <" + fragment + ">");
+		;//;//System.out.println(" execute fragment <" + fragment + ">");
 
 		// todo
 		List<String> target = targetsFor(e);

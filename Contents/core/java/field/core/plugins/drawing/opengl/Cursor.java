@@ -460,7 +460,7 @@ public class Cursor {
 	 * Negative numbers start from the end of the line
 	 */
 	public Cursor setT(float dot) {
-		// System.out.println(" set T <"+dot+">");
+		// ;//System.out.println(" set T <"+dot+">");
 		if (dot < 0)
 			return setT(lengthT() - 1 - Math.abs(dot));
 
@@ -588,7 +588,7 @@ public class Cursor {
 				cursor.nextLinearFrame3(va, vb);
 
 				
-//				System.out.println(" next linear frame for interpolation <"+va+" "+vb+">");
+//				;//System.out.println(" next linear frame for interpolation <"+va+" "+vb+">");
 				
 				return new Vector3(va).interpolate(vb, t);
 			}
@@ -722,7 +722,7 @@ public class Cursor {
 			if (!cursor.previousCubicFrame(va, vc1, vc2, vb))
 				return null;
 
-			System.out.println(" previous cubic frame is <" + va + " " + vc1 + " " + vc2 + " " + vb + ">");
+			;//System.out.println(" previous cubic frame is <" + va + " " + vc1 + " " + vc2 + " " + vb + ">");
 
 			return LineUtils.evaluateDCubicFrame(va, vc1, vc2, vb, 1, new Vector2()).scale(0.3333333333f);
 		} else {
@@ -759,7 +759,7 @@ public class Cursor {
 			if (!cursor.previousCubicFrame3(va, vc1, vc2, vb))
 				return null;
 
-			System.out.println(" previous cubic frame is <" + va + " " + vc1 + " " + vc2 + " " + vb + ">");
+			;//System.out.println(" previous cubic frame is <" + va + " " + vc1 + " " + vc2 + " " + vb + ">");
 
 			return LineUtils.evaluateDCubicFrame3(va, vc1, vc2, vb, 1, new Vector3()).scale(0.3333333333f);
 		} else {
@@ -835,7 +835,7 @@ public class Cursor {
 	static public Cursor cursorFromClosestPoint(CachedLine l1, Vector2 to) {
 		ClosestPointToSpline cp = new LineUtils.ClosestPointToSpline(l1, to);
 
-		System.out.println(" closest point is <" + cp.minAtIndex + " " + cp.minT + ">");
+		;//System.out.println(" closest point is <" + cp.minAtIndex + " " + cp.minT + ">");
 
 		return new Cursor(l1, cp.minAtIndex + cp.minT);
 	}
@@ -849,7 +849,7 @@ public class Cursor {
 	static public Cursor cursorFromClosestPoint(CachedLine l1, Vector3 to) {
 		ClosestPointToSpline3 cp = new LineUtils.ClosestPointToSpline3(l1, to);
 
-		System.out.println(" closest point is <" + cp.minAtIndex + " " + cp.minT + ">");
+		;//System.out.println(" closest point is <" + cp.minAtIndex + " " + cp.minT + ">");
 
 		return new Cursor(l1, cp.minAtIndex + cp.minT);
 	}

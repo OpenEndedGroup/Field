@@ -50,7 +50,7 @@ public class ExecutableAreaFinder {
 
 
 		String pat = "\\{"+key+".*?\\}(.*?)\\#--\\{\\\\"+key;
-		System.out.println(" looking for pattern <"+pat+"> in <"+string+">");
+		;//System.out.println(" looking for pattern <"+pat+"> in <"+string+">");
 
 		Pattern c = Pattern.compile(pat, Pattern.DOTALL);
 		Matcher m = c.matcher(string);
@@ -91,7 +91,7 @@ public class ExecutableAreaFinder {
 		}
 		else
 		{
-			System.out.println(" didn't find <"+key+"> in <"+buffer+">");
+			;//System.out.println(" didn't find <"+key+"> in <"+buffer+">");
 		}
 		return "";
 	}

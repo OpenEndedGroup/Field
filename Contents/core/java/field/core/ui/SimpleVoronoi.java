@@ -1087,7 +1087,7 @@ public class SimpleVoronoi {
 				list.add(triangle);
 				Triangle previous = triangle;
 
-				System.out.println(" site :" + site + " " + guide + " " + triangle);
+				;//System.out.println(" site :" + site + " " + guide + " " + triangle);
 
 				if (triangle==null) break;
 				
@@ -1121,7 +1121,7 @@ public class SimpleVoronoi {
 				if (visited.contains(triangle)) { // This should
 					// never
 					// happen
-					System.out.println("Warning: Caught in a locate loop");
+					;//System.out.println("Warning: Caught in a locate loop");
 					break;
 				}
 				visited.add(triangle);
@@ -1132,13 +1132,13 @@ public class SimpleVoronoi {
 				triangle = this.neighborOpposite(corner, triangle);
 			}
 			// No luck; try brute force
-			System.out.println("Warning: Checking all triangles for " + point);
+			;//System.out.println("Warning: Checking all triangles for " + point);
 			for (Triangle tri : this) {
 				if (point.isOutside(tri.toArray(new Pnt[0])) == null)
 					return tri;
 			}
 			// No such triangle
-			System.out.println("Warning: No triangle holds " + point);
+			;//System.out.println("Warning: No triangle holds " + point);
 			return null;
 		}
 

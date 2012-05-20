@@ -161,7 +161,7 @@ public class SimplePDFLineDrawing {
 
 			protected void setStrokeProperties(List<Object> name, Dict properties) {
 
-				System.out.println(" setStrokeProperties for line <"+properties+">");
+				;//System.out.println(" setStrokeProperties for line <"+properties+">");
 				
 				Vector4 color = (Vector4) name.get(0);
 				if (color == null)
@@ -755,8 +755,8 @@ public class SimplePDFLineDrawing {
 								context.getOutput().setGState(gs);
 							}
 
-							System.out.println(" circle at <"+e.getDestination()+"> <"+size+"> <"+color+">");
-							System.out.println("                            "+(-size / 2 + (e.getDestination().x) * outputTransform.x + outputTransform.z)+" "+(-size / 2 + (e.getDestination().y) * outputTransform.y + outputTransform.w));
+							;//System.out.println(" circle at <"+e.getDestination()+"> <"+size+"> <"+color+">");
+							;//System.out.println("                            "+(-size / 2 + (e.getDestination().x) * outputTransform.x + outputTransform.z)+" "+(-size / 2 + (e.getDestination().y) * outputTransform.y + outputTransform.w));
 							context.getOutput().addTemplate(unitSquare, -size / 2 + (e.getDestination().x) * outputTransform.x + outputTransform.z, -size / 2 + (e.getDestination().y) * outputTransform.y + outputTransform.w);
 
 							// CachedLine markerLine

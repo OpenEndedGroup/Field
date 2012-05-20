@@ -95,7 +95,7 @@ public class BuildMeshVisitor extends AbstractVisitor {
 	@Override
 	public void visitMeshBegin(int numVertex, int numPolygon) {
 		assert currentUID != -1;
-		System.out.println(" mesh begin ");
+		;//;//System.out.println(" mesh begin ");
 		super.visitMeshBegin(numVertex, numPolygon);
 		currentMesh = new Mesh();
 		if (numVertex > 0 && numPolygon > 0)
@@ -184,7 +184,7 @@ public class BuildMeshVisitor extends AbstractVisitor {
 		if (a[2 * lastVertexIndex + 0] > 0 || a[2 * lastVertexIndex + 1] > 0) {
 			float d = (a[2 * lastVertexIndex + 0] - u) * (a[2 * lastVertexIndex + 0] - u) + (a[2 * lastVertexIndex + 1] - w) * (a[2 * lastVertexIndex + 1] - w);
 			if (d > 1e-2) {
-				System.out.println(" warning: per poly tex coords, really mean it <" + u + ", " + w + "> <- " + a[2 * lastVertexIndex + 0] + ", " + a[2 * lastVertexIndex + 1] + ">");
+				;//;//System.out.println(" warning: per poly tex coords, really mean it <" + u + ", " + w + "> <- " + a[2 * lastVertexIndex + 0] + ", " + a[2 * lastVertexIndex + 1] + ">");
 			}
 		}
 

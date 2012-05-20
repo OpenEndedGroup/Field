@@ -154,7 +154,7 @@ public class ReloadingSupport {
 		d.loader = new ChildClassLoader(Trampoline2.trampoline.loader) {
 			protected boolean should(final String name) {
 
-				System.out.println(" -- checking to see if we should be able to reload:" + name);
+				;//System.out.println(" -- checking to see if we should be able to reload:" + name);
 
 				if (super.should(name))
 					return true;

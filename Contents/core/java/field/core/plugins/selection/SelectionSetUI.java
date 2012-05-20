@@ -74,13 +74,13 @@ public class SelectionSetUI {
 
 			@Override
 			public void dropAccept(DropTargetEvent arg0) {
-				System.out.println(" -- accept--- "+arg0.data);
+				;//System.out.println(" -- accept--- "+arg0.data);
 				
 			}
 
 			@Override
 			public void drop(DropTargetEvent arg0) {
-				System.out.println(" -- drop--"+((String[])arg0.data)[0]);
+				;//System.out.println(" -- drop--"+((String[])arg0.data)[0]);
 
 				
 				handleDrop(((String[])arg0.data)[0]);
@@ -90,7 +90,7 @@ public class SelectionSetUI {
 			@Override
 			public void dragOver(DropTargetEvent arg0) {
 
-				System.out.println(" -- dragover--");
+				;//System.out.println(" -- dragover--");
 				
 				arg0.detail = DND.DROP_COPY;
 				
@@ -111,7 +111,7 @@ public class SelectionSetUI {
 
 			@Override
 			public void dragEnter(DropTargetEvent arg0) {
-				System.out.println(" -- enter--"+arg0.data+Arrays.asList(arg0.dataTypes));
+				;//System.out.println(" -- enter--"+arg0.data+Arrays.asList(arg0.dataTypes));
 				
 				if (arg0.detail == DND.DROP_DEFAULT) {
 					arg0.detail = DND.DROP_COPY;
@@ -138,7 +138,7 @@ public class SelectionSetUI {
 		// {
 		// Rectangle ca = tree.getClientArea();
 		// gearButton.setEnabled(true);
-		// System.out.println(" setting bounds <"+ca+">");
+		// ;//System.out.println(" setting bounds <"+ca+">");
 		// gearButton.setBounds(ca.width-50+ca.x, 5+ca.y, 25, 25);
 		// gearButton.redraw();
 		// }
@@ -146,7 +146,7 @@ public class SelectionSetUI {
 		// {
 		// Rectangle ca = tree.getClientArea();
 		// gearButton.setEnabled(false);
-		// System.out.println(" setting bounds <"+ca+">");
+		// ;//System.out.println(" setting bounds <"+ca+">");
 		// gearButton.setBounds(ca.width-50+ca.y, 5+ca.y, 25, 25);
 		// gearButton.redraw();
 		// }
@@ -205,7 +205,7 @@ public class SelectionSetUI {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				System.out.println(" selection changed ...");
+				;//System.out.println(" selection changed ...");
 				selectionChanged(tree.getSelection());
 			}
 

@@ -317,7 +317,7 @@ public class BasicCamera extends BasicUtilities.OnePassListElement implements iB
 
 				double da = Quaternion.distAngular(q1, q2);
 
-				// System.out.println(" DA :" + da);
+				// ;//System.out.println(" DA :" + da);
 
 				// q3 = Quaternion.blend(Arrays.asList(q1, q2),
 				// (List)Arrays.asList((1-alpha), alpha));
@@ -934,7 +934,7 @@ public class BasicCamera extends BasicUtilities.OnePassListElement implements iB
 		if (p == null)
 			p = new float[16];
 		if (modelView == null) {
-			System.out.println(ANSIColorUtils.red(" warning: no modelView matrix"));
+			;//System.out.println(ANSIColorUtils.red(" warning: no modelView matrix"));
 			return p;
 		}
 		System.arraycopy(modelView, 0, p, 0, p.length);
@@ -975,7 +975,7 @@ public class BasicCamera extends BasicUtilities.OnePassListElement implements iB
 			p = new float[16];
 
 		if (projection == null) {
-			System.out.println(ANSIColorUtils.red(" warning: no projection matrix"));
+			;//System.out.println(ANSIColorUtils.red(" warning: no projection matrix"));
 			return p;
 		}
 		System.arraycopy(projection, 0, p, 0, p.length);
@@ -1218,7 +1218,7 @@ public class BasicCamera extends BasicUtilities.OnePassListElement implements iB
 			}
 
 			if (Base.trace)
-				System.out.println(" --------- applied camera <" + this + "> (" + name + ")");
+				;//System.out.println(" --------- applied camera <" + this + "> (" + name + ")");
 
 			post();
 
@@ -1532,12 +1532,12 @@ public class BasicCamera extends BasicUtilities.OnePassListElement implements iB
 
 		if (modelView == null)
 			return new Matrix4().get((float[]) null);
-		// System.out.println(" model view is <"+new
+		// ;//System.out.println(" model view is <"+new
 		// Matrix4(modelView)+">");
 
 		float[] c = computeModelViewNow(position.x, position.y, position.z, lookAt.x, lookAt.y, lookAt.z, up.x, up.y, up.z);
 		modelView = c;
-		// System.out.println(" model view now <"+new
+		// ;//System.out.println(" model view now <"+new
 		// Matrix4(modelView)+">");
 		return c;
 	}

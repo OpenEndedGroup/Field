@@ -64,7 +64,7 @@ public class JSRPlugin extends BaseSimplePlugin {
 	public void registeredWith(final iVisualElement root) {
 		super.registeredWith(root);
 
-		System.out.println(" ??? -- clojure -- ???");
+		;//;//System.out.println(" ??? -- clojure -- ???");
 
 		ToolBarFolder stack = ToolBarFolder.currentFolder;
 
@@ -222,14 +222,14 @@ public class JSRPlugin extends BaseSimplePlugin {
 
 		if (shouldAttempt[0]) {
 
-			System.out.println(" attemping languages <" + attemptedLanguages + ">");
+			;//;//System.out.println(" attemping languages <" + attemptedLanguages + ">");
 
 			checkbox.setSelection(true);
 			for (String s : attemptedLanguages) {
-				System.out.println(" attemping <" + s + ">");
+				;//;//System.out.println(" attemping <" + s + ">");
 				Button bb = buttons.get(s);
 				if (bb != null && bb.isEnabled()) {
-					System.out.println(" doing ----------- ");
+					;//;//System.out.println(" doing ----------- ");
 					bb.setSelection(true);
 					for (Listener m : bb.getListeners(SWT.Selection))
 						m.handleEvent(null);

@@ -92,7 +92,7 @@ public class ElementFileSystemTree {
 		@Override
 		protected void javaToNative(Object object, TransferData transferData) {
 
-			System.out.println(" java to native <" + object + " -> " + transferData + ">");
+			;//System.out.println(" java to native <" + object + " -> " + transferData + ">");
 
 			if (object == null)
 				return;
@@ -104,7 +104,7 @@ public class ElementFileSystemTree {
 
 		@Override
 		protected Object nativeToJava(TransferData transferData) {
-			System.out.println(" native to java " + transferData);
+			;//System.out.println(" native to java " + transferData);
 			if (isSupportedType(transferData)) {
 				return new PythonUtils().fromXML(new String((byte[]) super.nativeToJava(transferData)));
 			}
@@ -201,7 +201,7 @@ public class ElementFileSystemTree {
 			@Override
 			public boolean accept(File arg0) {
 
-				System.out.println(" check <" + arg0 + "> <" + new File(arg0, "sheet.xml") + ">");
+				;//System.out.println(" check <" + arg0 + "> <" + new File(arg0, "sheet.xml") + ">");
 
 				return (arg0.isDirectory() && new File(arg0, "sheet.xml").exists());
 			}
@@ -255,7 +255,7 @@ public class ElementFileSystemTree {
 			for (File ff : f) {
 				TreeItem i = new TreeItem(tree, 0);
 				i.setText("<b>" + ff.getName().replace(".field", "") + "</b>");
-				System.out.println(" adding " + ff);
+				;//System.out.println(" adding " + ff);
 				i.setData(ff);
 				TreeItem dummy = new TreeItem(i, 0);
 				dummy.setText("(loading...)");
@@ -287,10 +287,10 @@ public class ElementFileSystemTree {
 		tree.addListener(SWT.MouseDoubleClick, new Listener() {
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println(" mouse double click <" + event + "> <" + event.item + ">");
+				;//System.out.println(" mouse double click <" + event + "> <" + event.item + ">");
 
 				TreeItem[] s = tree.getSelection();
-				System.out.println("        selection is :" + Arrays.asList(s));
+				;//System.out.println("        selection is :" + Arrays.asList(s));
 
 				if (s.length == 1) {
 					if (s[0].getData() instanceof File) {
@@ -346,12 +346,12 @@ public class ElementFileSystemTree {
 
 				@Override
 				public void dropAccept(DropTargetEvent event) {
-					System.out.println(" -- accept--");
+					;//System.out.println(" -- accept--");
 				}
 
 				@Override
 				public void drop(DropTargetEvent event) {
-					System.out.println(" -- drop-- :" + event.data);
+					;//System.out.println(" -- drop-- :" + event.data);
 
 					if (event.data instanceof String[]) {
 						GLComponentWindow gk = iVisualElement.enclosingFrame.get(root);
@@ -380,7 +380,7 @@ public class ElementFileSystemTree {
 						}
 						center.scale(1f / loaded.size());
 
-						System.out.println(" event is <" + event.x + " " + event.y + "> center is " + center + " of " + loaded);
+						;//System.out.println(" event is <" + event.x + " " + event.y + "> center is " + center + " of " + loaded);
 
 						GLComponentWindow gk = iVisualElement.enclosingFrame.get(root);
 						Vector2 a = new Vector2(event.x * gk.getXScale() + gk.getXTranslation(), event.y * gk.getXScale() + gk.getYTranslation());
@@ -409,7 +409,7 @@ public class ElementFileSystemTree {
 						}
 						center.scale(1f / loaded.size());
 
-						System.out.println(" event is <" + event.x + " " + event.y + "> center is " + center + " of " + loaded);
+						;//System.out.println(" event is <" + event.x + " " + event.y + "> center is " + center + " of " + loaded);
 
 						GLComponentWindow gk = iVisualElement.enclosingFrame.get(root);
 						Vector2 a = new Vector2((event.x - gk.getFrame().getBounds().x - gk.getCanvas().getParent().getBounds().x) * gk.getXScale() + gk.getXTranslation(), (event.y - gk.getFrame().getBounds().y) * gk.getXScale() + gk.getYTranslation());
@@ -430,7 +430,7 @@ public class ElementFileSystemTree {
 						// a.y -= 40;
 						iComponent hut = gk.getRoot().hit(gk, new Vector2(a));
 
-						System.out.println(" hit test again <" + a + " -> " + hut);
+						;//System.out.println(" hit test again <" + a + " -> " + hut);
 
 						if (hut != null && hut.getVisualElement() != null) {
 							VisualElementProperty prop = new VisualElementProperty(((Triple<File, String, Object>) event.data).middle);
@@ -451,11 +451,11 @@ public class ElementFileSystemTree {
 
 				@Override
 				public void dragOver(DropTargetEvent event) {
-					System.out.println(" -- over--");
-					System.out.println(" event is <" + event.x + " " + event.y + "> <" + lastInternalDragSelection + ">");
+					;//System.out.println(" -- over--");
+					;//System.out.println(" event is <" + event.x + " " + event.y + "> <" + lastInternalDragSelection + ">");
 
 					if (lastInternalDragSelection != null) {
-						System.out.println(" data : " + lastInternalDragSelection[0].getData());
+						;//System.out.println(" data : " + lastInternalDragSelection[0].getData());
 						if (lastInternalDragSelection[0].getData() instanceof Triple) {
 							GLComponentWindow gk = iVisualElement.enclosingFrame.get(root);
 							Vector2 a = new Vector2((event.x - gk.getFrame().getBounds().x - gk.getCanvas().getParent().getBounds().x) * gk.getXScale() + gk.getXTranslation(), (event.y - gk.getFrame().getBounds().y) * gk.getXScale() + gk.getYTranslation());
@@ -474,11 +474,11 @@ public class ElementFileSystemTree {
 
 							iComponent hut = gk.getRoot().hit(gk, new Vector2(a));
 
-							System.out.println(" hit test again <" + a + " -> " + hut);
+							;//System.out.println(" hit test again <" + a + " -> " + hut);
 
 							if (hut != null && hut.getVisualElement() != null) {
 								event.detail = DND.DROP_COPY;
-								System.out.println(" element is <" + hut.getVisualElement() + ">");
+								;//System.out.println(" element is <" + hut.getVisualElement() + ">");
 							} else {
 								event.detail = DND.DROP_NONE;
 							}
@@ -488,7 +488,7 @@ public class ElementFileSystemTree {
 
 				@Override
 				public void dragOperationChanged(DropTargetEvent event) {
-					System.out.println(" -- opchaged--");
+					;//System.out.println(" -- opchaged--");
 					if (event.detail == DND.DROP_DEFAULT) {
 						event.detail = DND.DROP_COPY;
 					}
@@ -497,12 +497,12 @@ public class ElementFileSystemTree {
 
 				@Override
 				public void dragLeave(DropTargetEvent event) {
-					System.out.println(" -- leave--");
+					;//System.out.println(" -- leave--");
 				}
 
 				@Override
 				public void dragEnter(DropTargetEvent event) {
-					System.out.println(" -- enter --");
+					;//System.out.println(" -- enter --");
 					if (event.detail == DND.DROP_DEFAULT) {
 						event.detail = DND.DROP_COPY;
 					}
@@ -514,7 +514,7 @@ public class ElementFileSystemTree {
 
 			try {
 				
-				System.out.println(" importing file <"+s+">");
+				;//System.out.println(" importing file <"+s+">");
 				
 				BufferedReader r = new BufferedReader(new FileReader(new File(s)));
 				StringBuffer contents = new StringBuffer();

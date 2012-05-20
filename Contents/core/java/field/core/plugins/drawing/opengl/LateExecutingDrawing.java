@@ -150,7 +150,7 @@ public class LateExecutingDrawing {
 			e.getAttributes().put(iLinearGraphicsContext.code_v, a);
 		}
 
-		System.out.println("code now is :" + e.getAttributes().get(iLinearGraphicsContext.code_v));
+		;//System.out.println("code now is :" + e.getAttributes().get(iLinearGraphicsContext.code_v));
 	}
 
 	static public Object nameEvent(CachedLine.Event e, Object key) {
@@ -208,7 +208,7 @@ public class LateExecutingDrawing {
 				}
 
 			} else
-				System.out.println(" couldn't find marker");
+				;//System.out.println(" couldn't find marker");
 			return null;
 		}
 	}

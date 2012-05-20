@@ -177,7 +177,7 @@ public class MinimalTextField extends JTextField implements iOutOfBandDrawing, i
 
 	public void allViewHierarchy(List<Object> into, MinimalTextField from, HashSet<Object> seen, iFunction<Boolean, Object> predicate) {
 
-		System.out.println(" all view hierarchy <" + from.insertRenderingContext + ">");
+		;//System.out.println(" all view hierarchy <" + from.insertRenderingContext + ">");
 
 		if (from.insertRenderingContext == null)
 			return;
@@ -192,7 +192,7 @@ public class MinimalTextField extends JTextField implements iOutOfBandDrawing, i
 			}
 		}
 
-		System.out.println(" returning <" + into + ">");
+		;//System.out.println(" returning <" + into + ">");
 	}
 
 	public Rect findMatchingMinimal() {
@@ -267,12 +267,12 @@ public class MinimalTextField extends JTextField implements iOutOfBandDrawing, i
 				Control c = r.get(i);
 				JComponent compx = ((Nub) c.getData()).component;
 
-				System.out.println(" compx is <" + compx + ">");
+				;//System.out.println(" compx is <" + compx + ">");
 
 				if (compx instanceof MinimalTextField) {
 					MinimalTextField comp = (MinimalTextField) compx;
 
-					System.out.println(" checking text <" + comp.getText() + "> <" + down + " " + comp.realBounds().y + " " + here.y + ">");
+					;//System.out.println(" checking text <" + comp.getText() + "> <" + down + " " + comp.realBounds().y + " " + here.y + ">");
 
 					if (comp != this && ((down && comp.realBounds().y > here.y) || (!down && comp.realBounds().y < here.y))) {
 						if (p.matcher(comp.getText()).find()) {
@@ -334,11 +334,11 @@ public class MinimalTextField extends JTextField implements iOutOfBandDrawing, i
 
 	public void paintOutOfBand(GC g, StyledText inside) {
 
-		System.out.println(" paint OOB ");
+		;//System.out.println(" paint OOB ");
 
 		Rect r = findMatchingMinimal();
 
-		System.out.println(" matching minimal is <" + r + ">");
+		;//System.out.println(" matching minimal is <" + r + ">");
 
 		if (r == null)
 			return;
@@ -379,14 +379,14 @@ public class MinimalTextField extends JTextField implements iOutOfBandDrawing, i
 
 	public Rect realBounds() {
 
-		System.out.println(" inside realbounds ");
+		;//System.out.println(" inside realbounds ");
 
 		if (insertRenderingContext == null)
 			return new Rect(0, 0, this.getWidth(), this.getHeight());
 		else {
 
 			org.eclipse.swt.graphics.Rectangle b = insertRenderingContext.getControl().getBounds();
-			System.out.println(" control is :" + b);
+			;//System.out.println(" control is :" + b);
 
 			return new Rect(b.x, b.y, b.width, b.height);
 		}

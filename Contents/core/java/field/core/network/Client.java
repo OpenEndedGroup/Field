@@ -61,7 +61,7 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 			try {
 				String s = new String(toByteArray());
 				if (host != null) {
-					System.out.println(s);
+					;//System.out.println(s);
 					host.print(id, s);
 				} else
 					System.err.println(s);
@@ -76,7 +76,7 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 			try {
 				String s = new String(toByteArray());
 				if (host != null) {
-					System.out.println(s);
+					;//System.out.println(s);
 					host.printError(id, s);
 				} else
 					System.err.println(s);
@@ -92,7 +92,7 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 	public void launch() {
 		
 		id = (SystemProperties.getProperty("id", new UID().toString()));
-		System.out.println(" ------------ launched client <"+id+"> -----------------");
+		;//System.out.println(" ------------ launched client <"+id+"> -----------------");
 
 		Py.setSystemState(state);
 		state.setClassLoader(this.getClass().getClassLoader());
@@ -102,12 +102,12 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
 		FieldPyObjectAdaptor2.initialize();
 		globals.put(new PyString("_self"), Py.java2py(this));
-		System.out.println(" ------------ set self <"+id+"> -----------------");
+		;//System.out.println(" ------------ set self <"+id+"> -----------------");
 
 		// todo \u2014 register, and keep registered
 
 		try {
-			System.out.println(" ------------ registering self <"+id+"> -----------------");
+			;//System.out.println(" ------------ registering self <"+id+"> -----------------");
 			exported = (RemoteExecutionService) UnicastRemoteObject.exportObject(this, 0);
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 	@Override
 	public Object getData(String name) {
 		
-		System.out.println(" -- get data from client <"+name+"> <"+insideUnderscore.get(name)+">");
+		;//System.out.println(" -- get data from client <"+name+"> <"+insideUnderscore.get(name)+">");
 		
 		return insideUnderscore.get(name);
 	}
@@ -186,13 +186,13 @@ public class Client implements iLaunchable, iHandlesAttributes, RemoteExecutionS
 	public void execute(String fragment, RemoteExecutionServiceHost host) {
 		this.host = host;
 		try {
-			System.out.println(" about to execute <" + fragment + "> in client <" + id + "> with host <" + host + ">");
+			;//System.out.println(" about to execute <" + fragment + "> in client <" + id + "> with host <" + host + ">");
 			Py.setSystemState(state);
 			state.stdout = new PyFile(printout);
 			state.stderr = new PyFile(printerr);
 
 			Py.exec(Py.compile_flags(fragment, "<string>", CompileMode.exec, cflags), globals, globals);
-			System.out.println(" finished client <" + id + ">");
+			;//System.out.println(" finished client <" + id + ">");
 			printout.flush();
 			printerr.flush();
 		} catch (Exception e) {

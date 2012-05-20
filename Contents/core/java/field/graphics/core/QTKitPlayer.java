@@ -17,7 +17,7 @@ public class QTKitPlayer extends BasicUtilities.TwoPassElement {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		System.out.println(" opening movie complete");
+		;//System.out.println(" opening movie complete");
 		video.setRate(0.0f);
 	}
 

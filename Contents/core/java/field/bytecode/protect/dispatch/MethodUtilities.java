@@ -32,11 +32,11 @@ public class MethodUtilities {
 			Type[] argumentTypes = method.getArgumentTypes();
 			Class[] classTypes = new Class[argumentTypes.length];
 
-			System.out.println(" -- trouble ");
-			System.out.println("  onClass <"+onClass+">");
-			System.out.println("   onClassLoader <" + onClass.getClassLoader() + ">");
+			;//System.out.println(" -- trouble ");
+			;//System.out.println("  onClass <"+onClass+">");
+			;//System.out.println("   onClassLoader <" + onClass.getClassLoader() + ">");
 			for (int i = 0; i < classTypes.length; i++)
-				System.out.println("          " + classTypes[i].getClassLoader());
+				;//System.out.println("          " + classTypes[i].getClassLoader());
 
 			throw new IllegalArgumentException(onClass + " " + name + " " + Arrays.asList(classTypes));
 		}

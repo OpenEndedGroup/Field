@@ -58,7 +58,7 @@ public class DragDuplicator {
 
 		isDragging = v.size() > 0;
 
-		System.out.println(" begin drag <"+isDragging+">");
+		;//System.out.println(" begin drag <"+isDragging+">");
 		
 		if (isDragging) {
 			//TODO: 64 \u2014 confront mouse cursor setting in pure java

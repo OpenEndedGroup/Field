@@ -78,7 +78,7 @@ public class PointList_partial extends PointList {
 		if (uploadedVertex < vertexLimit) {
 			glBindBuffer(GL_ARRAY_BUFFER, attributeBuffers[0]);
 
-			System.out.println(glGetError() == 0);
+			;//System.out.println(glGetError() == 0);
 
 			int start = uploadedVertex * 4 * vertexStride;
 			int end = Math.min(4 * vertexStride * vertexLimit, 4 * vertexStride * (uploadedVertex + vertexPerFrame));
@@ -90,7 +90,7 @@ public class PointList_partial extends PointList {
 
 			glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer.bBuffer);
 
-			System.out.println(glGetError() == 0);
+			;//System.out.println(glGetError() == 0);
 
 			Iterator<Entry<Integer, VertexBuffer>> aux = auxBuffers.entrySet().iterator();
 			while (aux.hasNext()) {

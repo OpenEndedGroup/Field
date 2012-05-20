@@ -64,7 +64,7 @@ public class TemporalSliderOverrides extends iVisualElementOverrides.DefaultOver
 	transient protected iProvider<Collection<iVisualElement>> subsets;
 
 	static public Pair<VisualElement, BasicRunner> newLocalTemporalSlider(String token, iVisualElement root, float x, final iProvider<Collection<iVisualElement>> include) {
-		System.out.println(" new local temporal slider <" + include + " " + Arrays.asList(include.getClass().getInterfaces()) + ">");
+		;//System.out.println(" new local temporal slider <" + include + " " + Arrays.asList(include.getClass().getInterfaces()) + ">");
 		new Exception().printStackTrace();
 
 		final Triple<VisualElement, PlainDraggableComponent, TemporalSliderOverrides> created = VisualElement.createWithToken(token, root, new Rect(10, 0, 0, 0), VisualElement.class, PlainDraggableComponent.class, TemporalSliderOverrides.class);
@@ -247,7 +247,7 @@ public class TemporalSliderOverrides extends iVisualElementOverrides.DefaultOver
 
 			SelectionGroup<iComponent> selgroup = iVisualElement.selectionGroup.get(source);
 			if (selgroup == null) {
-				System.out.println(" warning selgroup is null for <" + source + ">");
+				;//System.out.println(" warning selgroup is null for <" + source + ">");
 				return VisitCode.stop;
 			}
 			Set<iComponent> selection = selgroup.getSelection();
@@ -309,7 +309,7 @@ public class TemporalSliderOverrides extends iVisualElementOverrides.DefaultOver
 			if (r.get() != null) {
 				float delta = (float) (newFrame.x - r.get().getExecutionTime());
 
-				System.out.println(" delta is <" + delta + ">");
+				;//System.out.println(" delta is <" + delta + ">");
 				r.get().supplyTimeManipulation(0, delta);
 			}
 

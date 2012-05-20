@@ -37,12 +37,12 @@ public class AnnotationInformation {
 
 	public ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> compressedTrace(int line) {
 
-		//System.out.println(" generating compressed trace for line <" + line + ">");
+		//;//System.out.println(" generating compressed trace for line <" + line + ">");
 		List<Triple<VersionNode, Integer, Pair<String, String>>> cc = traceLine(line);
 
-		//System.out.println(" trace is: ");
+		//;//System.out.println(" trace is: ");
 		//for (Triple<VersionNode, Integer, Pair<String, String>> x : cc) {
-		//	System.out.println(x.right.left + " -> " + x.right.right);
+		//	;//System.out.println(x.right.left + " -> " + x.right.right);
 		//}
 
 		ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> a = new ArrayList<Triple<VersionNode, Integer, Pair<String, String>>>();
@@ -58,21 +58,21 @@ public class AnnotationInformation {
 		if (lastt != null)
 			a.add(lastt);
 
-		//System.out.println(" returning <" + a + ">");
+		//;//System.out.println(" returning <" + a + ">");
 
 		return a;
 
 	}
 
 	public void construct(String currentContents) {
-		System.out.println(" inside construct "+currentContents+" building graph ...");
+		;//System.out.println(" inside construct "+currentContents+" building graph ...");
 		Set<VersionNode> nodes = hgSupport.buildHistoryGraph(file);
-		System.out.println(" history graph has <"+nodes.size()+">");
+		;//System.out.println(" history graph has <"+nodes.size()+">");
 		versions = new ArrayList<VersionNode>(nodes);
 		Iterator<VersionNode> i = nodes.iterator();
 		if (i.hasNext()) {
 			VersionNode n = i.next();
-			System.out.println(" diff history step...");
+			;//System.out.println(" diff history step...");
 			verticals = hgSupport.buildCompleteDiffHistory(n, currentContents);
 		} else {
 			verticals = null;
@@ -94,12 +94,12 @@ public class AnnotationInformation {
 		while (startstop.right+1 < maxLine) {
 			ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> x = compressedTrace(startstop.right + 1);
 
-//			System.out.println(" considering line <" + (startstop.right + 1) + ">");
-//			System.out.println(" comparing <" + c + ">\n and <" + x + ">");
+//			;//System.out.println(" considering line <" + (startstop.right + 1) + ">");
+//			;//System.out.println(" comparing <" + c + ">\n and <" + x + ">");
 			if (equiv(c, x))
 				startstop.right++;
 			else {
-				//System.out.println(" not equal");
+				//;//System.out.println(" not equal");
 				break;
 			}
 		}
@@ -133,23 +133,23 @@ public class AnnotationInformation {
 	}
 
 	public List<Triple<VersionNode, Integer, Pair<String, String>>> traceLine(int line) {
-		//System.out.println(" tracing line <" + line + "> over <" + versions.size() + "> versions");
+		//;//System.out.println(" tracing line <" + line + "> over <" + versions.size() + "> versions");
 		ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> a = new ArrayList<Triple<VersionNode, Integer, Pair<String, String>>>();
 		String string = lines[line];
 
 		for (VersionNode v : versions) {
 			DiffSetVertical diffset = verticals.get(v);
 
-			//System.out.println(" diffset.relationships <" + diffset.relationships.getIterator().remaining() + ">");
+			//;//System.out.println(" diffset.relationships <" + diffset.relationships.getIterator().remaining() + ">");
 
 			// can never happen if currentContents!=null ?
 			if (diffset != null) {
 				diffset.relationships.setSliceIsGreedy(true);
 				List<iMarker<ChannelDifferences<String>.EditRelationship>> m = diffset.relationships.getSlice(line, line + 1).getIterator().remaining();
 
-				//System.out.println(" edit relationship <" + m.size() + ">");
+				//;//System.out.println(" edit relationship <" + m.size() + ">");
 				//if (m.size() > 0)
-				//	System.out.println("           " + m.get(0).getPayload().right + " " + m.get(0).getPayload().left);
+				//	;//System.out.println("           " + m.get(0).getPayload().right + " " + m.get(0).getPayload().left);
 
 				if (m.size() > 0 && m.get(0).getPayload().right != null && m.get(0).getPayload().left != null) {
 					String becomes = m.get(0).getPayload().right.get(0).getPayload();
@@ -157,7 +157,7 @@ public class AnnotationInformation {
 					line = (int) m.get(0).getPayload().right.get(0).getTime();
 					a.add(new Triple<VersionNode, Integer, Pair<String, String>>(v, line, new Pair<String, String>(was, becomes)));
 					string = was;
-					//System.out.println(" line now <" + line + "> <" + was + " -> " + becomes + ">");
+					//;//System.out.println(" line now <" + line + "> <" + was + " -> " + becomes + ">");
 				} else if (string != null && m.size() > 0 && m.get(0).getPayload().right == null && m.get(0).getPayload().left != null) {
 					// line originated here
 					a.add(new Triple<VersionNode, Integer, Pair<String, String>>(v, line, new Pair<String, String>(string, null)));
@@ -171,14 +171,14 @@ public class AnnotationInformation {
 	}
 
 	private boolean equiv(ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> c, ArrayList<Triple<VersionNode, Integer, Pair<String, String>>> x) {
-		//System.out.println(" equiv <" + c.size() + " " + x.size() + ">");
+		//;//System.out.println(" equiv <" + c.size() + " " + x.size() + ">");
 
 		if (c.size() != x.size())
 			return false;
 		for (int i = 0; i < c.size(); i++) {
 			Triple<VersionNode, Integer, Pair<String, String>> a = c.get(i);
 			Triple<VersionNode, Integer, Pair<String, String>> b = x.get(i);
-			//System.out.println(" " + a.left.revision + " " + b.left.revision);
+			//;//System.out.println(" " + a.left.revision + " " + b.left.revision);
 			if (a.left.revision != b.left.revision)
 				return false;
 		}

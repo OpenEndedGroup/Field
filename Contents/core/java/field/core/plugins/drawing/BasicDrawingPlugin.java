@@ -202,14 +202,14 @@ public class BasicDrawingPlugin implements iPlugin {
 			// event.getID() == KeyEvent.KEY_PRESSED) {
 			// if (tick) {
 			// tick = false;
-			// System.out.println(" disabling repaint ");
+			// ;//System.out.println(" disabling repaint ");
 			// frame.toggleContinuousRepaintNow();
 			// }
 			// }
 			if (event.keyCode == SWT.F2 && event.type == SWT.KeyDown) {
 				if (tick) {
                     
-					System.out.println(" toggling presentation mode");
+					;//System.out.println(" toggling presentation mode");
 					if (GLComponentWindow.present) {
 						GLComponentWindow.present = false;
 						GLComponentWindow.draft = true;
@@ -301,7 +301,7 @@ public class BasicDrawingPlugin implements iPlugin {
                 
 				boolean shouldCreateConstraint = (((FrameManipulation) to.get()).modifersDown) == 256;
 				if (Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK) || shouldConstrain(source)) {
-					System.out.println(" caps lock down ");
+					;//System.out.println(" caps lock down ");
 					dragParticipants_list.endDrag(((FrameManipulation) to.get()).resizeType, source, ((FrameManipulation) to.get()).originalFrame, shouldCreateConstraint, ((FrameManipulation) to.get()).modifersDown);
 				}
                 

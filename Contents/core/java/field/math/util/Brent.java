@@ -177,7 +177,7 @@ public class Brent {
 			}
 			
 			
-		//	System.out.println(" lx"+lx+" "+x);
+		//	;//System.out.println(" lx"+lx+" "+x);
 			
 			if (x==lx) if (stalled++>5) break;
 			lx = x;

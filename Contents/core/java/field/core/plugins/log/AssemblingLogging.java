@@ -267,7 +267,7 @@ public class AssemblingLogging extends InvocationLogging {
 			if (((Link) move.links.get(move.links.size() - 1)).type == LinkType.call) {
 
 				final iMutationSupport m = getMutationFor(move.current);
-				System.out.println(" got mutation support <" + m + "> for <" + move.current + "> rolling back to <" + move.before + ">");
+				;//System.out.println(" got mutation support <" + m + "> for <" + move.current + "> rolling back to <" + move.before + ">");
 
 				final Object tar = move.current;
 
@@ -297,13 +297,13 @@ public class AssemblingLogging extends InvocationLogging {
 
 					};
 				} else {
-					System.out.println(" no simple change for <" + m + "> no mutation support");
+					;//System.out.println(" no simple change for <" + m + "> no mutation support");
 
-					System.out.println(" trying deep change");
+					;//System.out.println(" trying deep change");
 					Link link = (Link) move.links.get(move.links.size() - 1);
 
-					System.out.println(" link target is <" + link.name + ">");
-					System.out.println(" link arguments are <" + link.args + ">");
+					;//System.out.println(" link target is <" + link.name + ">");
+					;//System.out.println(" link arguments are <" + link.args + ">");
 
 					final String methodName = ((Link) move.links.get(move.links.size() - 2)).name;
 					final Object tt = link.current;
@@ -324,13 +324,13 @@ public class AssemblingLogging extends InvocationLogging {
 						public void writeChange(Object value) {
 
 							ArrayList newArgs = (ArrayList) value;
-							System.out.println("   looking for <" + methodName + "> in <" + tt + "> <" + tt.getClass() + ">");
+							;//System.out.println("   looking for <" + methodName + "> in <" + tt + "> <" + tt.getClass() + ">");
 							Method m = ReflectionTools.findFirstMethodCalled(tt.getClass(), methodName, newArgs.size());
 							try {
-								System.out.println(" calling <" + m + "> on <" + tt + "> with args <" + newArgs + ">");
+								;//System.out.println(" calling <" + m + "> on <" + tt + "> with args <" + newArgs + ">");
 
 								for (int i = 0; i < newArgs.size(); i++) {
-									System.out.println("    arg <" + i + "> is <" + newArgs.get(i) + "> of class <" + (newArgs.get(i) == null ? null : newArgs.get(i).getClass()) + "    " + m.getParameterTypes()[i]);
+									;//System.out.println("    arg <" + i + "> is <" + newArgs.get(i) + "> of class <" + (newArgs.get(i) == null ? null : newArgs.get(i).getClass()) + "    " + m.getParameterTypes()[i]);
 								}
 
 								m.invoke(tt, newArgs.toArray());
@@ -349,10 +349,10 @@ public class AssemblingLogging extends InvocationLogging {
 							ArrayList newArgs = (ArrayList) value;
 							Method m = ReflectionTools.findFirstMethodCalled(tt.getClass(), methodName, newArgs.size());
 							try {
-								System.out.println(" calling <" + m + "> on <" + tt + "> with args <" + newArgs + ">");
+								;//System.out.println(" calling <" + m + "> on <" + tt + "> with args <" + newArgs + ">");
 
 								for (int i = 0; i < newArgs.size(); i++) {
-									System.out.println("    arg <" + i + "> is <" + newArgs.get(i) + "> of class <" + (newArgs.get(i) == null ? null : newArgs.get(i).getClass()) + "    " + m.getParameterTypes()[i]);
+									;//System.out.println("    arg <" + i + "> is <" + newArgs.get(i) + "> of class <" + (newArgs.get(i) == null ? null : newArgs.get(i).getClass()) + "    " + m.getParameterTypes()[i]);
 								}
 
 								m.invoke(tt, newArgs.toArray());
@@ -972,18 +972,18 @@ public class AssemblingLogging extends InvocationLogging {
 	}
 
 	public void dumpDebugInfo() {
-		System.out.println("-------------- assembling logging debug info ");
-		System.out.println(" there are <" + roots.size() + "> roots, of <" + currentLinkNodes.size() + "> nodes (and <" + partialLinkNodes.size() + "> unfinished)");
-		System.out.println(" walking nodes ... ");
+		;//System.out.println("-------------- assembling logging debug info ");
+		;//System.out.println(" there are <" + roots.size() + "> roots, of <" + currentLinkNodes.size() + "> nodes (and <" + partialLinkNodes.size() + "> unfinished)");
+		;//System.out.println(" walking nodes ... ");
 		for (LinkNode a : roots)
 			new GraphNodeSearching.GraphNodeVisitor_depthFirst<LinkNode>(false) {
 				@Override
 				protected VisitCode visit(LinkNode n) {
-					System.out.println(spaces(stack.size() * 3) + " node <" + n + ">");
+					;//System.out.println(spaces(stack.size() * 3) + " node <" + n + ">");
 					return VisitCode.cont;
 				}
 			}.apply(a);
-		System.out.println(" linearizing leaves ... ");
+		;//System.out.println(" linearizing leaves ... ");
 		for (LinkNode a : roots)
 			new GraphNodeSearching.GraphNodeVisitor_depthFirst<LinkNode>(false) {
 				@Override
@@ -1035,7 +1035,7 @@ public class AssemblingLogging extends InvocationLogging {
 			}
 		}
 
-		System.out.println(" warning, no blend support for <" + o + "> of class <" + o.getClass() + ">");
+		;//System.out.println(" warning, no blend support for <" + o + "> of class <" + o.getClass() + ">");
 
 		return null;
 	}
@@ -1086,7 +1086,7 @@ public class AssemblingLogging extends InvocationLogging {
 			if (at.link.type == LinkType.call)
 				expression = "(" + getConstructionsFor(at.link.args) + ")" + expression;
 
-//			System.out.println(" link <" + at + "> expression so far <" + expression + ">");
+//			;//System.out.println(" link <" + at + "> expression so far <" + expression + ">");
 
 			m.links.add(at.link);
 
@@ -1099,7 +1099,7 @@ public class AssemblingLogging extends InvocationLogging {
 			else
 				at = (LinkNode) at.getParents().get(0);
 		}
-		System.out.println(" finished ");
+		;//System.out.println(" finished ");
 
 		Collections.reverse(m.links);
 
@@ -1184,7 +1184,7 @@ public class AssemblingLogging extends InvocationLogging {
 	@Override
 	public PyObject linkGetAttr(PyObject in, String name, boolean isRoot, String path, PyObject from) {
 
-		System.out.println(" link get attr in <" + this + ">");
+		;//System.out.println(" link get attr in <" + this + ">");
 
 		LinkNode parent = currentLinkNodes.get(from);
 		if (parent == null) {
@@ -1302,7 +1302,7 @@ public class AssemblingLogging extends InvocationLogging {
 		set.to = getCloneFor(value != null ? value.__tojava__(Object.class) : value);
 		set.current = value.__tojava__(Object.class);
 
-		System.out.println(" before set <" + set.before + " " + set.to + " " + set.current + ">");
+		;//System.out.println(" before set <" + set.before + " " + set.to + " " + set.current + ">");
 
 		super.linkSetAttr(in, name, value, isRoot, path, from, new iTypeErrorRecovery() {
 			public void recover(Object javaObject, String field, Object setToBe) {
@@ -1322,7 +1322,7 @@ public class AssemblingLogging extends InvocationLogging {
 
 		set.after = getCloneFor(super.linkGetAttr(in, name, isRoot, path, from).__tojava__(Object.class));
 
-		System.out.println(" after set <" + set.after + ">");
+		;//System.out.println(" after set <" + set.after + ">");
 
 		if (installed)
 			if (Logging.enabled())
@@ -1381,7 +1381,7 @@ public class AssemblingLogging extends InvocationLogging {
 			}
 		}
 
-		System.out.println(" warning, no clone support for <" + o + "> of class <" + o.getClass() + ">");
+		;//System.out.println(" warning, no clone support for <" + o + "> of class <" + o.getClass() + ">");
 
 		return null;
 	}
@@ -1403,7 +1403,7 @@ public class AssemblingLogging extends InvocationLogging {
 			}
 		}
 
-		System.out.println(" warning, no construction support for <" + o + "> of class <" + o.getClass() + ">");
+		;//System.out.println(" warning, no construction support for <" + o + "> of class <" + o.getClass() + ">");
 
 		return null;
 	}

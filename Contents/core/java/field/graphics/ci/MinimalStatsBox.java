@@ -154,7 +154,7 @@ public class MinimalStatsBox extends MinimalExpandable {
 			bs = new BinSelection(previousSample, 500);
 			numBins = bs.getNumBins();
 
-			System.out.println(" computed num bins to be <" + numBins + ">");
+			;//System.out.println(" computed num bins to be <" + numBins + ">");
 
 			for (Float f : previousSample) {
 				if (!inputRangeLocked) {
@@ -606,7 +606,7 @@ public class MinimalStatsBox extends MinimalExpandable {
 			insetDown.width -= standoff;
 			insetUp.width -= standoff;
 
-			System.out.println(" output <" + state.outputBinned + "> \n<" + state.binned + ">");
+			;//System.out.println(" output <" + state.outputBinned + "> \n<" + state.binned + ">");
 			paintHistogram(g2, insetUp, state.numBins, new Color(0, 0, 0, 1f), state.binned, state.maxBin, 0);
 			paintHistogram(g2, insetDown, state.numBins, new Color(0, 0, 0, 1f), state.outputBinned, state.maxOutputBin, 1);
 
@@ -618,7 +618,7 @@ public class MinimalStatsBox extends MinimalExpandable {
 					float x = state.inputMin + (state.inputMax - state.inputMin) * i / (hresf - 1f);
 
 					float n = state.bs.evaluate(x) * 100f;
-					System.out.println(" n = " + n);
+					;//System.out.println(" n = " + n);
 					if (i == 0)
 						p.moveTo((bounds.width-standoff) * i / (hresf - 1), inset.height / 2 - n);
 					else
@@ -639,7 +639,7 @@ public class MinimalStatsBox extends MinimalExpandable {
 					float x =  i / (hresf - 1f);
 
 					float n = state.bs.evaluate(x, ff) * 100f;
-//					System.out.println(" n = " + n);
+//					;//System.out.println(" n = " + n);
 					if (i == 0)
 						p.moveTo((bounds.width-standoff) * i / (hresf - 1), inset.height / 2 + n);
 					else

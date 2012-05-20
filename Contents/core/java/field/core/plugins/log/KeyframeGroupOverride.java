@@ -73,12 +73,12 @@ public class KeyframeGroupOverride extends GroupOverride {
 
 		public void write(Object value) {
 
-			System.out.println(" writing <" + value + "> to <" + target + ">");
+			;//System.out.println(" writing <" + value + "> to <" + target + ">");
 
 			assert changes.size() > 0;
 			SimpleChange s = changes.values().iterator().next();
 
-			System.out.println(" simple change is <" + s + "> of class <" + s.getClass() + ">");
+			;//System.out.println(" simple change is <" + s + "> of class <" + s.getClass() + ">");
 
 			s.writeChange(value);
 		}

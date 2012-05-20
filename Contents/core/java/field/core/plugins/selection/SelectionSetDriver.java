@@ -1564,7 +1564,7 @@ public class SelectionSetDriver {
 		Collections.sort(q, new Comparator<iVisualElement>() {
 			public int compare(iVisualElement o1, iVisualElement o2) {
 				
-				System.out.println(" compare <"+o1+" , "+o2+">");
+				;//System.out.println(" compare <"+o1+" , "+o2+">");
 				
 				String n1 = o1.getProperty(iVisualElement.name);
 				String n2 = o2.getProperty(iVisualElement.name);
@@ -1669,19 +1669,19 @@ public class SelectionSetDriver {
 		if (true)
 			return;
 
-		System.out.println(" mark selected paths <" + Arrays.asList(pp) + ">");
+		;//System.out.println(" mark selected paths <" + Arrays.asList(pp) + ">");
 
 		Set<iVisualElement> newSelectionSet = new HashSet<iVisualElement>();
 		everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
 
-		System.out.println(" all <" + everyElement + ">");
+		;//System.out.println(" all <" + everyElement + ">");
 
 		for (TreeItem path : pp) {
-			System.out.println(" path :" + path);
+			;//System.out.println(" path :" + path);
 			if (path != null) {
 				SelectionSet n = (SelectionSet) path.getData();
 
-				System.out.println(" node <" + n + ">");
+				;//System.out.println(" node <" + n + ">");
 				if (n != null) {
 					n.predicate.begin(everyElement, currentSelectionSet, n.getCached(root));
 					HashSet<iVisualElement> here = new HashSet<iVisualElement>();
@@ -1699,7 +1699,7 @@ public class SelectionSetDriver {
 				}
 			}
 		}
-		System.out.println(" mark only <" + currentSelectionSet + " " + newSelectionSet + ">");
+		;//System.out.println(" mark only <" + currentSelectionSet + " " + newSelectionSet + ">");
 		markOnly(currentSelectionSet, newSelectionSet);
 	}
 

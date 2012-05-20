@@ -75,7 +75,7 @@ public class StreamingMeshTools {
 			ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File(baseFilename + ".streamingmeshoffsets"))));
 			try {
 				frames = (List<Triple<Long, Long, Long>>) ois.readObject();
-				System.out.println("frames :"+frames);
+				;//;//System.out.println("frames :"+frames);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

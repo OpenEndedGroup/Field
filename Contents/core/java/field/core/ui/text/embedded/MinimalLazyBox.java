@@ -65,7 +65,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 					public Object evaluate() {
 						Object o = super.evaluate();
 
-						System.out.println(" get for <" + name + "> happened <" + ((MinimalLazyBox) component).getText() + ">");
+						;//System.out.println(" get for <" + name + "> happened <" + ((MinimalLazyBox) component).getText() + ">");
 
 						((MinimalLazyBox) component).arm = false;
 						((MinimalLazyBox) component).textAtLastUpdate = ((MinimalLazyBox) component).getText();
@@ -79,7 +79,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 				@Override
 				public void setText(String to) {
 
-					System.out.println(" set text called <" + to + ">");
+					;//System.out.println(" set text called <" + to + ">");
 
 					super.setText(to);
 					Component.this.valueString = to;
@@ -90,7 +90,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 			((MinimalLazyBox) component).addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 
-					System.out.println(" action performed called " + ((MinimalLazyBox) component).getText());
+					;//System.out.println(" action performed called " + ((MinimalLazyBox) component).getText());
 
 					Component.this.valueString = ((MinimalLazyBox) component).getText();
 					updateValue(valueString);
@@ -115,7 +115,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 					public Object evaluate() {
 						Object o = super.evaluate();
 
-						System.out.println(" get for <" + name + "> happened ");
+						;//System.out.println(" get for <" + name + "> happened ");
 
 						((MinimalLazyBox) component).arm = false;
 						((MinimalLazyBox) component).textAtLastUpdate = ((MinimalLazyBox) component).getText();
@@ -138,7 +138,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 				public Object evaluate() {
 					Object o = super.evaluate();
 
-					System.out.println(" get2 for <" + name + "> happened ");
+					;//System.out.println(" get2 for <" + name + "> happened ");
 
 					((MinimalLazyBox) component).arm = false;
 					((MinimalLazyBox) component).textAtLastUpdate = ((MinimalLazyBox) component).getText();
@@ -162,7 +162,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 			}
 			this.valueString = valueString;
 			if (localKey == null) {
-				// System.out.println(" making a bad key !");
+				// ;//System.out.println(" making a bad key !");
 				// localKey = new
 				// OKey<String>(name).rootSet(valueString);
 				makeNew();
@@ -445,7 +445,7 @@ public class MinimalLazyBox extends JTextField implements iOutOfBandDrawing {
 					MinimalLazyBox.this.setText(to);
 					if (inside != null) {
 
-						System.out.println(" forcing update of all styles now ");
+						;//System.out.println(" forcing update of all styles now ");
 
 						try {
 

@@ -198,7 +198,7 @@ public class IOSurfaceRunner {
 
 			synchronized (IOSurfaceRunner.this) {
 
-				//System.out.println(" -- <bind to <" + textureId + ">");
+				//;//System.out.println(" -- <bind to <" + textureId + ">");
 
 				if (lastTime != id)
 					new MiscNative().lookupAndBindIOSurfaceNow(id);

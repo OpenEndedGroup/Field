@@ -209,7 +209,7 @@ public class CachedLineCursor {
 		if (after == null)
 			return false;
 
-		// System.out.println(" current <"+current+"> <"+current.attributes+">");
+		// ;//System.out.println(" current <"+current+"> <"+current.attributes+">");
 
 		if (after.method.equals(iLine_m.cubicTo_m)) {
 			a.x = ((Number) (current.args)[current.args.length - 2]).floatValue();
@@ -278,7 +278,7 @@ public class CachedLineCursor {
 		if (after == null)
 			return null;
 
-		// System.out.println(" current <"+current+"> <"+current.attributes+">");
+		// ;//System.out.println(" current <"+current+"> <"+current.attributes+">");
 
 		if (after.method.equals(iLine_m.cubicTo_m)) {
 			oo[0] = current.attributes.get(p);
@@ -404,7 +404,7 @@ public class CachedLineCursor {
 			}
 			if (after.method.equals(iLine_m.lineTo_m)) {
 
-//				System.out.println(" looking at <"+current.getAttributes()+">");
+//				;//System.out.println(" looking at <"+current.getAttributes()+">");
 				
 				a.x = ((Number) (current.args)[current.args.length - 2]).floatValue();
 				a.y = ((Number) (current.args)[current.args.length - 1]).floatValue();

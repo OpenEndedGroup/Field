@@ -33,7 +33,7 @@ def completionsFor(text):
             if (hasattr(a, "im_func") and hasattr(a.im_func, "argslist")):
                 for arglist in a.im_func.argslist:
                     data = "%s"%arglist.data
-                    System.out.println("%s"%data)
+                    ;//;//System.out.println("%s"%data)
                     data = data[data.index("(")+1: data.rindex(")")]
                     data = data.replace(",", ", ")
                     ret.append(["javamethod", safeText("%s"%dd), safeText(data)])

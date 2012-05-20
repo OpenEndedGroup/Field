@@ -382,18 +382,18 @@ public class LineUtils {
 				} else {
 					if (cc.nextLinearFrame(a, b)) {
 
-						System.out.println(" linear frame is <" + a + " " + b + "> looking for <" + point + ">");
+						;//System.out.println(" linear frame is <" + a + " " + b + "> looking for <" + point + ">");
 
 						double d = Line2D.ptSegDistSq(a.x, a.y, b.x, b.y, point.x, point.y);
 						if (d < min) {
 
-							System.out.println(" distance is <" + d + ">");
+							;//System.out.println(" distance is <" + d + ">");
 
 							min = (float) d;
 							minAtIndex = cc.getCurrentIndex();
 							minT = (float) ptSegDistSqT(a.x, a.y, b.x, b.y, point.x, point.y);
 
-							System.out.println(" minT is <" + minT + ">");
+							;//System.out.println(" minT is <" + minT + ">");
 
 						}
 					}
@@ -526,7 +526,7 @@ public class LineUtils {
 				if (cc.nextIsCubic()) {
 					if (cc.nextCubicFrame3(oa, oc1, oc2, ob)) {
 
-						// System.out.println(" next cubic frame3 "+oa+" "+oc1+" "+oc2+" "+ob);
+						// ;//System.out.println(" next cubic frame3 "+oa+" "+oc1+" "+oc2+" "+ob);
 
 						c1.setValue(oc1);
 						c2.setValue(oc2);
@@ -565,7 +565,7 @@ public class LineUtils {
 				} else {
 					if (cc.nextLinearFrame3(a, b)) {
 
-						// System.out.println(" next line frame3 "+a+" "+b);
+						// ;//System.out.println(" next line frame3 "+a+" "+b);
 
 						// TODO:
 						double d = ptSegDistSq3(a.x, a.y, a.z, b.x, b.y, b.z, point.x, point.y, point.z);
@@ -810,7 +810,7 @@ public class LineUtils {
 	public static Vector2[] fastBoundsMoveTos(CachedLine c) {
 		Vector2[] minMax = new Vector2[] { new Vector2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY), new Vector2(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY) };
 		if (c == null) {
-			System.out.println(" null c ? ");
+			;//System.out.println(" null c ? ");
 			return new Vector2[] { new Vector2(), new Vector2() };
 		}
 
@@ -2110,13 +2110,13 @@ public class LineUtils {
 			if (e.method.equals(iLine_m.moveTo_m)) {
 				Vector3 b = getDestination3(e);
 				Vector3 pixel = projector.toPixel(b, width, height);
-				System.out.println(" transformed <" + b + " -> " + pixel + ">");
+				;//System.out.println(" transformed <" + b + " -> " + pixel + ">");
 				// if (pixel.z>0.99f) return null;
 				path.moveTo(pixel.x, height - pixel.y);
 			} else if (e.method.equals(iLine_m.lineTo_m)) {
 				Vector3 b = getDestination3(e);
 				Vector3 pixel = projector.toPixel(b, width, height);
-				System.out.println(" transformed <" + b + " -> " + pixel + ">");
+				;//System.out.println(" transformed <" + b + " -> " + pixel + ">");
 				// if (pixel.z>0.99f) return null;
 				path.lineTo(pixel.x, height - pixel.y);
 			} else if (e.method.equals(iLine_m.close_m))

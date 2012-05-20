@@ -76,7 +76,7 @@ public class SmallMenu {
 	//
 	// public int getPreferedSizeAtWidth(int width) {
 	//
-	// System.out.println(" size at original width <" + area.getWidth()
+	// ;//System.out.println(" size at original width <" + area.getWidth()
 	// + "> is <" + area.getPreferredSize().height + ">");
 	//
 	// area.setMaximumSize(new Dimension(width - inset, 5000));
@@ -85,7 +85,7 @@ public class SmallMenu {
 	// area.validate();
 	//
 	// int h = area.getPreferredSize().height;
-	// System.out.println(" size at new width <" + area.getWidth()
+	// ;//System.out.println(" size at new width <" + area.getWidth()
 	// + "> is <" + area.getMinimumSize() + ", "
 	// + area.getPreferredSize() + ", " + area.getMaximumSize());
 	// return h;
@@ -156,7 +156,7 @@ public class SmallMenu {
 
 			// shell.setSize(s);
 
-			// System.out.println("active shell is <" +
+			// ;//System.out.println("active shell is <" +
 			// Launcher.display.getActiveShell() + ">");
 			// shell.setVisible(Launcher.display.getActiveShell() !=
 			// null);
@@ -170,7 +170,7 @@ public class SmallMenu {
 				@Override
 				public void handleEvent(Event event) {
 
-					// System.out.println("SHELL  mouse move <"
+					// ;//System.out.println("SHELL  mouse move <"
 					// + event + ">");
 
 				}
@@ -180,7 +180,7 @@ public class SmallMenu {
 
 				@Override
 				public void handleEvent(Event event) {
-					// System.out.println("SHELL mouse exit ");
+					// ;//System.out.println("SHELL mouse exit ");
 					menu.deselectAll();
 				}
 			});
@@ -189,7 +189,7 @@ public class SmallMenu {
 
 				@Override
 				public void mouseMove(MouseEvent e) {
-					// System.out.println("SHELL C ");
+					// ;//System.out.println("SHELL C ");
 				}
 			});
 
@@ -197,7 +197,7 @@ public class SmallMenu {
 
 				@Override
 				public void mouseMove(MouseEvent e) {
-					// System.out.println("SHELL C ");
+					// ;//System.out.println("SHELL C ");
 				}
 			});
 
@@ -205,34 +205,34 @@ public class SmallMenu {
 
 				@Override
 				public void mouseUp(MouseEvent e) {
-					// System.out.println("SHELL A ");
+					// ;//System.out.println("SHELL A ");
 				}
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					// System.out.println("SHELL A ");
+					// ;//System.out.println("SHELL A ");
 				}
 
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {
-					// System.out.println("SHELL A ");
+					// ;//System.out.println("SHELL A ");
 				}
 			});
 			menu.addMouseListener(new MouseListener() {
 
 				@Override
 				public void mouseUp(MouseEvent e) {
-					// System.out.println("menu B ");
+					// ;//System.out.println("menu B ");
 				}
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					// System.out.println("menu b ");
+					// ;//System.out.println("menu b ");
 				}
 
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {
-					// System.out.println("menu b ");
+					// ;//System.out.println("menu b ");
 				}
 			});
 
@@ -244,7 +244,7 @@ public class SmallMenu {
 						menu.deselectAll();
 					e.doit = false;
 
-					System.out.println(" SELECTION :" + e);
+					;//System.out.println(" SELECTION :" + e);
 
 					if (hu != null) {
 						hu.update(menu.getSelectionIndex());
@@ -261,7 +261,7 @@ public class SmallMenu {
 
 				@Override
 				public void handleEvent(Event event) {
-					// System.out.println(" verify <" +
+					// ;//System.out.println(" verify <" +
 					// event + ">");
 				}
 			});
@@ -276,7 +276,7 @@ public class SmallMenu {
 
 					shell.setVisible(false);
 					Object d = m == null ? null : m.getData();
-					// System.out.println(" d = <" + d +
+					// ;//System.out.println(" d = <" + d +
 					// "> <" + m + "> <" + ss.length + "> <"
 					// + event.item + ">");
 					done();
@@ -292,7 +292,7 @@ public class SmallMenu {
 				@Override
 				public void handleEvent(Event event) {
 
-					// System.out.println("SHELL mouse move event ");
+					// ;//System.out.println("SHELL mouse move event ");
 
 					TableItem m = menu.getItem(new Point(event.x, event.y));
 
@@ -332,13 +332,13 @@ public class SmallMenu {
 						done();
 					}
 					if (event.keyCode == '\n') {
-						// System.out.println(" return, taking it");
+						// ;//System.out.println(" return, taking it");
 
 						TableItem[] ss = menu.getSelection();
 						TableItem m = (TableItem) (ss == null || ss.length == 0 ? null : ss[0]);
 						shell.setVisible(false);
 						Object d = m == null ? null : m.getData();
-						// System.out.println(" d = <" +
+						// ;//System.out.println(" d = <" +
 						// d + ">");
 						done();
 						if (d instanceof iUpdateable) {
@@ -349,12 +349,12 @@ public class SmallMenu {
 					} else if (event.keyCode == SWT.ARROW_DOWN) {
 						event.doit = false;
 						int s = menu.getSelectionIndex();
-						// System.out.println(" down <"
+						// ;//System.out.println(" down <"
 						// + s + ">");
 						if (s == -1) {
 							for (int i = 0; i < menu.getItemCount(); i++) {
 								if (menu.getItem(i).getData() != null) {
-									// System.out.println(" now<"
+									// ;//System.out.println(" now<"
 									// + i +
 									// ">");
 									menu.setSelection(i);
@@ -369,7 +369,7 @@ public class SmallMenu {
 							for (int i = 0; i < menu.getItemCount(); i++) {
 								s = (s + 1) % menu.getItemCount();
 								if (menu.getItem(s).getData() != null) {
-									// System.out.println(" now<"
+									// ;//System.out.println(" now<"
 									// + s +
 									// ">");
 									menu.setSelection(s);
@@ -384,12 +384,12 @@ public class SmallMenu {
 					} else if (event.keyCode == SWT.ARROW_UP) {
 						event.doit = false;
 						int s = menu.getSelectionIndex();
-						// System.out.println(" down <"
+						// ;//System.out.println(" down <"
 						// + s + ">");
 						if (s == -1) {
 							for (int i = menu.getItemCount() - 1; i >= 0; i--) {
 								if (menu.getItem(i).getData() != null) {
-									// System.out.println(" now<"
+									// ;//System.out.println(" now<"
 									// + i +
 									// ">");
 									menu.setSelection(i);
@@ -403,7 +403,7 @@ public class SmallMenu {
 							for (int i = 0; i < menu.getItemCount(); i++) {
 								s = (s - 1 + menu.getItemCount()) % menu.getItemCount();
 								if (menu.getItem(s).getData() != null) {
-									// System.out.println(" now<"
+									// ;//System.out.println(" now<"
 									// + s +
 									// ">");
 									menu.setSelection(s);
@@ -423,7 +423,7 @@ public class SmallMenu {
 				@Override
 				public void handleEvent(Event event) {
 
-					// System.out.println(" actually got a key event in a menu <"
+					// ;//System.out.println(" actually got a key event in a menu <"
 					// + event + ">");
 
 					// TODO swt there was lots of logic in
@@ -431,7 +431,7 @@ public class SmallMenu {
 					// close
 					if (u != null)
 						if (u.update(event)) {
-							// System.out.println(" closing it ");
+							// ;//System.out.println(" closing it ");
 							shell.setVisible(false);
 						}
 
@@ -442,7 +442,7 @@ public class SmallMenu {
 
 				@Override
 				public void handleEvent(Event event) {
-					// System.out.println("SHELL hover event ");
+					// ;//System.out.println("SHELL hover event ");
 				}
 			});
 
@@ -505,7 +505,7 @@ public class SmallMenu {
 		protected void openNext(Point s) {
 			shell.open();
 
-			// System.out.println(" opennext is setting size to be <"
+			// ;//System.out.println(" opennext is setting size to be <"
 			// + s + ">");
 
 			if (rightJustified) {
@@ -518,7 +518,7 @@ public class SmallMenu {
 			boolean forced = menu.forceFocus();
 			// selectFirst();
 
-			// System.out.println(" forced ? <" + forced + ">");
+			// ;//System.out.println(" forced ? <" + forced + ">");
 
 			down = System.currentTimeMillis();
 			
@@ -527,7 +527,7 @@ public class SmallMenu {
 				@Override
 				public void handleEvent(Event event) {
 
-					// System.out.println(" we are in a left over filter with a mouse up <"+menu.isDisposed()+"> <"+menu.isVisible()+">");
+					// ;//System.out.println(" we are in a left over filter with a mouse up <"+menu.isDisposed()+"> <"+menu.isVisible()+">");
 					if (menu.isDisposed() || !menu.isVisible()) {
 						Launcher.display.removeFilter(SWT.MouseMove, this);
 						Launcher.display.removeFilter(SWT.MouseUp, this);
@@ -535,21 +535,21 @@ public class SmallMenu {
 					}
 
 					if (event.type == SWT.MouseUp) {
-						// System.out.println(" deinstalling filter ");
+						// ;//System.out.println(" deinstalling filter ");
 						Launcher.display.removeFilter(SWT.MouseMove, this);
 						Launcher.display.removeFilter(SWT.MouseUp, this);
 
-						System.out.println(" menu is at <" + (System.currentTimeMillis() - down) + "> ms <"+menu.getSelectionCount()+">");
+						;//System.out.println(" menu is at <" + (System.currentTimeMillis() - down) + "> ms <"+menu.getSelectionCount()+">");
 
 						if ((down >0 && System.currentTimeMillis() - down > 1000) || menu.getSelectionCount() > 0) {
 
-							System.out.println(" selection is :"+Arrays.asList(menu.getSelection()));
+							;//System.out.println(" selection is :"+Arrays.asList(menu.getSelection()));
 							
 							if (event.widget != menu) {
-								// System.out.println(" event not going to widget, would redispatch the up event");
+								// ;//System.out.println(" event not going to widget, would redispatch the up event");
 
 								Listener[] shakers = menu.getListeners(SWT.KeyDown);
-								// System.out.println(" shakers are :"
+								// ;//System.out.println(" shakers are :"
 								// +
 								// Arrays.asList(shakers));
 
@@ -559,16 +559,16 @@ public class SmallMenu {
 								}
 
 							} else {
-								// System.out.println(" event fine");
+								// ;//System.out.println(" event fine");
 							}
 						}
 					}
 					if (event.type == SWT.MouseMove) {
 						if (event.widget != menu) {
-							// System.out.println(" event not going to widget, would redispatch");
+							// ;//System.out.println(" event not going to widget, would redispatch");
 
 							Listener[] movers = menu.getListeners(SWT.MouseMove);
-							System.out.println(" movers :" + Arrays.asList(movers));
+							;//System.out.println(" movers :" + Arrays.asList(movers));
 
 							Point c = Launcher.display.map((Control) event.widget, menu, new Point(event.x, event.y));
 							int ox = event.x;
@@ -583,7 +583,7 @@ public class SmallMenu {
 							event.y = oy;
 
 						} else {
-							// System.out.println(" event fine");
+							// ;//System.out.println(" event fine");
 						}
 					}
 				}
@@ -607,7 +607,7 @@ public class SmallMenu {
 		public void selectFirst() {
 			for (int i = 0; i < menu.getItemCount(); i++) {
 				if (menu.getItem(i).getData() != null) {
-					// System.out.println(" now<" + i +
+					// ;//System.out.println(" now<" + i +
 					// ">");
 					menu.setSelection(i);
 					menu.redraw();
@@ -711,14 +711,14 @@ public class SmallMenu {
 	// public void processMouseEvent(MouseEvent event, MenuElement[] path,
 	// MenuSelectionManager manager) {
 	// super.processMouseEvent(event, path, manager);
-	// System.out.println(" special mouse event process <" + event + ">");
+	// ;//System.out.println(" special mouse event process <" + event + ">");
 	// }
 	//
 	// @Override
 	// public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1,
 	// MenuSelectionManager arg2) {
 	//
-	// System.out.println(" process key event <" + arg0 + "> (handled)");
+	// ;//System.out.println(" process key event <" + arg0 + "> (handled)");
 	//
 	// if (arg0.getKeyCode() == KeyEvent.VK_DOWN && arg0.getID() ==
 	// KeyEvent.KEY_PRESSED) {
@@ -737,7 +737,7 @@ public class SmallMenu {
 	// if (arg0.getKeyChar() == '\n') {
 	// key.enter();
 	//
-	// System.out.println(" attempting to force focus <" + previousWindow +
+	// ;//System.out.println(" attempting to force focus <" + previousWindow +
 	// " / " + previousOwner + ">");
 	// // previousWindow.requestFocus();
 	// forceFocus();
@@ -759,14 +759,14 @@ public class SmallMenu {
 	// }
 	//
 	// private void forceFocus() {
-	// System.out.println(" forcing focus to <" + previousOwner + ">");
+	// ;//System.out.println(" forcing focus to <" + previousOwner + ">");
 	//
 	// if (!previousWindow.isVisible()) {
-	// System.out.println(" window is not valid ");
+	// ;//System.out.println(" window is not valid ");
 	// return;
 	// }
 	// if (!previousOwner.isValid()) {
-	// System.out.println(" owner is not valid ");
+	// ;//System.out.println(" owner is not valid ");
 	// return;
 	// }
 	// previousWindow.requestFocus();
@@ -792,7 +792,7 @@ public class SmallMenu {
 	// previousOwner =
 	// FocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 	// }
-	// // System.out.println(" set
+	// // ;//System.out.println(" set
 	// // visible on popup <" + b +
 	// // ">");
 	// // new
@@ -817,18 +817,18 @@ public class SmallMenu {
 	//
 	// getPopupWindow().setAlwaysOnTop(true);
 	//
-	// System.out.println(" attaching event handlers to small menu");
+	// ;//System.out.println(" attaching event handlers to small menu");
 	//
 	// JWindow window = getPopupWindow();
 	// if (window != null) {
 	// window.addWindowFocusListener(new WindowFocusListener() {
 	//
 	// public void windowGainedFocus(WindowEvent e) {
-	// System.out.println(" gained focus");
+	// ;//System.out.println(" gained focus");
 	// }
 	//
 	// public void windowLostFocus(WindowEvent e) {
-	// System.out.println(" lost focus, faking escape");
+	// ;//System.out.println(" lost focus, faking escape");
 	// key.escape();
 	// }
 	// });
@@ -836,7 +836,7 @@ public class SmallMenu {
 	// window.addWindowStateListener(new WindowStateListener() {
 	//
 	// public void windowStateChanged(WindowEvent e) {
-	// System.out.println(" state changed <" + e + ">");
+	// ;//System.out.println(" state changed <" + e + ">");
 	// }
 	// });
 	//
@@ -844,35 +844,35 @@ public class SmallMenu {
 	//
 	// @Override
 	// public void windowActivated(WindowEvent e) {
-	// System.out.println(" window activated");
+	// ;//System.out.println(" window activated");
 	// }
 	//
 	// @Override
 	// public void windowDeactivated(WindowEvent e) {
-	// System.out.println(" window deactivated");
+	// ;//System.out.println(" window deactivated");
 	// }
 	// });
 	//
 	// window.addMouseListener(new MouseListener() {
 	//
 	// public void mouseReleased(MouseEvent e) {
-	// System.out.println(" window event for parent of popup <" + e + ">");
+	// ;//System.out.println(" window event for parent of popup <" + e + ">");
 	// }
 	//
 	// public void mousePressed(MouseEvent e) {
-	// System.out.println(" window event for parent of popup <" + e + ">");
+	// ;//System.out.println(" window event for parent of popup <" + e + ">");
 	// }
 	//
 	// public void mouseExited(MouseEvent e) {
-	// System.out.println(" window event for parent of popup <" + e + ">");
+	// ;//System.out.println(" window event for parent of popup <" + e + ">");
 	// }
 	//
 	// public void mouseEntered(MouseEvent e) {
-	// System.out.println(" window event for parent of popup <" + e + ">");
+	// ;//System.out.println(" window event for parent of popup <" + e + ">");
 	// }
 	//
 	// public void mouseClicked(MouseEvent e) {
-	// System.out.println(" window event for parent of popup <" + e + ">");
+	// ;//System.out.println(" window event for parent of popup <" + e + ">");
 	// }
 	// });
 	//
@@ -899,7 +899,7 @@ public class SmallMenu {
 	// protected void processFocusEvent(FocusEvent evt) {
 	// super.processFocusEvent(evt);
 	//
-	// System.out.println(" focus event on popup <" + evt + ">");
+	// ;//System.out.println(" focus event on popup <" + evt + ">");
 	//
 	// if (evt.getID() == FocusEvent.FOCUS_LOST) {
 	// setVisible(false);
@@ -910,7 +910,7 @@ public class SmallMenu {
 	//
 	// @Override
 	// protected void processKeyEvent(KeyEvent arg0) {
-	// System.out.println(" process key event on small menu (unhandled) ");
+	// ;//System.out.println(" process key event on small menu (unhandled) ");
 	// super.processKeyEvent(arg0);
 	// }
 	//
@@ -919,12 +919,12 @@ public class SmallMenu {
 	// Popup p = (Popup)
 	// ReflectionTools.getFirstFIeldCalled(JPopupMenu.class,
 	// "popup").get(this);
-	// System.out.println(" popup window is <" + p + ">");
+	// ;//System.out.println(" popup window is <" + p + ">");
 	// JWindow window = (JWindow)
 	// ReflectionTools.getFirstFIeldCalled(p.getClass(),
 	// "component").get(p);
 	//
-	// System.out.println(" popup window is <" + p + "> / <" + window +
+	// ;//System.out.println(" popup window is <" + p + "> / <" + window +
 	// ">");
 	//
 	// return window;
@@ -954,7 +954,7 @@ public class SmallMenu {
 	// actions.addActionListener(new ActionListener() {
 	// public void actionPerformed(ActionEvent e) {
 	// JPopupMenu menu = getActionMenu();
-	// System.out.println(" opening action menu");
+	// ;//System.out.println(" opening action menu");
 	// menu.show(actions, 20, 10);
 	// }
 	//
@@ -1424,7 +1424,7 @@ public class SmallMenu {
 			textToDraw = textToDraw.replace("<b><i>", "<bi>");
 			textToDraw = textToDraw.replace("</i></b>", "</bi>");
 
-			// System.out.println(" looking at <" + textToDraw +
+			// ;//System.out.println(" looking at <" + textToDraw +
 			// ">");
 			if (fixedFont == null) {
 				Matcher m = SMALLER_PATTERN.matcher(textToDraw);
@@ -1485,7 +1485,7 @@ public class SmallMenu {
 
 					gc.drawText(a.text, cx + x, y + dasc - asc, true);
 
-					// System.out.println(" text <" + a.text
+					// ;//System.out.println(" text <" + a.text
 					// + ">");
 
 					cx += gc.textExtent(a.text).x;
@@ -1503,7 +1503,7 @@ public class SmallMenu {
 						gc.drawText(ttd, cx + x, y, true);
 					}
 
-					// System.out.println(" normal text <" +
+					// ;//System.out.println(" normal text <" +
 					// textToDraw.substring(start, end) +
 					// ">");
 

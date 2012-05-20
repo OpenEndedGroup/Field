@@ -29,7 +29,7 @@ public class T_Example implements iLaunchable {
 			Cobj datum = getProperty(MotionGraphs.datum);
 
 			setProperty(at, new Vector2(x.map(datum), y.map(datum)));
-			System.out.println(" laying out mark <"+this+">");
+			;//System.out.println(" laying out mark <"+this+">");
 			
 		}
 		

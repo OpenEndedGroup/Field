@@ -97,7 +97,7 @@ public class OnCanvasLines {
 
 		new SimpleLineDrawing().installInto(context).doFakeAa = true;
 		new SimpleImageDrawing().installInto(context);// .setUseRawDrawing(true);
-		System.out.println(" installing oncanvaspline system into <" + on + ">");
+		;//System.out.println(" installing oncanvaspline system into <" + on + ">");
 		new SimpleTextDrawing(false).setForceScale(0.1f).installInto(context);
 		coreGraphicsContext = new CoreImageCanvasUtils();
 		new DeferredImageDrawing().installInto(context, coreGraphicsContext);
@@ -288,7 +288,7 @@ public class OnCanvasLines {
 
 		new SimpleLineDrawing().installInto(context).doFakeAa = true;
 		new SimpleImageDrawing().installInto(context);// .setUseRawDrawing(true);
-		System.out.println(" installing oncanvaspline system into <" + on + ">");
+		;//System.out.println(" installing oncanvaspline system into <" + on + ">");
 		new SimpleTextDrawing(false).setForceScale(0.1f).installInto(context);
 		coreGraphicsContext = new CoreImageCanvasUtils();
 		new DeferredImageDrawing().installInto(context, coreGraphicsContext);
@@ -340,7 +340,7 @@ public class OnCanvasLines {
 			@Override
 			public void mouseMove(MouseEvent e) {
 
-				System.out.println(" moved :" + e);
+				;//System.out.println(" moved :" + e);
 
 				Event ee = toEvent(e);
 				if (down)
@@ -508,7 +508,7 @@ public class OnCanvasLines {
 			}
 			List<CachedLine> also = interpolator.update();
 
-			System.out.println(" embedded interpolator <" + interpolator.isDoingWork() + ">");
+			;//System.out.println(" embedded interpolator <" + interpolator.isDoingWork() + ">");
 			didWork = false;
 
 			if (submit.getMod() == oldMod && !interpolator.isDoingWork())

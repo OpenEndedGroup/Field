@@ -255,7 +255,7 @@ public class PlainDraggableComponent implements iComponent, iDraggableComponent 
 				GLComponentWindow.getCurrentWindow(this).untransformMouseEvent(arg0);
 				
 				
-				System.out.println(" doing menu <"+items+">");
+				;//System.out.println(" doing menu <"+items+">");
 				
 				items.doMenu(ref.get().getCanvas(), new Point(arg0.x, arg0.y));
 

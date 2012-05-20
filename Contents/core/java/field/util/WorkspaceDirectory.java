@@ -78,15 +78,9 @@ public class WorkspaceDirectory {
 
 			if (fn != null) {
 
-				System.out.println(" got ok <" + fn + ">");
+				;//System.out.println(" got ok <" + fn + ">");
 
 				File f = new File(fn);
-
-				try {
-					System.out.println(" got file <" + f + "> <" + f.getAbsolutePath() + "> <" + f.getCanonicalPath() + ">");
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
 
 				if (!f.exists()) {
 					boolean made = f.mkdir();
@@ -98,7 +92,7 @@ public class WorkspaceDirectory {
 
 						System.exit(1);
 					} else {
-						System.out.println(" directory made successfully <" + f.exists() + ">");
+						;//System.out.println(" directory made successfully <" + f.exists() + ">");
 					}
 				} else {
 					if (!new File(f, ".hg").exists()) {
@@ -111,7 +105,7 @@ public class WorkspaceDirectory {
 
 							System.exit(1);
 						} else {
-							System.out.println(" directory made successfully 2 <" + f.exists() + ">");
+							;//System.out.println(" directory made successfully 2 <" + f.exists() + ">");
 						}
 					} else {
 						System.err.println(" mercurial repository already there");
@@ -159,13 +153,13 @@ public class WorkspaceDirectory {
 		if (useGit) {
 			ExecuteCommand c = new ExecuteCommand(f.getAbsolutePath(), new String[] { GitVersioningSystem.gitCommand, "init" }, true);
 			int w = c.waitFor();
-			System.out.println(" return code <" + w + ">");
-			System.out.println(" output <" + c.getOutput() + ">");
+			;//System.out.println(" return code <" + w + ">");
+			;//System.out.println(" output <" + c.getOutput() + ">");
 		} else {
 			ExecuteCommand c = new ExecuteCommand(f.getAbsolutePath(), new String[] { HGVersioningSystem.hgCommand, "init" }, true);
 			int w = c.waitFor();
-			System.out.println(" return code <" + w + ">");
-			System.out.println(" output <" + c.getOutput() + ">");
+			;//System.out.println(" return code <" + w + ">");
+			;//System.out.println(" output <" + c.getOutput() + ">");
 		}
 	}
 

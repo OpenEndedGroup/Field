@@ -308,7 +308,7 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 	@Override
 	public void keyPressed(org.eclipse.swt.events.KeyEvent e) {
 
-		// System.out.println(" key pressed in keyboard controlled camera smooth <"+e+">");
+		// ;//System.out.println(" key pressed in keyboard controlled camera smooth <"+e+">");
 
 		if (e.character == ']') {
 			movementScale /= 2;
@@ -371,7 +371,7 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 			gestureIsDown = true;
 		}
 
-		System.out.println(e);
+		;//System.out.println(e);
 
 		if (e.detail == SWT.GESTURE_ROTATE) {
 

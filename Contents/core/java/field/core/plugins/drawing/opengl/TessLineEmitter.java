@@ -144,7 +144,7 @@ public class TessLineEmitter extends SmallLineEmitter {
 				float m = 0;
 				for (int q = 0; q < data.length; q++) {
 					if (((VInfo) data[q])== null) {
-						System.out.println(" null data ? <"+i+" "+q+">");
+						;//System.out.println(" null data ? <"+i+" "+q+">");
 					} else {
 						z.x += (((Vector4) (((VInfo) data[q]).properties).get(i))).x * weight[q];
 						z.y += (((Vector4) (((VInfo) data[q]).properties).get(i))).y * weight[q];

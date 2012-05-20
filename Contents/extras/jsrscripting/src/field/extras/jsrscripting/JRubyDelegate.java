@@ -57,11 +57,11 @@ public class JRubyDelegate {
 								
 								ii.pushOutput(out, error);
 								
-//								System.out.println(" >> pushed <"+out+" "+error+">");
+//								;//;//System.out.println(" >> pushed <"+out+" "+error+">");
 								
 								ii.getAdaptor().callMethod(proc, "call");
 
-//								System.out.println(" >> popping <"+out+" "+error+">");
+//								;//;//System.out.println(" >> popping <"+out+" "+error+">");
 							
 							} catch (Throwable tr) {
 								System.err.println(" exception throw while executing python ...<" + tr + ">");

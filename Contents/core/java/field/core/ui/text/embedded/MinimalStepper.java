@@ -214,7 +214,7 @@ public class MinimalStepper extends JComponent  {
 		super.processMouseEvent(e);
 		repaint();
 
-		System.out.println(" mouse over");
+		;//System.out.println(" mouse over");
 
 		if ((e.getModifiers() & Event.ALT_MASK) == 0 && e.getID() == MouseEvent.MOUSE_RELEASED) {
 			arm = false;

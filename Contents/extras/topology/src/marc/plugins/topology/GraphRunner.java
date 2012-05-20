@@ -55,7 +55,7 @@ public abstract class GraphRunner implements iUpdateable, iProvidesQueue {
 
 	@InQueue
 	public void begin(iVisualElement e) {
-		System.out.println(" inside begin <" + e + "> <" + current + ">");
+		;//;//System.out.println(" inside begin <" + e + "> <" + current + ">");
 		if (current != null) {
 			current.ongoing.stop(convertTime(current.ticks / (float) current.duration, current.to), current.promiseTo, false);
 		}
@@ -64,11 +64,11 @@ public abstract class GraphRunner implements iUpdateable, iProvidesQueue {
 		a.to = e;
 
 		PythonScriptingSystem pss = PythonScriptingSystem.pythonScriptingSystem.get(e);
-		System.out.println(" pss is <" + pss + ">");
+		;//;//System.out.println(" pss is <" + pss + ">");
 		Promise promise = wrapPromise(pss.promiseForKey(e));
 
 		Object ret = ongoingObject(current, e);
-		System.out.println(" ongoing object");
+		;//;//System.out.println(" ongoing object");
 		if (ret == null) {
 			current = null;
 			finished();

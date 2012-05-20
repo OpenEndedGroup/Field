@@ -131,7 +131,7 @@ public class SnippetsPlugin extends BaseSimplePlugin {
 		ToolBarFolder parent = ToolBarFolder.currentFolder;
 		super.registeredWith(root);
 
-		System.out.println(" snippet ui starting up");
+		;//System.out.println(" snippet ui starting up");
 
 		snippetUI = new SelectionSetUI("icons/right_quote_32x32.png", parent) {
 

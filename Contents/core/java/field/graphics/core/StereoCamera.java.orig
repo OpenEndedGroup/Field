@@ -240,7 +240,7 @@ public class StereoCamera extends BasicCamera {
 		// }
 		// else
 		// {
-		// System.out.println(" warning: current camera is not a stereo camera ");
+		// ;//System.out.println(" warning: current camera is not a stereo camera ");
 		// return Math.random();
 		// }
 	}

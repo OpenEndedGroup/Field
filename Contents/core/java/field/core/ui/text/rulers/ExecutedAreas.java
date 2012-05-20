@@ -69,13 +69,6 @@ public class ExecutedAreas {
 				trackingEnd = tracker.createPosition(positionForLineEnd(
 						lineEnd, text.getText()));
 				
-				
-				System.out.println(" checking invarients :"+positionForLineStart(
-						lineStart, text.getText())+" -> "+trackingStart.at);
-				System.out.println(" checking invarients2 :"+positionForLineEnd(
-						lineEnd, text.getText())+" -> "+trackingEnd.at);
-				
-				
 			} else {
 				int x1 = lineForOffset(trackingStart.at, text.getText());
 				int x2 = lineForOffset(trackingEnd.at, text.getText());

@@ -26,7 +26,7 @@ public class OSCInput implements iUpdateable {
 
 	public OSCInput(int port) {
 
-		System.out.println(" this is the new stuff ");
+		;//System.out.println(" this is the new stuff ");
 		
 		try {
 			listener = new SimpleUDPListener(max_packet_size, port) {
@@ -49,29 +49,29 @@ public class OSCInput implements iUpdateable {
 	}
 
 	protected void decode(ByteBuffer bb) {
-		System.out.println(" inside decode :" + bb);
+		;//System.out.println(" inside decode :" + bb);
 		if (bb.remaining() == 0)
 			return;
 
 		String dest = readString(bb);
-		// System.out.println(" string <"+dest+">");
+		// ;//System.out.println(" string <"+dest+">");
 		if (dest.startsWith("#")) {
 			Long l = readLong(bb); // time-tag
-			// System.out.println(" time tag <" + l + ">");
+			// ;//System.out.println(" time tag <" + l + ">");
 			while (bb.remaining() > 0) {
 				Integer length = readInt(bb);
 				if (length.intValue() > 0) {
-					// System.out.println(" length <" +
+					// ;//System.out.println(" length <" +
 					// length + ">");
 					decode(bb);
 					pad4(bb);
-					// System.out.println(" remaining <" +
+					// ;//System.out.println(" remaining <" +
 					// bb.remaining() + ">");
 				}
 			}
 		} else {
 			String header = readString(bb);
-			// System.out.println(" header is <" + header + ">");
+			// ;//System.out.println(" header is <" + header + ">");
 			List args = new LinkedList();
 			for (int i = 1; i < header.length(); i++) {
 				Object made = null;
@@ -89,9 +89,9 @@ public class OSCInput implements iUpdateable {
 					made = readFloat(bb);
 					break;
 				default:
-					System.out.println(" :: warning :: <" + ((int) header.charAt(i)) + ">");
+					;//System.out.println(" :: warning :: <" + ((int) header.charAt(i)) + ">");
 				}
-				// System.out.println(" made <"+made+">");
+				// ;//System.out.println(" made <"+made+">");
 				args.add(made);
 			}
 
@@ -126,14 +126,14 @@ public class OSCInput implements iUpdateable {
 
 	protected void dispatch(String dest, List args) {
 		Handler h = (Handler) dispatchTable.get(dest);
-		System.out.println(" handle <" + dest + "> <" + h + "> <" + dispatchTable + "> : " + args);
+		;//System.out.println(" handle <" + dest + "> <" + h + "> <" + dispatchTable + "> : " + args);
 		if (h != null)
 			dispatchTo(h, dest, args);
 		else if (dest.lastIndexOf("/") > 0) {
 			String d2 = dest.substring(0, dest.lastIndexOf("/"));
 			do {
 				h = (Handler) dispatchTable.get(d2);
-				// System.out.println("   subhandle <"+d2+"> <"+h+">");
+				// ;//System.out.println("   subhandle <"+d2+"> <"+h+">");
 				if (h != null) {
 					dispatchTo(h, dest, args);
 					return;

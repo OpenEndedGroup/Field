@@ -77,7 +77,7 @@ public class HGVersioningSystem extends VersioningSystem {
 
 	@Override
 	public void scmCommitFile(File path) {
-		System.out.println(" commit file, log message is <" + currentLogMessage + ">");
+		;//System.out.println(" commit file, log message is <" + currentLogMessage + ">");
 		executeCommand(fullPathToSheetDirectory, new String[] { hgCommand, "commit", "-m", "\"" + currentLogMessage + "\"", path.getAbsolutePath() });
 	}
 
@@ -99,7 +99,7 @@ public class HGVersioningSystem extends VersioningSystem {
 
 	@Override
 	public void scmDeleteDirectory(File path) {
-		System.out.println(" scm del <" + path + ">");
+		;//System.out.println(" scm del <" + path + ">");
 		if (!path.exists())
 			executeCommand(fullPathToSheetDirectory, new String[] { hgCommand, "remove", "--after", path.getAbsolutePath() });
 		else
@@ -109,7 +109,7 @@ public class HGVersioningSystem extends VersioningSystem {
 
 	@Override
 	public void scmDeleteFile(File path) {
-		System.out.println(" scm del <" + path + ">");
+		;//System.out.println(" scm del <" + path + ">");
 		if (!path.exists())
 			executeCommand(fullPathToSheetDirectory, new String[] { hgCommand, "remove", "--after", path.getAbsolutePath() });
 		else

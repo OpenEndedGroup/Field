@@ -288,7 +288,7 @@ public class TopologyPlugin implements iPlugin {
 
 	public iVisualElement isConnected(iVisualElement from, iVisualElement to) {
 
-		System.out.println(" connections <" + connections + "> <" + (connections != null ? connections.connections : null) + ">");
+		;//;//System.out.println(" connections <" + connections + "> <" + (connections != null ? connections.connections : null) + ">");
 
 		Set<Entry<String, iVisualElement>> cc = connections.connections.entrySet();
 		for (Entry<String, iVisualElement> e : cc) {
@@ -325,7 +325,7 @@ public class TopologyPlugin implements iPlugin {
 			SelectionSetDriver driver = drawing.getSelectionSetDriver();
 			driver.addNotibleOverridesClass(TopologyPlugin.TopologyConnective.class, "topology connective");
 		} else {
-			System.out.println(" warning, drawing plugin was null");
+			;//;//System.out.println(" warning, drawing plugin was null");
 		}
 
 		HierarchyPlugin hp = HierarchyPlugin.hierarchyPlugin.get(root);

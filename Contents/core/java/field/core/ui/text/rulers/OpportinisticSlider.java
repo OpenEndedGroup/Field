@@ -86,7 +86,7 @@ public class OpportinisticSlider {
 
 			}
 
-			System.out.println(" os = <" + was + "> <" + is + ">");
+			;//System.out.println(" os = <" + was + "> <" + is + ">");
 			return true;
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -97,11 +97,8 @@ public class OpportinisticSlider {
 	private void createSliderAt(String sw, String sn, int nrstart, int ncstart,
 			int nrend, int ncend, String now) {
 
-		System.out.println(" would create slider between <" + sw + "> <" + sn
-				+ "> <" + nrstart + ":" + ncstart + "> <" + nrend + "> <"
-				+ ncend + ">");
+		dw = Double.parseDouble(sw);				
 
-		dw = Double.parseDouble(sw);
 		dn = Double.parseDouble(sn);
 
 		loc = convertToLocation(nrstart, ncstart, nrend, ncend, now);

@@ -43,7 +43,7 @@ public class MinimalExpandable extends JComponent implements iAcceptsInsertRende
 
 	protected void expand() {
 		if (animationThread == null) {
-			System.out.println(" needs to expand ");
+			;//System.out.println(" needs to expand ");
 			newAnimationThread();
 		}
 		isCollapsing = false;
@@ -59,7 +59,7 @@ public class MinimalExpandable extends JComponent implements iAcceptsInsertRende
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
 
-		System.out.println(" hello are we compiling ? :" + this.getClass());
+		;//System.out.println(" hello are we compiling ? :" + this.getClass());
 
 		super.processMouseEvent(e);
 		int x = e.getX() - 0 * this.bounds().x;
@@ -75,7 +75,7 @@ public class MinimalExpandable extends JComponent implements iAcceptsInsertRende
 
 		if (e.getID() == e.MOUSE_PRESSED) {
 
-			System.out.println(" mouse pressed <" + x + "> <" + this.getBounds().width + "> <" + y + ">");
+			;//System.out.println(" mouse pressed <" + x + "> <" + this.getBounds().width + "> <" + y + ">");
 
 			if (x > this.getBounds().width - 12 && y < 12 /*
 								 * ||
@@ -141,13 +141,13 @@ public class MinimalExpandable extends JComponent implements iAcceptsInsertRende
 				if (collapseness < 0)
 					collapseness = 0;
 
-				System.out.println(" collapseness :" + collapseness);
+				;//System.out.println(" collapseness :" + collapseness);
 
 				float alpha = collapseness / maxCollapse;
 				height = (int) (12 * alpha + maxHeight * (1 - alpha));
 				alignment = (float) (0.9 * alpha + 0.5 * (1 - alpha));
 
-				System.out.println(" set size <" + getSize().width + " " + height + ">");
+				;//System.out.println(" set size <" + getSize().width + " " + height + ">");
 				insideAnimationThread = true;
 				try {
 					setSize(getSize().width, height);

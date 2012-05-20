@@ -105,7 +105,7 @@ public class Destination2 implements iDisplayable {
 		if (drawnAccumulator == null || !isDirty)
 			return;
 
-		System.out.println(" cleaning acumulator ");
+		;//System.out.println(" cleaning acumulator ");
 		
 		fbo.enter();
 
@@ -143,7 +143,7 @@ public class Destination2 implements iDisplayable {
 
 	public void display() {
 		
-	//	System.out.println("inside display <"+drawn+" "+drawnAccumulator+">");
+	//	;//System.out.println("inside display <"+drawn+" "+drawnAccumulator+">");
 		
 		if (drawn != null)
 			clean();

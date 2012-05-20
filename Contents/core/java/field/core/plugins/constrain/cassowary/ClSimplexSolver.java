@@ -435,7 +435,7 @@ public class ClSimplexSolver extends ClTableau {
 		ClSlackVariable clvEditPlus = cei.ClvEditPlus();
 		ClSlackVariable clvEditMinus = cei.ClvEditMinus();
 		double delta = x - cei.PrevEditConstant();
-		System.out.println(" suggest value, constant is <"+delta+"> prev is <"+x+">");
+		;//System.out.println(" suggest value, constant is <"+delta+"> prev is <"+x+">");
 		cei.SetPrevEditConstant(x);
 		deltaEditConstant(delta, clvEditPlus, clvEditMinus);
 		return this;
@@ -954,7 +954,7 @@ public class ClSimplexSolver extends ClTableau {
 		if (fTraceOn)
 			fnenterprint("resetStayConstants");
 		
-		System.out.println(" reseting <"+_stayPlusErrorVars+">");
+		;//System.out.println(" reseting <"+_stayPlusErrorVars+">");
 		
 		for (int i = 0; i < _stayPlusErrorVars.size(); i++) {
 			ClLinearExpression expr = rowExpression(_stayPlusErrorVars.elementAt(i));

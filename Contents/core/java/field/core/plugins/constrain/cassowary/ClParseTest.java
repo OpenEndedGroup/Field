@@ -14,7 +14,7 @@ import com.sun.java_cup.internal.runtime.Symbol;
 public class ClParseTest {
 	public final static void main(String[] args) {
 		try {
-			System.out.println("Parsing: " + args[0]);
+			;//System.out.println("Parsing: " + args[0]);
 			StringReader string_reader = new StringReader(args[0]);
 			Yylex yylex = new Yylex(string_reader);
 			Hashtable<String, ClVariable> varmap = new Hashtable<String, ClVariable>();
@@ -22,9 +22,9 @@ public class ClParseTest {
 			parser constraint_parser = new parser(yylex);
 			constraint_parser.setVariableNameObjectHash(varmap);
 			Symbol symbol = constraint_parser.parse();
-			System.out.println("Parsed as: " + symbol.value.toString());
+			;//System.out.println("Parsed as: " + symbol.value.toString());
 		} catch (Exception exception) {
-			System.out.println("Exception: " + exception.getMessage());
+			;//System.out.println("Exception: " + exception.getMessage());
 			exception.printStackTrace();
 		}
 	}

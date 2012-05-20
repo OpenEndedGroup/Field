@@ -33,7 +33,7 @@ public abstract class DynamicAlignment  implements iOffering {
 		return new BaseDrawable(align.name, align.score, null, null) {
 			@Override
 			protected void drawWithOpacity(OfferedAlignment alignment, float alpha) {
-				System.out.println(" drawing <"+align.toDraw+">");
+				;//System.out.println(" drawing <"+align.toDraw+">");
 
 				// set opacity, and make sure to resbumit
 				if (align.toDraw != null) {
@@ -51,7 +51,7 @@ public abstract class DynamicAlignment  implements iOffering {
 			@Override
 			public void process(Rect currentrect, Rect newRect) {
 
-				System.out.println(" process <"+currentrect+", "+newRect+", "+align.newRect+" "+align.score+" "+align.name+">");
+				;//System.out.println(" process <"+currentrect+", "+newRect+", "+align.newRect+" "+align.score+" "+align.name+">");
 
 				newRect.setValue(align.newRect);
 				
@@ -61,7 +61,7 @@ public abstract class DynamicAlignment  implements iOffering {
 			@Override
 			public void update(Rect currentrect, Rect newRect) {
 				
-				System.out.println(" update <"+currentrect+", "+newRect+", "+align.newRect+" "+align.score+" "+align.name+">");
+				;//System.out.println(" update <"+currentrect+", "+newRect+", "+align.newRect+" "+align.score+" "+align.name+">");
 				
 				newRect.setValue(align.newRect);
 

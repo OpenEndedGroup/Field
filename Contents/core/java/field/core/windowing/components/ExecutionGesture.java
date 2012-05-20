@@ -53,7 +53,7 @@ public class ExecutionGesture {
 			CachedLine d = new CachedLine();
 			
 			Vector2 n = new Vector2(0.5f + gesture.get(0).y-gesture.get(gesture.size()-1).y, 0.25f -gesture.get(0).x+gesture.get(gesture.size()-1).x ).normalize().scale(15);
-//			System.out.println(" label should be here <" + n + ">");
+//			;//System.out.println(" label should be here <" + n + ">");
 
 			d.getInput().moveTo(gesture.get(0).x-n.x, gesture.get(0).y-n.y);
 			d.getProperties().put(iLinearGraphicsContext.containsText, true);
@@ -153,7 +153,7 @@ public class ExecutionGesture {
 
 	public void drag(Event arg0) {
 		
-		System.out.println(" -------- drag :"+arg0);
+		;//System.out.println(" -------- drag :"+arg0);
 		
 		if (gesture.size()>0)
 		{

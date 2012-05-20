@@ -39,7 +39,7 @@ public class EchoOndiskFile {
 		for (BasicGLSLangElement pp : p) {
 			File[] f = pp.getFiles();
 			
-			System.out.println(" files for program are <"+Arrays.asList(f)+">");
+			;//System.out.println(" files for program are <"+Arrays.asList(f)+">");
 			
 			if (f != null && f.length != 0) {
 				final EchoOndiskFile [] ee = {null};
@@ -93,7 +93,7 @@ public class EchoOndiskFile {
 
 		PythonPluginEditor.python_customToolbar.addToList(ArrayList.class, created.left, new Pair<String, iUpdateable>("sync to filesystem and update", new iUpdateable() {
 			public void update() {
-				System.out.println(" syncing to file system");
+				;//System.out.println(" syncing to file system");
 				syncToFilesystem();
 				if (onSync != null)
 					onSync.update();
@@ -115,8 +115,8 @@ public class EchoOndiskFile {
 
 	protected void syncToFilesystem() {
 		String m = fileOnDisk.get(created.left);
-		System.out.println(" syncing to file system");
-		System.out.println(m);
+		;//System.out.println(" syncing to file system");
+		;//System.out.println(m);
 		BufferedWriter writer;
 		try {
 			writer = new BufferedWriter(new FileWriter(new File(filename)));

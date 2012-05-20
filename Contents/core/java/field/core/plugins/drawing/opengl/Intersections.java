@@ -307,7 +307,7 @@ public class Intersections {
 										if (out.x * a1.distanceFrom(b1) > tol && (1 - out.x) * a1.distanceFrom(b1) > tol) {
 											Event e = c1.events.remove(i1);
 
-											System.out.println(" cc intersection <" + out + "> <" + i1 + "/ <" + c1.events.size() + ", " + i2 + "/ " + c2.events.size() + ">");
+											;//System.out.println(" cc intersection <" + out + "> <" + i1 + "/ <" + c1.events.size() + ", " + i2 + "/ " + c2.events.size() + ">");
 											Vector2 c12 = new Vector2();
 											Vector2 m = new Vector2();
 											Vector2 c21 = new Vector2();
@@ -330,7 +330,7 @@ public class Intersections {
 											}
 											ne2.args = new Object[] { c21.x, c21.y, c1_cx2.x, c1_cx2.y, b1.x, b1.y };
 
-											System.out.println(" result of intersection <" + a1 + " " + c1_cx1 + " " + c12 + "  >>" + m + "<< " + " " + c21 + " " + c1_cx2 + " " + b1);
+											;//System.out.println(" result of intersection <" + a1 + " " + c1_cx1 + " " + c12 + "  >>" + m + "<< " + " " + c21 + " " + c1_cx2 + " " + b1);
 
 											c1.events.add(i1, ne1);
 											c1.events.add(i1 + 1, ne2);
@@ -350,7 +350,7 @@ public class Intersections {
 										if (out.y * a2.distanceFrom(b2) > tol && (1 - out.y) * a2.distanceFrom(b2) > tol) {
 											Event<?> x = c2.events.remove(i2);
 
-											System.out.println(" cc intersection <" + out + " <" + i1 + "/ <" + c1.events.size() + ", " + i2 + "/ " + c2.events.size() + ">");
+											;//System.out.println(" cc intersection <" + out + " <" + i1 + "/ <" + c1.events.size() + ", " + i2 + "/ " + c2.events.size() + ">");
 
 											Vector2 c12 = new Vector2();
 											Vector2 m = new Vector2();
@@ -374,7 +374,7 @@ public class Intersections {
 											}
 											ne2.args = new Object[] { c21.x, c21.y, c2_cx2.x, c2_cx2.y, b2.x, b2.y };
 
-											System.out.println(" result of intersection <" + a2 + " " + c2_cx1 + " " + c12 + "  >>" + m + "<< " + " " + c21 + " " + c2_cx2 + " " + b2);
+											;//System.out.println(" result of intersection <" + a2 + " " + c2_cx1 + " " + c12 + "  >>" + m + "<< " + " " + c21 + " " + c2_cx2 + " " + b2);
 
 											c2.events.add(i2, ne1);
 											c2.events.add(i2 + 1, ne2);
@@ -627,7 +627,7 @@ public class Intersections {
 								}
 							}
 
-//							System.out.println(" left :"+intersectionLeft+" "+intersectionRight);
+//							;//System.out.println(" left :"+intersectionLeft+" "+intersectionRight);
 
 							if (intersectionLeft!=null && intersectionRight!=null)
 								ret.add(new Pair<Event, Event>(intersectionLeft, intersectionRight));

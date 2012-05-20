@@ -141,7 +141,7 @@ public class StandardTrampoline extends Trampoline2 {
 
 		@Override
 		public void visitLineNumber(int arg0, Label arg1) {
-			// System.out.println(" line number <"+arg0+"> <"+arg1+">");
+			// ;//System.out.println(" line number <"+arg0+"> <"+arg1+">");
 			super.visitLineNumber(arg0, arg1);
 		}
 
@@ -180,7 +180,7 @@ public class StandardTrampoline extends Trampoline2 {
 		public AnnotationVisitor visitAnnotation(final String annotationName, boolean vis) {
 			if (annotationName.equals("Lfield/bytecode/protect/annotations/InheritWeave;")) {
 				if (debug)
-					System.out.println(" found inherit weave in <" + name + ">");
+					;//System.out.println(" found inherit weave in <" + name + ">");
 
 				try {
 
@@ -263,7 +263,7 @@ public class StandardTrampoline extends Trampoline2 {
 		// final Frame[] frames = a.getFrames();
 		//
 		// if (StandardTrampoline.debug)
-		// System.out.println(method.name + method.desc);
+		// ;//System.out.println(method.name + method.desc);
 		// TraceMethodVisitor mv = new TraceMethodVisitor() {
 		// @Override
 		// public void visitLocalVariable(String name, String desc,
@@ -284,7 +284,7 @@ public class StandardTrampoline extends Trampoline2 {
 		// System.out.print(" " + s + " : " + text.get(i));
 		// }
 		// if (StandardTrampoline.debug)
-		// System.out.println();
+		// ;//System.out.println();
 		// }
 		// };
 		// for (int j = 0; j < method.instructions.size(); ++j) {
@@ -388,14 +388,14 @@ public class StandardTrampoline extends Trampoline2 {
 					@Override
 					public Object handle(Object returningThis, String fromName, Object fromThis, String methodName, Map<String, Object> parameterName, String methodReturnName) {
 						if (StandardTrampoline.debug)
-							System.out.println("out: handle return <" + fromThis + "> <" + methodName + "> <" + parameterName + "> <" + returningThis + ">");
+							;//System.out.println("out: handle return <" + fromThis + "> <" + methodName + "> <" + parameterName + "> <" + returningThis + ">");
 						return returningThis;
 					}
 
 					@Override
 					public void handle(String fromName, Object fromThis, String methodName, Map<String, Object> parameterName, Object[] argArray) {
 						if (StandardTrampoline.debug)
-							System.out.println("in: handle entry <" + fromThis + "> <" + methodName + "> <" + parameterName + "> <" + Arrays.asList(argArray));
+							;//System.out.println("in: handle entry <" + fromThis + "> <" + methodName + "> <" + parameterName + "> <" + Arrays.asList(argArray));
 					}
 				};
 
@@ -434,7 +434,7 @@ public class StandardTrampoline extends Trampoline2 {
 		anotatedMethodHandlers.put("Lfield/bytecode/protect/annotations/Inside;", new HandlesAnnontatedMethod() {
 			public MethodVisitor handleEnd(int access, String methodName, String methodDesc, String signature, ClassVisitor classDelegate, MethodVisitor delegate, HashMap<String, Object> paramters, byte[] originalByteCode, final String className) {
 
-				System.out.println(" cont, parameters are <" + methodName + ">");
+				;//System.out.println(" cont, parameters are <" + methodName + ">");
 				return new BasicInstrumentation2.CallOnEntryAndExit_exceptionAware("inside+" + methodName + "+" + methodDesc + "+" + signature + "+" + (uniq++), access, new Method(methodName, methodDesc), delegate, paramters) {
 
 					@Override
@@ -478,21 +478,21 @@ public class StandardTrampoline extends Trampoline2 {
 					@Override
 					public int yieldIndexFor(String fromName, Object fromThis, String methodName) {
 						if (StandardTrampoline.debug)
-							System.out.println(" yield index for <" + fromName + "> <" + fromThis + "> <" + methodName + ">");
+							;//System.out.println(" yield index for <" + fromName + "> <" + fromThis + "> <" + methodName + ">");
 						return support.yieldIndexFor(this.name, fromThis, parameters);
 					}
 
 					@Override
 					public Object[] yieldLoad(String fromName, Object fromThis, String methodName) {
 						if (StandardTrampoline.debug)
-							System.out.println(" yield load for <" + fromName + "> <" + fromThis + "> <" + methodName + ">");
+							;//System.out.println(" yield load for <" + fromName + "> <" + fromThis + "> <" + methodName + ">");
 						return support.yieldLoad(fromThis);
 					}
 
 					@Override
 					public Object yieldStore(Object wasReturn, Object[] localStorage, String fromName, Object fromThis, String methodName, int resumeLabel) {
 						if (StandardTrampoline.debug)
-							System.out.println(" yield store for <" + wasReturn + "> <" + Arrays.asList(localStorage) + "> <" + fromName + "> <" + fromThis + "> <" + methodName + ">  resume at <" + resumeLabel + ">");
+							;//System.out.println(" yield store for <" + wasReturn + "> <" + Arrays.asList(localStorage) + "> <" + fromName + "> <" + fromThis + "> <" + methodName + ">  resume at <" + resumeLabel + ">");
 						return support.yieldStore(wasReturn, localStorage, this.name, fromThis, resumeLabel);
 					}
 				};
@@ -629,7 +629,7 @@ public class StandardTrampoline extends Trampoline2 {
 
 					@Override
 					public void handle(String fromName, Object fromThis, String methodName, Map<String, Object> parameterName, Object[] argArray) {
-						System.out.println(" handle inside ");
+						;//System.out.println(" handle inside ");
 						ContextTopology<?, ?> context;
 						try {
 							context = ContextAnnotationTools.contextFor(fromThis, parameterName, this.aliasedParameterSet, argArray);
@@ -663,7 +663,7 @@ public class StandardTrampoline extends Trampoline2 {
 
 					@Override
 					public void handle(String fromName, Object fromThis, String methodName, Map<String, Object> parameterName, Object[] argArray) {
-						System.out.println(" handle inside ");
+						;//System.out.println(" handle inside ");
 						ContextTopology context;
 						try {
 							context = ContextAnnotationTools.contextFor(fromThis, parameterName, this.aliasedParameterSet, argArray);
@@ -681,7 +681,7 @@ public class StandardTrampoline extends Trampoline2 {
 						iStorage storage = (iStorage) context.storage.get(context.getAt(), null);
 						storage.set(name, new BaseRef<Object>(value));
 
-						System.out.println(" set <" + name + "> to be <" + value + "> in <" + context.getAt() + ">");
+						;//System.out.println(" set <" + name + "> to be <" + value + "> in <" + context.getAt() + ">");
 
 						ContextAnnotationTools.populateContexted(context, fromThis);
 					}
@@ -768,7 +768,7 @@ public class StandardTrampoline extends Trampoline2 {
 
 		className = className.replace('/', '.');
 		if (debug)
-			System.out.println(" looking for <" + className + "> in <" + alreadyLoaded + ">");
+			;//System.out.println(" looking for <" + className + "> in <" + alreadyLoaded + ">");
 		if (alreadyLoaded.contains(className) || !shouldLoadLocal(className)) {
 			return loader.loadClass(className);
 		}
@@ -814,14 +814,14 @@ public class StandardTrampoline extends Trampoline2 {
 		// }
 
 		if (debug)
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  about to renter code with <" + className + "> and <" + bytes.length + ">");
+			;//System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  about to renter code with <" + className + "> and <" + bytes.length + ">");
 		byte[] o = bytes;
 
 		check();
 		bytes = this.instrumentBytecodes(bytes, className, loader);
 		check();
 		if (debug) {
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< and out again <" + className + "> and <" + bytes.length + "> from <" + o.length + ">");
+			;//System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< and out again <" + className + "> and <" + bytes.length + "> from <" + o.length + ">");
 			FileOutputStream os;
 			try {
 				os = new FileOutputStream(new File("/var/tmp/old_" + className.replace('.', 'X') + ".class"));
@@ -882,7 +882,7 @@ public class StandardTrampoline extends Trampoline2 {
 		if (!cache.is(class_name, true, modAt))
 			return a;
 
-		// System.out.println(class_name);
+		// ;//System.out.println(class_name);
 		if (!(class_name.startsWith("java") || class_name.startsWith("com/sun") || class_name.startsWith("sun") || class_name.startsWith("apple") || class_name.contains("protect") || class_name.startsWith("org.python") || class_name.startsWith("ch.") || class_name.startsWith("com.")))
 			try {
 
@@ -904,7 +904,7 @@ public class StandardTrampoline extends Trampoline2 {
 				final boolean isAnon = class_name.indexOf("$") != -1;
 
 				if (StandardTrampoline.debug)
-					System.out.println(" checking for <" + class_name + "> <" + woven[0] + ">");
+					;//System.out.println(" checking for <" + class_name + "> <" + woven[0] + ">");
 				ClassAdapter adaptor = new ClassAdapter(new EmptyVisitor()) {
 					@Override
 					public void visit(int version, int access, String name, String signature, String supern, String[] interfac) {
@@ -939,7 +939,7 @@ public class StandardTrampoline extends Trampoline2 {
 				check();
 
 				if (StandardTrampoline.debug)
-					System.out.println(" class name <" + class_name + "> is <" + woven[0] + "> <" + isAnon + ">");
+					;//System.out.println(" class name <" + class_name + "> is <" + woven[0] + "> <" + isAnon + ">");
 
 				if (!woven[0]) {
 					cache.state(class_name, false, modAt);
@@ -971,7 +971,7 @@ public class StandardTrampoline extends Trampoline2 {
 		check();
 
 		if (StandardTrampoline.debug)
-			System.out.println(" -- weaving <" + class_name + "> <" + inside + ">");
+			;//System.out.println(" -- weaving <" + class_name + "> <" + inside + ">");
 		try {
 			final boolean[] isInterface = { false };
 			{
@@ -1155,9 +1155,9 @@ public class StandardTrampoline extends Trampoline2 {
 				};
 
 				check();
-				System.out.println(" A ");
+				;//System.out.println(" A ");
 				reader.accept(adaptor, 0);
-				System.out.println(" B ");
+				;//System.out.println(" B ");
 				check();
 				oa = writer.toByteArray();
 				check();

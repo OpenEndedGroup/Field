@@ -348,7 +348,7 @@ public class Processors {
 
 			for (int j = 0; j < o.length; j++) {
 				
-				//System.out.println(" offset <"+o+">");
+				//;//System.out.println(" offset <"+o+">");
 				
 				for (int i = 0; i < oTexture.capacity() / 2; i++) {
 					float x = oTexture.get(i * 2 + 0);

@@ -97,7 +97,7 @@ public class Trampoline2 implements iLaunchable {
 
 		@Override
 		protected Class<?> findClass(String arg0) throws ClassNotFoundException {
-//			System.out.println("ZZZZZ find class <" + arg0 + ">");
+//			;//System.out.println("ZZZZZ find class <" + arg0 + ">");
 			return super.findClass(arg0);
 		}
 
@@ -137,7 +137,7 @@ public class Trampoline2 implements iLaunchable {
 					Object r = findLoadedClass_method1.invoke(dt, new Object[] { s });
 					if (r != null) {
 						if (debug)
-							System.out.println(" class <" + s + "> already loaded in class loader <" + dt + ">");
+							;//System.out.println(" class <" + s + "> already loaded in class loader <" + dt + ">");
 						return (Class) r;
 					}
 					dt = dt.getParent();
@@ -159,21 +159,21 @@ public class Trampoline2 implements iLaunchable {
 
 		@Override
 		protected String findLibrary(String rawName) {
-			System.out.println(" -- find library :" + rawName + " -- ");
+			;//System.out.println(" -- find library :" + rawName + " -- ");
 
 			String name = "lib" + rawName + ".dylib";
 
 			for (String s : extendedLibraryPaths) {
 				File file = new File(s, name);
 				if (file.exists()) {
-					System.out.println(" found it <" + file + ">");
+					;//System.out.println(" found it <" + file + ">");
 					return file.getAbsolutePath();
 				}
 			}
 			for (String s : extendedClassPaths) {
 				File file = new File(s, name);
 				if (file.exists()) {
-					System.out.println(" found it <" + file + ">");
+					;//System.out.println(" found it <" + file + ">");
 					return file.getAbsolutePath();
 				}
 			}
@@ -185,7 +185,7 @@ public class Trampoline2 implements iLaunchable {
 		@Override
 		synchronized protected Class<?> loadClass(String class_name, boolean resolve) throws ClassNotFoundException {
 
-//			System.out.println(" load :"+class_name);
+//			;//System.out.println(" load :"+class_name);
 			
 			if (alreadyFailed.contains(class_name))
 				throw new ClassNotFoundException();
@@ -197,7 +197,7 @@ public class Trampoline2 implements iLaunchable {
 				loading.push(class_name);
 				try {
 					if (debug) {
-						System.out.println(indentation + "? entered " + class_name + " " + resolve);
+						;//System.out.println(indentation + "? entered " + class_name + " " + resolve);
 						indentation += " ";
 					}
 
@@ -209,7 +209,7 @@ public class Trampoline2 implements iLaunchable {
 							} catch (ClassNotFoundException ex) {
 								classNotFound = ex;
 								if (debug)
-									System.out.println(ANSIColorUtils.red("-- class not found <" + class_name + ">"));
+									;//System.out.println(ANSIColorUtils.red("-- class not found <" + class_name + ">"));
 							}
 						}
 					if (loaded == null) {
@@ -224,16 +224,16 @@ public class Trampoline2 implements iLaunchable {
 					if (classNotFound == null)
 						if (loaded == null) {
 							deferTo = getParent();
-							// System.out.println(" >> about to instrument <"+class_name+">");
+							// ;//System.out.println(" >> about to instrument <"+class_name+">");
 							byte[] bytes = instrumentClass(this, class_name);
-							// System.out.println(" >> loaded <"+bytes+">");
+							// ;//System.out.println(" >> loaded <"+bytes+">");
 
 							if (bytes != null) {
 
 								if (class_name.lastIndexOf(".") != -1) {
 									String packageName = class_name.substring(0, class_name.lastIndexOf("."));
 									if (!knownPackages.contains(packageName)) {
-										System.out.println(" defining <" + packageName + ">");
+										;//System.out.println(" defining <" + packageName + ">");
 										try {
 											definePackage(packageName, null, null, null, null, null, null, null);
 										} catch (IllegalArgumentException e) {
@@ -253,7 +253,7 @@ public class Trampoline2 implements iLaunchable {
 										le.printStackTrace();
 										return null;
 									}
-									// System.out.println("
+									// ;//System.out.println("
 									// >>
 									// about
 									// to
@@ -264,10 +264,10 @@ public class Trampoline2 implements iLaunchable {
 										resolveClass(loaded);
 									previous.put(class_name, loaded);
 								} else {
-									System.out.println(" loaded <" + class_name + "> in RS classloader");
+									;//System.out.println(" loaded <" + class_name + "> in RS classloader");
 								}
 							}
-							// System.out.println("
+							// ;//System.out.println("
 							// >>
 							// loaded
 							// <"+class_name+">");
@@ -283,14 +283,14 @@ public class Trampoline2 implements iLaunchable {
 							} catch (ClassNotFoundException ex) {
 								classNotFound = ex;
 								if (debug) {
-									System.out.println(ANSIColorUtils.red("-- class not found <" + class_name + ">"));
+									;//System.out.println(ANSIColorUtils.red("-- class not found <" + class_name + ">"));
 									ex.printStackTrace();
 								}
 							}
 						}
 					if (debug) {
 						indentation = indentation.substring(1);
-						System.out.println(indentation + "?" + class_name + " complete");
+						;//System.out.println(indentation + "?" + class_name + " complete");
 						// assert
 						// popped.equals(class_name);
 					}
@@ -308,7 +308,7 @@ public class Trampoline2 implements iLaunchable {
 
 					if (loaded.isAnnotationPresent(Notable.class)) {
 						
-						System.out.println(" CLASS IS NOTABLE :"+loaded+" "+notifications);
+						;//System.out.println(" CLASS IS NOTABLE :"+loaded+" "+notifications);
 						
 						for (ClassLoadedNotification n : notifications) {
 							n.notify(loaded);
@@ -323,7 +323,7 @@ public class Trampoline2 implements iLaunchable {
 				throw e;
 			} catch (Throwable t) {
 				t.printStackTrace();
-				System.out.println(" unexpected trouble loading <" + loading + ">");
+				;//System.out.println(" unexpected trouble loading <" + loading + ">");
 				return null;
 			}
 
@@ -341,13 +341,13 @@ public class Trampoline2 implements iLaunchable {
 
 	static {
 		// if (Platform.getOS() == Platform.OS.mac) {
-		// System.out.println("OPEN: ");
+		// ;//System.out.println("OPEN: ");
 		// Application.getApplication().setOpenFileHandler(new
 		// OpenFilesHandler() {
 		//
 		// @Override
 		// public void openFiles(OpenFilesEvent arg0) {
-		// System.out.println("OPEN: open file event");
+		// ;//System.out.println("OPEN: open file event");
 		// }
 		// });
 		// Application.getApplication().setAboutHandler(null);
@@ -357,13 +357,13 @@ public class Trampoline2 implements iLaunchable {
 		//
 		// @Override
 		// public void appReOpened(AppReOpenedEvent arg0) {
-		// System.out.println("OPEN: reopen");
+		// ;//System.out.println("OPEN: reopen");
 		// }
 		// });
 		//
 		// }
 
-		System.out.println("JLP: "+System.getProperty("java.library.path")+" "+new File(".").getAbsolutePath());
+		;//System.out.println("JLP: "+System.getProperty("java.library.path")+" "+new File(".").getAbsolutePath());
 		
 		new MiscNative().splashUp_safe();
 
@@ -373,7 +373,7 @@ public class Trampoline2 implements iLaunchable {
 		// if (c == null)
 		// {
 		String c = SystemProperties.getProperty("main.class");
-		System.out.println(" class to launch :" + c + " memory dimensions " + Runtime.getRuntime().maxMemory());
+		;//System.out.println(" class to launch :" + c + " memory dimensions " + Runtime.getRuntime().maxMemory());
 		// }
 		classToLaunch = c;
 	}
@@ -413,18 +413,18 @@ public class Trampoline2 implements iLaunchable {
 
 		if (path.exists()) {
 
-			// System.out.println(" adding extenions dir <" + path +
+			// ;//System.out.println(" adding extenions dir <" + path +
 			// ">");
 
 			try {
 				
-//				System.out.println(" adding to loader <"+"file://" + path.getAbsolutePath() + "/"+">");
+//				;//System.out.println(" adding to loader <"+"file://" + path.getAbsolutePath() + "/"+">");
 				
 				loader.addURL(new URL("file://" + path.getAbsolutePath() + "/"));
 				
 //				URL[] uu = loader.getURLs();
 //				for(URL uuu : uu)
-//					System.out.println("     "+uuu);
+//					;//System.out.println("     "+uuu);
 					
 				
 			} catch (MalformedURLException e1) {
@@ -438,20 +438,20 @@ public class Trampoline2 implements iLaunchable {
 				}
 			});
 
-			// System.out.println(" jar list is <" +
+			// ;//System.out.println(" jar list is <" +
 			// Arrays.asList(jars) + ">");
-			// System.out.println(" file list is <" +
+			// ;//System.out.println(" file list is <" +
 			// Arrays.asList(path.list())
 			// + ">");
 			if (jars != null)
 				for (String j : jars) {
-					// System.out.println(" adding jar <" +
+					// ;//System.out.println(" adding jar <" +
 					// j +
 					// ">");
 					try {
 						loader.addURL(new URL("file://" + path.getAbsolutePath() + "/" + j));
 
-						System.out.println(" adding url(2) :" + (new URL("file://" + path.getAbsolutePath() + "/" + j)));
+						;//System.out.println(" adding url(2) :" + (new URL("file://" + path.getAbsolutePath() + "/" + j)));
 
 						extendedClassPaths.add(path.getAbsolutePath() + "/" + j);
 
@@ -459,7 +459,7 @@ public class Trampoline2 implements iLaunchable {
 						Manifest manifest = m.getManifest();
 						if (manifest != null) {
 							String a = (String) manifest.getMainAttributes().get(new Attributes.Name("Field-PluginClass"));
-							System.out.println(" jar <" + path + "> declares plugin <" + a + ">");
+							;//System.out.println(" jar <" + path + "> declares plugin <" + a + ">");
 							if (a != null) {
 								plugins.add(a);
 							}
@@ -481,7 +481,7 @@ public class Trampoline2 implements iLaunchable {
 			// });
 			// for(File n : natives)
 			// {
-			// System.out.println(" attempting to premptivly load <"+n+">");
+			// ;//System.out.println(" attempting to premptivly load <"+n+">");
 			//
 			// try{
 			// System.load(n.getAbsolutePath());
@@ -496,7 +496,7 @@ public class Trampoline2 implements iLaunchable {
 				}
 			});
 			for (File j : dirs) {
-				// System.out.println(" adding next dir <" + j +
+				// ;//System.out.println(" adding next dir <" + j +
 				// ">");
 				addExtensionsDirectory(j);
 				// try {
@@ -514,12 +514,12 @@ public class Trampoline2 implements iLaunchable {
 				}
 			});
 			for (File j : rawManifests) {
-				// System.out.println(" adding raw manifest <" +
+				// ;//System.out.println(" adding raw manifest <" +
 				// j + ">");
 				try {
 					Manifest m = new Manifest(new BufferedInputStream(new FileInputStream(j)));
 					String aa = (String) m.getMainAttributes().get(new Attributes.Name("Field-RedirectionPath"));
-					System.out.println(aa + " " + j);
+					;//System.out.println(aa + " " + j);
 
 					if (aa != null && aa.endsWith("**")) {
 
@@ -535,7 +535,7 @@ public class Trampoline2 implements iLaunchable {
 								}
 								URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
 
-								System.out.println(" adding url to main classloader <" + url + "> <" + new File(url.getPath()).exists() + ">");
+								;//System.out.println(" adding url to main classloader <" + url + "> <" + new File(url.getPath()).exists() + ">");
 
 								loader.addURL(url);
 
@@ -588,7 +588,7 @@ public class Trampoline2 implements iLaunchable {
 			if (ll != null)
 				for (String l : ll) {
 
-					// System.out.println(" dir is :"
+					// ;//System.out.println(" dir is :"
 					// + dir + " " +
 					// l);
 
@@ -596,7 +596,7 @@ public class Trampoline2 implements iLaunchable {
 
 					URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
 
-					// System.out.println(" adding url <"
+					// ;//System.out.println(" adding url <"
 					// + url + ">");
 					loader.addURL(url);
 
@@ -636,7 +636,7 @@ public class Trampoline2 implements iLaunchable {
 			if (ll != null)
 				for (String l : ll) {
 
-					System.out.println(" l = " + l);
+					;//System.out.println(" l = " + l);
 
 					String fp = new File(dir.getAbsolutePath() + "/" + l).getAbsolutePath();
 
@@ -691,7 +691,7 @@ public class Trampoline2 implements iLaunchable {
 	static public List<String> extendedLibraryPaths = new ArrayList<String>();
 
 	private void extendLibraryPath(String s) {
-		System.out.println(" extending library path <" + s + ">");
+		;//System.out.println(" extending library path <" + s + ">");
 		extendedLibraryPaths.add(s);
 
 		// This enables the java.library.path to be modified at runtime
@@ -732,7 +732,7 @@ public class Trampoline2 implements iLaunchable {
 		// if (ff.getName().endsWith(".dylib") |
 		// ff.getName().endsWith(".so"))
 		// {
-		// System.out.println(" premptivly loading <"+ff+">");
+		// ;//System.out.println(" premptivly loading <"+ff+">");
 		// System.load(ff.getAbsolutePath());
 		// }
 		// }
@@ -766,7 +766,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 	public byte[] instrumentClass(java.lang.ClassLoader deferTo, String class_name) {
 		if (debug)
-			System.out.println(" getResource <" + class_name + "> <" + deferTo.getResource(resourceNameForClassName(class_name)) + ">");
+			;//System.out.println(" getResource <" + class_name + "> <" + deferTo.getResource(resourceNameForClassName(class_name)) + ">");
 
 		InputStream s = deferTo.getResourceAsStream(resourceNameForClassName(class_name));
 		if (s == null)
@@ -776,7 +776,7 @@ public class Trampoline2 implements iLaunchable {
 		// here we might cache modification dates
 
 		if (debug)
-			System.out.println(indentation + "#" + (class_name.replace('.', File.separatorChar)) + ">");
+			;//System.out.println(indentation + "#" + (class_name.replace('.', File.separatorChar)) + ">");
 		BufferedInputStream stream = new BufferedInputStream(s, 80000);
 		if (stream == null)
 			return null;
@@ -784,7 +784,7 @@ public class Trampoline2 implements iLaunchable {
 			byte[] a = new byte[stream.available()];
 			stream.read(a);
 			if (debug)
-				System.out.println(" about to instrument <" + class_name + "> inside <" + this + "> !! ");
+				;//System.out.println(" about to instrument <" + class_name + "> inside <" + this + "> !! ");
 			a = instrumentBytecodes(a, class_name, deferTo);
 			return a;
 
@@ -800,7 +800,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void launch() {
-		System.out.println("## trampoline <" + this.getClass() + ":" + this.getClass().getClassLoader() + ">");
+		;//System.out.println("## trampoline <" + this.getClass() + ":" + this.getClass().getClassLoader() + ">");
 		trampoline = this;
 
 		String exceptions = SystemProperties.getProperty("trampolineExceptions", null);
@@ -824,14 +824,14 @@ public class Trampoline2 implements iLaunchable {
 		if (extendedJars != null) {
 			String[] ex = extendedJars.split(":");
 			for (String e : ex) {
-				System.out.println(" adding jar <" + e + ">");
+				;//System.out.println(" adding jar <" + e + ">");
 				addJar(e);
 			}
 		}
 
 		Vector v = (Vector) ReflectionTools.illegalGetObject(this.getClass().getClassLoader(), "classes");
 		if (debug)
-			System.out.println(" already loaded all of <" + v + ">");
+			;//System.out.println(" already loaded all of <" + v + ">");
 
 		if (!System.getProperty("asserts", "none").equals("none"))
 			loader.setDefaultAssertionStatus(true);
@@ -849,9 +849,9 @@ public class Trampoline2 implements iLaunchable {
 			Trampoline2.trampoline.addExtensionsDirectory(new File(extensionsDir2));
 
 		try {
-			System.out.println(Arrays.asList(loader.getURLs()));
+			;//System.out.println(Arrays.asList(loader.getURLs()));
 			final Class c = (loader.loadClass(classToLaunch));
-			System.out.println(" c = " + c + " " + c.getClassLoader() + " " + loader);
+			;//System.out.println(" c = " + c + " " + c.getClassLoader() + " " + loader);
 			try {
 				Method main = c.getDeclaredMethod("main", new Class[] { new String[0].getClass() });
 				try {
@@ -893,7 +893,7 @@ public class Trampoline2 implements iLaunchable {
 		//
 		// Launcher.getLauncher().registerUpdateable(new iUpdateable(){
 		// public void update() {
-		// System.out.println(" num classes <"+(loader.already.size()+loader.previous.size())+">");
+		// ;//System.out.println(" num classes <"+(loader.already.size()+loader.previous.size())+">");
 		// }
 		// });
 		//
@@ -959,13 +959,13 @@ public class Trampoline2 implements iLaunchable {
 
 	private void printInfo() {
 		if (debug) {
-			System.out.println("/n/n");
+			;//System.out.println("/n/n");
 
 			Vector vThere = (Vector) ReflectionTools.illegalGetObject(deferTo, "classes");
-			System.out.println("local: " + loader.already);
+			;//System.out.println("local: " + loader.already);
 
 			for (int i = 0; i < vThere.size(); i++)
-				System.out.println("global:" + vThere.get(i) + " " + loader.already.containsValue(vThere.get(i)));
+				;//System.out.println("global:" + vThere.get(i) + " " + loader.already.containsValue(vThere.get(i)));
 		}
 	}
 
@@ -978,7 +978,7 @@ public class Trampoline2 implements iLaunchable {
 			String s = ((Class) vThere.get(i)).getName();
 			boolean failed = !shouldLoadLocal(s);
 			if (!failed) {
-				System.out.println("illegally loaded class <" + s + "> <" + vThere + ">");
+				;//System.out.println("illegally loaded class <" + s + "> <" + vThere + ">");
 				System.exit(1);
 			}
 		}

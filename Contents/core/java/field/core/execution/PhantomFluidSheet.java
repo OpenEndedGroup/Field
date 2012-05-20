@@ -252,23 +252,23 @@ public class PhantomFluidSheet implements iHasVisualElementRoot {
 		filename = f;
 		if (facefull != null) {
 
-			System.out.println(ANSIColorUtils.red(" setting filename on current sheet"));
+			;//System.out.println(ANSIColorUtils.red(" setting filename on current sheet"));
 			facefull.setFilename(f);
 			if (!isNosave())
 				try {
-					System.out.println(ANSIColorUtils.red(" saving sheet to :"+(filename + "/sheet.xml")));
+					;//System.out.println(ANSIColorUtils.red(" saving sheet to :"+(filename + "/sheet.xml")));
 					facefull.save(new BufferedWriter(new FileWriter(filename + "/sheet.xml"), 1024 * 16 * 1024));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				
-				System.out.println(" about to call close");
+				;//System.out.println(" about to call close");
 				
 			facefull.close();
 
 			facefull = null;
 
-			System.out.println(" about to go visual again");
+			;//System.out.println(" about to go visual again");
 
 			if (b)
 				toVisual();

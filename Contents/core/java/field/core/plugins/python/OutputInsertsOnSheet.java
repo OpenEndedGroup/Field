@@ -129,7 +129,7 @@ public class OutputInsertsOnSheet {
 		public void openEditingWindow() {
 			if (editingFrame == null) {
 				
-				System.out.println(" gosh that's heavy ");
+				;//System.out.println(" gosh that's heavy ");
 				
 				editingFrame = new JFrame();
 				// FloatingPalettes.registerFloatingPalette(editingFrame);
@@ -156,7 +156,7 @@ public class OutputInsertsOnSheet {
 
 				topLeft.x += p.x;
 				topLeft.y += p.y;
-				System.out.println(" canvas bounds are :"+frame.getCanvas().getBounds());
+				;//System.out.println(" canvas bounds are :"+frame.getCanvas().getBounds());
 				
 				org.eclipse.swt.graphics.Point z = Launcher.getLauncher().display.map(frame.getCanvas(), frame.getFrame(), new org.eclipse.swt.graphics.Point(0,0));
 				
@@ -191,7 +191,7 @@ public class OutputInsertsOnSheet {
 					@Override
 					public void keyTyped(KeyEvent arg0) {
 
-						System.out.println(" typing ? :" + arg0);
+						;//System.out.println(" typing ? :" + arg0);
 
 						if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 							closeEditingWindow();
@@ -358,7 +358,7 @@ public class OutputInsertsOnSheet {
 	static public iProviderAcceptor<Object> printSlider(String name, final iVisualElement inside, final PyObject onChange, boolean below) {
 		OutputInsertsOnSheet oi = outputInsertsOnSheet.get(inside);
 
-		System.out.println(" inside print slider for <" + inside + "> got <" + oi + ">");
+		;//System.out.println(" inside print slider for <" + inside + "> got <" + oi + ">");
 
 		iVisualElement alreadyCreated = findAlreadyCreated(oi, inside, name);
 		Map<String, String> map = getKnownMap(inside);
@@ -368,10 +368,10 @@ public class OutputInsertsOnSheet {
 		if (alreadyCreated != null) {
 			tuple = (MinimalSlider.Component) alreadyCreated.getProperty(outputInsertsOnSheet_providedComponent);
 			lastWasNew = false;
-			System.out.println(" already there");
+			;//System.out.println(" already there");
 		} else {
 
-			System.out.println(" genuinely new");
+			;//System.out.println(" genuinely new");
 
 			map.remove(name);
 			tuple = new MinimalSlider.Component();
@@ -383,7 +383,7 @@ public class OutputInsertsOnSheet {
 				alreadyCreated = oi.makeComponentWrapper((float) (frame.x + frame.w + 5), (float) (frame.y), 150, defaultHeight, inside, tuple);
 
 			map.put(name, alreadyCreated.getUniqueID());
-			System.out.println(" created, map now <" + map + ">");
+			;//System.out.println(" created, map now <" + map + ">");
 			lastWasNew = true;
 		}
 
@@ -468,7 +468,7 @@ public class OutputInsertsOnSheet {
 	static public iProviderAcceptor<Object> printLazy(String name, final iVisualElement inside, boolean below) {
 		OutputInsertsOnSheet oi = outputInsertsOnSheet.get(inside);
 
-		System.out.println(" inside print slider for <" + inside + "> got <" + oi + ">");
+		;//System.out.println(" inside print slider for <" + inside + "> got <" + oi + ">");
 
 		iVisualElement alreadyCreated = findAlreadyCreated(oi, inside, name);
 		Map<String, String> map = getKnownMap(inside);
@@ -478,10 +478,10 @@ public class OutputInsertsOnSheet {
 		if (alreadyCreated != null) {
 			tuple = (MinimalLazyBox.Component) alreadyCreated.getProperty(outputInsertsOnSheet_providedComponent);
 			lastWasNew = false;
-			System.out.println(" already there");
+			;//System.out.println(" already there");
 		} else {
 
-			System.out.println(" genuinely new");
+			;//System.out.println(" genuinely new");
 
 			map.remove(name);
 			tuple = new MinimalLazyBox.Component();
@@ -496,7 +496,7 @@ public class OutputInsertsOnSheet {
 			
 			
 			map.put(name, alreadyCreated.getUniqueID());
-			System.out.println(" created, map now <" + map + ">");
+			;//System.out.println(" created, map now <" + map + ">");
 			lastWasNew = true;
 		}
 
@@ -548,7 +548,7 @@ public class OutputInsertsOnSheet {
 	// inside, final PyObject onChange, boolean below) {
 	// OutputInsertsOnSheet oi = outputInsertsOnSheet.get(inside);
 	//
-	// System.out.println(" inside print slider for <" + inside + "> got <"
+	// ;//System.out.println(" inside print slider for <" + inside + "> got <"
 	// + oi + ">");
 	//
 	// iVisualElement alreadyCreated = findAlreadyCreated(oi, inside, name);
@@ -560,10 +560,10 @@ public class OutputInsertsOnSheet {
 	// tuple = (MinimalCombo.Component)
 	// alreadyCreated.getProperty(outputInsertsOnSheet_providedComponent);
 	// lastWasNew = false;
-	// System.out.println(" already there");
+	// ;//System.out.println(" already there");
 	// } else {
 	//
-	// System.out.println(" genuinely new");
+	// ;//System.out.println(" genuinely new");
 	//
 	// map.remove(name);
 	// tuple = new MinimalCombo.Component();
@@ -577,7 +577,7 @@ public class OutputInsertsOnSheet {
 	// 5), (float) (frame.y), 150, 12, inside, tuple);
 	//
 	// map.put(name, alreadyCreated.getUniqueID());
-	// System.out.println(" created, map now <" + map + ">");
+	// ;//System.out.println(" created, map now <" + map + ">");
 	// lastWasNew = true;
 	// }
 	//
@@ -788,10 +788,10 @@ public class OutputInsertsOnSheet {
 				e.printStackTrace();
 			}
 
-			System.out.println(" already there");
+			;//System.out.println(" already there");
 		} else {
 
-			System.out.println(" genuinely new");
+			;//System.out.println(" genuinely new");
 
 			map.remove(name);
 
@@ -813,7 +813,7 @@ public class OutputInsertsOnSheet {
 						new VisualElementProperty(propertyName).set(inside, inside, s);
 
 						if (cc != null && Py.None != cc) {
-							// System.out.println(" -- calling callback for property --");
+							// ;//System.out.println(" -- calling callback for property --");
 
 							try {
 								cc.__call__(new PyObject[] { Py.java2py(inside), Py.java2py(s) });
@@ -829,10 +829,10 @@ public class OutputInsertsOnSheet {
 					}
 				};
 				
-				System.out.println(" component class is <"+componentClass+">");
+				;//System.out.println(" component class is <"+componentClass+">");
 				Constructor<? extends JComponent> c = componentClass.getConstructor(Inspected.class);
 				
-				System.out.println(" looked up constructor for <"+componentClass+"> got <"+c+">");
+				;//System.out.println(" looked up constructor for <"+componentClass+"> got <"+c+">");
 				
 				tuple = (JComponent) componentClass.getConstructor(Inspected.class).newInstance(ii);
 				ii.editor = tuple;
@@ -866,7 +866,7 @@ public class OutputInsertsOnSheet {
 			comp.heavy = heavy;
 
 			map.put(name, alreadyCreated.getUniqueID());
-			System.out.println(" created, map now <" + map + ">");
+			;//System.out.println(" created, map now <" + map + ">");
 			lastWasNew = true;
 
 			oi.layoutHierarchy(comp.componentToRender, alreadyCreated);
@@ -905,7 +905,7 @@ public class OutputInsertsOnSheet {
 		this.root = root;
 		root.setProperty(outputInsertsOnSheet, this);
 
-		System.out.println("                    oios is :" + this + " for " + root);
+		;//System.out.println("                    oios is :" + this + " for " + root);
 	}
 
 	public void delete(iVisualElement inside, String name) {
@@ -1152,7 +1152,7 @@ public class OutputInsertsOnSheet {
 	private void allocateVert(iVisualElement parent, iVisualElement inside, Rect at) {
 		RectangleAllocator alloc = parent.getProperty(outputInsertsOnSheet_allocactorVert);
 		if (alloc == null) {
-			System.out.println(" new allocator ");
+			;//System.out.println(" new allocator ");
 			alloc = new RectangleAllocator();
 			parent.setProperty(outputInsertsOnSheet_allocactorVert, alloc);
 		} else {
@@ -1170,11 +1170,11 @@ public class OutputInsertsOnSheet {
 			}
 		}
 
-		System.out.println(" allocating <" + inside.getFrame(null) + " with " + at);
-		System.out.println(" allocator is <" + alloc.rectangles + ">");
+		;//System.out.println(" allocating <" + inside.getFrame(null) + " with " + at);
+		;//System.out.println(" allocator is <" + alloc.rectangles + ">");
 
 		Rect x = alloc.allocate(inside.getUniqueID(), at, RectangleAllocator.Move.down, 5);
 		at.setValue(x);
-		System.out.println(" got <" + x + ">");
+		;//System.out.println(" got <" + x + ">");
 	}
 }

@@ -98,7 +98,7 @@ public class CachedLineCompression {
 			e.printStackTrace();
 		}
 
-		System.out.println(" -- got error, returning no line -- ");
+		;//System.out.println(" -- got error, returning no line -- ");
 
 		return new CachedLine();
 	}

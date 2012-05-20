@@ -66,7 +66,7 @@ public class CoordinateSystemAnimation {
 	public AnimatedCoordinateSystem animationFor(Long key, SimpleNode<Transform> value) {
 		AnimatedCoordinateSystem animation = markers.get(key);
 		if (animation == null) {
-			System.out.println(" new animation animation for <"+key+"> <"+value.payload().name+">");
+			;//;//System.out.println(" new animation animation for <"+key+"> <"+value.payload().name+">");
 			markers.put(key, animation = new AnimatedCoordinateSystem());
 			animation.name = value.payload().name;
 			animation.uid = key;

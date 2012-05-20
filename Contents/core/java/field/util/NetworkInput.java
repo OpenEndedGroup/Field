@@ -67,18 +67,18 @@ public class NetworkInput implements Runnable {
 			inputSocket = new MulticastSocket(port);
 			inputSocket.setReceiveBufferSize(MAX_PACKET_SIZE * 5);
 		} catch (Exception ex) {
-			System.out.println("could not make a socket on port:" + port + " ?\n" + ex);
+			;//System.out.println("could not make a socket on port:" + port + " ?\n" + ex);
 		}
 		InetAddress multicastGroup = null;
 		try {
 			multicastGroup = InetAddress.getByName(group);
 		} catch (Exception ex) {
-			System.out.println("could not resolve address:" + group + " ?\n" + ex);
+			;//System.out.println("could not resolve address:" + group + " ?\n" + ex);
 		}
 		try {
 			inputSocket.joinGroup(multicastGroup);
 		} catch (Exception ex) {
-			System.out.println("could not join group:" + group + " ?\n" + ex);
+			;//System.out.println("could not join group:" + group + " ?\n" + ex);
 		}
 		byte[] buffer = new byte[MAX_PACKET_SIZE];
 		dp = new DatagramPacket(buffer, buffer.length);
@@ -117,7 +117,7 @@ public class NetworkInput implements Runnable {
 				try {
 					inputSocket.receive(dp);
 				} catch (Exception ex) {
-					System.out.println("failed while trying to receive packet!" + ex);
+					;//System.out.println("failed while trying to receive packet!" + ex);
 				}
 				int dim = decodeInt(buffer, 0);
 				if (dim == 1) {
@@ -178,7 +178,7 @@ public class NetworkInput implements Runnable {
 				t.printStackTrace();
 			}
 		} else {
-			// System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
+			// ;//System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
 		}
 	}
 
@@ -196,7 +196,7 @@ public class NetworkInput implements Runnable {
 		} else if (o instanceof ObjectHandler) {
 			((ObjectHandler) o).handle(name, value);
 		} else {
-			// System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
+			// ;//System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
 		}
 	}
 
@@ -213,7 +213,7 @@ public class NetworkInput implements Runnable {
 				t.printStackTrace();
 			}
 		} else {
-			// System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
+			// ;//System.out.println("networkdoubleprovider: warning: couldn't find handler called <" + name + ">");
 		}
 	}
 

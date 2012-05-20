@@ -183,7 +183,7 @@ public class FluidCopyPastePersistence {
 					@Override
 					public Class realClass(String elementName) {
 
-						System.out.println(" looking for real class of <"+elementName+">");
+						;//System.out.println(" looking for real class of <"+elementName+">");
 
 						if (elementName.equals(iMixinProxy.class.getName().replace("$", "-")))
 							return iMixinProxy.class;
@@ -192,7 +192,7 @@ public class FluidCopyPastePersistence {
 							return r;
 						} catch (CannotResolveClassException e) {
 							Class lookingFor = context.getRequiredType();
-							System.out.println(" looking for <" + elementName + "> can't load it <" + e + ">, needed a type <" + lookingFor + "> guessing iVisualElement");
+							;//System.out.println(" looking for <" + elementName + "> can't load it <" + e + ">, needed a type <" + lookingFor + "> guessing iVisualElement");
 							return VisualElement.class;
 						}
 					}
@@ -288,7 +288,7 @@ public class FluidCopyPastePersistence {
 					}
 				} catch (RuntimeException t) {
 					t.printStackTrace();
-					System.out.println(ANSIColorUtils.red("<" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
+					;//System.out.println(ANSIColorUtils.red("<" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
 				}
 			}
 
@@ -416,7 +416,7 @@ public class FluidCopyPastePersistence {
 				writer.endNode();
 
 				if (component.getVisualElement() == null) {
-					System.out.println(ANSIColorUtils.red(" persistance leak ? <" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
+					;//System.out.println(ANSIColorUtils.red(" persistance leak ? <" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
 					System.exit(1);
 				}
 
@@ -462,13 +462,13 @@ public class FluidCopyPastePersistence {
 				context.convertAnother(source.getClass());
 				writer.endNode();
 				writer.startNode("element");
-//				System.out.println(" context :"+source+" "+iVisualElementOverrides.iDefaultOverride.class.isAssignableFrom(source.getClass()));
+//				;//System.out.println(" context :"+source+" "+iVisualElementOverrides.iDefaultOverride.class.isAssignableFrom(source.getClass()));
 //				iVisualElement e = ((iVisualElementOverrides.DefaultOverride) source).forElement;
-//				System.out.println(" e:"+e);
+//				;//System.out.println(" e:"+e);
 
 				iVisualElement e = (iVisualElement) ReflectionTools.illegalGetObject(source, "forElement");
 
-				System.out.println(" got element <"+e+"> from <"+source+"> : "+source.getClass()+">");
+				;//System.out.println(" got element <"+e+"> from <"+source+"> : "+source.getClass()+">");
 
 				context.convertAnother(e);
 				writer.endNode();

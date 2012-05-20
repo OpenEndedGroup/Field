@@ -182,7 +182,7 @@ public class DynamicLine_long extends DynamicMesh_long implements iLineOutput {
 				int a4 = (int) ((i < (vertexCursor - lineStartAt - 2) ? i + 1 : i) + lineStartAt + 1);
 				cachedTriangleBuffer.put(triangleCursor2 + 3, a4);
 
-				// System.out.println(" wrote <"+triangleCursor2+"> <"+a1+" "+a2+" "+a3+" "+a4+">");
+				// ;//System.out.println(" wrote <"+triangleCursor2+"> <"+a1+" "+a2+" "+a3+" "+a4+">");
 
 				triangleCursor++;
 				triangleCursor++;

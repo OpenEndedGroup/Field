@@ -465,7 +465,7 @@ public class RootComponent implements iComponent {
 			GLComponentWindow.getCurrentWindow(this).setXTranslation(GLComponentWindow.getCurrentWindow(this).getXTranslation() - dx * GLComponentWindow.getCurrentWindow(this).getXScale());
 			GLComponentWindow.getCurrentWindow(this).setYTranslation(GLComponentWindow.getCurrentWindow(this).getYTranslation() - dy * GLComponentWindow.getCurrentWindow(this).getYScale());
 
-			System.out.println(" requesting redisplay ");
+			;//System.out.println(" requesting redisplay ");
 
 			inside.requestRedisplay();
 		}
@@ -660,7 +660,7 @@ public class RootComponent implements iComponent {
 
 			if (Platform.isPopupTrigger(arg0)) {
 
-				System.out.println(" attempting to show root menu");
+				;//System.out.println(" attempting to show root menu");
 
 				if (GLComponentWindow.getCurrentWindow(this).present)
 					return;
@@ -670,7 +670,7 @@ public class RootComponent implements iComponent {
 
 				LinkedHashMap<String, iUpdateable> items = new LinkedHashMap<String, iUpdateable>();
 
-				System.out.println(" -- menu items for ");
+				;//System.out.println(" -- menu items for ");
 				overrides.menuItemsFor(null, items);
 
 				BetterPopup menu = new SmallMenu().createMenu(items, GLComponentWindow.getCurrentWindow(this).getCanvas().getShell(), null);
@@ -686,7 +686,7 @@ public class RootComponent implements iComponent {
 					// (int)
 					// ref.get().getCurrentMouseInWindowCoordinates().y);
 
-					System.out.println(" here we go .... ");
+					;//System.out.println(" here we go .... ");
 
 					menu.show(Launcher.display.map(GLComponentWindow.getCurrentWindow(this).getCanvas(), GLComponentWindow.getCurrentWindow(this).getCanvas().getShell(), new Point(arg0.x, arg0.y)));
 
@@ -695,7 +695,7 @@ public class RootComponent implements iComponent {
 
 			} else if (arg0.button == 1 && (arg0.stateMask & SWT.ALT) != 0) {
 
-				System.out.println(" beginning execution gesture ");
+				;//System.out.println(" beginning execution gesture ");
 
 				executionGesture.begin(arg0);
 			} else {

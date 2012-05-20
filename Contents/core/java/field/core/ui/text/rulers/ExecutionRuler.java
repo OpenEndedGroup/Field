@@ -98,7 +98,7 @@ public class ExecutionRuler implements iRuler {
 
 		toto.x = to.allocation*10+2;
 		
-		System.out.println(" draw connection <"+from+" -> "+toto+"> <"+scale+">");
+		;//System.out.println(" draw connection <"+from+" -> "+toto+"> <"+scale+">");
 		
 		if (from.distanceFrom(toto) > 0) {
 
@@ -167,7 +167,7 @@ public class ExecutionRuler implements iRuler {
 				// find the lowest allocation area that this is
 				// in
 				Area minIs = getMin(caretPosition);
-				System.out.println(" arrow left it is <" + minIs + ">");
+				;//System.out.println(" arrow left it is <" + minIs + ">");
 				if (minIs != null && (e.stateMask & SWT.SHIFT) == 0) {
 					executeArea(minIs);
 				} else if (minIs != null && (e.stateMask & SWT.SHIFT) != 0) {
@@ -203,11 +203,11 @@ public class ExecutionRuler implements iRuler {
 				// in
 				int alloc = Integer.MIN_VALUE;
 				int lfp = lineForPosition(caretPosition, p);
-				System.out.println(" line for position <" + caretPosition + "> is <" + lfp + ">");
+				;//System.out.println(" line for position <" + caretPosition + "> is <" + lfp + ">");
 				Area minIs = null;
 				for (Area a : areas.areas) {
 					a.update(p);
-					System.out.println("looking at area <" + a.allocation + " " + a.lineStart + " " + a.lineEnd + "> <" + !a.invalid + ">");
+					;//System.out.println("looking at area <" + a.allocation + " " + a.lineStart + " " + a.lineEnd + "> <" + !a.invalid + ">");
 					if (a.lineStart <= lfp && a.lineEnd >= lfp && !a.invalid) {
 						if (a.allocation > alloc) {
 							alloc = a.allocation;
@@ -226,18 +226,18 @@ public class ExecutionRuler implements iRuler {
 
 		if ((e.stateMask & SWT.CTRL) != 0 && (e.stateMask & SWT.COMMAND) != 0) {
 
-			System.out.println(" looking for shortcut");
+			;//System.out.println(" looking for shortcut");
 
 			List<Area> candidate = new ArrayList<Area>();
 			int code = e.keyCode;
 			for (Area a : areas.areas) {
 				Character c = a.extend.get(ExecutedAreas.keyboardShortcut);
-				System.out.println(" c is <" + c + "> code is <" + code + " " + (c == null ? -1 : (int) c));
+				;//System.out.println(" c is <" + c + "> code is <" + code + " " + (c == null ? -1 : (int) c));
 				if (c != null && (c.toUpperCase(c)) == code && !a.invalid) {
 					candidate.add(a);
 				}
 			}
-			System.out.println(" found <" + candidate + ">");
+			;//System.out.println(" found <" + candidate + ">");
 			if (candidate.size() == 0)
 				return;
 			if (candidate.size() == 1) {
@@ -263,7 +263,7 @@ public class ExecutionRuler implements iRuler {
 			executeArea(dIs);
 
 		} else if ((e.stateMask & SWT.CTRL) != 0 && e.keyCode == 'u') {
-			System.out.println(" unit test !");
+			;//System.out.println(" unit test !");
 
 			Area minIs = getMin(caretPosition);
 
@@ -289,7 +289,7 @@ public class ExecutionRuler implements iRuler {
 			if (minIs != null) {
 
 				boolean isTest = minIs.extend.isTrue(ExecutedAreas.isUnitTest, false);
-				System.out.println(" unit test on <" + minIs + "> <" + isTest + "> <" + selectionStart + "> <" + selectionEnd + ">");
+				;//System.out.println(" unit test on <" + minIs + "> <" + isTest + "> <" + selectionStart + "> <" + selectionEnd + ">");
 
 				if (isTest) {
 					final Area fminIs = minIs;
@@ -324,11 +324,11 @@ public class ExecutionRuler implements iRuler {
 	public Area getMin(int caretPosition) {
 		int alloc = Integer.MAX_VALUE;
 		int lfp = lineForPosition(caretPosition, p);
-		System.out.println(" line for position <" + caretPosition + "> is <" + lfp + ">");
+		;//System.out.println(" line for position <" + caretPosition + "> is <" + lfp + ">");
 		Area minIs = null;
 		for (Area a : areas.areas) {
 			a.update(p);
-			System.out.println("looking at area <" + a.allocation + " " + a.lineStart + " " + a.lineEnd + "> <" + !a.invalid + ">");
+			;//System.out.println("looking at area <" + a.allocation + " " + a.lineStart + " " + a.lineEnd + "> <" + !a.invalid + ">");
 			if (a.lineStart <= lfp && a.lineEnd >= lfp && !a.invalid) {
 				if (a.allocation < alloc) {
 					alloc = a.allocation;
@@ -342,7 +342,7 @@ public class ExecutionRuler implements iRuler {
 	@Override
 	public void mouseDown(MouseEvent e) {
 
-		System.out.println(" mouse down <" + e.x + " " + e.y + ">");
+		;//System.out.println(" mouse down <" + e.x + " " + e.y + ">");
 
 		DragType cd = computeDrag(e);
 		currentDrag = cd;
@@ -354,7 +354,7 @@ public class ExecutionRuler implements iRuler {
 
 	public void mouseUp(MouseEvent e) {
 
-		System.out.println(" mouse down on area");
+		;//System.out.println(" mouse down on area");
 
 		DragType cd = computeDrag(e);
 		currentDrag = cd;
@@ -865,7 +865,7 @@ public class ExecutionRuler implements iRuler {
 
 	protected int lineForY(float y) {
 		return p.getLineIndex((int) y);
-		// System.out.println(" visi rect <" + p.getVisibleRect().y +
+		// ;//System.out.println(" visi rect <" + p.getVisibleRect().y +
 		// ">");
 		// int position = p.viewToModel(new Point(0, (int) y +
 		// p.getVisibleRect().y));

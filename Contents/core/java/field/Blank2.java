@@ -114,14 +114,14 @@ public class Blank2 implements iLaunchable {
 
 		if (SystemProperties.getProperty("field.scratch", null)==null)
 		{
-			System.out.println(" -- FieldMenus2.fieldMenus --");
+			;//System.out.println(" -- FieldMenus2.fieldMenus --");
 //			return;
 			
 		}
 		
 		if (openFileProvokation == null) {
 			String mcName = SystemProperties.getProperty("main.class");
-			System.out.println(" main class <" + mcName + "> <" + Platform.getCanonicalName(this.getClass()) + ">");
+			;//System.out.println(" main class <" + mcName + "> <" + Platform.getCanonicalName(this.getClass()) + ">");
 			if (mcName.equals(Platform.getCanonicalName(this.getClass())))
 				mcName = "Default";
 //			loaded = new PhantomFluidSheet(System.getProperty("user.home") + "/Documents/FieldWorkspace/"+SystemProperties.getProperty("field.scratch", mcName + ".field"), true, true);

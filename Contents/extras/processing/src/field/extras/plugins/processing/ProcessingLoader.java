@@ -62,7 +62,7 @@ import field.util.TaskQueue;
 @Woven
 public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
-	public Frame frame;
+	static public Frame frame;
 	public PApplet applet;
 	public final iVisualElement root;
 
@@ -73,20 +73,25 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 	boolean inside = false;
 
-	static public final int appletShouldBeFullscreen = SystemProperties.getIntProperty("processingFullscreen", ProcessingPlugin.defaultProcessingFullscreen[0]);
+	static public final int appletShouldBeFullscreen = SystemProperties
+			.getIntProperty("processingFullscreen",
+					ProcessingPlugin.defaultProcessingFullscreen[0]);
 
 	static public String[] indexToRenderer = { PApplet.OPENGL };
 	public static PApplet theApplet;
 
-	public int appletWidth = SystemProperties.getIntProperty("processingWidth", 500);
-	public int appletHeight = SystemProperties.getIntProperty("processingHeight", 500);
+	public int appletWidth = SystemProperties.getIntProperty("processingWidth",
+			500);
+	public int appletHeight = SystemProperties.getIntProperty(
+			"processingHeight", 500);
 
 	public ProcessingLoader(final iVisualElement root) {
 		this.root = root;
 
 		installDelegateInterpretations();
 
-		runner = new BasicRunner(PythonScriptingSystem.pythonScriptingSystem.get(root), 0) {
+		runner = new BasicRunner(
+				PythonScriptingSystem.pythonScriptingSystem.get(root), 0) {
 			@Override
 			protected boolean filter(Promise p) {
 				iVisualElement v = (iVisualElement) system.keyForPromise(p);
@@ -95,7 +100,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			}
 		};
 
-		if (appletShouldBeFullscreen == 0) {
+		if (appletShouldBeFullscreen == 110) {
 			frame = new JFrame("Field/Processing") {
 				public java.awt.im.InputContext getInputContext() {
 					return null;
@@ -107,12 +112,14 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				public void paint(Graphics g) {
 					super.paint(g);
 
-					if (lastBounds == null || !this.getBounds().equals(lastBounds)) {
-						System.out.println(" back");
+					if (lastBounds == null
+							|| !this.getBounds().equals(lastBounds)) {
 						drawQueue.new Task() {
 							@Override
 							protected void run() {
-								((PApplet) applet).size(applet.getWidth(), applet.getHeight(), applet.g.getClass().getName(), "");
+								((PApplet) applet).size(applet.getWidth(),
+										applet.getHeight(), applet.g.getClass()
+												.getName(), "");
 								applet.background(0);
 							}
 						};
@@ -120,20 +127,19 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 					lastBounds = this.getBounds();
 				}
 			};
-			((JFrame) frame).setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			((JFrame) frame)
+					.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			((JFrame) frame).addWindowStateListener(new WindowStateListener() {
 
 				public void windowStateChanged(WindowEvent arg0) {
 					int ns = arg0.getNewState();
 					if (ns == WindowEvent.WINDOW_CLOSING) {
-						System.out.println(" tried to close processing window ");
 					}
 				}
 			});
 			((JFrame) frame).addWindowListener(new WindowAdapter() {
 
 				public void windowClosing(WindowEvent arg0) {
-					System.out.println(" window closed ");
 					((JFrame) frame).setState(JFrame.ICONIFIED);
 				}
 
@@ -142,7 +148,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			frame.addComponentListener(new ComponentAdapter() {
 				@Override
 				public void componentResized(ComponentEvent e) {
-					System.out.println(" resized frame ");
 					drawQueue.new Task() {
 						@Override
 						protected void run() {
@@ -195,8 +200,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			// AppleScript s = new
 			// AppleScript("tell application \"Field\"\n activate\nend tell",
 			// false);
-			// System.out.println("error : " + s.getError());
-			// System.out.println("out : " + s.getOutput());
+			// ;//;//System.out.println("error : " + s.getError());
+			// ;//;//System.out.println("out : " + s.getOutput());
 			//
 			// Launcher.getLauncher().deregisterUpdateable(this);
 			// }
@@ -205,7 +210,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		}
 		// frame = new Frame("Field/Processing");
 
-		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+		Thread.currentThread().setContextClassLoader(
+				this.getClass().getClassLoader());
 		applet = new PApplet() {
 
 			public ProcessingLoader loader = ProcessingLoader.this;
@@ -242,9 +248,12 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			private void draw_impl() {
 				
-				
 				frameNumber++;
-				if (g != null && g.getClass().getName().toLowerCase().contains("opengl") && ProcessingLoader.this.frame != null && frameNumber == 4) {
+				if (g != null
+						&& g.getClass().getName().toLowerCase()
+								.contains("opengl")
+						&& ProcessingLoader.this.frame != null
+						&& frameNumber == 4) {
 					if (ProcessingLoader.this.frame.isResizable())
 						ProcessingLoader.this.frame.setResizable(false);
 				}
@@ -261,11 +270,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				}
 
 				try {
-					PythonInterface.getPythonInterface().setVariable("p", applet);
+					PythonInterface.getPythonInterface().setVariable("p",
+							applet);
 					try {
 						if (drawQueue.getNumTasks() > 0)
-							System.out.println(" draw has <" + drawQueue.getNumTasks() + "> tasks");
-
+							
 						try {
 							inside = true;
 
@@ -281,10 +290,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 							inside = false;
 						}
 						if (t == null)
-							t = TemporalSliderOverrides.currentTimeSystem.get(ProcessingLoader.this.root);
+							t = TemporalSliderOverrides.currentTimeSystem
+									.get(ProcessingLoader.this.root);
 						runner.update(t == null ? 0 : (float) t.evaluate());
 					} catch (Throwable e) {
-						System.out.println(" throwable <" + e + "> ");
+						;//;//System.out.println(" throwable <" + e + "> ");
 						e.printStackTrace();
 					}
 				} finally {
@@ -319,8 +329,10 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			public void hideCursor() {
 				int[] pixels = new int[16 * 16];
-				Image image = Toolkit.getDefaultToolkit().createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
-				Cursor transparentCursor = Toolkit.getDefaultToolkit().createCustomCursor(image, new Point(0, 0), "nothing");
+				Image image = Toolkit.getDefaultToolkit().createImage(
+						new MemoryImageSource(16, 16, pixels, 0, 16));
+				Cursor transparentCursor = Toolkit.getDefaultToolkit()
+						.createCustomCursor(image, new Point(0, 0), "nothing");
 				frame.setCursor(transparentCursor);
 				this.setCursor(transparentCursor);
 			}
@@ -392,8 +404,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			@Override
 			public void keyPressed() {
 
-				System.out.println(" key pressed in papplet");
-
 				super.keyPressed();
 				try {
 					onKeyPressed.invoke();
@@ -436,17 +446,19 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			@Override
 			public void setup() {
-				
-				System.out.println(" setup called  <"+firstRun+"> <"+appletShouldBeFullscreen+">");
-				
-				if (firstRun++ < 3) 
-				{
-					if (appletShouldBeFullscreen == 0)
-						size(appletWidth, appletHeight, indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
-					else
-						size(loader.frame.getWidth(), loader.frame.getHeight(), indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
 
-//					doHints();
+
+				if (firstRun++ < 3) {
+					if (appletShouldBeFullscreen == 0)
+						size(appletWidth,
+								appletHeight,
+								indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
+					else
+						size(loader.frame.getWidth(),
+								loader.frame.getHeight(),
+								indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
+
+					// doHints();
 
 					background(0);
 				}
@@ -455,20 +467,18 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			@Override
 			public void setSize(int width, int height) {
 
-				System.out.println(" --ss1 <" + width + "> <" + height + ">");
-
 				super.setSize(width, height);
 			}
 
 			@Override
 			public void setSize(Dimension d) {
 
-				System.out.println(" --ss2 <" + width + "> <" + height + ">");
 				super.setSize(d);
 			}
 
 			@Override
-			public void size(int iwidth, int iheight, String irenderer, String ipath) {
+			public void size(int iwidth, int iheight, String irenderer,
+					String ipath) {
 				if (appletShouldBeFullscreen != 0) {
 					super.size(iwidth, iheight, irenderer, ipath);
 					return;
@@ -477,7 +487,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 					ProcessingLoader.this.frame.setSize(iwidth, iheight + 16);
 
-					System.out.println(" size <" + iwidth + "> <" + iheight + "> <" + irenderer + "> <" + ipath + ">");
 
 					super.size(iwidth, iheight, irenderer, ipath);
 
@@ -500,7 +509,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			}
 
 			protected void checkKeyEvent(KeyEvent e) {
-				System.out.println(" check key pressed in papplet <" + e + ">");
 
 				enqueueKeyEvent(e);
 			};
@@ -510,11 +518,13 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			}
 
 			public void die(String what) {
-				throw new IllegalStateException("(processing.die called) -- " + what);
+				throw new IllegalStateException("(processing.die called) -- "
+						+ what);
 			};
 
 			public void die(String what, Exception ee) {
-				IllegalStateException e = new IllegalStateException("(processing.die called) -- " + what);
+				IllegalStateException e = new IllegalStateException(
+						"(processing.die called) -- " + what);
 				e.initCause(ee);
 				throw e;
 			};
@@ -530,37 +540,43 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		theApplet = applet;
 
 		if (Platform.isMac()) {
-//			try {
-//				Class c = this.getClass().getClassLoader().loadClass("quicktime.QTSession");
-//				c.getDeclaredMethod("open").invoke(null);
-//			} catch (Throwable e) {
-//				e.printStackTrace();
-//			}
+			// try {
+			// Class c =
+			// this.getClass().getClassLoader().loadClass("quicktime.QTSession");
+			// c.getDeclaredMethod("open").invoke(null);
+			// } catch (Throwable e) {
+			// e.printStackTrace();
+			// }
 		}
 
 		// SavedFramePositions.doFrame(frame, "Field/Processing");
 		if (appletShouldBeFullscreen > 0) {
 
-			System.out.println(" going full screen ");
-
 			frame.setUndecorated(true);
-			GraphicsDevice[] devs = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-			GraphicsDevice dev = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+			GraphicsDevice[] devs = GraphicsEnvironment
+					.getLocalGraphicsEnvironment().getScreenDevices();
+			GraphicsDevice dev = GraphicsEnvironment
+					.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 			for (GraphicsDevice device : devs) {
-				if (device == GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice() && appletShouldBeFullscreen == 1) {
+				if (device == GraphicsEnvironment.getLocalGraphicsEnvironment()
+						.getDefaultScreenDevice()
+						&& appletShouldBeFullscreen == 1) {
 					dev = device;
 					break;
-				} else if (device != GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice() && appletShouldBeFullscreen == 2) {
+				} else if (device != GraphicsEnvironment
+						.getLocalGraphicsEnvironment().getDefaultScreenDevice()
+						&& appletShouldBeFullscreen == 2) {
 					dev = device;
 					break;
 				}
 			}
 
-			Rectangle fullscreenbounds = dev.getDefaultConfiguration().getBounds();
-			System.out.println(" bounds are <" + fullscreenbounds + ">");
+			Rectangle fullscreenbounds = dev.getDefaultConfiguration()
+					.getBounds();
 
 			frame.setSize(fullscreenbounds.width, fullscreenbounds.height);
-			Dimension sz = new Dimension(fullscreenbounds.width, fullscreenbounds.height);
+			Dimension sz = new Dimension(fullscreenbounds.width,
+					fullscreenbounds.height);
 			frame.setMinimumSize(sz);
 			frame.setMaximumSize(sz);
 
@@ -568,20 +584,19 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			applet.setMinimumSize(sz);
 			applet.setMaximumSize(sz);
 
-			System.out.println(" -- going full screen --");
-
 			// applet.size(fullscreenbounds.width,
 			// fullscreenbounds.height,
 			// applet.g.getClass().getName(), null);
 			// frame.setLocation(fullscreenbounds.x,
 			// fullscreenbounds.y);
-			frame.setBounds(fullscreenbounds.x, fullscreenbounds.y, fullscreenbounds.width, fullscreenbounds.height);
+			frame.setBounds(fullscreenbounds.x, fullscreenbounds.y,
+					fullscreenbounds.width, fullscreenbounds.height);
 			// dev.setFullScreenWindow(frame);
 		} else {
 			// applet.addComponentListener(new ComponentAdapter() {
 			// @Override
 			// public void componentResized(ComponentEvent e) {
-			// System.out.println(" applet is resized");
+			// ;//;//System.out.println(" applet is resized");
 			// }
 			// });
 
@@ -597,9 +612,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 		Launcher.getLauncher().registerUpdateable(new iUpdateable() {
 			public void update() {
-				
-				System.out.println(" calling init ");
-				
+
 				applet.init();
 				applet.noLoop();
 				Launcher.getLauncher().deregisterUpdateable(this);
@@ -622,18 +635,48 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 		};
 
-		PythonInterface.getPythonInterface().execString("def InProcessing(x):\n" + "	def ff(*a):\n" + "		def original():\n" + "			x(*a)\n" + "		u.callLater(original, p.getDrawQueue())\n" + "	return ff\n");
-
 		PythonInterface.getPythonInterface().execString(
-				"from field.extras.plugins.processing import * \n" + "def processing(*args): \n" + "	def processingy(a,b,c): \n" + "		ish = ProcessingIsh(b) \n" + "		print \"ish = \", ish\n" + "		x = ish.allCode.replace(\"public class\", \"@Woven class\") \n" + "		x = x.replace(\"static public void main\", \"static public void _main\") \n" + "		x = x.replace(\"extends PApplet\", \"extends HollowPApplet implements iProvidesWrapping\\n\") \n" + "		x = \"import field.extras.plugins.processing.HollowPApplet;\\n\"+x 	\n" + "		x = \"import field.bytecode.protect.SimplyWrappedInQueue.iProvidesWrapping;\\n\"+x \n" + "		x = \"import field.bytecode.protect.annotations.*;\\n\"+x \n" + "		x = \"import field.bytecode.protect.*;\\n\"+x \n"
-						+ "		x = \"import static processing.core.PApplet.*;\\n\"+x\n" + "		x = x.replace(\"public void\", \"@SimplyWrapped public void\") \n" + "		print x\n" + "		c[name]=JavaC(a, x, c)() \n" + "		return c[name]\n" + "	if (len(args))==1:\n" + "		name = args[0]\n" + "		return processingy \n" + "	else:\n" + "		print \"making applet called %s \" % _self.name\n" + "		name = _self.name\n" + "		x = processingy(args[0], args[1], args[2])\n" + "		args[2][\"_r\"] = x\n" + "		return x\n" + "");
+				"def InProcessing(x):\n" + "	def ff(*a):\n"
+						+ "		def original():\n" + "			x(*a)\n"
+						+ "		u.callLater(original, p.getDrawQueue())\n"
+						+ "	return ff\n");
 
-		
+		PythonInterface
+				.getPythonInterface()
+				.execString(
+						"from field.extras.plugins.processing import * \n"
+								+ "def processing(*args): \n"
+								+ "	def processingy(a,b,c): \n"
+								+ "		ish = ProcessingIsh(b) \n"
+								+ "		print \"ish = \", ish\n"
+								+ "		x = ish.allCode.replace(\"public class\", \"@Woven class\") \n"
+								+ "		x = x.replace(\"static public void main\", \"static public void _main\") \n"
+								+ "		x = x.replace(\"extends PApplet\", \"extends HollowPApplet implements iProvidesWrapping\\n\") \n"
+								+ "		x = \"import field.extras.plugins.processing.HollowPApplet;\\n\"+x 	\n"
+								+ "		x = \"import field.bytecode.protect.SimplyWrappedInQueue.iProvidesWrapping;\\n\"+x \n"
+								+ "		x = \"import field.bytecode.protect.annotations.*;\\n\"+x \n"
+								+ "		x = \"import field.bytecode.protect.*;\\n\"+x \n"
+								+ "		x = \"import static processing.core.PApplet.*;\\n\"+x\n"
+								+ "		x = x.replace(\"public void\", \"@SimplyWrapped public void\") \n"
+								+ "		print x\n"
+								+ "		c[name]=JavaC(a, x, c)() \n"
+								+ "		return c[name]\n"
+								+ "	if (len(args))==1:\n"
+								+ "		name = args[0]\n"
+								+ "		return processingy \n"
+								+ "	else:\n"
+								+ "		print \"making applet called %s \" % _self.name\n"
+								+ "		name = _self.name\n"
+								+ "		x = processingy(args[0], args[1], args[2])\n"
+								+ "		args[2][\"_r\"] = x\n" + "		return x\n"
+								+ "");
+
 		PythonInterface.getPythonInterface().setVariable("p", theApplet);
-		MinimalTextField_blockMenu.knownTextTransforms.add(new Pair<String, String>("processing", "Lets you use Processing Applet source code directly (makes an applet called after the name of this box)"));
+		MinimalTextField_blockMenu.knownTextTransforms
+				.add(new Pair<String, String>(
+						"processing",
+						"Lets you use Processing Applet source code directly (makes an applet called after the name of this box)"));
 
-		System.out.println(" -- init complete -- ");
-		
 	}
 
 	@NextUpdate(delay = 5)
@@ -645,7 +688,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 		InterpretPythonAsDelegate.factories.add(new iDelegateForReturnValue() {
 
-			public Delegate delegateForReturnValue(float t, Promise p, boolean forwards, Object ret, boolean noDefaultBackwards) {
+			public Delegate delegateForReturnValue(float t, Promise p,
+					boolean forwards, Object ret, boolean noDefaultBackwards) {
 				if (!(ret instanceof HollowPApplet))
 					return null;
 
@@ -653,14 +697,18 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 				return new Delegate() {
 
-					public void continueToBeActive(float t, Promise p, boolean forwards) {
+					public void continueToBeActive(float t, Promise p,
+							boolean forwards) {
 						if (p.isPaused())
 							return;
 						p.beginExecute();
-						PythonInterface.getPythonInterface().setVariable("_x", new Float(t));
+						PythonInterface.getPythonInterface().setVariable("_x",
+								new Float(t));
 						t = (t - p.getStart()) / (p.getEnd() - p.getStart());
-						PythonInterface.getPythonInterface().setVariable("_t", new Float(t));
-						PythonInterface.getPythonInterface().setVariable("_backwards", !forwards);
+						PythonInterface.getPythonInterface().setVariable("_t",
+								new Float(t));
+						PythonInterface.getPythonInterface().setVariable(
+								"_backwards", !forwards);
 						rr.updateState();
 						rr.draw();
 						p.endExecute();
@@ -680,10 +728,14 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 						p.willExecute();
 						try {
 							p.beginExecute();
-							PythonInterface.getPythonInterface().setVariable("_x", new Float(t));
-							t = (t - p.getStart()) / (p.getEnd() - p.getStart());
-							PythonInterface.getPythonInterface().setVariable("_t", new Float(t));
-							PythonInterface.getPythonInterface().setVariable("_backwards", !forwards);
+							PythonInterface.getPythonInterface().setVariable(
+									"_x", new Float(t));
+							t = (t - p.getStart())
+									/ (p.getEnd() - p.getStart());
+							PythonInterface.getPythonInterface().setVariable(
+									"_t", new Float(t));
+							PythonInterface.getPythonInterface().setVariable(
+									"_backwards", !forwards);
 							rr.updateState();
 							rr.setup();
 						} finally {
@@ -691,7 +743,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 						}
 					}
 
-					public void startAndStop(float t, Promise p, boolean forwards) {
+					public void startAndStop(float t, Promise p,
+							boolean forwards) {
 					}
 
 					public void stop(float t, Promise p, boolean forwards) {
@@ -733,14 +786,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		applet.destroy();
 	}
 
-	public EditorExecutionInterface getEditorExecutionInterface(final EditorExecutionInterface delegateTo) {
-
-		System.out.println(" get editor execution interface  ");
+	public EditorExecutionInterface getEditorExecutionInterface(
+			final EditorExecutionInterface delegateTo) {
 
 		return new EditorExecutionInterface() {
 			public void executeFragment(final String fragment) {
-
-				System.out.println(" inside ef <" + fragment + ">");
 				ProcessingLoader.this.executeFragment(fragment, delegateTo);
 			}
 
@@ -748,7 +798,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 				final LocalFuture lf = new LocalFuture();
 
-				ProcessingLoader.this.executeReturningValue(string, delegateTo, lf);
+				ProcessingLoader.this.executeReturningValue(string, delegateTo,
+						lf);
 
 				return lf;
 			}
@@ -766,16 +817,31 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 	public void init() {
 
 		if (appletShouldBeFullscreen == 0)
-			applet.size(500, 500, indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
+			applet.size(
+					500,
+					500,
+					indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
 		else
-			applet.size(frame.getWidth(), frame.getHeight(), indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
+			applet.size(
+					frame.getWidth(),
+					frame.getHeight(),
+					indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
 	}
 
 	@InQueue
 	public void injectIntoGlobalNamespace() {
-		System.out.println(" inecting into global namespace ");
 		PythonInterface.getPythonInterface().setVariable("p", applet);
-		PythonInterface.getPythonInterface().execString("from processing.core import PApplet\n" + "methodNames = [m.name for m in PApplet.getDeclaredMethods()]\n" + "def bind(meth, inst):	\n" + "	globals()[meth.__name__]=meth\n" + "\n" + "for n in dir(p):\n" + "	try:\n" + "		if n not in methodNames: continue\n" + "		aa = getattr(p, n)\n" + "		System.out.println(n)\n" + "\n" + "		bind(aa, p)\n" + "\n" + "	except: pass\n");
+		PythonInterface
+				.getPythonInterface()
+				.execString(
+						"from processing.core import PApplet\n"
+								+ "methodNames = [m.name for m in PApplet.getDeclaredMethods()]\n"
+								+ "def bind(meth, inst):	\n"
+								+ "	globals()[meth.__name__]=meth\n" + "\n"
+								+ "for n in dir(p):\n" + "	try:\n"
+								+ "		if n not in methodNames: continue\n"
+								+ "		aa = getattr(p, n)\n"
+								+ "		bind(aa, p)\n" + "\n" + "	except: pass\n");
 
 	}
 
@@ -790,18 +856,22 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				String[] natives = new File(s).list(new FilenameFilter() {
 
 					public boolean accept(File dir, String name) {
-						return name.endsWith(".jnilib") || name.endsWith(".dylib") || name.endsWith(".so");
+						return name.endsWith(".jnilib")
+								|| name.endsWith(".dylib")
+								|| name.endsWith(".so");
 					}
 				});
-				if (natives != null)
-					for (String n : natives) {
-						try {
-							System.err.println(" Processing Plugin is preemptivly loading native library <" + n + ">");
-							System.load(new File(s, n).getCanonicalPath());
-						} catch (Throwable t) {
-							t.printStackTrace();
-						}
-					}
+//				if (natives != null)
+//					for (String n : natives) {
+//						try {
+//							System.err
+//									.println(" Processing Plugin is preemptivly loading native library <"
+//											+ n + ">");
+//							System.load(new File(s, n).getCanonicalPath());
+//						} catch (Throwable t) {
+//							t.printStackTrace();
+//						}
+//					}
 			}
 
 			firstUpdate = false;
@@ -831,9 +901,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 	}
 
 	@InQueue
-	protected void addActive(iFloatProvider timeProvider, final Promise p, iExecutesPromise delegateTo) {
-
-		System.out.println("PROCESSING about to add active <" + timeProvider + "> <" + p + "> <" + delegateTo + ">");
+	protected void addActive(iFloatProvider timeProvider, final Promise p,
+			iExecutesPromise delegateTo) {
 
 		try {
 			runner.addActive(timeProvider, p);
@@ -849,17 +918,18 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 	}
 
 	@InQueue
-	protected void executeFragment(String fragment, EditorExecutionInterface delegateTo) {
-		System.out.println("PROCESSING execute fragment, delegating to <" + delegateTo + ">");
+	protected void executeFragment(String fragment,
+			EditorExecutionInterface delegateTo) {
 		PythonInterface.getPythonInterface().setVariable("p", applet);
 		if (delegateTo == null) {
-			 PythonInterface.getPythonInterface().execString(fragment);
+			PythonInterface.getPythonInterface().execString(fragment);
 		} else
 			delegateTo.executeFragment(fragment);
 	}
 
 	@InQueue
-	protected void executeReturningValue(String string, EditorExecutionInterface delegateTo, LocalFuture lf) {
+	protected void executeReturningValue(String string,
+			EditorExecutionInterface delegateTo, LocalFuture lf) {
 		PythonInterface.getPythonInterface().setVariable("p", applet);
 		Object o = delegateTo.executeReturningValue(string);
 		lf.set(o);
@@ -867,9 +937,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 	@InQueue
 	protected void removeActive(Promise p, iExecutesPromise delegateTo) {
-
-		System.out.println(" remove active <" + p + "> from runner <" + runner + ">");
-
 		runner.removeActive(p);
 	}
 

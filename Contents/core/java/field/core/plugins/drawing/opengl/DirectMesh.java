@@ -36,7 +36,7 @@ public class DirectMesh {
 		@Override
 		public void performPass() {
 
-			// System.out.println(" refreshing line <" + inside +
+			// ;//System.out.println(" refreshing line <" + inside +
 			// ">");
 
 			this.inside.open();
@@ -47,7 +47,7 @@ public class DirectMesh {
 
 			this.inside.close();
 
-			// System.out.println(" line now <" +
+			// ;//System.out.println(" line now <" +
 			// inside.getUnderlyingGeometry() + ">");
 
 		}
@@ -146,22 +146,22 @@ public class DirectMesh {
 			if (!s)
 				return;
 
-			// System.out.println(" -- clear and copy -- <" + from +
+			// ;//System.out.println(" -- clear and copy -- <" + from +
 			// " -> " + " " + inside + ">");
 
 			if (cache == null) {
-				// System.out.println(" uncached");
+				// ;//System.out.println(" uncached");
 				from.finish();
 				cache = makeConcrete(from, null);
 
-				// System.out.println(" cache is <" +
+				// ;//System.out.println(" cache is <" +
 				// cache.delegate.getUnderlyingGeometry() +
 				// ">");
 
 				mod = from.getModCount();
 				inside.copyFrom(cache, false);
 			} else if (mod != from.getModCount()) {
-//				System.out.println(" cache miss");
+//				;//System.out.println(" cache miss");
 
 				from.finish();
 				mod = from.getModCount();
@@ -175,7 +175,7 @@ public class DirectMesh {
 				inside.copyFrom(cache, false);
 			} else {
 
-				// System.out.println(" cache valid ");
+				// ;//System.out.println(" cache valid ");
 
 				inside.copyFrom(cache, true);
 			}
@@ -219,7 +219,7 @@ public class DirectMesh {
 			if (from.events.size() >= 4) {
 				if (from.events.get(0).method.equals(iLine_m.moveTo_m) && from.events.get(1).method.equals(iLine_m.lineTo_m) && from.events.get(2).method.equals(iLine_m.lineTo_m) && from.events.get(3).method.equals(iLine_m.lineTo_m) && (from.events.size() == 4 || from.events.get(4).method.equals(iLine_m.close_m) || (from.events.get(4).method.equals(iLine_m.lineTo_m) && from.events.get(4).getDestination3().distanceFrom(from.events.get(0).getDestination3()) < 1e-4))) {
 
-					System.out.println(" square fastpath");
+					;//System.out.println(" square fastpath");
 					int a = cache.nextVertex(from.events.get(0).getDestination3());
 
 					for (int i = 0; i < propertiesInOrder.size(); i++) {
@@ -289,7 +289,7 @@ public class DirectMesh {
 				}
 			} else if (from.events.size() >= 3) {
 				if (from.events.get(0).method.equals(iLine_m.moveTo_m) && from.events.get(1).method.equals(iLine_m.lineTo_m) && from.events.get(2).method.equals(iLine_m.lineTo_m) && (from.events.size() == 3 || from.events.get(3).method.equals(iLine_m.close_m) || (from.events.get(3).method.equals(iLine_m.lineTo_m) && from.events.get(3).getDestination3().distanceFrom(from.events.get(0).getDestination3()) < 1e-4))) {
-					System.out.println(" triangle fastpath");
+					;//System.out.println(" triangle fastpath");
 					int a = cache.nextVertex(from.events.get(0).getDestination3());
 
 					for (int i = 0; i < propertiesInOrder.size(); i++) {
@@ -640,7 +640,7 @@ public class DirectMesh {
 
 	private void setAux(SubMesh_long cache, Integer value, Object a) {
 
-		// System.out.println(" set aux :" + value + " " + a);
+		// ;//System.out.println(" set aux :" + value + " " + a);
 
 		if (a == null)
 			return;

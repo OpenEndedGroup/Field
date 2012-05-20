@@ -79,7 +79,7 @@ public class CoreImageCanvasUtils {
 
 		public void drawIntoCanvasNow(Vector3 a, Vector3 b, Vector3 c, Vector3 d, Vector4 tint) {
 
-			System.out.println(" draw destination into canvas now in 3d  --- drew <" + drawn + " " + (drawn != null ? drawn.coreimage : null) + ">");
+			;//System.out.println(" draw destination into canvas now in 3d  --- drew <" + drawn + " " + (drawn != null ? drawn.coreimage : null) + ">");
 
 			CoreHelpers.glPushAttrib(GL_ALL_ATTRIB_BITS);
 
@@ -118,7 +118,7 @@ public class CoreImageCanvasUtils {
 
 			glEnable(GL_DEPTH_TEST);
 
-			System.out.println(" ---------- about to draw <" + mesh.getUnderlyingGeometry() + "> with program :");
+			;//System.out.println(" ---------- about to draw <" + mesh.getUnderlyingGeometry() + "> with program :");
 			BasicGLSLangProgram.currentProgram.debugPrintUniforms();
 
 			mesh.getUnderlyingGeometry().performPass(null);
@@ -233,7 +233,7 @@ public class CoreImageCanvasUtils {
 
 		@Override
 		protected void finalize() throws Throwable {
-			System.out.println(" finalizing destination ");
+			;//System.out.println(" finalizing destination ");
 			if (deletionQueue != null)
 				fbo.delete(deletionQueue);
 			super.finalize();
@@ -279,7 +279,7 @@ public class CoreImageCanvasUtils {
 					r.add(ss);
 			}
 
-			System.out.println(" inputs are <" + s + "> -> " + r);
+			;//System.out.println(" inputs are <" + s + "> -> " + r);
 			return r;
 		}
 
@@ -349,7 +349,7 @@ public class CoreImageCanvasUtils {
 		@Override
 		protected void finalize() throws Throwable {
 			super.finalize();
-			System.out.println(" finalize for filter <" + this.filter + ">");
+			;//System.out.println(" finalize for filter <" + this.filter + ">");
 			if (this.filter != 0) {
 				new CoreImage().filter_release(filter);
 				this.filter = 0;
@@ -384,7 +384,7 @@ public class CoreImageCanvasUtils {
 		protected void finalize() throws Throwable {
 			super.finalize();
 			if (this.accumulator != 0) {
-				System.out.println(" releasing accumulator " + accumulator);
+				;//System.out.println(" releasing accumulator " + accumulator);
 				new CoreImage().accumulator_release(accumulator);
 				outputImage.coreimage = 0;
 				this.accumulator = 0;
@@ -407,7 +407,7 @@ public class CoreImageCanvasUtils {
 				b.putInt(raw[i]);
 			b.rewind();
 			coreimage = new CoreImage().image_createWithARGBData(b, width, height);
-			System.out.println("A image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("A image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public Image(byte[] raw, int width, int height) {
@@ -415,18 +415,18 @@ public class CoreImageCanvasUtils {
 			b.put(raw);
 			b.rewind();
 			coreimage = new CoreImage().image_createWithARGBData(b, width, height);
-			System.out.println("A image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("A image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public Image(FloatBuffer rgbaf, int width, int height) {
 			coreimage = new CoreImage().image_createWithARGBFData(rgbaf, width, height);
-			System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public Image(FloatBuffer greyf, int width, int height, boolean grey) {
 			if (!grey) {
 				coreimage = new CoreImage().image_createWithARGBFData(greyf, width, height);
-				System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
+				;//System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
 			} else {
 				FloatBuffer a = ByteBuffer.allocateDirect(greyf.capacity() * 4 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
 				for (int i = 0; i < greyf.capacity(); i++) {
@@ -436,13 +436,13 @@ public class CoreImageCanvasUtils {
 					a.put(1f);
 				}
 				coreimage = new CoreImage().image_createWithARGBFData(a, width, height);
-				System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
+				;//System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
 			}
 		}
 
 		public Image(ByteBuffer rgbaf, int width, int height) {
 			coreimage = new CoreImage().image_createWithARGBData(rgbaf, width, height);
-			System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("B image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public Image(int width, int height) {
@@ -452,7 +452,7 @@ public class CoreImageCanvasUtils {
 			}
 			b.rewind();
 			coreimage = new CoreImage().image_createWithARGBData(b, width, height);
-			System.out.println("C image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("C image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public Image(String url) {
@@ -464,38 +464,38 @@ public class CoreImageCanvasUtils {
 				}
 
 			coreimage = new CoreImage().image_createWithURL(url);
-			System.out.println("D image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("D image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		protected Image(long i) {
 			coreimage = i;
 			new CoreImage().image_retain(coreimage);
-			System.out.println("E image <" + this + "> is pointing to <" + coreimage + ">");
+			;//System.out.println("E image <" + this + "> is pointing to <" + coreimage + ">");
 		}
 
 		public void drawNow(float x, float y) {
 			if (coreimage == 0)
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 
-			System.out.println(" drawing an image");
+			;//System.out.println(" drawing an image");
 
 			drawNow(x, y, new CoreImage().image_getExtentWidth(coreimage), new CoreImage().image_getExtentHeight(coreimage), new CoreImage().image_getExtentX(coreimage), new CoreImage().image_getExtentY(coreimage), new CoreImage().image_getExtentWidth(coreimage), new CoreImage().image_getExtentHeight(coreimage));
 		}
 
 		public void drawNow(float x, float y, float scale) {
 			if (coreimage == 0)
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 
-			System.out.println(" drawing an image " + scale);
+			;//System.out.println(" drawing an image " + scale);
 
 			drawNow(x, y, new CoreImage().image_getExtentWidth(coreimage) * scale, new CoreImage().image_getExtentHeight(coreimage) * scale, new CoreImage().image_getExtentX(coreimage), new CoreImage().image_getExtentY(coreimage), new CoreImage().image_getExtentWidth(coreimage), new CoreImage().image_getExtentHeight(coreimage));
 		}
 
 		public void drawNowRaw(float x, float y, float scale) {
 			if (coreimage == 0)
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 
-			System.out.println(" drawing an image " + scale);
+			;//System.out.println(" drawing an image " + scale);
 
 			drawNowRaw(x, y, new CoreImage().image_getExtentWidth(coreimage) * scale, new CoreImage().image_getExtentHeight(coreimage) * scale, new CoreImage().image_getExtentX(coreimage), new CoreImage().image_getExtentY(coreimage), new CoreImage().image_getExtentWidth(coreimage), new CoreImage().image_getExtentHeight(coreimage));
 		}
@@ -506,13 +506,13 @@ public class CoreImageCanvasUtils {
 
 		public void drawNow(float x, float y, float dw, float dh, float sx, float sy, float sw, float sh) {
 			if (coreimage == 0) {
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 				return;
 			}
 
-			System.out.println(" drawing an image " + x + " " + y + " " + dw + " " + dh + " " + sx + " " + sy + " " + sw + " " + sh);
+			;//System.out.println(" drawing an image " + x + " " + y + " " + dw + " " + dh + " " + sx + " " + sy + " " + sw + " " + sh);
 
-			// System.out.println(" drawnow <" + x + " " + y + " " +
+			// ;//System.out.println(" drawnow <" + x + " " + y + " " +
 			// dw + " " + dh + " " + sx + " " + sy + " " + sw + " "
 			// + sh);
 
@@ -565,7 +565,7 @@ public class CoreImageCanvasUtils {
 				CoreHelpers.glPopMatrix();
 			} else {
 
-				System.out.println(" -- drawing plainly onto screen ");
+				;//System.out.println(" -- drawing plainly onto screen ");
 
 				// new Exception().printStackTrace();
 				if (!CoreHelpers.isCore)
@@ -591,12 +591,12 @@ public class CoreImageCanvasUtils {
 
 		public void drawNowRaw(float x, float y, float dw, float dh, float sx, float sy, float sw, float sh) {
 			if (coreimage == 0) {
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 				return;
 			}
 
 			glPushMatrix();
-			System.out.println(" raw draw");
+			;//System.out.println(" raw draw");
 			new CoreImage().context_drawImageNow(getContext(), coreimage, x, y, dw, dh, sx, sy, sw, sh);
 			glPopMatrix();
 
@@ -622,7 +622,7 @@ public class CoreImageCanvasUtils {
 		@Override
 		protected void finalize() throws Throwable {
 			super.finalize();
-			System.out.println(" finalize for image <" + this.coreimage + ">");
+			;//System.out.println(" finalize for image <" + this.coreimage + ">");
 			if (this.coreimage != 0) {
 				// if (!alreadyFinalized.contains((long)
 				// this.coreimage))
@@ -635,21 +635,21 @@ public class CoreImageCanvasUtils {
 		}
 
 		public void saveAsPNG(String url) {
-			System.out.println(" saving...");
+			;//System.out.println(" saving...");
 			new CoreImage().image_save(context, this.coreimage, url, "public.png");
-			System.out.println(" ... saving complete");
+			;//System.out.println(" ... saving complete");
 		}
 
 		public void saveAsTIFF(String url) {
-			System.out.println(" saving...");
+			;//System.out.println(" saving...");
 			new CoreImage().image_save(context, this.coreimage, url, "public.tiff");
-			System.out.println(" ... saving complete");
+			;//System.out.println(" ... saving complete");
 		}
 
 		public void drawNow3d(float x, float y, float z) {
 
 			if (coreimage == 0) {
-				System.out.println(" drawing released image");
+				;//System.out.println(" drawing released image");
 				return;
 			}
 
@@ -666,7 +666,7 @@ public class CoreImageCanvasUtils {
 			glMatrixMode(GL_MODELVIEW);
 			glPushMatrix();
 
-			System.out.println(" drawing with depth <" + z + ">");
+			;//System.out.println(" drawing with depth <" + z + ">");
 
 			glTranslatef(0, 0, z);
 

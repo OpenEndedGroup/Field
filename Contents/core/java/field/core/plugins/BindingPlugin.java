@@ -55,7 +55,7 @@ public class BindingPlugin extends BaseSimplePlugin {
 		String b = e.getProperty(iVisualElement.boundTo);
 		if (b != null && b.trim().length() > 0) {
 
-			System.out.println(" initializing boundto with <" + b + "> for <" + e + ">");
+			;//System.out.println(" initializing boundto with <" + b + "> for <" + e + ">");
 
 			PythonPluginEditor.makeBoxLocalEverywhere(b.trim());
 			List<iVisualElement> c = e.getChildren();
@@ -115,12 +115,12 @@ public class BindingPlugin extends BaseSimplePlugin {
 			public VisitCode deleted(iVisualElement source) {
 
 				String was = source.getProperty(iVisualElement.boundTo);
-				System.out.println(" handling deleted for <" + source + " -> " + was);
+				;//System.out.println(" handling deleted for <" + source + " -> " + was);
 
 				if (was == null || was.trim().length() == 0) {
 				} else {
 
-					System.out.println(" children are <" + source.getChildren() + ">");
+					;//System.out.println(" children are <" + source.getChildren() + ">");
 					PythonPluginEditor.removeBoxLocalEverywhere(was.trim());
 					List<iVisualElement> c = source.getChildren();
 					for (iVisualElement ee : c)

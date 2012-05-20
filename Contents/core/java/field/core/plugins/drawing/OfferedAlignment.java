@@ -294,13 +294,13 @@ public class OfferedAlignment implements iDragParticipant, iPaintPeer {
 		if (isTrue(element.getProperty(alignment_doNotParticipate)))
 			return;
 
-		System.out.println(" ending drag <" + inOutRect + ">");
+		;//System.out.println(" ending drag <" + inOutRect + ">");
 
 		interpretRect(element,
 				new Rect(0, 0, 0, 0).setValue(inOutRect),
 				inOutRect, false, createConstraint);
 
-		System.out.println(" drag ended <" + inOutRect + ">");
+		;//System.out.println(" drag ended <" + inOutRect + ">");
 
 		Set<Resize> r = resizingOngoing.remove(element);
 		Set<ConstraintOrigin> c = constraintsOngoing.remove(element);

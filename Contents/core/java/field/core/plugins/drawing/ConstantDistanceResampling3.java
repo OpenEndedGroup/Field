@@ -153,7 +153,7 @@ public class ConstantDistanceResampling3 {
 								System.err.println(" subdividing frame <" + a + " " + c1 + " " + c2 + " " + b + ">");
 								LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f, out);
 								float l1 = a.distanceFrom(out);
-								System.out.println("        " + l1 + " / " + subsegTargetLength + " " + currentLength);
+								;//System.out.println("        " + l1 + " / " + subsegTargetLength + " " + currentLength);
 								if (currentLength + l1 > subsegTargetLength) {
 									float alpha = (subsegTargetLength - currentLength) / l1;
 									if (Float.isInfinite(alpha))
@@ -167,7 +167,7 @@ public class ConstantDistanceResampling3 {
 									LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f * alpha, out);
 
 									stream.add(new Vector3(out));
-									System.out.println(" over 1, added <" + out + ">");
+									;//System.out.println(" over 1, added <" + out + ">");
 
 									float nowLength = currentLength + out.distanceFrom(a);
 									subsegTargetLength = length / num - (nowLength - length / num) / 2;
@@ -179,17 +179,17 @@ public class ConstantDistanceResampling3 {
 									c1.setValue(c21);
 
 									if (a.distanceFrom(b) > subsegTargetLength) {
-										System.out.println(" still some more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" still some more <" + a.distanceFrom(b) + ">");
 										continue inner;
 									} else {
-										System.out.println(" no more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" no more <" + a.distanceFrom(b) + ">");
 										currentLength += a.distanceFrom(b);
 										cursor.next();
 										continue segment;
 									}
 								}
 								float l2 = out.distanceFrom(b);
-								System.out.println("         " + l2 + " / " + subsegTargetLength + " " + currentLength);
+								;//System.out.println("         " + l2 + " / " + subsegTargetLength + " " + currentLength);
 								if (currentLength + l1 + l2 > subsegTargetLength) {
 									float alpha = (subsegTargetLength - currentLength - l1) / l2;
 									if (Float.isInfinite(alpha))
@@ -203,7 +203,7 @@ public class ConstantDistanceResampling3 {
 									LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f + 0.5f * alpha, out);
 
 									stream.add(new Vector3(out));
-									System.out.println(" over 2, added <" + out + ">");
+									;//System.out.println(" over 2, added <" + out + ">");
 
 									float nowLength = currentLength + out.distanceFrom(a);
 									subsegTargetLength = length / num - (nowLength - length / num) / 2;
@@ -214,9 +214,9 @@ public class ConstantDistanceResampling3 {
 									c1.setValue(c21);
 
 									if (a.distanceFrom(b) > subsegTargetLength) {
-										System.out.println(" still some more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" still some more <" + a.distanceFrom(b) + ">");
 									} else {
-										System.out.println(" no more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" no more <" + a.distanceFrom(b) + ">");
 										currentLength += a.distanceFrom(b);
 										cursor.next();
 										continue segment;
@@ -242,7 +242,7 @@ public class ConstantDistanceResampling3 {
 								System.err.println(" subdividing frame <" + a + " " + c1 + " " + c2 + " " + b + ">");
 								LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f, out);
 								float l1 = a.distanceFrom(out);
-								System.out.println("        " + l1 + " / " + subsegTargetLength + " " + currentLength);
+								;//System.out.println("        " + l1 + " / " + subsegTargetLength + " " + currentLength);
 								if (currentLength + l1 > subsegTargetLength) {
 									float alpha = (subsegTargetLength - currentLength) / l1;
 									if (Float.isInfinite(alpha))
@@ -256,7 +256,7 @@ public class ConstantDistanceResampling3 {
 									LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f * alpha, out);
 
 									stream.add(new Vector3(out));
-									System.out.println(" over 1, added <" + out + ">");
+									;//System.out.println(" over 1, added <" + out + ">");
 
 									float nowLength = currentLength + out.distanceFrom(a);
 									subsegTargetLength = length / num - (nowLength - length / num) / 2;
@@ -268,17 +268,17 @@ public class ConstantDistanceResampling3 {
 									c1.setValue(c21);
 
 									if (a.distanceFrom(b) > subsegTargetLength) {
-										System.out.println(" still some more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" still some more <" + a.distanceFrom(b) + ">");
 										continue inner;
 									} else {
-										System.out.println(" no more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" no more <" + a.distanceFrom(b) + ">");
 										currentLength += a.distanceFrom(b);
 										cursor.next();
 										continue segment;
 									}
 								}
 								float l2 = out.distanceFrom(b);
-								System.out.println("         " + l2 + " / " + subsegTargetLength + " " + currentLength);
+								;//System.out.println("         " + l2 + " / " + subsegTargetLength + " " + currentLength);
 								if (currentLength + l1 + l2 > subsegTargetLength) {
 									float alpha = (subsegTargetLength - currentLength - l1) / l2;
 									if (Float.isInfinite(alpha))
@@ -292,7 +292,7 @@ public class ConstantDistanceResampling3 {
 									LineUtils.evaluateCubicFrame3(a, c1, c2, b, 0.5f + 0.5f * alpha, out);
 
 									stream.add(new Vector3(out));
-									System.out.println(" over 2, added <" + out + ">");
+									;//System.out.println(" over 2, added <" + out + ">");
 
 									float nowLength = currentLength + out.distanceFrom(a);
 									subsegTargetLength = length / num - (nowLength - length / num) / 2;
@@ -303,9 +303,9 @@ public class ConstantDistanceResampling3 {
 									c1.setValue(c21);
 
 									if (a.distanceFrom(b) > subsegTargetLength) {
-										System.out.println(" still some more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" still some more <" + a.distanceFrom(b) + ">");
 									} else {
-										System.out.println(" no more <" + a.distanceFrom(b) + ">");
+										;//System.out.println(" no more <" + a.distanceFrom(b) + ">");
 										currentLength += a.distanceFrom(b);
 										cursor.next();
 										continue segment;

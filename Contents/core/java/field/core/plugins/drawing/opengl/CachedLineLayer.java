@@ -82,7 +82,7 @@ public class CachedLineLayer {
 
 		@Override
 		public void performPass() {
-//			System.out.println(" update line :"+target+" "+m);
+//			;//System.out.println(" update line :"+target+" "+m);
 			updateLine(target, m);
 		}
 

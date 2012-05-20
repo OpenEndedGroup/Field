@@ -178,14 +178,14 @@ public class OnlinePlugin extends BaseSimplePlugin {
 					final LocalFuture<PickledCompletionInformation> laf = new LocalFuture<PickledCompletionInformation>();
 					uniq++;
 
-					System.out.println(" -- at completion --" + uniq);
+					;//;//System.out.println(" -- at completion --" + uniq);
 
 					server.addHandler("/field/completion_" + uniq + "_", new Handler() {
 
 						@Override
 						public Response serve(Response r, String uri, String metod, Properties header, Properties parms) {
 
-							System.out.println(" handling response <" + (String) parms.get("data") + ">");
+							;//;//System.out.println(" handling response <" + (String) parms.get("data") + ">");
 
 							try {
 								JSONObject o = new JSONObject((String) parms.get("data"));
@@ -203,7 +203,7 @@ public class OnlinePlugin extends BaseSimplePlugin {
 							return true;
 						}
 					});
-					System.out.println(" -- running completion --" + uniq);
+					;//;//System.out.println(" -- running completion --" + uniq);
 					server.addContent("_field.introspect(\"/field/completion_" + uniq + "_\"," + string + ")\n");
 
 					return laf;
@@ -312,7 +312,7 @@ public class OnlinePlugin extends BaseSimplePlugin {
 
 		List<List<String>> info = new ArrayList<List<String>>();
 
-		System.out.println(" object is <" + o + ">");
+		;//;//System.out.println(" object is <" + o + ">");
 
 		JSONArray contents = (JSONArray) o.getJSONArray("text");
 		for (int i = 0; i < contents.length(); i++) {

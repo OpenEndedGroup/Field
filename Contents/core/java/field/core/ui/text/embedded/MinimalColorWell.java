@@ -261,7 +261,7 @@ public class MinimalColorWell extends JComponent {
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
 
-		System.out.println(" change color mouse event <" + e + ">");
+		;//System.out.println(" change color mouse event <" + e + ">");
 
 		if (Platform.isPopupTrigger(e)) {
 
@@ -325,7 +325,7 @@ public class MinimalColorWell extends JComponent {
 				// };
 				// };
 
-				System.out.println(" changing color");
+				;//System.out.println(" changing color");
 				changeColor();
 
 			}

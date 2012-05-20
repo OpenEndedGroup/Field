@@ -65,7 +65,7 @@ public class GitVersioningQueries {
 		public DiffSet(String[] a, String[] b) {
 			this.a = a;
 			this.b = b;
-			System.out.println(" -- diff constructor 0");
+			;//System.out.println(" -- diff constructor 0");
 			Channel<String> left = new Channel<String>();
 			Channel<String> right = new Channel<String>();
 
@@ -74,16 +74,16 @@ public class GitVersioningQueries {
 			for (int i = 0; i < b.length; i++)
 				right.makeMarker(right, i, 0, b[i]);
 
-			System.out.println(" -- diff constructor ");
+			;//System.out.println(" -- diff constructor ");
 			ChannelDifferences<String> m = new ChannelDifferences<String>(left, right);
-			System.out.println(" -- diff constructor A ");
+			;//System.out.println(" -- diff constructor A ");
 			relationships = m.makeRelationships();
-			System.out.println(" -- diff constructor B ");
+			;//System.out.println(" -- diff constructor B ");
 			relationships = m.generateUnequivalences(relationships, 10);
-			System.out.println(" -- diff constructor C ");
+			;//System.out.println(" -- diff constructor C ");
 			relationships = m.clumpEquivalences(relationships);
-			System.out.println(" -- diff constructor D ");
-			System.out.println(" -- diff constructor out ");
+			;//System.out.println(" -- diff constructor D ");
+			;//System.out.println(" -- diff constructor out ");
 		}
 
 		public Snippet snippetsForVersions(int lineStart, int lineEnd) {
@@ -119,11 +119,11 @@ public class GitVersioningQueries {
 
 					int index = 0;
 					
-					System.out.println("ER "+e.getPayload());
+					;//System.out.println("ER "+e.getPayload());
 					
 					if (e.getPayload().left != null && e.getPayload().right != null)
 						for (iMarker<String> m : e.getPayload().left) {
-							System.out.println(" time is "+m);
+							;//System.out.println(" time is "+m);
 							if (m.getTime() == a && e.getPayload().right.size()>0) {
 								EditRelationship p = e.getPayload();
 								if (p.type == EditType.equivalence) {
@@ -165,7 +165,7 @@ public class GitVersioningQueries {
 			if (lines[i].startsWith("commit")) {
 				VersionsOfFile prev = v;
 				v = new VersionsOfFile();
-				System.out.println(" lines <" + lines[i] + ">");
+				;//System.out.println(" lines <" + lines[i] + ">");
 				v.commit = lines[i].split(" ")[1];
 				v.path = path;
 				if (prev != null) {

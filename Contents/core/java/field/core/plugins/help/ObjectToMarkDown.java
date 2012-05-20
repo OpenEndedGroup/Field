@@ -52,7 +52,7 @@ public class ObjectToMarkDown {
 
 	public String convert(Object o) {
 
-		System.out.println(" object to markdown --- <" + o + ">");
+		;//System.out.println(" object to markdown --- <" + o + ">");
 
 		if (o == null)
 			return "Cannot find object";
@@ -76,7 +76,7 @@ public class ObjectToMarkDown {
 
 		JavaClass cc = resolveJavaClass(c);
 
-		System.out.println(" get class is <" + cc + ">");
+		;//System.out.println(" get class is <" + cc + ">");
 
 		if (cc != null)
 			if (cc.getComment() != null && cc.getComment().trim().length() > 0)
@@ -126,7 +126,7 @@ public class ObjectToMarkDown {
 			q++;
 		}
 
-		System.out.println(" -- returning <" + s + ">");
+		;//System.out.println(" -- returning <" + s + ">");
 
 		return s;
 	}
@@ -149,12 +149,12 @@ public class ObjectToMarkDown {
 						JavaDocCache.cache.addJarFile(sd[n]);
 						String p2 = fname.replace(".", "/") + ".java";
 						String p1 = "src/" + p2;
-						System.out.println(" trying :" + p1);
+						;//System.out.println(" trying :" + p1);
 						cc = JavaDocCache.cache.loadNameFromJar(p1, name);
 						if (cc != null)
 							break;
 						cc = JavaDocCache.cache.loadNameFromJar(p2, name);
-						System.out.println(" trying :" + p2);
+						;//System.out.println(" trying :" + p2);
 						if (cc != null)
 							break;
 
@@ -164,7 +164,7 @@ public class ObjectToMarkDown {
 							break;
 					}
 				} catch (Exception e) {
-					System.out.println(" resource is <" + sd[n] + ">");
+					;//System.out.println(" resource is <" + sd[n] + ">");
 					e.printStackTrace();
 				}
 			}
@@ -264,19 +264,19 @@ public class ObjectToMarkDown {
 
 						typeName = typeName.substring(m.getParameterTypes()[i].getDeclaringClass().getName().length() + 1);
 
-						System.out.println("parameter type is member class <" + m.getParameterTypes()[i] + "> names are <" + typeName + "> <" + m.getParameterTypes()[i].getName() + "> <" + Platform.getCanonicalName(m.getParameterTypes()[i]) + ">");
+						;//System.out.println("parameter type is member class <" + m.getParameterTypes()[i] + "> names are <" + typeName + "> <" + m.getParameterTypes()[i].getName() + "> <" + Platform.getCanonicalName(m.getParameterTypes()[i]) + ">");
 
 						typeName = m.getParameterTypes()[i].getName();
 
 						if (typeName.contains("$")) {
 							String root = typeName.substring(0, typeName.indexOf("$"));
 
-							System.out.println(" root = " + root + " " + typeName + " " + name);
+							;//System.out.println(" root = " + root + " " + typeName + " " + name);
 
 							if (root.equals(name)) {
-								System.out.println(" is inside class ");
+								;//System.out.println(" is inside class ");
 							} else {
-								System.out.println(" is outside class");
+								;//System.out.println(" is outside class");
 								typeName = typeName.replace("$", ".");
 							}
 						}
@@ -342,11 +342,11 @@ public class ObjectToMarkDown {
 						ss += "\n[/fold]\n\n";
 						q++;
 					} else {
-						System.out.println(" does this ever happen ? ");
+						;//System.out.println(" does this ever happen ? ");
 					}
 				} else {
-					System.out.println(" couldn't find method by signature <" + m.getName() + "> <" + Arrays.asList(types) + "> <" + m.isBridge() + " " + m.isSynthetic() + ">");
-					System.out.println("methods are <" + Arrays.asList(jc.getMethods()) + ">");
+					;//System.out.println(" couldn't find method by signature <" + m.getName() + "> <" + Arrays.asList(types) + "> <" + m.isBridge() + " " + m.isSynthetic() + ">");
+					;//System.out.println("methods are <" + Arrays.asList(jc.getMethods()) + ">");
 				}
 			}
 		}

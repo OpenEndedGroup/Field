@@ -70,9 +70,9 @@ public class MinimalSlider extends JComponent implements iAcceptsInsertRendering
 
 				@Override
 				protected void echoSlider() {
-					System.out.println(" about to echo");
+					;//System.out.println(" about to echo");
 					OutputInsertsOnSheet.wrapExisting("testSlider", inside, Component.this);
-					System.out.println(" about to echo complete");
+					;//System.out.println(" about to echo complete");
 				}
 			};
 
@@ -314,7 +314,7 @@ public class MinimalSlider extends JComponent implements iAcceptsInsertRendering
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
 		
-		System.out.println(" process mouse event in minimal slider");
+		;//System.out.println(" process mouse event in minimal slider");
 		
 		super.processMouseEvent(e);
 
@@ -346,7 +346,7 @@ public class MinimalSlider extends JComponent implements iAcceptsInsertRendering
 	@Override
 	protected void processMouseMotionEvent(MouseEvent e) {
 
-		System.out.println(" process mouse motion event in minimal slider");
+		;//System.out.println(" process mouse motion event in minimal slider");
 
 		super.processMouseMotionEvent(e);
 		int x = e.getX() - 0*this.bounds().x;

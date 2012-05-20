@@ -40,7 +40,7 @@ public class DirectLine {
 		@Override
 		public void performPass() {
 
-//			System.out.println(" refreshing line <" + inside + ">");
+//			;//System.out.println(" refreshing line <" + inside + ">");
 
 			this.inside.open();
 
@@ -50,7 +50,7 @@ public class DirectLine {
 
 			this.inside.close();
 
-//			System.out.println(" line now <" + inside.getUnderlyingGeometry() + ">");
+//			;//System.out.println(" line now <" + inside.getUnderlyingGeometry() + ">");
 
 		}
 
@@ -91,24 +91,24 @@ public class DirectLine {
 
 		public void clearAndCopy(DynamicLine_long inside) {
 			
-//			System.out.println(" clear and copy <"+inside+"> from <"+from+">");
+//			;//System.out.println(" clear and copy <"+inside+"> from <"+from+">");
 			
 			boolean s = from.getProperties().isTrue(iLinearGraphicsContext.stroked, true);
 			if (!s) return;
 
-//			System.out.println(" -- clear and copy -- <" + from + " -> " + " " + inside + ">");
+//			;//System.out.println(" -- clear and copy -- <" + from + " -> " + " " + inside + ">");
 
 			if (cache == null) {
-//				System.out.println(" uncached");
+//				;//System.out.println(" uncached");
 				from.finish();
 				cache = makeConcrete(from,null);
 
-//				System.out.println(" cache is <" + cache.delegate.getUnderlyingGeometry() + ">");
+//				;//System.out.println(" cache is <" + cache.delegate.getUnderlyingGeometry() + ">");
 
 				mod = from.getModCount();
 				inside.copyFrom(cache, false);
 			} else if (mod != from.getModCount()) {
-//				System.out.println(" cache miss");
+//				;//System.out.println(" cache miss");
 				from.finish();
 				mod = from.getModCount();
 
@@ -121,12 +121,12 @@ public class DirectLine {
 				inside.copyFrom(cache, false);
 			} else {
 
-//				System.out.println(" cache valid ");
+//				;//System.out.println(" cache valid ");
 
 				inside.copyFrom(cache, true);
 			}
 			
-//			System.out.println(" finished <"+inside.getUnderlyingGeometry()+">");
+//			;//System.out.println(" finished <"+inside.getUnderlyingGeometry()+">");
 			
 		}
 	}
@@ -135,7 +135,7 @@ public class DirectLine {
 	
 	public SubLine_long makeConcrete(CachedLine from, SubLine_long prev) {
 
-//		System.out.println(" making copy ");
+//		;//System.out.println(" making copy ");
 		
 		Vector3 lastClose = new Vector3(0, 0, 0);
 		Vector3 at = new Vector3(0, 0, 0);
@@ -170,7 +170,7 @@ public class DirectLine {
 
 		Event lastE = null;
 
-//		System.out.println(" num events :"+from.events.size()+">");
+//		;//System.out.println(" num events :"+from.events.size()+">");
 		
 		for (Event e : from.events) {
 			if (e.method.equals(iLine_m.moveTo_m)) {

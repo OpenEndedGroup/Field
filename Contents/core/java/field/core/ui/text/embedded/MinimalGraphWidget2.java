@@ -656,7 +656,7 @@ public class MinimalGraphWidget2 extends MinimalExpandable implements iRegisters
 
 						if (controlIs.distanceFrom(m) < 5) {
 							initialDown = x;
-							System.out.println(" found it");
+							;//System.out.println(" found it");
 							initialDownY = y;
 							initialDownOn = i;
 							on = Dragging.controlBefore;

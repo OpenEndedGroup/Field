@@ -144,7 +144,7 @@ public class MeshBlast {
 
 		
 		buffer.position(0);
-		System.out.println(" emit <"+i+"> <"+buffer+"> <"+length+"> <"+(length*4)+">");
+		;//System.out.println(" emit <"+i+"> <"+buffer+"> <"+length+"> <"+(length*4)+">");
 		buffer.limit(length * 4);
 		
 		if (length>header.maximumDimensions.get(i))

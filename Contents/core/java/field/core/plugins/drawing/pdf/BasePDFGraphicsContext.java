@@ -215,7 +215,7 @@ public class BasePDFGraphicsContext extends iLinearGraphicsContext {
 	@Override
 	public void submitLine(CachedLine line, Dict properties) {
 		
-		System.out.println(" submitting line for pdf output <"+line+"> <"+properties+">");
+		;//System.out.println(" submitting line for pdf output <"+line+"> <"+properties+">");
 		
 		if (properties.isTrue(iLinearGraphicsContext.notForExport, false))
 			return;
@@ -275,7 +275,7 @@ public class BasePDFGraphicsContext extends iLinearGraphicsContext {
 			}
 		}
 
-		System.out.println(" computes <"+computes+">");
+		;//System.out.println(" computes <"+computes+">");
 
 		if (computes.size() == 0)
 			return;

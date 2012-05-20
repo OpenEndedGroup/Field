@@ -14,8 +14,8 @@ public class AppletLauncher extends Applet {
 		
 		add(new JLabel("banana"));
 		
-		System.out.println(" about to launch ");
+		;//System.out.println(" about to launch ");
 		Launcher.main(new String[]{"-main.class", "field.nonpackage.HelloApplet"});
-		System.out.println(" launched ");
+		;//System.out.println(" launched ");
 	}
 }

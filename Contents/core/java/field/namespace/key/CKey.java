@@ -55,7 +55,7 @@ abstract public class CKey extends Key {
 
 		Iterator i = executionStack.iterator();
 		while(i.hasNext())
-			System.out.println(i.next());
+			;//System.out.println(i.next());
 		return this;
 	}
 
@@ -306,16 +306,16 @@ abstract public class CKey extends Key {
 
 	protected Object run(Object o) {
 		if (debug)
-			System.out.println(" run: stack is <" + executionStack + ">");
+			;//System.out.println(" run: stack is <" + executionStack + ">");
 
 		for (int i = 0; i < executionStack.size(); i++) {
 			//for (int i = executionStack.size() - 1; i >= 0; i--) {
 			StackElement e = (StackElement) executionStack.get(i);
 			if (debug)
-				System.out.println("##### o <" + o + ">");
+				;//System.out.println("##### o <" + o + ">");
 			o = e.enter(o);
 			if (debug)
-				System.out.println("##### becomes o <" + o + "> after <" + e + ">");
+				;//System.out.println("##### becomes o <" + o + "> after <" + e + ">");
 		}
 		//for (int i = 0; i < executionStack.size(); i++)
 		for (int i = executionStack.size() - 1; i >= 0; i--) {

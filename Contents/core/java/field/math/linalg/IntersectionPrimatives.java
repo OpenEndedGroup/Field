@@ -995,7 +995,7 @@ public class IntersectionPrimatives {
 			float fB0 = (float) 1.0 - fB1 - fB2;
 
 			if (fB0 >= (float) 0.0 && fB1 >= (float) 0.0 && fB2 >= (float) 0.0) {
-				// System.out.println(" is barycentric ");
+				// ;//System.out.println(" is barycentric ");
 				// Line parameter for the point of intersection.
 				float fDdE0 = rkD.dot(kEdge0);
 				float fDdE1 = rkD.dot(kEdge1);
@@ -1109,7 +1109,7 @@ public class IntersectionPrimatives {
 
 		float s = m0 + m1 + m2 + m3;
 
-		// System.out.println(d0+" "+d1+" "+d2+" "+d3+"\n"+r0+" "+r1+" "+r2+" "+r3+"\n"+t0+" "+t1+" "+t2+" "+t3+"\n"+m0+" "+m1+" "+m2+" "+m3+"\n"+s);
+		// ;//System.out.println(d0+" "+d1+" "+d2+" "+d3+"\n"+r0+" "+r1+" "+r2+" "+r3+"\n"+t0+" "+t1+" "+t2+" "+t3+"\n"+m0+" "+m1+" "+m2+" "+m3+"\n"+s);
 
 		// can happen for the occasional point outside the quad
 		if (s == 0)
@@ -1149,7 +1149,7 @@ public class IntersectionPrimatives {
 			}
 		});
 
-		System.out.println(" sorted: " + aa);
+		;//System.out.println(" sorted: " + aa);
 
 		return aa.get(0);
 

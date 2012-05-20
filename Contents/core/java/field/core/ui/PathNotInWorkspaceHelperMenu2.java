@@ -35,7 +35,7 @@ public class PathNotInWorkspaceHelperMenu2 {
 	public void open(Shell fc, final String filename) {
 		this.filename = filename;
 
-		System.out.println(" filename is <" + filename + "> and versioning dir is <" + FieldMenus2.getCanonicalVersioningDir() + "> therefore <" + filename.startsWith(FieldMenus2.getCanonicalVersioningDir()) + ">");
+		;//System.out.println(" filename is <" + filename + "> and versioning dir is <" + FieldMenus2.getCanonicalVersioningDir() + "> therefore <" + filename.startsWith(FieldMenus2.getCanonicalVersioningDir()) + ">");
 
 		if (!filename.startsWith(FieldMenus2.getCanonicalVersioningDir())) {
 			File f = new File(filename);

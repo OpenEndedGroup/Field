@@ -720,7 +720,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 		paintQueue.update();
 		if (isHidden()) {
 
-			System.out.println(" component is hidden");
+			;//System.out.println(" component is hidden");
 
 			if (overridingInterface != null) {
 				overridingInterface.paintNow(element, this.getBounds(), visible);

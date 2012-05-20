@@ -104,9 +104,9 @@ public class FluidPersistence {
 							Class r = super.realClass(elementName);
 							return r;
 						} catch (CannotResolveClassException e) {
-							System.out.println(" context is <"+context+">");
+							;//System.out.println(" context is <"+context+">");
 							Class lookingFor = context.getRequiredType();
-							System.out.println(" looking for <" + elementName + "> can't load it <" + e + ">, needed a type <" + lookingFor + "> guessing iVisualElement");
+							;//System.out.println(" looking for <" + elementName + "> can't load it <" + e + ">, needed a type <" + lookingFor + "> guessing iVisualElement");
 							return VisualElement.class;
 						}
 					}
@@ -143,7 +143,7 @@ public class FluidPersistence {
 					writer.endNode();
 
 					indent++;
-					System.out.println(indentString()+" >>>>>>>>> saving element <"+element.getUniqueID()+"> <"+element+">");
+					;//System.out.println(indentString()+" >>>>>>>>> saving element <"+element.getUniqueID()+"> <"+element+">");
 					
 					Boolean doNot = element.getProperty(iVisualElement.doNotSave);
 					if (element.getUniqueID().startsWith("//")) {
@@ -189,7 +189,7 @@ public class FluidPersistence {
 							}
 
 						}
-						System.out.println(indentString()+" -- properties");
+						;//System.out.println(indentString()+" -- properties");
 						writer.startNode("properties");
 						context.convertAnother(properties);
 						writer.endNode();
@@ -197,11 +197,11 @@ public class FluidPersistence {
 						context.convertAnother(element.getFrame(new Rect(0, 0, 0, 0)));
 						writer.endNode();
 
-						System.out.println(indentString()+" -- parents");
+						;//System.out.println(indentString()+" -- parents");
 						writer.startNode("parents");
 						context.convertAnother(element.getParents());
 						writer.endNode();
-						System.out.println(indentString()+" -- children");
+						;//System.out.println(indentString()+" -- children");
 						writer.startNode("children");
 						context.convertAnother(element.getChildren());
 						writer.endNode();
@@ -211,7 +211,7 @@ public class FluidPersistence {
 				}
 				finally
 				{
-					System.out.println(indentString()+" <<<< <"+((iVisualElement)source).getUniqueID()+"> <"+((iVisualElement)source).getProperty(iVisualElement.name)+">");
+					;//System.out.println(indentString()+" <<<< <"+((iVisualElement)source).getUniqueID()+"> <"+((iVisualElement)source).getProperty(iVisualElement.name)+">");
 					indent--;
 				}
 			}
@@ -335,7 +335,7 @@ public class FluidPersistence {
 				writer.endNode();
 
 				if (component.getVisualElement() == null) {
-					System.out.println(ANSIColorUtils.red(" persistance leak ? <" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
+					;//System.out.println(ANSIColorUtils.red(" persistance leak ? <" + ReflectionTools.illegalGetObject(writer, "elementStack") + ">"));
 					System.exit(1);
 				}
 

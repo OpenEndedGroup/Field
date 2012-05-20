@@ -65,7 +65,7 @@ public class ConnexionDeviceHack implements iConnexionSource {
 								lastButton = buttons;
 								n++;
 								if (n % 40 == 0)
-									System.out.println(" (( connexion alive ))");
+									;//;//System.out.println(" (( connexion alive ))");
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -133,12 +133,12 @@ public class ConnexionDeviceHack implements iConnexionSource {
 		@Override
 		public void update(iVisualElement root) {
 
-			System.out.println(" update generale conncetion");
+			;//;//System.out.println(" update generale conncetion");
 
 			if (ConnexionDeviceHack.globalDevice == null)
 				return;
 			float f = ConnexionDeviceHack.globalDevice.axes[axis];
-			System.out.println(f);
+			;//;//System.out.println(f);
 
 			f *= scale;
 			Rect fr = outputTo.get(root).getFrame(null);
@@ -147,7 +147,7 @@ public class ConnexionDeviceHack implements iConnexionSource {
 			else if (targetAspect == 1)
 				fr.y += f;
 
-			System.out.println("updating frame to <" + fr + ">");
+			;//;//System.out.println("updating frame to <" + fr + ">");
 			iVisualElement old = iVisualElementOverrides.topology.setAt(outputTo.get(root));
 			iVisualElementOverrides.forward.shouldChangeFrame.shouldChangeFrame(outputTo.get(root), fr, outputTo.get(root).getFrame(null), true);
 			outputTo.get(root).setProperty(iVisualElement.dirty, true);
@@ -240,7 +240,7 @@ public class ConnexionDeviceHack implements iConnexionSource {
 		int m = 1;
 		for (int i = 0; i < 8; i++) {
 
-			System.out.println(newButtons+" "+oldButtons+" "+m);
+			;//;//System.out.println(newButtons+" "+oldButtons+" "+m);
 
 			if ((newButtons & m) !=0 && (oldButtons & m) == 0) {
 				Collection<iUpdateable> c = buttonToggles.get(i);

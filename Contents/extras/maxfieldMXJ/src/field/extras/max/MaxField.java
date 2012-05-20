@@ -51,7 +51,7 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 	public MaxField(Atom[] args) {
 		Py.setSystemState(state);
 
-		System.out.println(" -- hello --");
+		;//;//System.out.println(" -- hello --");
 
 		state.setClassLoader(this.getClass().getClassLoader());
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
@@ -78,7 +78,7 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 			Py.exec(Py.compile_flags(fis, "__boot__", CompileMode.exec, cflags), globals, globals);
 			fis.close();
 		} catch (Exception e) {
-			System.out.println(" -- error --" + e.getClass());
+			;//;//System.out.println(" -- error --" + e.getClass());
 			e.printStackTrace();
 		}
 	}
@@ -88,14 +88,14 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 		String[] mm = m.toString().split(":");
 		for (String mmm : mm) {
 
-			System.out.println(" checking <" + mmm + ">");
+			;//;//System.out.println(" checking <" + mmm + ">");
 
 			if (new File(mmm + "/../python/maxfield/__init__.py").exists()) {
 				return mmm + "/";
 			}
 		}
 		
-		System.out.println(" code source is :"+this.getClass().getProtectionDomain().getCodeSource().getLocation());
+		;//;//System.out.println(" code source is :"+this.getClass().getProtectionDomain().getCodeSource().getLocation());
 		if (new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"/../python/maxfield/__init__.py").exists())
 		{
 			return this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"/../python/";
@@ -126,7 +126,7 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 
 				insideUnderscore.put(called, d);
 
-				System.out.println(" set <" + called + "> to <" + d + ">");
+				;//;//System.out.println(" set <" + called + "> to <" + d + ">");
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -281,7 +281,7 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 				oos.close();
 				String encodedValue = new Base64().encode(baos.toByteArray());
 
-				// System.out.println(" sending back data <"+this.getMaxBox().getName()+"> <"+name+"> <"+encodedValue+">");
+				// ;//;//System.out.println(" sending back data <"+this.getMaxBox().getName()+"> <"+name+"> <"+encodedValue+">");
 
 				thisRoot.out.simpleSend("/data", thisRoot.getPath(this.getMaxBox()), name, encodedValue);
 			} catch (Exception e) {

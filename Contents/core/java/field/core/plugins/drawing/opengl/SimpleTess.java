@@ -86,7 +86,7 @@ public abstract class SimpleTess {
 
 	public void line(Vector3 a, Vector3 b, List<Object> pa, List<Object> pb) {
 
-		System.out.println(" line <" + a + " -> " + b + "> <" + contourFirst + ">");
+		;//System.out.println(" line <" + a + " -> " + b + "> <" + contourFirst + ">");
 
 		if (contourFirst) {
 			VInfo info = new VInfo(-1, a, pa);
@@ -184,10 +184,10 @@ public abstract class SimpleTess {
 
 	protected void nextTriangle(VInfo i) {
 
-//		System.out.println(" next triangle <" + i.vertex + ">");
+//		;//System.out.println(" next triangle <" + i.vertex + ">");
 
 		if (i.vertex == -1) {
-//			System.out.println(" needs a new vertex <" + i.position + ">");
+//			;//System.out.println(" needs a new vertex <" + i.position + ">");
 			nextVertex(i);
 		}
 

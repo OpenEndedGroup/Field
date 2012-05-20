@@ -263,13 +263,13 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 				getCurrentWindow(this).resetViewParameters();
 				setNeedsRedisplay(true);
 			} else if (arg0.keyCode == '=' && (arg0.stateMask & SWT.COMMAND) != 0 && (arg0.stateMask & SWT.SHIFT) == 0) {
-				System.out.println(" zoom in ");
+				;//System.out.println(" zoom in ");
 				getCurrentWindow(this).sx /= 1.25;
 				getCurrentWindow(this).sy /= 1.25;
 				getCurrentWindow(this).clampViewParameters();
 				setNeedsRedisplay(true);
 			} else if (arg0.keyCode == '-' && (arg0.stateMask & SWT.COMMAND) != 0) {
-				System.out.println(" zoom in ");
+				;//System.out.println(" zoom in ");
 				getCurrentWindow(this).sx *= 1.25;
 				getCurrentWindow(this).sy *= 1.25;
 				getCurrentWindow(this).clampViewParameters();
@@ -945,7 +945,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 				defaultRect.width = b.width;
 				defaultRect.height = b.height;
 
-				System.out.println(" shell glcomponentwindow moved <" + b + ">");
+				;//System.out.println(" shell glcomponentwindow moved <" + b + ">");
 
 			}
 
@@ -957,14 +957,14 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 				defaultRect.width = b.width;
 				defaultRect.height = b.height;
 
-				System.out.println(" shell glcomponentwindow moved <" + b + ">");
+				;//System.out.println(" shell glcomponentwindow moved <" + b + ">");
 
 			}
 		});
 
 		// GLCapabilities cap = new GLCapabilities();
 		// GLProfile.get(GLProfile.GL2);
-		// System.out.println(" cap is <" + cap + ">");
+		// ;//System.out.println(" cap is <" + cap + ">");
 
 		frame.setSize(defaultRect.width, defaultRect.height);
 
@@ -983,11 +983,11 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 
 					float h = leftComp1.getSize().y;
 
-					int margin = Platform.isMac() ? 50 : 85;
+					int margin = Platform.isMac() ? 50 : 58;
 
 					float z = margin * t / (h - margin);
-
-					System.out.println(" setting weight to be <" + z + "> <" + weights[0] + " " + weights[1] + ">");
+					
+					;//System.out.println(" setting weight to be <" + z + "> <" + weights[0] + " " + weights[1] + ">");
 
 					float norm = 1000f / weights[0];
 
@@ -1113,7 +1113,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 
 			@Override
 			public void touch(TouchEvent e) {
-				System.out.println(" touch event :" + e);
+				;//System.out.println(" touch event :" + e);
 
 			}
 		});
@@ -1129,7 +1129,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 
 			@Override
 			public void gesture(GestureEvent e) {
-				System.out.println(" gesture event :" + e + " " + e.magnification);
+				;//System.out.println(" gesture event :" + e + " " + e.magnification);
 
 				if (e.detail == SWT.GESTURE_BEGIN) {
 					begin = true;
@@ -1148,7 +1148,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 					float sy = lastMag / (float) e.magnification;
 					lastMag = (float) e.magnification;
 
-					System.out.println(" setting mag momentum to be <" + sy + ">");
+					;//System.out.println(" setting mag momentum to be <" + sy + ">");
 
 					magnificationMomentum = sy;
 					magnificationCenter.x = e.x;
@@ -1164,7 +1164,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 
 				@Override
 				public void handleEvent(Event event) {
-					System.out.println(" paint listener called ");
+					;//System.out.println(" paint listener called ");
 					requestRepaint();
 					display();
 				}
@@ -1320,7 +1320,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		// frame.layout();
 
 		Control sash = hsplit.getChildren()[hsplit.getChildren().length - 1];
-		System.out.println(" SASH is :" + sash);
+		;//System.out.println(" SASH is :" + sash);
 
 		hBetterSash = new BetterSash(hsplit, true);
 		rBetterSash = new BetterSash(rsplit, false);
@@ -1795,13 +1795,13 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		viewport.rewind();
 		object1.rewind();
 
-		// System.out.println(" transform window to canvas is :"+printMat4(model)+" "+printMat4(projection)+" "+printMat4(viewport));
+		// ;//System.out.println(" transform window to canvas is :"+printMat4(model)+" "+printMat4(projection)+" "+printMat4(viewport));
 
 		GLU.gluUnProject(v.x * viewport.get(2), v.y * viewport.get(3), 0, model, projection, viewport, object1);
 		// GLU.gluUnProject(v.x , v.y , 0, model, projection, viewport,
 		// object1);
 
-		// System.out.println(" transform window to canvas <"+v+"> <"+object1.get(0)+"> <"+object1.get(1)+">");
+		// ;//System.out.println(" transform window to canvas <"+v+"> <"+object1.get(0)+"> <"+object1.get(1)+">");
 
 		return new Vector2(object1.get(0), object1.get(1));
 	}
@@ -1844,7 +1844,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 	@DispatchOverTopology(topology = Cont.class)
 	public void update() {
 
-		// System.out.println(" inside glcomponent window update <"+root.isNeedsRedisplay()+">");
+		// ;//System.out.println(" inside glcomponent window update <"+root.isNeedsRedisplay()+">");
 
 		if (!disableRepaint && (root.isNeedsRedisplay() || (continuousRepaint && ((continuousRepaintCount++ % continuousRepaintStrobe) == 0)))) {
 			frameNumber++;
@@ -2081,7 +2081,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		// GL gl = glcontext.getGL();
 		// canvas.setCurrent();
 
-		System.out.println(" -- reshape to <" + w + " " + h + ">");
+		;//System.out.println(" -- reshape to <" + w + " " + h + ">");
 
 		GL11.glViewport(0, 0, w, h);
 
@@ -2145,7 +2145,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 			// && (event.stateMask & SWT.BUTTON3) == 0)
 			// mouseMoved(event);
 			// else {
-			// System.out.println(" dragged at <"+event.time+">");
+			// ;//System.out.println(" dragged at <"+event.time+">");
 			// // !
 			// if ((event.stateMask & SWT.BUTTON1) != 0)
 			// event.button = 1;
@@ -2184,7 +2184,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 
 	public void togglePanelVisiblity() {
 
-		System.out.println(" TOGGLE !");
+		;//System.out.println(" TOGGLE !");
 
 		hBetterSash.toggle();
 		rBetterSash.toggle();

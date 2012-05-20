@@ -32,7 +32,7 @@ public abstract class Process<X> implements iUpdateable {
 
 		Channel<X> window = output.range(now, Double.POSITIVE_INFINITY);
 
-		System.out.println(" process :" + window + " " + now);
+		;//System.out.println(" process :" + window + " " + now);
 
 		try {
 			while (window.size() == 0) {
@@ -43,13 +43,13 @@ public abstract class Process<X> implements iUpdateable {
 			if (window.size() > 0) {
 				double next = window.timeFor(window.tail());
 
-				System.out.println(" first event is <" + next + ">");
+				;//System.out.println(" first event is <" + next + ">");
 
 				while (next < now + lookahead) {
 					if (!pull(next))
 						return;
 					next = window.timeFor(window.tail());
-					System.out.println(" first event is now <" + next + ">");
+					;//System.out.println(" first event is now <" + next + ">");
 				}
 			}
 		} finally {

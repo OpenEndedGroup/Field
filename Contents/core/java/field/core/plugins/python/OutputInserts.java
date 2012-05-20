@@ -155,17 +155,17 @@ public class OutputInserts {
 			final UndoableEdit[] ee = { null };
 			UndoableEditListener uel = new UndoableEditListener() {
 				public void undoableEditHappened(UndoableEditEvent e) {
-					System.out.println(" got edit <" + e + ">");
+					;//System.out.println(" got edit <" + e + ">");
 					ee[0] = e.getEdit();
 				}
 			};
 
 			oi.document.addUndoableEditListener(uel);
-			System.out.println(" about to get edit ? ");
+			;//System.out.println(" about to get edit ? ");
 			oi.document.remove(start, end - start);
 			oi.document.removeUndoableEditListener(uel);
 
-			System.out.println(" edit is <" + ee[0] + ">");
+			;//System.out.println(" edit is <" + ee[0] + ">");
 			return ee[0];
 		} catch (BadLocationException e) {
 			e.printStackTrace();

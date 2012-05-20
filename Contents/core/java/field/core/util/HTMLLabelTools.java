@@ -180,10 +180,10 @@ public class HTMLLabelTools {
 		textToDraw = textToDraw.replace("<b><i>", "<bi>");
 		textToDraw = textToDraw.replace("</i></b>", "</bi>");
 
-		System.out.println(" looking at <" + textToDraw + ">");
+		;//System.out.println(" looking at <" + textToDraw + ">");
 		Matcher m = SMALLER_PATTERN.matcher(textToDraw);
 		while (m.find()) {
-			System.out.println(" found smaller <" + m.start() + " ->" + m.end() + ">");
+			;//System.out.println(" found smaller <" + m.start() + " ->" + m.end() + ">");
 			area.add(new Area(m.start(), m.end(), m.group(2), smallerFont));
 		}
 		m = SMALLER2_PATTERN.matcher(textToDraw);
@@ -196,11 +196,11 @@ public class HTMLLabelTools {
 			area.add(new Area(m.start(), m.end(), m.group(2), boldItalicFont));
 		}
 
-		System.out.println(" looking for bold <" + BOLD_PATTERN + "> inside <" + textToDraw + ">");
+		;//System.out.println(" looking for bold <" + BOLD_PATTERN + "> inside <" + textToDraw + ">");
 
 		m = BOLD_PATTERN.matcher(textToDraw);
 		while (m.find()) {
-			System.out.println(" found bold <" + m.start() + " ->" + m.end() + ">");
+			;//System.out.println(" found bold <" + m.start() + " ->" + m.end() + ">");
 			area.add(new Area(m.start(), m.end(), m.group(2), boldFont));
 		}
 
@@ -234,7 +234,7 @@ public class HTMLLabelTools {
 
 				gc.drawText(a.text, cx + x, y + dasc - asc, true);
 
-				System.out.println(" text <" + a.text + ">");
+				;//System.out.println(" text <" + a.text + ">");
 
 				cx += gc.textExtent(a.text).x;
 
@@ -250,7 +250,7 @@ public class HTMLLabelTools {
 					gc.drawText(ttd, cx + x, y, true);
 				}
 
-				System.out.println(" normal text <" + textToDraw.substring(start, end) + ">");
+				;//System.out.println(" normal text <" + textToDraw.substring(start, end) + ">");
 
 				cx += gc.textExtent(ttd).x;
 

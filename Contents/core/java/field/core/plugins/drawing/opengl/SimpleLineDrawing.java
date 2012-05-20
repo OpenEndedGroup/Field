@@ -224,7 +224,7 @@ public class SimpleLineDrawing {
 
 			boolean late = properties.isTrue(iLinearGraphicsContext.lateRendering, false);
 
-			System.out.println(" late is <" + late + ">");
+			;//System.out.println(" late is <" + late + ">");
 
 			final DynamicMesh_long outputLine = late ? getCachedMeshLate(context) : getCachedMesh(context, properties.isTrue(iLinearGraphicsContext.soloCache, false));
 			final DynamicMesh_long outputLineOld = properties.isTrue(iLinearGraphicsContext.soloCache, false) ? outputLine : (late ? outputLine : getOldCachedMesh(context, properties.isTrue(iLinearGraphicsContext.soloCache, false)));
@@ -590,7 +590,7 @@ public class SimpleLineDrawing {
 		public DrawingResult accept(List<iDynamicMesh> soFar, final CachedLine line, final Dict properties) {
 			this.properties = properties;
 
-			// System.out.println(" inside PlainGL3dPointDefault ---------- <"+properties+">");
+			// ;//System.out.println(" inside PlainGL3dPointDefault ---------- <"+properties+">");
 
 			if (!properties.isTrue(iLinearGraphicsContext.pointed, false))
 				return null;
@@ -598,7 +598,7 @@ public class SimpleLineDrawing {
 			if (!properties.isTrue(iLinearGraphicsContext.containsDepth, false))
 				return null;
 
-			// System.out.println(" drawing in 3d ");
+			// ;//System.out.println(" drawing in 3d ");
 
 			float opacityMul = 1;
 			Number o = line.getProperties().get(iLinearGraphicsContext.totalOpacity);
@@ -621,7 +621,7 @@ public class SimpleLineDrawing {
 
 					transform = line.getProperties().get(iLinearGraphicsContext.transform);
 					
-					// System.out.println(" inside point drawer for <"+line+">");
+					// ;//System.out.println(" inside point drawer for <"+line+">");
 
 					if (!context.isLayer(line))
 						return;
@@ -766,7 +766,7 @@ public class SimpleLineDrawing {
 
 			drawInto(line, properties, outputLine, context, fillEmitter);
 
-			// System.out.println(" PLine system computed a fil of length <"+fillEmitter.mesh.getUnderlyingGeometry().numVertex()+" "+fillEmitter.mesh.getUnderlyingGeometry().numTriangle()+">");
+			// ;//System.out.println(" PLine system computed a fil of length <"+fillEmitter.mesh.getUnderlyingGeometry().numVertex()+" "+fillEmitter.mesh.getUnderlyingGeometry().numTriangle()+">");
 
 			DrawingResult result = new DrawingResult(DrawingResultCode.cont, new iUpdateable() {
 				public void update() {
@@ -780,7 +780,7 @@ public class SimpleLineDrawing {
 					outputLine.copyFrom(fillEmitter.mesh);
 					outputLine.close();
 
-					// System.out.println(" PLine system copied a fil of length <"+fillEmitter.mesh.getUnderlyingGeometry().numVertex()+" "+fillEmitter.mesh.getUnderlyingGeometry().numTriangle()+">");
+					// ;//System.out.println(" PLine system copied a fil of length <"+fillEmitter.mesh.getUnderlyingGeometry().numVertex()+" "+fillEmitter.mesh.getUnderlyingGeometry().numTriangle()+">");
 
 				}
 			}, outputLine);
@@ -1013,7 +1013,7 @@ public class SimpleLineDrawing {
 			drawInto(line, properties, subLine, context, lineEmitter);
 			subLine.close();
 
-			// System.out.println(" PLine system computed a line of length <"+subLine.getUnderlyingGeometry().numVertex()+" "+subLine.getUnderlyingGeometry().numTriangle()+">");
+			// ;//System.out.println(" PLine system computed a line of length <"+subLine.getUnderlyingGeometry().numVertex()+" "+subLine.getUnderlyingGeometry().numTriangle()+">");
 
 			DrawingResult result = new DrawingResult(DrawingResultCode.cont, new iUpdateable() {
 
@@ -1044,7 +1044,7 @@ public class SimpleLineDrawing {
 					x.copyFrom(subLine);
 					x.close();
 
-					// System.out.println(" PLine system copied a line of length <"+subLine.getUnderlyingGeometry().numVertex()+" "+subLine.getUnderlyingGeometry().numTriangle()+">");
+					// ;//System.out.println(" PLine system copied a line of length <"+subLine.getUnderlyingGeometry().numVertex()+" "+subLine.getUnderlyingGeometry().numTriangle()+">");
 
 					Dict p = line.getProperties();
 					CoordinateFrame f = p.get(iLinearGraphicsContext.fastTransform);
@@ -1174,7 +1174,7 @@ public class SimpleLineDrawing {
 
 		nl.getUnderlyingGeometry().addChild(new EnableDepthTestWrap());
 
-		System.out.println(" new cached mesh late <" + nl.getUnderlyingGeometry() + ">");
+		;//System.out.println(" new cached mesh late <" + nl.getUnderlyingGeometry() + ">");
 
 		// FIXME
 		context.allreadyConstructedLines.put(-(float) Math.random(), nl);

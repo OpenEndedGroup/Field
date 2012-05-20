@@ -77,7 +77,7 @@ public class DynamicExtensionPoint<T> implements iHandlesAttributes, iCallable {
 
 	protected Object handleInvocation(Method method, Object[] args) {
 
-		System.out.println(" handle invocation <" + method + "> <" + args + ">");
+		;//System.out.println(" handle invocation <" + method + "> <" + args + ">");
 
 		init(forClass);
 		PythonCallableMap ep = extensions.get(method);
@@ -124,7 +124,7 @@ public class DynamicExtensionPoint<T> implements iHandlesAttributes, iCallable {
 	public Object call(Object[] args) {
 		init(forClass);
 		if (defaultExtension == null)
-			System.out.println(" known methods are <" + aliases + ">");
+			;//System.out.println(" known methods are <" + aliases + ">");
 		return defaultExtension.call(args);
 	}
 }

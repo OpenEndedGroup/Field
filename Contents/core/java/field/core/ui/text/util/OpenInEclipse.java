@@ -21,7 +21,7 @@ public class OpenInEclipse {
 				"	key code 36\n" +
 				"end tell\n" +
 				"";
-		System.out.println(" command is <"+command+">");
+		;//System.out.println(" command is <"+command+">");
 		AppleScript script = new AppleScript(command, false);
 	}
 
@@ -57,7 +57,7 @@ public class OpenInEclipse {
 				"	key code 36\n" +
 				"end tell\n" +
 				"";
-		System.out.println(" command is <"+command+">");
+		;//System.out.println(" command is <"+command+">");
 		AppleScript script = new AppleScript(command, false);
 
 		//script.execute(null);

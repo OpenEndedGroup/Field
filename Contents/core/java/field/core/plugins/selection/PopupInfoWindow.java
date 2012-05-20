@@ -43,7 +43,7 @@ public class PopupInfoWindow {
 		StackTraceElement[] stack = cause;
 		String s = "<p class='wellspacedIndentedWhite'>";
 		for (StackTraceElement e : stack) {
-			System.out.println(" stack trace <" + e + ">");
+			;//System.out.println(" stack trace <" + e + ">");
 			s += "<b>" + e.getClassName() + "</b>( <u><a href=\"'http://\" onclick=\"" + UbiquitousLinks.links.code_openInEclipse(e.getFileName(), e.getLineNumber()) + "\">" + e.getFileName() + ":<i>" + e.getLineNumber() + "</a></u></i>)";
 			s += "<BR>";
 		}

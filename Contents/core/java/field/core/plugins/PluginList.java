@@ -97,7 +97,7 @@ public class PluginList {
 		public String toString() {
 			String rootnamesplit = dressName();
 
-			// System.out.println(" enabled :" + enabled);
+			// ;//System.out.println(" enabled :" + enabled);
 			return rootnamesplit + " " + smaller(getTypeDescription());
 		}
 
@@ -222,7 +222,7 @@ public class PluginList {
 	protected void handleDrop(String string) throws IOException {
 		File f = new File(string);
 
-		System.out.println(" file is <" + f + " " + f.exists() + " " + f.isDirectory() + " " + f.getName());
+		;//System.out.println(" file is <" + f + " " + f.exists() + " " + f.isDirectory() + " " + f.getName());
 
 		if (!f.exists())
 			return;
@@ -567,7 +567,7 @@ public class PluginList {
 			File f = new File("../../Info.plist");
 			ll = ll.replaceFirst("(<key>JVMVersion</key>\\s*?<string>)(\\d\\.\\d)(</string>)", "$1" + string + "$3");
 
-			System.out.println(" new plist <" + ll + ">");
+			;//System.out.println(" new plist <" + ll + ">");
 
 			BufferedWriter writer = new BufferedWriter(new FileWriter(f));
 			writer.append(ll);
@@ -824,7 +824,7 @@ public class PluginList {
 
 	protected void flipFile(File f) {
 
-		System.out.println(" flipping file :" + f);
+		;//System.out.println(" flipping file :" + f);
 
 		String ap = f.getAbsolutePath();
 		if (f.getName().endsWith("_")) {
@@ -834,7 +834,7 @@ public class PluginList {
 				new ExecuteCommand("/bin/cp", new String[] { ap, System.getProperty("user.home") + "/Library/Application Support/Field/extensions/" + ap.substring(0, ap.length() - 1) }, true).waitFor();
 			}
 		} else {
-			System.out.println(" rename to " + new File(ap + "_"));
+			;//System.out.println(" rename to " + new File(ap + "_"));
 			f.renameTo(new File(ap + "_"));
 		}
 	}
@@ -855,7 +855,7 @@ public class PluginList {
 							ClasspathNode c = new ClasspathNode(new File(dir.getAbsolutePath() + "/" + a).getAbsolutePath(), n.enabled);
 							n.addChild(c);
 							if (!new File(dir.getAbsolutePath() + "/" + a).exists()) {
-								System.out.println(" no file <" + a + ">");
+								;//System.out.println(" no file <" + a + ">");
 								c.addChild(new InformationNode("<b>warning</b>: file does not exist", n.enabled));
 							}
 						}
@@ -872,7 +872,7 @@ public class PluginList {
 					ClasspathNode newChild = new ClasspathNode(f.getAbsolutePath(), n.enabled);
 					n.addChild(newChild);
 					if (!f.exists()) {
-						System.out.println(" no file    <" + a + ">");
+						;//System.out.println(" no file    <" + a + ">");
 						newChild.addChild(new InformationNode("<b>warning</b>: file does not exist", n.enabled));
 					}
 				}

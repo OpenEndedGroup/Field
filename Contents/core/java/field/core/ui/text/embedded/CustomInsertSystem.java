@@ -78,7 +78,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 
 		public void deserialize(iVisualElement inside) {
 
-			System.out.println(" component has deserialized inside <" + inside + ">");
+			;//System.out.println(" component has deserialized inside <" + inside + ">");
 
 			new Exception().printStackTrace();
 
@@ -86,14 +86,14 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 		}
 
 		public void executeThisLine(iInsertRenderingContext irc, ExecutesWhat enclosing) {
-			System.out.println(" execute this line :" + enclosing + " " + inside);
+			;//System.out.println(" execute this line :" + enclosing + " " + inside);
 
 			StyledText component = irc.getText();
 			String text = component.getText();
 			PythonPluginEditor editor = (PythonPluginEditor) PythonPlugin.python_plugin.get(inside);
 			int indexOf = text.indexOf(stringForTag(tagNumber));
 
-			System.out.println(" indexof is <" + indexOf + ">");
+			;//System.out.println(" indexof is <" + indexOf + ">");
 
 			if (indexOf != -1) {
 				String[] lines = text.split("\n");
@@ -102,12 +102,12 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 				for (int n = 0; n < lines.length; n++) {
 					int end = start + lines[n].length() + 1;
 					if (start <= indexOf && end > indexOf) {
-						System.out.println(" inside :" + inside);
+						;//System.out.println(" inside :" + inside);
 						EditorExecutionInterface eei = ((PythonPluginEditor) PythonPluginEditor.python_plugin.get(inside)).getEditor().getInterface();
 
 						if (enclosing == ExecutesWhat.enclosingBlock) {
 							String substring = new ExecutableAreaFinder().findExecutableSubstringAnyKey(editor.getCustomInsertSystem().convertUserTextPositionToExecutableTextPosition(text, indexOf), editor.getCustomInsertSystem().convertUserTextToExecutableText(text));
-							System.out.println(" foud <" + substring + ">");
+							;//System.out.println(" foud <" + substring + ">");
 							eei.executeFragment(substring);
 						} else if (enclosing == ExecutesWhat.everything) {
 							String substring = new ExecutableAreaFinder().findExecutableSubstring(indexOf, text, 0);
@@ -147,17 +147,17 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 		// for (int n = 0; n < lines.length; n++) {
 		// int end = start + lines[n].length() + 1;
 		// if (start <= indexOf && end > indexOf) {
-		// System.out.println(" inside :" + inside);
+		// ;//System.out.println(" inside :" + inside);
 		// EditorExecutionInterface eei = ((PythonPluginEditor)
 		// PythonPluginEditor.python_plugin.get(inside)).getEditor().getInterface();
-		// System.out.println(" eei :" + eei);
+		// ;//System.out.println(" eei :" + eei);
 		//
 		// if (enclosing == ExecutesWhat.enclosingBlock) {
 		// String substring = new
 		// ExecutableAreaFinder().findExecutableSubstringAnyKey(editor.getCustomInsertSystem().convertUserTextPositionToExecutableTextPosition(text,
 		// indexOf),
 		// editor.getCustomInsertSystem().convertUserTextToExecutableText(text));
-		// System.out.println(" foud <" + substring + ">");
+		// ;//System.out.println(" foud <" + substring + ">");
 		// eei.executeFragment(substring);
 		// } else if (enclosing == ExecutesWhat.everything) {
 		// String substring = new
@@ -219,7 +219,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 
 		public Rect boundsOfRange(CustomInsertDrawing.iInsertRenderingContext context, int start, int end) {
 			
-			System.out.println(" bounds of range <"+start+" "+end+">");
+			;//System.out.println(" bounds of range <"+start+" "+end+">");
 			
 			if (start > end) {
 				int a = start;
@@ -242,7 +242,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 			if (end<0) end= 0;
 			if (end>ed.getCharCount()) end= ed.getCharCount();
 			
-			System.out.println(" ed text is :"+ed.getText());
+			;//System.out.println(" ed text is :"+ed.getText());
 
 			Rectangle rr = null;
 			for (int i = start; i < end; i++) {
@@ -559,13 +559,13 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 			replace.was = matcher.group();
 			replacements.add(replace);
 		}
-		System.out.println(" merge out on <" + text + ">");
+		;//System.out.println(" merge out on <" + text + ">");
 
 		for (int i = replacements.size() - 1; i >= 0; i--) {
 			Replace replace = replacements.get(i);
-			System.out.println(" replace <" + replace.from + " -> " + replace.to + ">");
+			;//System.out.println(" replace <" + replace.from + " -> " + replace.to + ">");
 			input = input.substring(0, replace.from) + replace.with + input.substring(replace.to, input.length());
-			System.out.println(" input now <" + input + ">");
+			;//System.out.println(" input now <" + input + ">");
 			if (replace.comp != null) {
 				replace.comp.preserialize();
 			}
@@ -626,7 +626,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 					in.metrics.width = ((ProvidesWidth) component).getWidthNow();
 				}
 
-				System.out.println(" style for tag, width is <" + in.metrics.width + ">");
+				;//System.out.println(" style for tag, width is <" + in.metrics.width + ">");
 
 			}
 		}
@@ -651,7 +651,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 					style.metrics = new GlyphMetrics(10, 5, styleWidth);
 
 					if (component instanceof ProvidesWidth) {
-						System.out.println(" provides width ");
+						;//System.out.println(" provides width ");
 						style.metrics.width = ((ProvidesWidth) component).getWidthNow();
 					}
 					component.style = style;
@@ -668,7 +668,7 @@ public class CustomInsertSystem implements iCustomInsertSystem {
 					component.style.metrics = new GlyphMetrics(10, 5, styleWidth);
 
 					if (component instanceof ProvidesWidth) {
-						System.out.println(" provides width ");
+						;//System.out.println(" provides width ");
 						component.style.metrics.width = ((ProvidesWidth) component).getWidthNow();
 					}
 

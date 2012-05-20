@@ -32,12 +32,12 @@ public class SimpleUDPListener implements iUpdateable {
 
 				try {
 					while (true) {
-						System.out.println(" listening for data ");
+						;//System.out.println(" listening for data ");
 						socket.receive(packet);
 						byte[] data = packet.getData();
 						final byte[] b2 = new byte[data.length];
 						System.arraycopy(data, 0, b2, 0, b2.length);
-						System.out.println(" got data");
+						;//System.out.println(" got data");
 						queue.new Task() {
 							protected void run() {
 								handle(b2);

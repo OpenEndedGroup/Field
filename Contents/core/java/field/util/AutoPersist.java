@@ -21,7 +21,7 @@ public class AutoPersist {
 			public void run() {
 				
 				if (ft instanceof org.eclipse.swt.graphics.Rectangle)
-					System.out.println(" -- persit <"+name+" is <"+ft+"> to <"+filename+">");
+					;//System.out.println(" -- persit <"+name+" is <"+ft+"> to <"+filename+">");
 				
 				new PythonUtils().persistAsXML(ft, filename);
 			}

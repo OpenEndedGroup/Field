@@ -152,7 +152,7 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 				for (int i = 0; i < attributeBuffers.length; i++) {
 					if (attributeBuffers[i] != -1)
 						glDeleteBuffers(attributeBuffers[i]);
-					System.out.println(" deleting <" + attributeBuffers[i] + ">");
+					;//System.out.println(" deleting <" + attributeBuffers[i] + ">");
 				}
 				glDeleteBuffers(elementBuffer[0]);
 				BasicContextManager.putId(this, BasicContextManager.ID_NOT_FOUND);
@@ -180,9 +180,9 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 
 		glBindVertexArrayAPPLE(vertexObjectID);
 
-		// System.out.println(" drawing <"+frame.get(0).length/3+" / <"+frame.get(-1).length+">");
+		// ;//System.out.println(" drawing <"+frame.get(0).length/3+" / <"+frame.get(-1).length+">");
 
-		//System.out.println(" drawing <" + frame.get(0).length / 3 + " / <" + frame.get(-1).length + "> mesh <" + matrix + "> <" + System.identityHashCode(this) + ">");
+		//;//System.out.println(" drawing <" + frame.get(0).length / 3 + " / <" + frame.get(-1).length + "> mesh <" + matrix + "> <" + System.identityHashCode(this) + ">");
 
 		glDrawRangeElements(GL_TRIANGLES, 0, (int) frame.get(0).length / 3, (int) frame.get(-1).length, GL_UNSIGNED_INT, 0);
 		glBindVertexArrayAPPLE(0);
@@ -221,7 +221,7 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 			elementBufferNeedsReconstruction = false;
 		}
 
-		System.out.println(" inside doSetpup for RawMesh2 <" + header.maximumDimensions + ">");
+		;//System.out.println(" inside doSetpup for RawMesh2 <" + header.maximumDimensions + ">");
 
 		for (int i = 1; i < 16; i++) {
 
@@ -232,8 +232,8 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 
 			if (attributeBuffers[aid] == -1 || needsReconstruction[aid]) {
 
-				System.out.println(" setting up <" + i + ">");
-				System.out.println(" length in bytes are <" + (header.maximumDimensions.get(i) * 4) + "> <" + header.strides.get(i) + ">");
+				;//System.out.println(" setting up <" + i + ">");
+				;//System.out.println(" length in bytes are <" + (header.maximumDimensions.get(i) * 4) + "> <" + header.strides.get(i) + ">");
 
 				if (attributeBuffers[aid] == -1)
 					attributeBuffers[aid] = glGenBuffers();
@@ -320,7 +320,7 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 		if (!dirty)
 			return;
 
-		System.out.println(" cleaning raw mesh 2");
+		;//System.out.println(" cleaning raw mesh 2");
 
 		Object context = BasicContextManager.getCurrentContext();
 		{
@@ -336,10 +336,10 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 			// FloatBuffer peek = source.asFloatBuffer();
 			// while(peek.remaining()>0)
 			// {
-			// System.out.println(new Vector3(peek));
+			// ;//System.out.println(new Vector3(peek));
 			// }
 
-			// System.out.println(" copying <"+source+"> into vertex");
+			// ;//System.out.println(" copying <"+source+"> into vertex");
 			buffer.put(source);
 
 			glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -357,10 +357,10 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 			// IntBuffer peek = source.asIntBuffer();
 			// while(peek.remaining()>0)
 			// {
-			// System.out.println(peek.get());
+			// ;//System.out.println(peek.get());
 			// }
 			//			
-			// System.out.println(" copying <"+source+"> into triangle ");
+			// ;//System.out.println(" copying <"+source+"> into triangle ");
 			buffer.put(source);
 
 			glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
@@ -385,9 +385,9 @@ public class RawMesh2 extends BasicUtilities.OnePassListElement {
 				source.limit((int) (frame.get(i).offset * 4 + frame.get(i).length * 4));
 
 				// FloatBuffer peek = source.asFloatBuffer();
-				// System.out.println(" dumping attributes for <"+aid+"> (assuming stride of 4 = "+header.strides.get(i)+")");
+				// ;//System.out.println(" dumping attributes for <"+aid+"> (assuming stride of 4 = "+header.strides.get(i)+")");
 				// while (peek.remaining() > 0) {
-				// System.out.println(new Vector4(peek));
+				// ;//System.out.println(new Vector4(peek));
 				// }
 
 				buffer.put(source);

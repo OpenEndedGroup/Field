@@ -171,7 +171,7 @@ public class BasicGeometry {
 
 			pre();
 			if (Base.trace)
-				System.out.println(" ----------- drawing " + this + " <<" + System.identityHashCode(this) + ">>");
+				;//System.out.println(" ----------- drawing " + this + " <<" + System.identityHashCode(this) + ">>");
 			if (enable)
 				doPerformPass();
 			post();
@@ -237,7 +237,7 @@ public class BasicGeometry {
 			super.pre();
 
 			if (shaderNeedsUpdating) {
-				// System.out.println(" updating current program");
+				// ;//System.out.println(" updating current program");
 				if (BasicGLSLangProgram.currentProgram != null)
 					BasicGLSLangProgram.currentProgram.updateParameterTaskQueue();
 			}
@@ -361,14 +361,14 @@ public class BasicGeometry {
 		public void singleLine(int from, int to, int segment) {
 			int len = (to - from);
 			int numV = this.numVertex();
-			// System.out.println(from+"
+			// ;//System.out.println(from+"
 			// "+to+"
 			// "+triangleBuffer.capacity()+"
 			// "+segment);
 			for (int i = from; i < to - 1; i++) {
 				triangleBuffer.sBuffer.put((i - segment) * 2, (short) i);
 				triangleBuffer.sBuffer.put((i - segment) * 2 + 1, (short) (i + 1));
-				// System.out.println((i-segment)+"
+				// ;//System.out.println((i-segment)+"
 				// "+i+"
 				// "+(i+1));
 			}
@@ -425,7 +425,7 @@ public class BasicGeometry {
 
 			CoreHelpers.doCameraState();
 
-			// System.out.println(" draw <"+triangleLimit+">
+			// ;//System.out.println(" draw <"+triangleLimit+">
 			// lines");
 			if (!sendAdjacency) {
 				glDrawElements(GL_LINES, ((int) (drawFraction * triangleLimit)) * 2, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0);
@@ -466,7 +466,7 @@ public class BasicGeometry {
 				Vector3 at = new Vector3(vv);
 
 				if (z >= vertexLimit || z < 0) {
-					System.out.println(z + " " + vertexCount + " " + vertexLimit + " (" + at + ")");
+					;//System.out.println(z + " " + vertexCount + " " + vertexLimit + " (" + at + ")");
 					System.err.println(" bad line -- element <" + i + "> which is <" + z + "> outside [0, " + vertexLimit + "]");
 					triangleBuffer.iBuffer.put(i, 0);
 					assert false;
@@ -548,9 +548,9 @@ public class BasicGeometry {
 		protected void doPerformPass() {
 			assert isNative;
 
-//			System.out.println(" -- drawing :" + triangleLimit);
+//			;//System.out.println(" -- drawing :" + triangleLimit);
 			if (triangleLimit == 0) {
-//				System.out.println(" (skipping)");
+//				;//System.out.println(" (skipping)");
 				return;
 			}
 
@@ -593,7 +593,7 @@ public class BasicGeometry {
 			// 0);
 			CoreHelpers.glBindVertexArrayAPPLE(0);
 
-//			System.out.println(" -- drawing :" + triangleLimit + " complete ");
+//			;//System.out.println(" -- drawing :" + triangleLimit + " complete ");
 
 		}
 
@@ -733,7 +733,7 @@ public class BasicGeometry {
 				visible = false;
 				return;
 			}
-			// System.out.println(" inside enabled instance <"+m+">");
+			// ;//System.out.println(" inside enabled instance <"+m+">");
 
 			CoreHelpers.glPushMatrix();
 
@@ -1022,7 +1022,7 @@ public class BasicGeometry {
 			if (vertexBuffer == null)
 				rebuildVertex(0);
 
-			// System.out.println(" vertex buffer <"+this+"> dirty at <"+(vertexBuffer.modCount+1)+">");
+			// ;//System.out.println(" vertex buffer <"+this+"> dirty at <"+(vertexBuffer.modCount+1)+">");
 
 			FloatBuffer f = vertexBuffer.getBuffer(true);
 			f.limit(vertexStride * vertexLimit);
@@ -1072,7 +1072,7 @@ public class BasicGeometry {
 				glBindBuffer(GL_ARRAY_BUFFER, attributeBuffers[0]);
 				glBufferData(GL_ARRAY_BUFFER, vertexBuffer.buffer.capacity() * 4, type);
 
-				// System.out.println("A");
+				// ;//System.out.println("A");
 				ByteBuffer buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
 				assert vertexBuffer.bBuffer.capacity() == buffer.capacity() : vertexBuffer.bBuffer + " " + buffer;
 
@@ -1087,7 +1087,7 @@ public class BasicGeometry {
 				//
 				// buffer = glMapBuffer(GL_ARRAY_BUFFER,
 				// GL_WRITE_ONLY);
-				// System.out.println(" lost buffer, recovered :"
+				// ;//System.out.println(" lost buffer, recovered :"
 				// + buffer);
 				// vertexBuffer.dirty();
 				// triangleBuffer.dirty();
@@ -1111,7 +1111,7 @@ public class BasicGeometry {
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBuffer[0]);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangleBuffer.primitiveSizeof * triangleCount * triangleBuffer.elementSize, type);
 				// LWJGL -- null is suspicious
-				// System.out.println("B");
+				// ;//System.out.println("B");
 				ByteBuffer buffer = glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY, null).order(ByteOrder.nativeOrder());
 				assert triangleBuffer.bBuffer.capacity() == buffer.capacity() : triangleBuffer.bBuffer + " " + buffer;
 
@@ -1147,7 +1147,7 @@ public class BasicGeometry {
 					
 					if (attributeBuffers[aid]==-1)
 					{
-						System.out.println(" warning <"+aid+" aux is being cleaned without having been setup");
+						;//System.out.println(" warning <"+aid+" aux is being cleaned without having been setup");
 						continue;
 					}
 					
@@ -1157,13 +1157,13 @@ public class BasicGeometry {
 							glBufferData(GL_ARRAY_BUFFER, vertexCount * 4 * vbuffer.elementSize, type);
 						} else {
 
-							// System.out.println(" cleaning per instance aux <"
+							// ;//System.out.println(" cleaning per instance aux <"
 							// + numInstances /
 							// divisors[aid] * 4 *
 							// vbuffer.elementSize +
 							// "> (sub = " +
 							// subInstances + ")");
-							// System.out.println("    num instance is :"
+							// ;//System.out.println("    num instance is :"
 							// + numInstances + " "
 							// + divisors[aid] + " "
 							// +
@@ -1171,7 +1171,7 @@ public class BasicGeometry {
 
 							if (subInstances == 0) {
 
-								// System.out.println(" -- about to unmap buffer because subInstances is zero");
+								// ;//System.out.println(" -- about to unmap buffer because subInstances is zero");
 
 								// glUnmapBuffer(GL_ARRAY_BUFFER);
 								continue;
@@ -1179,7 +1179,7 @@ public class BasicGeometry {
 
 							glBufferData(GL_ARRAY_BUFFER, subInstances / divisors[aid] * 4 * vbuffer.elementSize, type);
 						}
-						// System.out.println("C");
+						// ;//System.out.println("C");
 						ByteBuffer buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY, null);
 						if (buffer != null) {
 							assert vbuffer.bBuffer.capacity() == buffer.capacity() : vbuffer.bBuffer + " " + buffer + " " + vbuffer.elementSize + "   " + aid;
@@ -1214,14 +1214,14 @@ public class BasicGeometry {
 			if (vertexBuffer.isDirty(context) && vertexLimit > 0) {
 				glBindBuffer(GL_ARRAY_BUFFER, attributeBuffers[0]);
 
-				System.out.println(" sending vertex <" + vertexStride + " " + vertexLimit + ">");
+				;//System.out.println(" sending vertex <" + vertexStride + " " + vertexLimit + ">");
 
 				vertexBuffer.bBuffer.rewind();
 
 				vertexBuffer.bBuffer.limit(4 * vertexStride * vertexLimit);
-				System.out.println(glGetError() == 0);
+				;//System.out.println(glGetError() == 0);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, vertexBuffer.bBuffer);
-				System.out.println(glGetError() == 0);
+				;//System.out.println(glGetError() == 0);
 
 				vertexBuffer.clean(context);
 			}
@@ -1317,7 +1317,7 @@ public class BasicGeometry {
 			// this.glu = BasicContextManager.getGlu();
 
 			assert !deallocated;
-//			System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
+//			;//System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
 			if (triangleLimit == 0)
 				return;
 
@@ -1349,19 +1349,19 @@ public class BasicGeometry {
 			// BasicCamera.currentCamera.getClass()));
 			// }
 
-			// System.out.println(" drawing triangle");
+			// ;//System.out.println(" drawing triangle");
 
 			// if (insideDoubleFloatFrameBuffer)
 			// glBlendFunc(GL_SRC_ALPHA_SATURATE, GL_ONE);
 
 			// checkTriangle();
-			// System.out.println(" -- triangles about to docamerastate ");
+			// ;//System.out.println(" -- triangles about to docamerastate ");
 			CoreHelpers.doCameraState();
 
 			if (!disableDraw) {
-				// System.out.println(" drawing :"+this);
+				// ;//System.out.println(" drawing :"+this);
 				// new Exception().printStackTrace();
-//				System.out.println(" numinstances <"+numInstances+"> sub instances <"+subInstances+">");
+//				;//System.out.println(" numinstances <"+numInstances+"> sub instances <"+subInstances+">");
 
 				if (numInstances == 0) {
 					FullScreenCanvasSWT.triangleCount += triangleLimit;
@@ -1395,7 +1395,7 @@ public class BasicGeometry {
 					glDrawElementsInstancedARB(GL_TRIANGLES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0, subInstances);
 					// int e2 = glGetError();
 
-					// System.out.println(" after instance <"+e1+" "+e2+">");
+					// ;//System.out.println(" after instance <"+e1+" "+e2+">");
 
 				}
 			}
@@ -1469,7 +1469,7 @@ public class BasicGeometry {
 				glBufferData(GL_ARRAY_BUFFER, vertexBuffer.buffer.capacity() * 4, type);
 				if (useAttr0ForVertexPosition) {
 
-					// System.out.println(" position is ... ? "+GL20.glGetAttribLocation(BasicGLSLangProgram.currentProgram.getShader(),
+					// ;//System.out.println(" position is ... ? "+GL20.glGetAttribLocation(BasicGLSLangProgram.currentProgram.getShader(),
 					// "position"));
 
 					glEnableVertexAttribArray(0);
@@ -1603,7 +1603,7 @@ public class BasicGeometry {
 			IntBuffer x = triangleBuffer.getInBuffer(true);
 			for (int i = 0; i < triangleLimit * 3; i++) {
 				int z = x.get(i);
-				// System.out.println(i+" "+z);
+				// ;//System.out.println(i+" "+z);
 				if (z >= vertexLimit || z < 0) {
 					System.err.println(" bad triangle");
 					x.put(i, 0);
@@ -1705,7 +1705,7 @@ public class BasicGeometry {
 			FullScreenCanvasSWT.triangleCount += triangleLimit;
 			FullScreenCanvasSWT.vertexCount += vertexLimit;
 
-			// System.out.println(" drawing :"+this);
+			// ;//System.out.println(" drawing :"+this);
 			CoreHelpers.doCameraState();
 
 			if (numInstances == 0)
@@ -1895,7 +1895,7 @@ public class BasicGeometry {
 			Field f = Buffer.class.getDeclaredField("address");
 			f.setAccessible(true);
 			long address = f.getLong(i);
-			System.out.println(" address is <" + address + ">");
+			;//System.out.println(" address is <" + address + ">");
 			return address;
 		} catch (SecurityException e) {
 			e.printStackTrace();
@@ -1926,7 +1926,7 @@ public class BasicGeometry {
 			Field f = Buffer.class.getDeclaredField("address");
 			f.setAccessible(true);
 			long address = f.getLong(i);
-			System.out.println(" address is <" + address + ">");
+			;//System.out.println(" address is <" + address + ">");
 			return address + "";
 		} catch (SecurityException e) {
 			e.printStackTrace();

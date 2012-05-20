@@ -180,7 +180,7 @@ public interface iAverage<T_accepts, T_produces> {
 		public X end() {
 			for(Map.Entry<X, Double> e : map.entrySet())
 			{
-				System.out.println(" accepted <"+e.getKey()+" ->"+e.getValue()+">");
+				;//System.out.println(" accepted <"+e.getKey()+" ->"+e.getValue()+">");
 			}
 			return null;
 		}
@@ -188,7 +188,7 @@ public interface iAverage<T_accepts, T_produces> {
 
 	static public class Print<T_accepts> implements iAverage<T_accepts, T_accepts> {
 		public <X extends T_accepts> void accept(X accept, double weight) {
-			System.out.println(" accepted <" + accept + "> at <" + weight + ">");
+			;//System.out.println(" accepted <" + accept + "> at <" + weight + ">");
 		}
 
 		public void begin(int num, double totalWeight) {

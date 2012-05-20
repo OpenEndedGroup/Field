@@ -171,7 +171,7 @@ public class Visitors3 {
 					}
 				}
 
-				System.out.println(last + "\n   " + current + "\n       " + next);
+				;//System.out.println(last + "\n   " + current + "\n       " + next);
 
 				v.visitNode(last, current, next, lastIsTangent, nextIsTangent);
 

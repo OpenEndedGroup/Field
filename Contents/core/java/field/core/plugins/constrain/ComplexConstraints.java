@@ -132,7 +132,7 @@ public class ComplexConstraints implements iPlugin {
 		@Override
 		public <T> VisitCode setProperty(iVisualElement source, VisualElementProperty<T> prop, Ref<T> to) {
 			if (prop == BasicDrawingPlugin.frameManipulationBegin) {
-				// System.out.println(" frame manip begin <" +
+				// ;//System.out.println(" frame manip begin <" +
 				// to + ">");
 
 				currentlyMoving.add(source);
@@ -146,7 +146,7 @@ public class ComplexConstraints implements iPlugin {
 
 					VariablesForRect r = participatesInConstraints.get(source);
 					Rect rect = new Rect(r.variableX.value(), r.variableY.value(), r.variableW.value(), r.variableH.value());
-					// System.out.println(" would set frame
+					// ;//System.out.println(" would set frame
 					// to be (3) <" + rect + ">");
 					((FrameManipulation) to.get()).originalFrame.setValue(rect);
 
@@ -176,7 +176,7 @@ public class ComplexConstraints implements iPlugin {
 						Rect rect = new Rect(r.variableX.value(), r.variableY.value(), r.variableW.value(), r.variableH.value());
 						newFrame.setValue(rect);
 					} else
-						System.out.println(" error or nothing to do ?");
+						;//System.out.println(" error or nothing to do ?");
 				} else {
 					updateVariablesFromFrame(getVariablesFor(source), newFrame);
 				}
@@ -475,17 +475,17 @@ public class ComplexConstraints implements iPlugin {
 					solver.solve();
 
 					inLoop = true;
-					System.out.println(" -- preedit --");
+					;//System.out.println(" -- preedit --");
 					preEditQueue.update();
-					System.out.println(" -- begin--");
+					;//System.out.println(" -- begin--");
 					solver.beginEdit();
 					queue.update();
-					System.out.println(" info <" + solver.getInternalInfo() + ">");
-					System.out.println(" -- end--");
+					;//System.out.println(" info <" + solver.getInternalInfo() + ">");
+					;//System.out.println(" -- end--");
 					solver.endEdit();
-					System.out.println(" -- postedit--");
+					;//System.out.println(" -- postedit--");
 					postEditQueue.update();
-					System.out.println(" -- finished--");
+					;//System.out.println(" -- finished--");
 
 					resetSolver();
 

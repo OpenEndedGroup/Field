@@ -149,7 +149,7 @@ public class PythonGeneratorStack implements iUpdateable {
 
 		preamble();
 		try {
-			// System.out.println(" stack is <"+stack+">");
+			// ;//System.out.println(" stack is <"+stack+">");
 			Object ret = didNotEvaluate;
 			if (shouldEvaluateMain() && (stack.size() > 0)) {
 				if (first) {
@@ -167,7 +167,7 @@ public class PythonGeneratorStack implements iUpdateable {
 				// ret = ((PyJavaInstance)
 				// ret).__tojava__(Object.class);
 
-				// System.out.println(" generator is
+				// ;//System.out.println(" generator is
 				// <"+stack.peek()+">
 				// and returns <"+ret+" "+(ret == null ? null :
 				// ret.getClass())+">");

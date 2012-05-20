@@ -107,7 +107,7 @@ public class UbiquitousLinks {
 	}
 
 	public boolean copyTextToClipboard(String text) {
-		System.out.println(" copy text to clip <" + text + ">");
+		;//System.out.println(" copy text to clip <" + text + ">");
 		Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 		c.setContents(new StringSelection(text), null);
 		return true;
@@ -124,14 +124,14 @@ public class UbiquitousLinks {
 
 		String c = "\n" + "tell application \"Finder\"\n" + "	activate\n" + "	reveal (POSIX file \"" + path + "\")\n" + "end tell";
 
-		System.out.println(c);
+		;//System.out.println(c);
 
 		new AppleScript(c, false);
 		return true;
 	}
 
 	public Object dereference(String id) {
-		System.out.println(" get <" + id + "> from <" + shortTermObjectStore + "> <" + System.identityHashCode(this) + ">");
+		;//System.out.println(" get <" + id + "> from <" + shortTermObjectStore + "> <" + System.identityHashCode(this) + ">");
 		return shortTermObjectStore.get(id);
 	}
 
@@ -157,18 +157,18 @@ public class UbiquitousLinks {
 
 				int index = cp.viewToModel(e.getPoint().x + label.getBounds().x - minx, e.getPoint().y + label.getBounds().y, label.getBounds());
 
-				System.out.println(" aa :" + label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index));
+				;//System.out.println(" aa :" + label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index));
 
 				for (int i = 0; i < max; i++) {
 					AttributeSet attr = (AttributeSet) (label.getAccessibleContext().getAccessibleText().getCharacterAttribute(i).getAttribute(HTML.Tag.A));
 				}
 
 				AttributeSet attr = (AttributeSet) (label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index).getAttribute(HTML.Tag.A));
-				System.out.println(" index <" + index + "> <" + attr + ">");
+				;//System.out.println(" index <" + index + "> <" + attr + ">");
 				if (attr != null) {
 					String onclick = (String) attr.getAttribute("onclick");
 					String onrightClick = (String) attr.getAttribute("onrightclick");
-					System.out.println(" got menu <" + onclick + "> <" + onrightClick + ">");
+					;//System.out.println(" got menu <" + onclick + "> <" + onrightClick + ">");
 
 					if (onclick != null && e.getButton() == MouseEvent.BUTTON1) {
 						PythonInterface.getPythonInterface().setVariable("_l", links);
@@ -236,18 +236,18 @@ public class UbiquitousLinks {
 
 				int index = cp.viewToModel(e.getPoint().x + label.getBounds().x - minx, e.getPoint().y + label.getBounds().y, label.getBounds());
 
-				System.out.println(" aa :" + label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index));
+				;//System.out.println(" aa :" + label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index));
 
 				for (int i = 0; i < max; i++) {
 					AttributeSet attr = (AttributeSet) (label.getAccessibleContext().getAccessibleText().getCharacterAttribute(i).getAttribute(HTML.Tag.A));
 				}
 
 				AttributeSet attr = (AttributeSet) (label.getAccessibleContext().getAccessibleText().getCharacterAttribute(index).getAttribute(HTML.Tag.A));
-				System.out.println(" index <" + index + "> <" + attr + ">");
+				;//System.out.println(" index <" + index + "> <" + attr + ">");
 				if (attr != null) {
 					String onclick = (String) attr.getAttribute("onclick");
 					String onrightClick = (String) attr.getAttribute("onrightclick");
-					System.out.println(" got menu <" + onclick + "> <" + onrightClick + ">");
+					;//System.out.println(" got menu <" + onclick + "> <" + onrightClick + ">");
 
 					if (onclick != null && e.getButton() == MouseEvent.BUTTON1) {
 						PythonInterface.getPythonInterface().setVariable("_l", links);
@@ -375,30 +375,30 @@ public class UbiquitousLinks {
 				Element ee = e.getSourceElement();
 				AttributeSet attr = (AttributeSet) infoText.getAccessibleContext().getAccessibleText().getCharacterAttribute(ee.getStartOffset()).getAttribute(HTML.Tag.A);
 
-				System.out.println(" attribute set is <" + attr + "> <" + ee.getParentElement() + "> <" + this + ">");
+				;//System.out.println(" attribute set is <" + attr + "> <" + ee.getParentElement() + "> <" + this + ">");
 
 				String href = (String) attr.getAttribute(HTML.Attribute.HREF);
 				Enumeration<?> names = attr.getAttributeNames();
 				while (names.hasMoreElements()) {
 					Object element = names.nextElement();
-					System.out.println(" element :" + element + " " + element.getClass() + " " + HTML.getAttributeKey("HREF"));
+					;//System.out.println(" element :" + element + " " + element.getClass() + " " + HTML.getAttributeKey("HREF"));
 				}
 				if (href != null && !href.equals("'http://")) {
 
-					System.out.println(" href ? :" + href);
+					;//System.out.println(" href ? :" + href);
 					showPathInSafari(href);
 				} else {
 
 					String onclick = (String) attr.getAttribute("onclick");
 					String onrightClick = (String) attr.getAttribute("onrightclick");
-					System.out.println(onclick + " " + onrightClick);
+					;//System.out.println(onclick + " " + onrightClick);
 
 					PythonInterface.getPythonInterface().setVariable("_l", links);
 					PythonInterface.getPythonInterface().setVariable("_event", event[0]);
 					PythonInterface.getPythonInterface().setVariable("_component", infoText);
 					PythonInterface.getPythonInterface().execString(onclick);
 
-					System.out.println(" event is <" + event[0] + ">");
+					;//System.out.println(" event is <" + event[0] + ">");
 				}
 			}
 

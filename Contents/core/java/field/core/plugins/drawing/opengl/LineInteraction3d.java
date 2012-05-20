@@ -57,7 +57,7 @@ public class LineInteraction3d extends LineInteraction {
 
 					Area cachedArea = getCachedArea(cc);
 					
-					System.out.println(" cachedArea for event is <"+cachedArea+">");
+					;//System.out.println(" cachedArea for event is <"+cachedArea+">");
 					
 					if (cachedArea==null) continue;
 					
@@ -67,7 +67,7 @@ public class LineInteraction3d extends LineInteraction {
 					Rectangle res = dd.getBounds();
 					float amount = (float) ((res.width * res.height));
 					
-					System.out.println(" intersection amount is <"+amount+">");
+					;//System.out.println(" intersection amount is <"+amount+">");
 					
 					if (amount > x) {
 						x = amount;
@@ -82,7 +82,7 @@ public class LineInteraction3d extends LineInteraction {
 
 	protected Area getCachedArea(CachedLine cc) {
 		
-		System.out.println(" projector is :"+projector);
+		;//System.out.println(" projector is :"+projector);
 		
 		CachedLine oc = cc.getProperties().get(areaForEventHandler);
 		if (oc==null) oc = cc;

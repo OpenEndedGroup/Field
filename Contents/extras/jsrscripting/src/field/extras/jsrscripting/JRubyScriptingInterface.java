@@ -70,9 +70,9 @@ public class JRubyScriptingInterface implements ScriptingInterface {
 
 	@Override
 	public void execString(String exec) {
-		System.out.println(" exec string <" + exec + ">");
+		;//;//System.out.println(" exec string <" + exec + ">");
 		run(exec);
-		System.out.println(" exec string finished ");
+		;//;//System.out.println(" exec string finished ");
 	}
 
 	@Override
@@ -134,9 +134,9 @@ public class JRubyScriptingInterface implements ScriptingInterface {
 
 	@Override
 	public Object executeStringReturnValue(String script, String tag) {
-		System.out.println(" exec string <" + script + ">");
+		;//;//System.out.println(" exec string <" + script + ">");
 		run(script);
-		System.out.println(" exec string  finished >");
+		;//;//System.out.println(" exec string  finished >");
 		return getVariable(tag);
 	}
 

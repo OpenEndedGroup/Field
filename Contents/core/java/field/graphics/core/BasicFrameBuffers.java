@@ -587,7 +587,7 @@ public class BasicFrameBuffers {
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
-			System.out.println(" status <" + status + "> <" + GL_FRAMEBUFFER_COMPLETE + ">");
+			;//System.out.println(" status <" + status + "> <" + GL_FRAMEBUFFER_COMPLETE + ">");
 			BasicContextManager.putId(this, fbo[0]);
 			glClearColor(0, 0, 0, 0);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -611,7 +611,7 @@ public class BasicFrameBuffers {
 			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			assert glGetError() == 0;
 
-			System.out.println(" inside setup for bimulti <" + glGetError() + ">");
+			;//System.out.println(" inside setup for bimulti <" + glGetError() + ">");
 
 		}
 
@@ -1054,7 +1054,7 @@ public class BasicFrameBuffers {
 		boolean disable2 = false;
 
 		public void display() {
-			System.out.println(" --> ");
+			;//System.out.println(" --> ");
 			currentFBOContext.push(this);
 			BasicGeometry.insideDoubleFloatFrameBuffer = false;
 			if (FullScreenCanvasSWT.dropFrame > 0)
@@ -1119,7 +1119,7 @@ public class BasicFrameBuffers {
 				BasicGeometry.insideDoubleFloatFrameBuffer = false;
 
 				assert popped == this : popped;
-				System.out.println(" <-- ");
+				;//System.out.println(" <-- ");
 
 			}
 		}
@@ -1128,7 +1128,7 @@ public class BasicFrameBuffers {
 			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux+" "+first, new iUpdateable() {
 				@Override
 				public void update() {
-					System.out.println(" copying to aux buffer ");
+					;//System.out.println(" copying to aux buffer ");
 					copyToVBONow(mesh, aux, first);
 				}
 			});
@@ -1142,16 +1142,16 @@ public class BasicFrameBuffers {
 			
 //			glFinish();
 			int e = glGetError();
-			System.out.println(" error1 : "+e);
+			;//System.out.println(" error1 : "+e);
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, target);
 			e = glGetError();
-			System.out.println(" error2 : "+e);
+			;//System.out.println(" error2 : "+e);
 			GL11.glReadBuffer(first ? GL_COLOR_ATTACHMENT0 : GL_COLOR_ATTACHMENT1);
 			e = glGetError();
-			System.out.println(" error3 : "+e);
+			;//System.out.println(" error3 : "+e);
 			glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
 			e = glGetError();
-			System.out.println(" error4 : "+e);
+			;//System.out.println(" error4 : "+e);
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0);
 //			glFinish();
 		}
@@ -1615,7 +1615,7 @@ public class BasicFrameBuffers {
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
 
-			System.out.println(" status is <" + status + ">");
+			;//System.out.println(" status is <" + status + ">");
 
 			glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
@@ -1944,7 +1944,7 @@ public class BasicFrameBuffers {
 			if (FullScreenCanvasSWT.dropFrame > 0)
 				return;
 
-			System.out.println(" inside multipasser display ");
+			;//System.out.println(" inside multipasser display ");
 
 			gl = BasicContextManager.getGl();
 			glu = BasicContextManager.getGlu();
@@ -2321,7 +2321,7 @@ public class BasicFrameBuffers {
 
 				public Integer get() {
 					int ff = flip ? tex[1] : tex[0];
-					System.out.println(" texturing <" + ff + ">");
+					;//System.out.println(" texturing <" + ff + ">");
 					return ff;
 				}
 			}, 0));
@@ -2624,7 +2624,7 @@ public class BasicFrameBuffers {
 			if (FullScreenCanvasSWT.dropFrame > 0)
 				return;
 
-			// System.out.println(" -- single frame buffer <"+this+"> display -- ");
+			// ;//System.out.println(" -- single frame buffer <"+this+"> display -- ");
 
 			currentFBOContext.push(this);
 			try {
@@ -2705,7 +2705,7 @@ public class BasicFrameBuffers {
 			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux, new iUpdateable() {
 				@Override
 				public void update() {
-					System.out.println(" copying to aux buffer ");
+					;//System.out.println(" copying to aux buffer ");
 					copyToVBONow(mesh, aux);
 				}
 			});
@@ -2837,7 +2837,7 @@ public class BasicFrameBuffers {
 
 			if (tex[0]==-1)
 			{
-				System.out.println(" attempt to bind texture before it has been updated ");
+				;//System.out.println(" attempt to bind texture before it has been updated ");
 				return;
 			}
 
@@ -2846,7 +2846,7 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			assert glGetError() == 0;
-			// System.out.println(" <<< unbinding texture " + this);
+			// ;//System.out.println(" <<< unbinding texture " + this);
 		}
 
 		@Override
@@ -2854,11 +2854,11 @@ public class BasicFrameBuffers {
 			if (deleted)
 				return;
 
-//			System.out.println(" >>> binding texture " + tex[0]);
+//			;//System.out.println(" >>> binding texture " + tex[0]);
 
 			if (tex[0]==-1)
 			{
-				System.out.println(" attempt to bind texture before it has been updated ");
+				;//System.out.println(" attempt to bind texture before it has been updated ");
 				return;
 			}
 			
@@ -3146,7 +3146,7 @@ public class BasicFrameBuffers {
 						assert glGetError() == 0;
 						long d = System.currentTimeMillis();
 
-						System.out.println(" timing information <" + (d - a) + " " + (c - b) + ">");
+						;//System.out.println(" timing information <" + (d - a) + " " + (c - b) + ">");
 					}
 					if (copyToB) {
 						assert glGetError() == 0;
@@ -3262,7 +3262,7 @@ public class BasicFrameBuffers {
 						return;
 
 					if (copyToA || !hasDataA) {
-						System.out.println(" copy to A ");
+						;//System.out.println(" copy to A ");
 						assert glGetError() == 0;
 						textureAWrapped.pre();
 						textureAWrapped.in(gl);
@@ -3273,12 +3273,12 @@ public class BasicFrameBuffers {
 						textureAWrapped.post();
 						assert glGetError() == 0;
 
-						System.out.println(" copy to a ");
+						;//System.out.println(" copy to a ");
 						hasDataA = true;
 
 					}
 					if (copyToB || !hasDataB) {
-						System.out.println(" copy to B ");
+						;//System.out.println(" copy to B ");
 						assert glGetError() == 0;
 						textureBWrapped.pre();
 						textureBWrapped.in(gl);
@@ -3290,7 +3290,7 @@ public class BasicFrameBuffers {
 						textureBWrapped.post();
 						assert glGetError() == 0;
 
-						System.out.println(" copy to b ");
+						;//System.out.println(" copy to b ");
 						hasDataB = true;
 
 					}

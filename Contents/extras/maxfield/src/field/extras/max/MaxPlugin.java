@@ -139,14 +139,14 @@ public class MaxPlugin extends field.core.plugins.BaseSimplePlugin {
 
 			public void handle(String s, Object[] args) {
 				PythonInterface.getPythonInterface().print("" + args[0]);
-				System.out.println(args[0]);
+				;//;//System.out.println(args[0]);
 			}
 		});
 		in.registerHandler("/printError", new OSCInput.DispatchableHandler() {
 
 			public void handle(String s, Object[] args) {
 				PythonInterface.getPythonInterface().printError("" + args[0]);
-				System.out.println(args[0]);
+				;//;//System.out.println(args[0]);
 			}
 		});
 
@@ -154,7 +154,7 @@ public class MaxPlugin extends field.core.plugins.BaseSimplePlugin {
 
 			public void handle(String s, Object[] args) {
 
-				System.out.println(" got data message <" + s + "> <" + Arrays.asList(args) + ">");
+				;//;//System.out.println(" got data message <" + s + "> <" + Arrays.asList(args) + ">");
 
 				String destination = ((String) args[0]).substring(1);
 
@@ -165,7 +165,7 @@ public class MaxPlugin extends field.core.plugins.BaseSimplePlugin {
 					try {
 						Object d = new ObjectInputStream(new ByteArrayInputStream(decoded)).readObject();
 
-						System.out.println(" setting <" + args[1] + "> to <" + d + ">");
+						;//;//System.out.println(" setting <" + args[1] + "> to <" + d + ">");
 
 						target.setProperty(new VisualElementProperty(((String) args[1]) + "_fromMax_"), d);
 					} catch (Exception e) {

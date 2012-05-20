@@ -61,7 +61,7 @@ public class JavaFXScriptingInterface extends JSRInterface {
 		super.postBind(evaluation, eval);
 
 //		if (evaluation instanceof Class) {
-//			System.out.println(" name is <" + ((Class) evaluation).getSimpleName() + ">");
+//			;//;//System.out.println(" name is <" + ((Class) evaluation).getSimpleName() + ">");
 //			propagateAttribute(((Class) evaluation).getSimpleName(), evaluation);
 //		}
 	}
@@ -97,7 +97,7 @@ public class JavaFXScriptingInterface extends JSRInterface {
 			System.err.println(" javafx is not available ");
 			return "please install a JavaFX1.0  SDK (from "+UbiquitousLinks.links.simpleLink("http://javafx.com")+") and then add '/System/Library/Frameworks/JavaFX.framework/Versions/1.0/lib' to Field's classpath using the Plugin Manager";
 		}
-		System.out.println(" no javafx");
+		;//;//System.out.println(" no javafx");
 		return "unspecified error";
 	}
 

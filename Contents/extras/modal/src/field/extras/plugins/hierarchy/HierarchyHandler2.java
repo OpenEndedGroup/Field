@@ -101,7 +101,7 @@ public class HierarchyHandler2 extends HierarchyHandler {
 
 				if (isConnected(e, p) == null) {
 					if (p != root && e != root && !filter(p) && !filter(e)) {
-						System.out.println(" connecting :" + e + " " + p);
+						;//;//System.out.println(" connecting :" + e + " " + p);
 						iVisualElement c = connections.connect(e, p, DispatchConnective.class, false);
 						PresentationParameters pp = new PresentationParameters();
 						pp.hidden = true;
@@ -130,9 +130,9 @@ public class HierarchyHandler2 extends HierarchyHandler {
 
 	public iVisualElement isConnected(iVisualElement from, iVisualElement to) {
 
-		System.out.println(" connections <" + connections + "> <" + (connections != null ? connections.connections : null) + ">");
+		;//;//System.out.println(" connections <" + connections + "> <" + (connections != null ? connections.connections : null) + ">");
 
-		System.out.println(" checking to see if <" + from + " and " + to + "> are connected");
+		;//;//System.out.println(" checking to see if <" + from + " and " + to + "> are connected");
 
 		Set<Entry<String, iVisualElement>> cc = connections.connections.entrySet();
 		for (Entry<String, iVisualElement> e : cc) {
@@ -140,13 +140,13 @@ public class HierarchyHandler2 extends HierarchyHandler {
 			VisualElementReference f = LineDrawingOverride.lineDrawing_from.get(v);
 			VisualElementReference t = LineDrawingOverride.lineDrawing_to.get(v);
 
-			System.out.println("       :checked " + f.get(root) + " " + t.get(root));
+			;//;//System.out.println("       :checked " + f.get(root) + " " + t.get(root));
 
 			if (f.get(root) == from && t.get(root) == to) {
 				return v;
 			}
 		}
-		System.out.println("   not connected ");
+		;//;//System.out.println("   not connected ");
 		return null;
 	}
 

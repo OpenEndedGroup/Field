@@ -68,7 +68,7 @@ public abstract class Unit<T> {
 
 		timeNow = time;
 		
-		System.out.println(" update <"+this+"> inside <"+filterStack+">");
+		;//System.out.println(" update <"+this+"> inside <"+filterStack+">");
 		
 		double ea = alpha == null ? 0 : alpha.filter(time);
 		double eb = beta == null ? 0 : beta.filter(time);
@@ -81,8 +81,8 @@ public abstract class Unit<T> {
 
 		T o = filter(input);
 
-		System.out.println(" this <" + this + "> in <" + input + "> raw out <" + o + "> inside <" + filterStack + "> <"+lastOutput+"> <"+lastTotalOutput+">");
-		System.out.println("        params <" + ea + " " + eb + " " + eg + ">");
+		;//System.out.println(" this <" + this + "> in <" + input + "> raw out <" + o + "> inside <" + filterStack + "> <"+lastOutput+"> <"+lastTotalOutput+">");
+		;//System.out.println("        params <" + ea + " " + eb + " " + eg + ">");
 
 		T eo = null;
 		if (o == null) {

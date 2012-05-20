@@ -101,7 +101,7 @@ public class TimeMarker extends iVisualElementOverrides.DefaultOverride {
 	@Override
 	public VisitCode handleKeyboardEvent(iVisualElement newSource, Event event) {
 
-		System.out.println(" handle keyboad event called <" + event + ">");
+		;//System.out.println(" handle keyboad event called <" + event + ">");
 		if (event == null)
 			return VisitCode.cont;
 
@@ -113,7 +113,7 @@ public class TimeMarker extends iVisualElementOverrides.DefaultOverride {
 			
 
 			String kb = newSource.getProperty(keyboardShortcut);
-			System.out.println(" key <" + kb.charAt(0) + "> <" + c + ">");
+			;//System.out.println(" key <" + kb.charAt(0) + "> <" + c + ">");
 
 			if (kb.charAt(0) == c) {
 				executeWithoutModifiers(event, c);
@@ -355,7 +355,7 @@ public class TimeMarker extends iVisualElementOverrides.DefaultOverride {
 		Ref<iVisualElement> r = new Ref<iVisualElement>(null);
 		new iVisualElementOverrides.MakeDispatchProxy().getOverrideProxyFor(forElement).getProperty(forElement, iVisualElement.timeSlider, r);
 
-		System.out.println(" execute with mask ");
+		;//System.out.println(" execute with mask ");
 
 		if (r.get() != null) {
 			iUpdateable u = ongoing.remove(r.get());

@@ -119,7 +119,7 @@ public abstract class VersioningSystem {
 
 	public VersioningSystem(String fullPathToRepositoryDirectory, String sheetSubdirectory, String xmlFilename) {
 
-		System.out.println(" inside versioning system constructor <"+fullPathToRepositoryDirectory+"> <"+sheetSubdirectory+"> <"+xmlFilename+">");
+		;//System.out.println(" inside versioning system constructor <"+fullPathToRepositoryDirectory+"> <"+sheetSubdirectory+"> <"+xmlFilename+">");
 
 		this.fullPathToRepositoryDirectory = fullPathToRepositoryDirectory;
 		this.fullPathToSheetDirectory = fullPathToRepositoryDirectory + "/" + sheetSubdirectory;
@@ -161,7 +161,7 @@ public abstract class VersioningSystem {
 			}
 			if (op instanceof DeletePropertyOp) {
 
-				System.out.println(" delete property <"+((DeletePropertyOp) op).oldProperty.getPath()+">");
+				;//System.out.println(" delete property <"+((DeletePropertyOp) op).oldProperty.getPath()+">");
 				
 				if (new File(((DeletePropertyOp) op).oldProperty.getPath()).exists())
 					scmDeleteFile(((DeletePropertyOp) op).oldProperty.getFile());

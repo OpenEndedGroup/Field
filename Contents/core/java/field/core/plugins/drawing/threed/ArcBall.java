@@ -145,7 +145,7 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 			Vector3 b1 = new Vector3(left.x * -grid + in.x * xx, left.y * -grid + in.y * xx, left.z * -grid + in.z * xx).scale(scale).add(origin);
 			Vector3 b2 = new Vector3(left.x * grid + in.x * xx, left.y * grid + in.y * xx, left.z * grid + in.z * xx).scale(scale).add(origin);
 
-			System.out.println(" grid <" + a1 + " " + a2 + " " + b1 + " " + b2 + ">");
+			;//System.out.println(" grid <" + a1 + " " + a2 + " " + b1 + " " + b2 + ">");
 
 			g.getInput().moveTo(a1.x, a1.y);
 			g.getInput().setPointAttribute(iLinearGraphicsContext.z_v, a1.z);
@@ -199,7 +199,7 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 		// Vector3 a = sphereMap(ndcStart);
 		// Vector3 b = sphereMap(ndcEnd);
 
-		// System.out.println(" start <" + a + " -> " + b);
+		// ;//System.out.println(" start <" + a + " -> " + b);
 
 		Vector3 up = state.getUp(new Vector3());
 		Vector3 left = state.getLeft(new Vector3());
@@ -295,9 +295,9 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 		}
 
 		if (arg0.keyCode == 'f') {
-			System.out.println(" about to frame all ");
+			;//System.out.println(" about to frame all ");
 			State f = bcc.frameAll(on.getState());
-			System.out.println(" from <" + on.getState() + " -> " + f + ">");
+			;//System.out.println(" from <" + on.getState() + " -> " + f + ">");
 			arg0.doit = false;
 			bcc.transitionToState(f, on, 100, new iUpdateable() {
 
@@ -334,11 +334,11 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 			if (repaintt != null)
 				repaintt.requestRepaint();
 
-			System.out.println(" pushing bookmark ");
+			;//System.out.println(" pushing bookmark ");
 
 			pushBookmark();
 
-			System.out.println(" stack now <" + back + ">");
+			;//System.out.println(" stack now <" + back + ">");
 
 		}
 	}
@@ -361,15 +361,15 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 
 		}
 
-		System.out.println(" TYPE : " + arg0.type + " " + SWT.KeyDown + " " + SWT.KeyUp);
+		;//System.out.println(" TYPE : " + arg0.type + " " + SWT.KeyDown + " " + SWT.KeyUp);
 
 		if (arg0.keyCode == SWT.ARROW_RIGHT && arg0.type == SWT.KeyUp) {
-			System.out.println(" FORWARD ");
+			;//System.out.println(" FORWARD ");
 			forward();
 		}
 
 		if (arg0.keyCode == SWT.ARROW_LEFT && arg0.type == SWT.KeyUp) {
-			System.out.println(" BACKWARD ");
+			;//System.out.println(" BACKWARD ");
 			backward();
 		}
 
@@ -399,13 +399,13 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 			}
 		}
 
-		System.out.println(" up is :" + m + " " + ax + " (" + sg + ")");
+		;//System.out.println(" up is :" + m + " " + ax + " (" + sg + ")");
 
 		State out = on.getState().duplicate();
 		out.up = new Vector3().set(ax, sg);
-		System.out.println(" up is :" + out.up);
+		;//System.out.println(" up is :" + out.up);
 		out.reorthogonalizeUp();
-		System.out.println(" up is :" + out.up);
+		;//System.out.println(" up is :" + out.up);
 
 		bcc.transitionToState(out, on, 100, new iUpdateable() {
 
@@ -704,7 +704,7 @@ public class ArcBall implements iMousePeer, iPaintPeer {
 
 		mouseAt = rectMap(arg0.x, arg0.y);
 
-		System.out.println(" mouse pressed <" + mouseAt + ">");
+		;//System.out.println(" mouse pressed <" + mouseAt + ">");
 
 		state = on.getState();
 

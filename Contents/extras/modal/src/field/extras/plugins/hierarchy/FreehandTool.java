@@ -109,12 +109,12 @@ public class FreehandTool extends BaseSimplePlugin {
 		public iEventHandler transition(Mode from, Mode to, Vector2 at, int buttons) {
 			if (to == Mode.down) {
 				e = getSelection();
-				System.out.println(" selection at drag start is <" + e + ">");
+				;//;//System.out.println(" selection at drag start is <" + e + ">");
 			}
 
 			if (to == Mode.down) {
 
-				System.out.println(" transition out ");
+				;//;//System.out.println(" transition out ");
 
 				Drag d = new Drag(at);
 				updateOngoing(d.creating);
@@ -149,12 +149,12 @@ public class FreehandTool extends BaseSimplePlugin {
 		}
 
 		public iEventHandler idle() {
-			System.out.println(" should requesting draw");
+			;//;//System.out.println(" should requesting draw");
 			if (currentLine1 != null) {
 				if (hp.fastContext != null) {
 					hp.fastContext.submitLine(currentLine1, currentLine1.getProperties());
 					hp.fastContext.submitLine(currentLine2, currentLine2.getProperties());
-					System.out.println(" requesting draw");
+					;//;//System.out.println(" requesting draw");
 					// iVisualElement.enclosingFrame.get(root).getOverlayAnimationManager().requestRepaint();
 				}
 			}
@@ -167,7 +167,7 @@ public class FreehandTool extends BaseSimplePlugin {
 
 		public iEventHandler mouse(Vector2 at, int buttons) {
 
-			System.out.println(" --------- mouse inside freehand tool drag ---------");
+			;//;//System.out.println(" --------- mouse inside freehand tool drag ---------");
 			new Exception().printStackTrace();
 
 			creating.points.add(at);
@@ -186,7 +186,7 @@ public class FreehandTool extends BaseSimplePlugin {
 
 		public iEventHandler transition(Mode from, Mode to, Vector2 at, int buttons) {
 
-			System.out.println(" transition in drag <" + from + " -> " + to + ">");
+			;//;//System.out.println(" transition in drag <" + from + " -> " + to + ">");
 
 			if (to == Mode.up) {
 				handleNewRawSplineData(creating);
@@ -277,7 +277,7 @@ public class FreehandTool extends BaseSimplePlugin {
 		// try {
 		// NSEvent v = NSApplication.sharedApplication().currentEvent();
 		// float p = v.pressure();
-		// System.out.println("current event: " + v+
+		// ;//;//System.out.println("current event: " + v+
 		// " / "+p+" "+v.tilt());
 		// } catch (Throwable t) {
 		// }

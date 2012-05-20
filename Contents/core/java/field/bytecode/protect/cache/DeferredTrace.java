@@ -41,9 +41,9 @@ public final class DeferredTrace extends BasicInstrumentation2.DeferCallingFast 
 		boolean success = false;
 		try{
 		
-			System.out.println(">> "+originalMethod+" ["+Arrays.asList(argArray)+"] "+System.identityHashCode(fromThis));
+			;//System.out.println(">> "+originalMethod+" ["+Arrays.asList(argArray)+"] "+System.identityHashCode(fromThis));
 			object = original.invoke(fromThis, argArray);
-			System.out.println("<< "+originalMethod+" ("+object+") "+System.identityHashCode(fromThis));
+			;//System.out.println("<< "+originalMethod+" ("+object+") "+System.identityHashCode(fromThis));
 			success = true;
 			return object;
 		} catch (IllegalArgumentException e) {
@@ -56,7 +56,7 @@ public final class DeferredTrace extends BasicInstrumentation2.DeferCallingFast 
 		finally
 		{
 			if (!success)
-				System.out.println("<< (exception) "+originalMethod+" "+System.identityHashCode(fromThis));
+				;//System.out.println("<< (exception) "+originalMethod+" "+System.identityHashCode(fromThis));
 		}
 		return null;
 	}

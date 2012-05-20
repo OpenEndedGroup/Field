@@ -220,12 +220,12 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		}
 
-		System.out.println(" dev is <" + dev.getClass() + "> ");
+		;//System.out.println(" dev is <" + dev.getClass() + "> ");
 
-		System.out.println(" rect is <" + frame.getBounds() + ">");
+		;//System.out.println(" rect is <" + frame.getBounds() + ">");
 		boolean z = dev.isFullScreenSupported();
 
-		System.out.println(" full screen is supported <" + z + "> : stereo ? " + stereo);
+		;//System.out.println(" full screen is supported <" + z + "> : stereo ? " + stereo);
 
 		final Composite comp = new Composite(frame, SWT.NONE);
 		comp.setLayout(new FillLayout());
@@ -276,7 +276,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println(" client area of frame is <" + frame.getClientArea() + ">");
+				;//System.out.println(" client area of frame is <" + frame.getClientArea() + ">");
 				comp.setSize(frame.getClientArea().width, frame.getClientArea().height);
 				canvas.setSize(frame.getClientArea().width, frame.getClientArea().height);
 
@@ -380,28 +380,28 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 			glEnable(GL_MULTISAMPLE);
 		}
 
-		// System.out.println(" frame number "+this.frameNumber);
+		// ;//System.out.println(" frame number "+this.frameNumber);
 
 		// if (this.frameNumber==10)
 		// {
-		// System.out.println(" going multithreaded ?");
+		// ;//System.out.println(" going multithreaded ?");
 		// new MiscNative().goMultithreadedRenderer();
 		// }
 
-		// System.out.println(" -- main display --");
+		// ;//System.out.println(" -- main display --");
 
 		currentCanvas = this;
 		try {
 
 			// if (!frame.isVisible())
 			// return;
-			// System.out.println(" -- in");
+			// ;//System.out.println(" -- in");
 
 			try {
 
 				if (stereo) {
 					culler.enter();
-					// System.out.println(" -- in ");
+					// ;//System.out.println(" -- in ");
 					if (leftOnly)
 						side = 1;
 
@@ -430,7 +430,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						rootSceneList.update();
 
 						if (side % 2 == 0) {
-							// System.out.println(" -- left");
+							// ;//System.out.println(" -- left");
 							if (anaglyph)
 								glColorMask(true, false, false, true);
 							if (doLeft) {
@@ -438,7 +438,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 								beforeLeftFlush();
 							}
 						} else {
-							// System.out.println(" -- right");
+							// ;//System.out.println(" -- right");
 							if (anaglyph)
 								glColorMask(false, true, true, true);
 							if (doRight) {
@@ -450,7 +450,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						// if (leftOnly)
 						// beforeRightFlush();
 
-						// System.out.println(" -- both");
+						// ;//System.out.println(" -- both");
 
 						beforeFlush();
 						windowContextTree.end(getContextName());
@@ -459,7 +459,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						// arg0.getGL().glGetBooleanv(GL.GL_STEREO,
 						// bb,
 						// 0);
-						// System.out.println(" ?? stereo ? :"
+						// ;//System.out.println(" ?? stereo ? :"
 						// + bb[0]);
 
 						if (side % 2 == 0 || leftOnly)
@@ -473,11 +473,11 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					}
 					frameNumber++;
 					culler.exit();
-					// System.out.println(" -- out");
+					// ;//System.out.println(" -- out");
 
 				} else if (passiveStereo) {
 					culler.enter();
-					// System.out.println(" -- in ");
+					// ;//System.out.println(" -- in ");
 					if (leftOnly)
 						side = 1;
 
@@ -486,22 +486,22 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						side++;
 
 						BasicContextManager.setCurrentContextFor(this, new Object(), new Object());
-						// System.out.println(" -- clear passive --");
+						// ;//System.out.println(" -- clear passive --");
 						rootSceneList.update();
 
 						if (side % 2 == 0) {
 							if (doLeft) {
-								// System.out.println(" >> left ");
+								// ;//System.out.println(" >> left ");
 								leftSceneList.update();
 								beforeLeftFlush();
-								// System.out.println(" << left ");
+								// ;//System.out.println(" << left ");
 							}
 						} else {
 							if (doRight) {
-								// System.out.println(" >> right");
+								// ;//System.out.println(" >> right");
 								rightSceneList.update();
 								beforeRightFlush();
-								// System.out.println(" << right");
+								// ;//System.out.println(" << right");
 							}
 						}
 
@@ -510,7 +510,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 						if (side % 2 == 0 || leftOnly)
 							if (doFlush()) {
-								// System.out.println(" :: flush ");
+								// ;//System.out.println(" :: flush ");
 								if (dropFrame > 0) {
 									dropFrame--;
 								} else {
@@ -522,7 +522,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					}
 					frameNumber++;
 					culler.exit();
-					// System.out.println(" -- out");
+					// ;//System.out.println(" -- out");
 
 				} else {
 					windowContextTree.begin(getContextName());
@@ -539,7 +539,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					// arg0.getGL().glGetBooleanv(GL.GL_STEREO,
 					// bb,
 					// 0);
-					// System.out.println(" ?? stereo ? :" +
+					// ;//System.out.println(" ?? stereo ? :" +
 					// bb[0]);
 
 					if (side % 2 == 0)
@@ -983,7 +983,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						n++;
 						filename = directory + "save" + pad(n) + ".png";
 					}
-					System.out.println(" filename is <" + filename + ">");
+					;//System.out.println(" filename is <" + filename + ">");
 					saveAsPNG(filename);
 				}
 			}
@@ -1008,7 +1008,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 			@Override
 			public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
 
-				System.out.println(" saving to <" + filename + ">");
+				;//System.out.println(" saving to <" + filename + ">");
 				try {
 
 					glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -53,7 +53,7 @@ public class Launcher {
 
 	public static void main(final String[] args) {
 
-		// ]System.out.println(" main ? "+NSThread.isMainThread());
+		// ];//System.out.println(" main ? "+NSThread.isMainThread());
 
 		// GLProfile.initSingleton(true);
 
@@ -66,11 +66,11 @@ public class Launcher {
 				Launcher.args = args;
 
 				if (SystemProperties.getIntProperty("headless", 0) == 1) {
-					System.out.println(" we are headless ");
+					;//System.out.println(" we are headless ");
 					System.setProperty("java.awt.headless", "true");
 				}
 
-				System.out.println(" args are <" + Arrays.asList(args) + ">");
+				;//System.out.println(" args are <" + Arrays.asList(args) + ">");
 
 				// Application.getApplication().addAppEventListener(new
 				// AppEventListener() {
@@ -97,7 +97,7 @@ public class Launcher {
 			}
 		}
 
-		System.out.println(" display has gone");
+		;//System.out.println(" display has gone");
 		Launcher.getLauncher().runRegisteredShutdownHooks();
 	}
 
@@ -298,7 +298,7 @@ public class Launcher {
 						continuation = null;
 						was.next();
 					} catch (Throwable t) {
-						System.out.println(" exception thrown in continuation <" + continuation + ">");
+						;//System.out.println(" exception thrown in continuation <" + continuation + ">");
 						t.printStackTrace();
 					}
 
@@ -460,12 +460,12 @@ public class Launcher {
 	public void runRegisteredShutdownHooks() {
 
 		shuttingDown = true;
-		System.out.println(" running down ");
+		;//System.out.println(" running down ");
 		for (iUpdateable u : shutdown) {
 			u.update();
 		}
 
-		System.out.println(" exiting ");
+		;//System.out.println(" exiting ");
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {

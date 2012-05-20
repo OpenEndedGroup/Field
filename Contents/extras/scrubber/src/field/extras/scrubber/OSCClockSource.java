@@ -20,7 +20,7 @@ public class OSCClockSource {
 		input.registerHandler("float", new Handler() {
 			public void handle(float f) {
 				if (!ballistic) {
-					System.out.println(" time -- <" + f + ">");
+					;//;//System.out.println(" time -- <" + f + ">");
 					OSCClockSource.this.time(f * 1000);
 				} else {
 					// clock drift.

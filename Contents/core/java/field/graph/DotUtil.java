@@ -34,7 +34,7 @@ public class DotUtil {
 				String location = m.group(2);
 				String[] d = location.split(",");
 
-				System.out.println(" read <" + n + " " + location + "> -> " + d[0] + " " + d[1]);
+				;//System.out.println(" read <" + n + " " + location + "> -> " + d[0] + " " + d[1]);
 
 				Vector2 v = new Vector2(Float.parseFloat(d[0].trim()), Float.parseFloat(d[1].trim()));
 
@@ -72,7 +72,7 @@ public class DotUtil {
 		String fn = File.createTempFile("field", ".dot").getAbsolutePath();
 		String fnOut = File.createTempFile("field", "_out.dot").getAbsolutePath();
 
-		System.out.println(" dotting :" + fn + " " + fnOut);
+		;//System.out.println(" dotting :" + fn + " " + fnOut);
 
 		writeDot(fn, nodes, connected, names);
 		new ExecuteCommand(".", new String[] { executable, "-Tdot", fn, "-o", fnOut }, true).waitFor();

@@ -215,7 +215,7 @@ public abstract class Small3dLineEmitter_long {
 		float property = propertyFlatness(propertiesA, propertiesB);
 	
 		float f = geometric1 + geometric2 + geometric3 + property;
-	//	System.out.println(" flatness of <"+a+" "+c1+" "+c2+" "+b+"> is <"+f+"> <"+globalGeometricScale+"> <"+globalFlatnessScale+">");
+	//	;//System.out.println(" flatness of <"+a+" "+c1+" "+c2+" "+b+"> is <"+f+"> <"+globalGeometricScale+"> <"+globalFlatnessScale+">");
 
 		return f * globalFlatnessScale;
 
@@ -226,7 +226,7 @@ public abstract class Small3dLineEmitter_long {
 		assert propertiesA.size() == trackedPropertiesFlatnesses.size();
 
 		float m = 0;
-		//System.out.println(" properties size <" + propertiesA + " " + propertiesB + "> <" + trackedPropertiesFlatnesses + ">");
+		//;//System.out.println(" properties size <" + propertiesA + " " + propertiesB + "> <" + trackedPropertiesFlatnesses + ">");
 		for (int i = 0; i < propertiesA.size() - 1; i++) {
 			float q = ((iMetric<Object, Object>) trackedPropertiesFlatnesses.get(i)).distance(propertiesA.get(i + 1), propertiesB.get(i + 1));
 			if (q > m)

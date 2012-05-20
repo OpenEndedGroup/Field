@@ -78,7 +78,7 @@ public class AutoExecutePythonPlugin implements iPlugin {
 		@Override
 		public VisitCode added(iVisualElement newSource) {
 
-			System.out.println(" added <" + newSource + ">");
+			;//System.out.println(" added <" + newSource + ">");
 
 			check(newSource);
 			return VisitCode.cont;
@@ -142,7 +142,7 @@ public class AutoExecutePythonPlugin implements iPlugin {
 
 		String q = python_autoExec.get(newSource);
 		if (q != null) {
-			System.out.println(" about to auto exec for <" + newSource + ">");
+			;//System.out.println(" about to auto exec for <" + newSource + ">");
 			SplineComputingOverride.executePropertyOfElement(python_autoExec, newSource);
 		}
 
@@ -198,7 +198,7 @@ public class AutoExecutePythonPlugin implements iPlugin {
 				}
 			});
 
-			System.out.println(" about to exec in this order :" + a1);
+			;//System.out.println(" about to exec in this order :" + a1);
 
 			for (iVisualElement e : a1) {
 				Number m = e.getProperty(autoExecuteDelay);
@@ -207,14 +207,14 @@ public class AutoExecutePythonPlugin implements iPlugin {
 					if (soFar == null)
 						soFar = 0;
 					
-					System.out.println(" needs delay of <"+m+"> has delay of <"+soFar+">");
+					;//System.out.println(" needs delay of <"+m+"> has delay of <"+soFar+">");
 					
 					if (soFar >= m.intValue()) {
 						perform(e);
 					} else {
 						e.setProperty(autoExecuteDelayedFor, ++soFar);
 						readd.add(e);
-						System.out.println(" readding <"+e+">");
+						;//System.out.println(" readding <"+e+">");
 					}
 				} else
 					perform(e);

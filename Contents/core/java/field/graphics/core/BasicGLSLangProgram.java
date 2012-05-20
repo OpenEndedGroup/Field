@@ -113,7 +113,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 		protected void reload() {
 			if (originalFiles != null) {
 				code = readFiles(originalFiles);
-				System.out.println(" code is <" + code + ">");
+				;//System.out.println(" code is <" + code + ">");
 			}
 		}
 
@@ -141,7 +141,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			if (!found)
 				return;
 
-			System.out.println(" compiling <" + isFragment + "> <" + code[0] + "> from <" + (originalFiles.length > 0 ? originalFiles[0] : "") + ">");
+			;//System.out.println(" compiling <" + isFragment + "> <" + code[0] + "> from <" + (originalFiles.length > 0 ? originalFiles[0] : "") + ">");
 
 			shader = GL20.glCreateShader((isFragment == ElementType.fragment ? GL_FRAGMENT_SHADER : isFragment == ElementType.vertex ? GL_VERTEX_SHADER : GL_GEOMETRY_SHADER));
 			glShaderSource(shader, code);
@@ -149,7 +149,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 
 			int didCompile = GL20.glGetShader(shader, GL20.GL_COMPILE_STATUS);
 
-			System.out.println(" didCompile is ;" + didCompile);
+			;//System.out.println(" didCompile is ;" + didCompile);
 
 			if (didCompile == 0) {
 				String ret = GL20.glGetShaderInfoLog(shader, 10000);
@@ -324,7 +324,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 					glUniform1i(id, i);
 
 					getUniformCache().set(name, i);
-					System.out.println(" integer uniform <" + id + "/" + name + " = " + i + ">");
+					;//System.out.println(" integer uniform <" + id + "/" + name + " = " + i + ">");
 
 					previous = i;
 				}
@@ -480,7 +480,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 		protected void run() {
 
 			int id = getUniformCache().find(gl, getProgram(), name);
-			// System.out.println(" SU :"+name+" running @ "+id);
+			// ;//System.out.println(" SU :"+name+" running @ "+id);
 			if (id != -1) {
 				float[] a = to.get();
 
@@ -643,7 +643,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			}
 			URL r = loader.getResource(names[i]);
 
-			System.out.println(" url is <" + r + ">");
+			;//System.out.println(" url is <" + r + ">");
 
 			assert r != null : names[i];
 			if (r == null) {
@@ -664,7 +664,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			if (p.startsWith("jar:http:/"))
 				p = p.replace("jar:http:/", "jar:http://");
 
-			System.out.println(" trying url :" + p);
+			;//System.out.println(" trying url :" + p);
 
 			InputStream st;
 			try {
@@ -806,7 +806,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			fix();
 		}
 
-		// System.out.println(" -- perform pass for program <" + this +
+		// ;//System.out.println(" -- perform pass for program <" + this +
 		// ">");
 
 		// System.err.println(" {" + vertexFile + ", " + fragmentFile
@@ -815,7 +815,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 		assert glGetError() == 0 : getLog(getProgram());
 		int boundID = BasicContextManager.getId(this);
 		if (boundID == BasicContextManager.ID_NOT_FOUND) {
-			System.out.println(" no id, fixing");
+			;//System.out.println(" no id, fixing");
 			fix();
 		}
 
@@ -858,7 +858,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			fix();
 		}
 
-		// System.out.println(" -- perform pass for program <" + this +
+		// ;//System.out.println(" -- perform pass for program <" + this +
 		// ">");
 
 		// System.err.println(" {" + vertexFile + ", " + fragmentFile
@@ -867,7 +867,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 		assert glGetError() == 0 : getLog(getProgram());
 		int boundID = BasicContextManager.getId(this);
 		if (boundID == BasicContextManager.ID_NOT_FOUND) {
-			System.out.println(" no id, fixing");
+			;//System.out.println(" no id, fixing");
 			fix();
 		}
 
@@ -890,7 +890,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 	}
 
 	public void reload() {
-		System.out.println(" reloading programs");
+		;//System.out.println(" reloading programs");
 		delete();
 		for (BasicGLSLangElement element : programs)
 			element.reload();
@@ -1001,7 +1001,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 
 		// TODO lwjgl APPLE
 
-		System.out.println(" -- setting geometry parameters :" + geometryVertexOutType + " " + geometryVertexInType + " " + geometryVertexNumOut);
+		;//System.out.println(" -- setting geometry parameters :" + geometryVertexOutType + " " + geometryVertexInType + " " + geometryVertexNumOut);
 		// GL41.glProgramParameteri(program, pname, value)
 
 		// GL41.glProgramParameteri(getProgram(),
@@ -1084,18 +1084,18 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 
 		new Exception().printStackTrace();
 
-		System.out.println(" debug print uniforms ------- ");
+		;//System.out.println(" debug print uniforms ------- ");
 		for (BasicGLSLangElement e : this.programs) {
-			System.out.println("    loaded from :" + Arrays.asList(e.originalFiles));
+			;//System.out.println("    loaded from :" + Arrays.asList(e.originalFiles));
 		}
 		for (Task t : getParameterTaskQueue().getTasks()) {
 			if (t instanceof SetUniform)
-				System.out.println(((SetUniform) t).name + "  = " + ((SetUniform) t).to);
+				;//System.out.println(((SetUniform) t).name + "  = " + ((SetUniform) t).to);
 			if (t instanceof SetIntegerUniform)
-				System.out.println(((SetIntegerUniform) t).name + "  = " + ((SetIntegerUniform) t).value);
+				;//System.out.println(((SetIntegerUniform) t).name + "  = " + ((SetIntegerUniform) t).value);
 		}
-		System.out.println(" cached uniform locations -");
-		System.out.println("      " + getUniformCache().id);
+		;//System.out.println(" cached uniform locations -");
+		;//System.out.println("      " + getUniformCache().id);
 	}
 
 	String name;

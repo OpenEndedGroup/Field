@@ -40,7 +40,7 @@ public class TypingPlugin extends BaseSimplePlugin {
 			}
 		};
 
-		System.out.println(" registering typing plugin ");
+		;//;//System.out.println(" registering typing plugin ");
 
 		window.getRoot().addAsAllEventHandler(new iComponent() {
 
@@ -81,15 +81,12 @@ public class TypingPlugin extends BaseSimplePlugin {
 
 			public void keyTyped(final ComponentContainer inside, Event arg0) {
 
-				System.out.println(" key typed <" + arg0 + "> <" + arg0.keyCode
-						+ ">");
-
 				if (arg0 == null)
 					return;
 
 				if (arg0.keyCode == '.' && (arg0.stateMask & SWT.COMMAND) != 0) {
 					arg0.doit = false;
-					System.out.println(" completion hook ? ");
+					;//;//System.out.println(" completion hook ? ");
 
 					TypingExecution.beginCompletion(TypingPlugin.this.root,
 							text, this, (int) typingOverlay.popupPoint.x,
@@ -109,10 +106,10 @@ public class TypingPlugin extends BaseSimplePlugin {
 				if (insert && arg0.keyCode == 13) {
 					arg0.doit = false;
 					
-					System.out.println(" inserting <"+text+">");
+					;//;//System.out.println(" inserting <"+text+">");
 					for(int i=0;i<text.length();i++)
 					{
-						System.out.println((int)text.charAt(i));
+						;//;//System.out.println((int)text.charAt(i));
 					}
 					executeText(text);
 					inside.requestRedisplay();
@@ -123,7 +120,7 @@ public class TypingPlugin extends BaseSimplePlugin {
 
 				if (!insert && arg0.keyCode == '\'') {
 					arg0.doit = false;
-					System.out.println(" insert on ");
+					;//;//System.out.println(" insert on ");
 					insert = true;
 					inside.requestRedisplay();
 				} else if (insert) {

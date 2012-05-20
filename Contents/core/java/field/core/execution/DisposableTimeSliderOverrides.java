@@ -140,7 +140,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 				}
 			}
 			
-			System.out.println(" CSF :"+newFrame);
+			;//System.out.println(" CSF :"+newFrame);
 			
 		}
 
@@ -167,7 +167,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 		}
 
 		
-		System.out.println(" create DTSO on <"+on+"> range is <"+min+" -> "+max+">");
+		;//System.out.println(" create DTSO on <"+on+"> range is <"+min+" -> "+max+">");
 		
 		
 		created.right.playStart = min;
@@ -291,7 +291,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 	public VisitCode menuItemsFor(iVisualElement source, Map<String, iUpdateable> items) {
 		if (source == forElement) {
 
-			System.out.println(" items is <" + items + "> <" + items.getClass() + ">");
+			;//System.out.println(" items is <" + items + "> <" + items.getClass() + ">");
 
 			if (items instanceof ExtendedMenuMap) {
 				ExtendedMenuMap map = (ExtendedMenuMap) items;
@@ -306,7 +306,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 					});
 				} else {
 					
-					System.out.println(" building a marking menu builder ");
+					;//System.out.println(" building a marking menu builder ");
 					
 					MarkingMenuBuilder b = map.getBuilder();
 
@@ -333,7 +333,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 					b.newMenu("Loop from beginning", "NE2");
 					b.call(new iUpdateable() {
 						public void update() {
-							System.out.println(" will loop from the beginning ");
+							;//System.out.println(" will loop from the beginning ");
 							playing = true;
 							Rect f = forElement.getFrame(null);
 							f.x = playStart;
@@ -370,7 +370,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 		if (player != null)
 			return;
 
-		System.out.println(" starting player ");
+		;//System.out.println(" starting player ");
 		player = new iUpdateable() {
 
 			long startedAt = System.currentTimeMillis();
@@ -385,14 +385,14 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 				double in = (now - startedAt) / 1000f;
 
 				
-				System.out.println(" in at <"+in+"> <"+ startedAt+"> <"+skipBy+">");
+				;//System.out.println(" in at <"+in+"> <"+ startedAt+"> <"+skipBy+">");
 				
 				startedAt += ((double)skipBy)*1000L;
 				skipBy = 0;
 				
 				double alpha = in / d;
 
-				System.out.println("         alpha <"+alpha+">");
+				;//System.out.println("         alpha <"+alpha+">");
 				
 				if (alpha > 1 && !loop) {
 					alpha = 1;
@@ -402,7 +402,7 @@ public class DisposableTimeSliderOverrides extends iVisualElementOverrides.Defau
 					player = null;
 					playing = false;
 				} else if (alpha > 1 && loop) {
-					System.out.println(" loop point is now");
+					;//System.out.println(" loop point is now");
 					alpha = 1;
 					startedAt = System.currentTimeMillis();
 					ox = playStart;

@@ -42,13 +42,13 @@ public class Loader2 {
 
 	public Loader2(String filename, int take) {
 
-		System.out.println(" loading ....");
+		;//;//System.out.println(" loading ....");
 
 		SystemProperties.setProperty("take", take + "");
 
 		if (filename.endsWith(".fbx")) {
 			
-			System.out.println(" cache ? "+new File(filename+".cached.objects").exists());
+			;//;//System.out.println(" cache ? "+new File(filename+".cached.objects").exists());
 			
 			if (automaticallyCache && new File(filename+".cached.objects").exists())
 			{
@@ -73,7 +73,7 @@ public class Loader2 {
 					}
 					catch(Throwable t)
 					{
-						System.out.println(" benign error while loading cached objects file, rebuilding cache "+t);
+						;//;//System.out.println(" benign error while loading cached objects file, rebuilding cache "+t);
 					}
 					if (loaded)
 						return;
@@ -109,7 +109,7 @@ public class Loader2 {
 			applyAnimation(0);
 		}
 
-		System.out.println(" loaded ....");
+		;//;//System.out.println(" loaded ....");
 	}
 
 	public Map<String, ? extends BasicMesh> getMeshes() {

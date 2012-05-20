@@ -50,7 +50,7 @@ public class PathFitter {
 
 	public void fit() {
 		
-		System.out.println(" fit called on <"+points+">");
+		;//System.out.println(" fit called on <"+points+">");
 		
 		fitCubic(0, points.size() - 1, new Vector2(points.get(1)).sub(points.get(0)).normalize(), new Vector2(points.get(points.size() - 2)).sub(points.get(points.size() - 1)).normalize());
 	}
@@ -70,11 +70,11 @@ public class PathFitter {
 		
 		{
 			float dist = points.get(last).distanceFrom(points.get(first))/3;
-			System.out.println(" fit cubic :"+dist+" "+Arrays.asList(points.get(first), new Vector2(points.get(first)).add(new Vector2(tan1).normalize().scale(dist)), new Vector2(points.get(last)).add(new Vector2(tan2).normalize().scale(dist)), points.get(last)));
+			;//System.out.println(" fit cubic :"+dist+" "+Arrays.asList(points.get(first), new Vector2(points.get(first)).add(new Vector2(tan1).normalize().scale(dist)), new Vector2(points.get(last)).add(new Vector2(tan2).normalize().scale(dist)), points.get(last)));
 		}
 		
 		if (last - first == 1) {
-			System.out.println("adding curve as 0 length ");
+			;//System.out.println("adding curve as 0 length ");
 			float dist = points.get(last).distanceFrom(points.get(first))/3;
 			addCurve(points.get(first), new Vector2(points.get(first)).add(new Vector2(tan1).normalize().scale(dist)), new Vector2(points.get(last)).add(new Vector2(tan2).normalize().scale(dist)), points.get(last));
 			return;
@@ -89,7 +89,7 @@ public class PathFitter {
 			Pair<Float, Integer> max = this.findMaxError(first, last, curve, uprime);
 
 			if (max.left < maxError) {
-				System.out.println(" adding curve as correct enough ");
+				;//System.out.println(" adding curve as correct enough ");
 				this.addCurve(curve.a, curve.t1, curve.t2, curve.b);
 				return;
 			}
@@ -116,7 +116,7 @@ public class PathFitter {
 		for (int i = first + 1; i < last; i++) {
 			Vector2 P = this.evaluate(3, curve.toList(), u[i - first]);
 			
-			System.out.println(" evaluate <"+curve.toList()+" @ :"+u[i-first]+" => "+P);
+			;//System.out.println(" evaluate <"+curve.toList()+" @ :"+u[i-first]+" => "+P);
 			
 			Vector2 v = new Vector2(P).sub(this.points.get(i));
 			float dist = v.x * v.x + v.y * v.y;
@@ -228,7 +228,7 @@ public class PathFitter {
 			alpha1 = alpha2 = segLength / 3;
 		}
 
-		System.out.println(" generate bez <"+alpha1+" "+alpha2+">");
+		;//System.out.println(" generate bez <"+alpha1+" "+alpha2+">");
 		
 		return new Curve(pt1, new Vector2(pt1).add(new Vector2(tan1).normalize().scale(alpha1)), new Vector2(pt2).add(new Vector2(tan2).normalize().scale(alpha2)), pt2);
 
@@ -237,7 +237,7 @@ public class PathFitter {
 	List<Curve> curves = new ArrayList<Curve>();
 
 	private void addCurve(Vector2 a, Vector2 ta, Vector2 tb, Vector2 b) {
-		System.out.println(" add curve :"+a+" "+ta+" "+tb+" "+b);
+		;//System.out.println(" add curve :"+a+" "+ta+" "+tb+" "+b);
 		curves.add(new Curve(a, ta, tb, b));
 	}
 

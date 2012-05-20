@@ -161,7 +161,7 @@ public class Logging {
 				logging.addEvent(new UpdateCycle(n, System.currentTimeMillis() - startedAt));
 
 				if (getContext() != 0) {
-					System.out.println(" warning: context was left as external somewhere");
+					;//System.out.println(" warning: context was left as external somewhere");
 					setContext(0);
 				}
 

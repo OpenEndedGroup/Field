@@ -244,7 +244,7 @@ public class VisualElement extends NodeImpl<iVisualElement> implements iVisualEl
 	public VisualElement() {
 		reverseInsertionOrder = true;
 		setElementOverride(new iVisualElementOverrides.DefaultOverride().setVisualElement(this));
-		System.out.println(" -- new visual element --");
+		;//System.out.println(" -- new visual element --");
 	}
 
 	public VisualElement(iComponent d) {
@@ -253,7 +253,7 @@ public class VisualElement extends NodeImpl<iVisualElement> implements iVisualEl
 		properties.put(localView, d);
 		setElementOverride(new iVisualElementOverrides.DefaultOverride().setVisualElement(this));
 
-		System.out.println(" -- new visual element --");
+		;//System.out.println(" -- new visual element --");
 	}
 
 	@Override

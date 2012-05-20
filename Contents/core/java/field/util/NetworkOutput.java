@@ -39,12 +39,12 @@ public class NetworkOutput {
 			outputSocket.setSendBufferSize(NetworkInput.MAX_PACKET_SIZE * 2);
 
 		} catch (Exception ex) {
-			System.out.println("unable to make a multicast socket on port:" + port + " ?\n");
+			;//System.out.println("unable to make a multicast socket on port:" + port + " ?\n");
 		}
 		try {
 			multicastGroup = InetAddress.getByName(group);
 		} catch (Exception ex) {
-			System.out.println("Unable to resolve address:" + group + " ?\n" + ex);
+			;//System.out.println("Unable to resolve address:" + group + " ?\n" + ex);
 		}
 		dp = new DatagramPacket(new byte[NetworkInput.MAX_PACKET_SIZE], NetworkInput.MAX_PACKET_SIZE, multicastGroup, port);
 	}
@@ -60,7 +60,7 @@ public class NetworkOutput {
 			outputSocket.send(dp);
 			outputSocket.setTimeToLive(ttl);
 		} catch (Exception ex) {
-			System.out.println("Error sending packet!: " + ex);
+			;//System.out.println("Error sending packet!: " + ex);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class NetworkOutput {
 			outputSocket.send(dp);
 			outputSocket.setTimeToLive(ttl);
 		} catch (Exception ex) {
-			System.out.println("Error sending packet!: " + ex);
+			;//System.out.println("Error sending packet!: " + ex);
 		}
 	}
 
@@ -93,7 +93,7 @@ public class NetworkOutput {
 			outputSocket.send(dp);
 			outputSocket.setTimeToLive(ttl);
 		} catch (Exception ex) {
-			System.out.println("Error sending packet!: " + ex);
+			;//System.out.println("Error sending packet!: " + ex);
 		}
 	}
 

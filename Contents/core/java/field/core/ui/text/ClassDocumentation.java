@@ -34,12 +34,12 @@ public class ClassDocumentation {
 	}
 
 	public List<Comp> getClassCustomCompletion(String prefix, Object ret, Class c) {
-		System.out.println(" looking for custom completion on class <" + c + ">");
+		;//System.out.println(" looking for custom completion on class <" + c + ">");
 		try {
 			Method method = c.getDeclaredMethod("getClassCustomCompletion", String.class, Object.class);
-			System.out.println(" method <" + method + ">");
+			;//System.out.println(" method <" + method + ">");
 			List<Comp> documentation = (List<Comp>) method.invoke(null, prefix, ret);
-			System.out.println(" returns <" + documentation + ">");
+			;//System.out.println(" returns <" + documentation + ">");
 			return documentation;
 		} catch (SecurityException e) {
 			e.printStackTrace();

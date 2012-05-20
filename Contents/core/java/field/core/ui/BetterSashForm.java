@@ -731,13 +731,13 @@ public class BetterSashForm extends Canvas {
 
 	@Override
 	public void drawBackground(GC gc, int x, int y, int width, int height) {
-		System.out.println(" db 2");
+		;//System.out.println(" db 2");
 		super.drawBackground(gc, x, y, width, height);
 	}
 	
 	@Override
 	public void drawBackground(GC gc, int x, int y, int width, int height, int offsetX, int offsetY) {
-		System.out.println(" db 1");
+		;//System.out.println(" db 1");
 		super.drawBackground(gc, x, y, width, height, offsetX, offsetY);
 	}
 

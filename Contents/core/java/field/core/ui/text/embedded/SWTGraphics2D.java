@@ -217,7 +217,7 @@ public class SWTGraphics2D extends Graphics2D {
 
     public void setColor(Color c) {
     	
-    	System.out.println(" set color <"+c+">");
+    	;//System.out.println(" set color <"+c+">");
     	
         org.eclipse.swt.graphics.Color cachedColor = (org.eclipse.swt.graphics.Color) COLOR_CACHE.get(c);
         if (cachedColor == null) {

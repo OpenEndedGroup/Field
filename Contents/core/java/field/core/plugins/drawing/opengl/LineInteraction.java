@@ -156,11 +156,11 @@ public class LineInteraction implements iMousePeer {
 //		Pair<CachedLine, EventHandler> h = locate(arg0);
 //		
 //
-//		System.out.println(" drag <"+arg0+">");
+//		;//System.out.println(" drag <"+arg0+">");
 //		
 //
 ////		if (last != null)
-////			System.out.println("     " + eq(h, last) + " " + stillHere(last));
+////			;//System.out.println("     " + eq(h, last) + " " + stillHere(last));
 //		if (last != null && !eq(h, last) && stillHere(last)) {
 //
 //			Promise p = enter(last.left);
@@ -220,7 +220,7 @@ public class LineInteraction implements iMousePeer {
 		boolean b1 = false;
 
 //		if (last != null)
-//			System.out.println("     " + eq(h, last) + " " + stillHere(last));
+//			;//System.out.println("     " + eq(h, last) + " " + stillHere(last));
 		if (last != null && !eq(h, last) && stillHere(last)) {
 
 			Promise p = enter(last.left);

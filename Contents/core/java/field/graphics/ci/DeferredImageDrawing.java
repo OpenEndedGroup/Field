@@ -107,7 +107,7 @@ public class DeferredImageDrawing {
 
 					// force evaluation of this thing?
 
-					System.out.println(" requesting repaint <" + filename + "> is now available <" + master + ">");
+					;//System.out.println(" requesting repaint <" + filename + "> is now available <" + master + ">");
 
 					if (m != null) {
 						m.requestRepaint();
@@ -164,7 +164,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -199,7 +199,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -238,7 +238,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -273,7 +273,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ half <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -312,7 +312,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ eighth <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ eighth <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -347,7 +347,7 @@ public class DeferredImageDrawing {
 						// force evaluation of this
 						// thing?
 
-						System.out.println(" requesting repaint <" + filename + "> is now available @ eighth <" + half + ">");
+						;//System.out.println(" requesting repaint <" + filename + "> is now available @ eighth <" + half + ">");
 
 						if (m != null) {
 							m.requestRepaint();
@@ -373,11 +373,11 @@ public class DeferredImageDrawing {
 
 			float previousScale = lastDrawn.getScale();
 
-			System.out.println(" computing optimal scale for <" + x + " " + lastDrawn + ">");
+			;//System.out.println(" computing optimal scale for <" + x + " " + lastDrawn + ">");
 
 			if (previousScale > x * 0.75 && previousScale < x * 1.5) {
 
-				System.out.println(" accepted last drawn ");
+				;//System.out.println(" accepted last drawn ");
 
 				if (lastDrawn == Thumbnail.full)
 					return new Pair<Image, Float>(getMasterImage(u), 1f);
@@ -398,7 +398,7 @@ public class DeferredImageDrawing {
 				}
 			}
 
-			System.out.println(" chose <" + lower + ">");
+			;//System.out.println(" chose <" + lower + ">");
 
 			if (lower == null)
 				lower = Thumbnail.eighth;
@@ -475,7 +475,7 @@ public class DeferredImageDrawing {
 					try {
 						synchronized (workerLock) {
 							if (workerThread.getNumTasks() > 0)
-								System.out.println(" deferred image worker thread has <" + workerThread.getNumTasks() + "> tasks ");
+								;//System.out.println(" deferred image worker thread has <" + workerThread.getNumTasks() + "> tasks ");
 							workerThread.update();
 						}
 
@@ -525,7 +525,7 @@ public class DeferredImageDrawing {
 								@Override
 								public void update() {
 
-									System.out.println(" inside drawing result callback for defered image ");
+									;//System.out.println(" inside drawing result callback for defered image ");
 									BasicGLSLangProgram.currentProgram.debugPrintUniforms();
 									
 									
@@ -557,7 +557,7 @@ public class DeferredImageDrawing {
 
 				private void render(float x, float y, float z, Object image, Vector4 colorFor, float opacityMul, Number number, Vector3 right, Vector3 up) {
 
-					System.out.println(" inside deferred rendering system ");
+					;//System.out.println(" inside deferred rendering system ");
 
 					if (image instanceof ImageReference) {
 
@@ -571,14 +571,14 @@ public class DeferredImageDrawing {
 							up= new Vector3(0,1,0);
 						
 						if (dest != null) {
-							System.out.println(" draw into canvas now in 3d");
+							;//System.out.println(" draw into canvas now in 3d");
 
 							Rect e = ir.extents;
 
 							dest.drawIntoCanvasNow(new Vector3(x, y, z).add(right, (float) -e.w * 0.5f).add(up, (float) -e.h * 0.5f), new Vector3(x, y, z).add(right, (float) e.w * 0.5f).add(up, (float) -e.h * 0.5f), new Vector3(x, y, z).add(right, (float) e.w * 0.5f).add(up, (float) e.h * 0.5f), new Vector3(x, y, z).add(right, (float) -e.w * 0.5f).add(up, (float) e.h * 0.5f), new Vector4(1, 1, 1, opacityMul));
 
 						} else {
-							System.out.println(" deferred rendering system \u2014 missing image <" + ir + ">");
+							;//System.out.println(" deferred rendering system \u2014 missing image <" + ir + ">");
 						}
 
 					}
@@ -586,7 +586,7 @@ public class DeferredImageDrawing {
 
 				private void render(Vector2 destination, Object image, Vector4 colorFor, float opacityMul, Number v) {
 
-					System.out.println(" inside deferred rendering system ");
+					;//System.out.println(" inside deferred rendering system ");
 
 					if (image instanceof ImageReference) {
 
@@ -606,11 +606,11 @@ public class DeferredImageDrawing {
 						if (image2.left != null) {
 							if (shouldCull(destination, ir.extents))
 								return;
-							System.out.println(" rendering image with scale <" + 1 / image2.right + ">");
+							;//System.out.println(" rendering image with scale <" + 1 / image2.right + ">");
 							((Image) image2.left).drawNow(destination.x, destination.y, 1 / image2.right);
 							ir.uploaded = true;
 						} else {
-							System.out.println(" deferred rendering system \u2014 missing image <" + ir + ">");
+							;//System.out.println(" deferred rendering system \u2014 missing image <" + ir + ">");
 						}
 
 					} else if (image instanceof Image) {
@@ -694,7 +694,7 @@ public class DeferredImageDrawing {
 					Number o = c.getProperties().get(iLinearGraphicsContext.totalOpacity);
 					opacityMul *= o == null ? 1 : o.floatValue();
 
-					System.out.println(" checking image <" + e.attributes.get(iLinearGraphicsContext.image_v) + ">");
+					;//System.out.println(" checking image <" + e.attributes.get(iLinearGraphicsContext.image_v) + ">");
 
 					Vector4 v = pick(position, e.getDestination(new Vector2()), e.attributes.get(iLinearGraphicsContext.image_v));
 					if (v != null)
@@ -707,19 +707,19 @@ public class DeferredImageDrawing {
 
 	private static Vector4 pick(Vector2 target, Vector2 point, Image image) {
 
-		System.out.println(target + " " + point + " " + image + " " + image.getExtents());
+		;//System.out.println(target + " " + point + " " + image + " " + image.getExtents());
 
 		Rect x = image.getExtents();
 		x.x += point.x;
 		x.y += point.y;
 
-		System.out.println(" is <" + target + "> inside <" + x + ">");
+		;//System.out.println(" is <" + target + "> inside <" + x + ">");
 		if (!x.isInside(target))
 			return null;
 
 		int px = (int) (target.x - point.x);
 		int py = (int) (target.y - point.y);
-		System.out.println(" is <" + px + ", " + py + "> inside <" + x.w + " " + x.h + ">");
+		;//System.out.println(" is <" + px + ", " + py + "> inside <" + x.w + " " + x.h + ">");
 		if (px >= 0 && px < (int) x.w && py >= 0 && py < (int) x.h) {
 			FloatBuffer f = image.toFloatBuffer();
 			float r = f.get(py * ((int) (x.w)) * 4 + px * 4 + 0);

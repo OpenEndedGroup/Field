@@ -69,16 +69,16 @@ public class MiscNative {
 
 	static public void load() {
 		try {
-			System.out.println(" loading native (snow)");
+			;//System.out.println(" loading native (snow)");
 			System.loadLibrary("miscNative2_snow");
 
 		} catch (UnsatisfiedLinkError e) {
 			try {
-				System.out.println(" loading native (non-snow)");
+				;//System.out.println(" loading native (non-snow)");
 				System.loadLibrary("miscNative2");
 			} catch (UnsatisfiedLinkError ee) {
 				nativeAvailable = false;
-				System.out.println("\n\n -- no native lib available (tried snow leopard and leopard)-- " + System.getProperty("java.library.path") + "\n\n");
+				;//System.out.println("\n\n -- no native lib available (tried snow leopard and leopard)-- " + System.getProperty("java.library.path") + "\n\n");
 			}
 		}
 	}

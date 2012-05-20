@@ -66,7 +66,7 @@ public class FieldMenus2 {
 
 				@Override
 				public void update() {
-					System.out.println(" preferences ");
+					;//System.out.println(" preferences ");
 				}
 			});
 		}
@@ -146,7 +146,7 @@ public class FieldMenus2 {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 
-					System.out.println(" OPEN ");
+					;//System.out.println(" OPEN ");
 
 					doOpenFile(hiddenWindow);
 				}
@@ -178,7 +178,7 @@ public class FieldMenus2 {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (!Launcher.shuttingDown) {
-					System.out.println(" gone ");
+					;//System.out.println(" gone ");
 					doClose(s);
 				}
 			}
@@ -193,7 +193,7 @@ public class FieldMenus2 {
 
 	private void makeMenuForSheet(final Sheet s) {
 
-		System.out.println(" setting menu bar");
+		;//System.out.println(" setting menu bar");
 
 		Menu bar = s.setup.getMenuBar();
 		if (bar == null) {
@@ -228,7 +228,7 @@ public class FieldMenus2 {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				System.out.println(" OPEN ");
+				;//System.out.println(" OPEN ");
 
 				doOpenFile(s.setup);
 			}
@@ -343,7 +343,7 @@ public class FieldMenus2 {
 
 		String fn = d.open();
 
-		System.out.println(" -- fn : " + fn);
+		;//System.out.println(" -- fn : " + fn);
 
 		if (fn != null) {
 
@@ -372,10 +372,10 @@ public class FieldMenus2 {
 					}
 
 				} else {
-					System.out.println(" no mkdir ");
+					;//System.out.println(" no mkdir ");
 				}
 			} else {
-				System.out.println(" no prefix <" + fn + "> <" + getCanonicalVersioningDir() + ">");
+				;//System.out.println(" no prefix <" + fn + "> <" + getCanonicalVersioningDir() + ">");
 			}
 		}
 	}

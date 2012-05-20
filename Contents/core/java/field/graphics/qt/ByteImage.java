@@ -26,7 +26,7 @@ public class ByteImage {
 		byteBuffer = ByteBuffer.allocateDirect(4 * width * height);
 
 		long context = BasicContextManager.coreImageContext;
-		System.out.println(" context is <"+context+">");
+		;//System.out.println(" context is <"+context+">");
 		if (context == 0)
 			context = new CoreImage().context_createBitmapCIContextNow();
 		new CoreImage().context_drawImageToByteBuffer(context, image, byteBuffer, width, height);
@@ -58,12 +58,12 @@ public class ByteImage {
 		width = (int) new CoreImage().image_getExtentWidth(image);
 		height = (int) new CoreImage().image_getExtentHeight(image);
 		
-		System.out.println(" dimensions are <"+width+" -> "+height+">");
+		;//System.out.println(" dimensions are <"+width+" -> "+height+">");
 		
 		byteBuffer = ByteBuffer.allocateDirect(4 * width * height);
 
 		long context = BasicContextManager.coreImageContext;
-		System.out.println(" context is <"+context+">");
+		;//System.out.println(" context is <"+context+">");
 		if (context == 0)
 			context = new CoreImage().context_createBitmapCIContextNow();
 		new CoreImage().context_drawImageToByteBuffer(context, image, byteBuffer, width, height);

@@ -86,22 +86,22 @@ public class BuildTransformTreeVisitor extends AbstractVisitor {
 				if (stack.size() == 1) {
 					
 					
-				//	System.out.println("stack1 :"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
+				//	;//;//System.out.println("stack1 :"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
 					
 					n.payload().localRotation = new Quaternion(n.payload().worldRotation);
 					n.payload().localTranslation = new Vector3(n.payload().worldTranslation);
 					n.payload().localScale = new Vector3(n.payload().worldScale);
 
-				//	System.out.println("stack1 out:"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
+				//	;//;//System.out.println("stack1 out:"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
 
-					//System.out.println(" stack size is 1, just copying <"+n.payload()+">");
+					//;//;//System.out.println(" stack size is 1, just copying <"+n.payload()+">");
 
 				} else {
 					Transform above = stack.get(stack.size() - 2).payload();
 					Transform here = n.payload();
 
 					//if (n.payload().name.equals("RightHip"))
-					//System.out.println("stack2 :"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
+					//;//;//System.out.println("stack2 :"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
 
 					
 					Matrix4 above_m = new Matrix4(above.worldRotation, above.worldTranslation, above.worldScale.x);
@@ -116,20 +116,20 @@ public class BuildTransformTreeVisitor extends AbstractVisitor {
 
 					left.get(here.localRotation);
 					if (Float.isNaN(here.localRotation.x)) {
-						System.out.println(" -- nan while computing transform for <" + here.name + ">");
+						;//;//System.out.println(" -- nan while computing transform for <" + here.name + ">");
 						above_m.invert();
-						System.out.println("above \n" + above_m);
-						System.out.println("here \n" + here_m);
-						System.out.println("left \n" + left);
+						;//;//System.out.println("above \n" + above_m);
+						;//;//System.out.println("here \n" + here_m);
+						;//;//System.out.println("left \n" + left);
 						here.localRotation.set(0, 0, 0, 1);
 					}
 
 //					if (Math.abs(here.localRotation.mag() - 1.0) > 1e-2) {
-//						System.out.println(" warning: non unit rotation ? <" + here.localRotation + "> at <" + n.payload().name + ">");
-//						System.out.println(" n.payload()" + " " + n.payload());
-//						System.out.println("     above: "+above_m);
-//						System.out.println("     here: "+here_m);
-//						System.out.println("     left: "+left);
+//						;//;//System.out.println(" warning: non unit rotation ? <" + here.localRotation + "> at <" + n.payload().name + ">");
+//						;//;//System.out.println(" n.payload()" + " " + n.payload());
+//						;//;//System.out.println("     above: "+above_m);
+//						;//;//System.out.println("     here: "+here_m);
+//						;//;//System.out.println("     left: "+left);
 //						left.get(here.localRotation);
 //					}
 
@@ -140,8 +140,8 @@ public class BuildTransformTreeVisitor extends AbstractVisitor {
 
 					if (n.payload().name.equals("Hips"))
 					{
-						System.out.println("stack2 out:"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
-						System.out.println("stack2 out:"+n.payload().name+" "+n.payload().worldRotation);
+						;//;//System.out.println("stack2 out:"+n.payload().name+" "+n.payload().localRotation+" "+n.payload().localTranslation+" "+n.payload().localScale);
+						;//;//System.out.println("stack2 out:"+n.payload().name+" "+n.payload().worldRotation);
 						
 					}
 
@@ -228,8 +228,8 @@ public class BuildTransformTreeVisitor extends AbstractVisitor {
 
 		super.visitTransformInfo(oq0, oq1, oq2, oq3, ot0, ot1, ot2, os0, os1, os2, q0, q1, q2, q3, t0, t1, t2, s0, s1, s2);
 		if (currentTransform.peek().payload().name.endsWith("Hips")) {
-			System.out.println(" straight up from fbx");
-			System.out.println(currentTransform.peek().payload().name);
+			;//;//System.out.println(" straight up from fbx");
+			;//;//System.out.println(currentTransform.peek().payload().name);
 			System.out.printf("world%f %f %f %f    %f %f %f   %f %f %f\nlocal%f %f %f %f    %f %f %f   %f %f %f\n", oq0, oq1, oq2, oq3, ot0, ot1, ot2, os0, os1, os2, q0, q1, q2, q3, t0, t1, t2, s0, s1, s2);
 		}
 		Quaternion q = new Quaternion(oq0, oq1, oq2, oq3);
@@ -254,8 +254,8 @@ public class BuildTransformTreeVisitor extends AbstractVisitor {
 		
 		
 		if (currentTransform.peek().payload().name.endsWith("Hips")) {
-			System.out.println(" straight up from fbx at end");
-			System.out.println(currentTransform.peek().payload());
+			;//;//System.out.println(" straight up from fbx at end");
+			;//;//System.out.println(currentTransform.peek().payload());
 		}
 	}
 

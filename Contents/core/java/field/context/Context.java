@@ -265,12 +265,12 @@ public class Context {
 			
 			if (name.startsWith("down_")) {
 				String sub = name.substring("down_".length());
-				System.out.println(" getall <" + sub + ">");
+				;//System.out.println(" getall <" + sub + ">");
 				return getAll(sub);
 			}
 			if (name.startsWith("where_")) {
 				String sub = name.substring("where_".length());
-				System.out.println(" getall <" + sub + ">");
+				;//System.out.println(" getall <" + sub + ">");
 				return where(sub);
 			}
 
@@ -303,7 +303,7 @@ public class Context {
 		@HiddenInAutocomplete
 		public Object invoke(boolean startHere, Method m, Object... args) {
 
-			// System.out.println(">>>>>>>>> invoke :"+startHere+" "+m+" on "+this);
+			// ;//System.out.println(">>>>>>>>> invoke :"+startHere+" "+m+" on "+this);
 
 			Object r = null;
 			if (startHere) {
@@ -311,7 +311,7 @@ public class Context {
 				Class<?> xx = m.getDeclaringClass();
 				if (xx.isAssignableFrom(this.getClass())) {
 					try {
-						// System.out.println(" will invoke on this ");
+						// ;//System.out.println(" will invoke on this ");
 						r = m.invoke(this, args);
 					} catch (IllegalArgumentException e) {
 						e.printStackTrace();
@@ -332,7 +332,7 @@ public class Context {
 
 			for (Object o : new ArrayList<Object>(properties.getMap().values())) {
 
-				// System.out.println(" recuring to :"+o);
+				// ;//System.out.println(" recuring to :"+o);
 
 				if (o == this)
 					continue;
@@ -343,7 +343,7 @@ public class Context {
 
 			}
 
-			// System.out.println("<<<<<<<<<<<<");
+			// ;//System.out.println("<<<<<<<<<<<<");
 
 			return r;
 		}
@@ -388,7 +388,7 @@ public class Context {
 
 		private Object invoke(Object o, Method m, Object[] args) {
 
-			// System.out.println(" o is a "+o+" "+(o==null ? null :
+			// ;//System.out.println(" o is a "+o+" "+(o==null ? null :
 			// o.getClass())+" "+m.getDeclaringClass().isAssignableFrom(o.getClass()));
 
 			if (o instanceof Cobj) {
@@ -464,7 +464,7 @@ public class Context {
 				@Override
 				public Object invoke(Object arg0, Method arg1, Object[] arg2) throws Throwable {
 
-					// System.out.println(" --- enter proxy -- :"+arg0+" "+arg1);
+					// ;//System.out.println(" --- enter proxy -- :"+arg0+" "+arg1);
 
 					return Cobj.this.invoke(startHere, arg1, arg2);
 				}
@@ -766,7 +766,7 @@ public class Context {
 
 		@Override
 		public void visit(Cobj c) {
-			System.out.println(indent + c);
+			;//System.out.println(indent + c);
 		}
 
 		@Override

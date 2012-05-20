@@ -1102,13 +1102,13 @@ public class Matrix3 implements java.io.Serializable, Cloneable {
 		float det;
 
 		det = mat[0] * mat[4] * mat[8] + mat[1] * mat[5] * mat[6] + mat[2] * mat[3] * mat[7] - mat[2] * mat[4] * mat[6] - mat[0] * mat[5] * mat[7] - mat[1] * mat[3] * mat[8];
-		System.out.println("det= " + det);
+		;//System.out.println("det= " + det);
 	}
 
 	static void print_mat(float[] mat) {
 		int i;
 		for (i = 0; i < 3; i++) {
-			System.out.println(mat[i * 3 + 0] + " " + mat[i * 3 + 1] + " " + mat[i * 3 + 2] + "\n");
+			;//System.out.println(mat[i * 3 + 0] + " " + mat[i * 3 + 1] + " " + mat[i * 3 + 2] + "\n");
 		}
 
 	}
@@ -1190,7 +1190,7 @@ public class Matrix3 implements java.io.Serializable, Cloneable {
 			}
 
 			/*
-			 * System.out.println("\nscales="+scales[0]+" "+scales[1]+" "+scales[2]); System.out.println("\nrot="+rot[0]+" "+rot[1]+" "+rot[2]); System.out.println("rot="+rot[3]+" "+rot[4]+" "+rot[5]); System.out.println("rot="+rot[6]+" "+rot[7]+" "+rot[8]);
+			 * ;//System.out.println("\nscales="+scales[0]+" "+scales[1]+" "+scales[2]); ;//System.out.println("\nrot="+rot[0]+" "+rot[1]+" "+rot[2]); ;//System.out.println("rot="+rot[3]+" "+rot[4]+" "+rot[5]); ;//System.out.println("rot="+rot[6]+" "+rot[7]+" "+rot[8]);
 			 */
 
 			// sort the order of the input matrix

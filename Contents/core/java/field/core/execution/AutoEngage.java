@@ -34,7 +34,7 @@ public class AutoEngage {
 					String[] parts = spec.split(";");
 
 					for (String s : parts) {
-						System.out.println(" looking up <" + s + ">");
+						;//System.out.println(" looking up <" + s + ">");
 						startElement(s);
 					}
 					Launcher.getLauncher().deregisterUpdateable(this);
@@ -68,7 +68,7 @@ public class AutoEngage {
 
 	protected void startElement(iVisualElement v) {
 
-		System.out.println(" :::::::::::::: starting <" + v + ">");
+		;//System.out.println(" :::::::::::::: starting <" + v + ">");
 		PseudoPropertiesPlugin.begin.get(v).call(new Object[] {});
 
 		// PythonScriptingSystem pss =

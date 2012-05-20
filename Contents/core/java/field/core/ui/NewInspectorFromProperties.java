@@ -83,7 +83,7 @@ public class NewInspectorFromProperties {
 
 	public <A> iIO<A> coallesce(final iIO<A> a, final iIO<A> b) {
 
-		System.out.println(" coallescing <" + a + "> <" + b + ">");
+		;//System.out.println(" coallescing <" + a + "> <" + b + ">");
 
 		iIO<A> ii = new iIO<A>(a.name) {
 
@@ -132,7 +132,7 @@ public class NewInspectorFromProperties {
 		add(heading);
 
 		
-		System.out.println(" hello ??? inside rebuild ");
+		;//System.out.println(" hello ??? inside rebuild ");
 		
 		for (final iVisualElement e : sel) {
 
@@ -309,7 +309,7 @@ public class NewInspectorFromProperties {
 
 					@Override
 					public void setValue(Object v) {
-						System.out.println(" setting value to <" + v + ">");
+						;//System.out.println(" setting value to <" + v + ">");
 						prop.set(e, e, v);
 					}
 
@@ -343,7 +343,7 @@ public class NewInspectorFromProperties {
 
 						@Override
 						public void setValue(Object v) {
-							System.out.println(" setting value to <" + v + ">");
+							;//System.out.println(" setting value to <" + v + ">");
 							p.set(e, e, v);
 						}
 
@@ -378,13 +378,13 @@ public class NewInspectorFromProperties {
 						@Override
 						public Object getValue() {
 							Object object = p.get(e);
-							System.out.println(" >>>>>>>>>>>>>>>>> getting value <" + p + " = " + e + "> = " + object);
+							;//System.out.println(" >>>>>>>>>>>>>>>>> getting value <" + p + " = " + e + "> = " + object);
 							return object;
 						}
 
 						@Override
 						public void setValue(Object v) {
-							System.out.println(" >>>>>>>>>>>>>>>>> setting value <" + p + " = " + e + "> = " + v);
+							;//System.out.println(" >>>>>>>>>>>>>>>>> setting value <" + p + " = " + e + "> = " + v);
 							p.set(e, e, v);
 						}
 
@@ -394,7 +394,7 @@ public class NewInspectorFromProperties {
 						}
 					};
 
-					System.out.println(" about to make something for <" + k.name + ">");
+					;//System.out.println(" about to make something for <" + k.name + ">");
 
 					k.editor = ee.getValue();
 

@@ -25,13 +25,13 @@ public class GStreamerPlugin extends BaseSimplePlugin {
 
 			System.setProperty("jna.library.path", extensionsDir + "/lib/macosx");
 
-			System.out.println(" binary file is :" + new File(extensionsDir + "lib/macosx").getAbsolutePath());
+			;//;//System.out.println(" binary file is :" + new File(extensionsDir + "lib/macosx").getAbsolutePath());
 		} else {
 			extensionsDir = SystemProperties.getDirProperty("gstreamer_dir", "/usr/lib/gstreamer-0.10/");
 
 			System.setProperty("jna.library.path", extensionsDir );
 
-			System.out.println(" binary file is :" + new File(extensionsDir).getAbsolutePath());
+			;//;//System.out.println(" binary file is :" + new File(extensionsDir).getAbsolutePath());
 			
 			NativeLibrary.getProcess();
 		}

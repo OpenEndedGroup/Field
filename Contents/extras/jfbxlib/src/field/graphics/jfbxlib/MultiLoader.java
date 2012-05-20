@@ -24,7 +24,7 @@ public class MultiLoader {
 
 	public Loader2 get(String name) {
 		
-		System.out.println(" -- inside get <"+name+">");
+		;//;//System.out.println(" -- inside get <"+name+">");
 		
 		if (name.contains("/")) name = prefix(name);
 		
@@ -35,7 +35,7 @@ public class MultiLoader {
 			if (m == null)
 				throw new NullPointerException("can't find resource called <" + name + ">");
 
-			System.out.println(" -- loading <" + name + "> from <" + m + ">");
+			;//;//System.out.println(" -- loading <" + name + "> from <" + m + ">");
 
 			Loader2 loader = new Loader2(m);
 			loaders.put(name, loader);

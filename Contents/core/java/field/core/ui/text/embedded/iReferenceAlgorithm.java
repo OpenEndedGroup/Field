@@ -45,7 +45,7 @@ public interface iReferenceAlgorithm {
 				@Override
 				protected VisitCode visit(iVisualElement n) {
 					String name = n.getProperty(iVisualElement.name);
-					System.out.println(" adding <"+n+" called <"+name+">");
+					;//System.out.println(" adding <"+n+" called <"+name+">");
 					ret.add(n);
 					return VisitCode.cont;
 				}

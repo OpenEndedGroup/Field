@@ -73,14 +73,14 @@ public abstract class JSRInterface implements ScriptingInterface {
 			}
 
 			public void setAttribute(String name, Object value, int scope) {
-				System.out.println(" set attribute <" + name + " = " + value + " @ " + scope + ">");
+				;//;//System.out.println(" set attribute <" + name + " = " + value + " @ " + scope + ">");
 				c.setAttribute(name, value, scope);
 				if (!insideShared)
 					propagateAttribute(name, value);
 			}
 
 			public void setBindings(Bindings bindings, int scope) {
-				System.out.println("WARNING: unhandled set bindings <" + bindings.size() + ">");
+				;//;//System.out.println("WARNING: unhandled set bindings <" + bindings.size() + ">");
 				c.setBindings(bindings, scope);
 			}
 
@@ -152,7 +152,7 @@ public abstract class JSRInterface implements ScriptingInterface {
 
 			return evaluation;
 		} catch (ScriptException e) {
-			System.out.println(e + " " + e.getLineNumber());
+			;//;//System.out.println(e + " " + e.getLineNumber());
 
 			// e.printStackTrace();
 
@@ -167,9 +167,9 @@ public abstract class JSRInterface implements ScriptingInterface {
 
 	protected void handleScriptException(ScriptException e) {
 
-		System.out.println(" << stack trace begins >>");
+		;//;//System.out.println(" << stack trace begins >>");
 		e.printStackTrace();
-		System.out.println(" << stack trace ends>>");
+		;//;//System.out.println(" << stack trace ends>>");
 
 		try {
 			newContext.getErrorWriter().append(e + ":" + e.getMessage());
@@ -287,11 +287,11 @@ public abstract class JSRInterface implements ScriptingInterface {
 		insideShared = true;
 		try {
 			for (ScriptingInterface s : shared) {
-				// System.out.println(" set <"+name+"> to <"+value+"> on <"+s+">");
+				// ;//;//System.out.println(" set <"+name+"> to <"+value+"> on <"+s+">");
 				s.setVariable(name, value);
 			}
 		} finally {
-			System.out.println(" finished prop");
+			;//;//System.out.println(" finished prop");
 			insideShared = false;
 		}
 	}

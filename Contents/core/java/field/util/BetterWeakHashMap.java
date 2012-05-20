@@ -42,7 +42,7 @@ public class BetterWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K,
 		}
 
 		public void setWHMKValue(Object inside, Object to) {
-			// System.out.println("setWHMKValue :"+inside+" "+to);
+			// ;//System.out.println("setWHMKValue :"+inside+" "+to);
 			map.put(inside, to);
 
 			// if (onlyOne == null)
@@ -92,9 +92,9 @@ public class BetterWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K,
 
 			// XXXXXXXXdebug = key;
 
-			// System.out.println(" key <"+key+"> instanceof <"+key.getClass()+"> == <"+value+"> instanceof <"+((value == null ? null : value.getClass()))+">");
+			// ;//System.out.println(" key <"+key+"> instanceof <"+key.getClass()+"> == <"+value+"> instanceof <"+((value == null ? null : value.getClass()))+">");
 
-			if (!(key instanceof iWeakHashMapKey)) System.out.println(ANSIColorUtils.red(" !! " + key.getClass()));
+			if (!(key instanceof iWeakHashMapKey)) ;//System.out.println(ANSIColorUtils.red(" !! " + key.getClass()));
 
 			if (key instanceof iWeakHashMapKey) {
 				((iWeakHashMapKey) key).setWHMKValue(this, value);
@@ -432,7 +432,7 @@ public class BetterWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K,
 					if (map == null) {
 						i.remove();
 					} else {
-						if (map.size() > 1200) System.out.println(" map has <" + map.size() + "> elements? leak?");
+						if (map.size() > 1200) ;//System.out.println(" map has <" + map.size() + "> elements? leak?");
 						map.expungeStaleEntries();
 					}
 				}
@@ -839,7 +839,7 @@ public class BetterWeakHashMap<K, V> extends AbstractMap<K, V> implements Map<K,
 		Object r;
 		while ((r = queue.poll()) != null) {
 			Entry e = (Entry) r;
-			// System.out.println(" expunging <"+e+">");
+			// ;//System.out.println(" expunging <"+e+">");
 			int h = e.hash;
 			int i = indexFor(h, table.length);
 

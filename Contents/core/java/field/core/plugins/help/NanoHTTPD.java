@@ -159,12 +159,12 @@ public class NanoHTTPD
 
 				// Read the request line
 				String ll = in.readLine();
-				System.out.println(" ll :"+ll);
+				;//System.out.println(" ll :"+ll);
 				StringTokenizer st = new StringTokenizer( ll);
 
 				if ( !st.hasMoreTokens())
 				{
-					System.out.println(" bad request 1");
+					;//System.out.println(" bad request 1");
 					sendError( HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html" );
 				}
 
@@ -172,17 +172,17 @@ public class NanoHTTPD
 
 				if ( !st.hasMoreTokens())
 				{
-					System.out.println(" bad request 2");
+					;//System.out.println(" bad request 2");
 					sendError( HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html" );
 				}
 
 				String tok = st.nextToken();
 				
-				System.out.println(" remaining <"+tok+">");
+				;//System.out.println(" remaining <"+tok+">");
 				
 				String uri = /*decodePercent*/( tok);
 
-				System.out.println(" uri "+tok);
+				;//System.out.println(" uri "+tok);
 				
 				// Decode parameters from the URI
 				Properties parms = new Properties();
@@ -194,10 +194,10 @@ public class NanoHTTPD
 				}
 
 				
-				System.out.println(" params are :");
+				;//System.out.println(" params are :");
 				Set<Object> k = parms.keySet();
 				for(Object o : k)
-					System.out.println("                 "+o+"    ->"+parms.get(o));
+					;//System.out.println("                 "+o+"    ->"+parms.get(o));
 				
 				// If there's another token, it's protocol version,
 				// followed by HTTP headers. Ignore version but parse headers.
@@ -215,7 +215,7 @@ public class NanoHTTPD
 					}
 				}
 
-				//System.out.println(" header :"+header);
+				//;//System.out.println(" header :"+header);
 				
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
@@ -430,16 +430,13 @@ public class NanoHTTPD
 	 */
 	public static void main( String[] args )
 	{
-		System.out.println( "NanoHTTPD 1.1 (C) 2001,2005-2007 Jarno Elonen\n" +
-							"(Command line options: [port] [--licence])\n" );
-
 		// Show licence if requested
 		int lopt = -1;
 		for ( int i=0; i<args.length; ++i )
 		if ( args[i].toLowerCase().endsWith( "licence" ))
 		{
 			lopt = i;
-			System.out.println( LICENCE + "\n" );
+			;//System.out.println( LICENCE + "\n" );
 		}
 
 		// Change port if requested
@@ -449,7 +446,7 @@ public class NanoHTTPD
 
 		if ( args.length > 1 &&
 			 args[1].toLowerCase().endsWith( "licence" ))
-				System.out.println( LICENCE + "\n" );
+				;//System.out.println( LICENCE + "\n" );
 
 		NanoHTTPD nh = null;
 		try
@@ -462,10 +459,6 @@ public class NanoHTTPD
 			System.exit( -1 );
 		}
 		nh.myFileDir = new File("");
-
-		System.out.println( "Now serving files in port " + port + " from \"" +
-							new File("").getAbsolutePath() + "\"" );
-		System.out.println( "Hit Enter to stop.\n" );
 
 		try { System.in.read(); } catch( Throwable t ) {};
 	}
@@ -496,7 +489,7 @@ public class NanoHTTPD
 					{
 						while( true )
 						{
-							System.out.println(" opening session on <"+ss+">");
+							;//System.out.println(" opening session on <"+ss+">");
 							new HTTPSession( ss.accept());
 						}
 					}
@@ -523,21 +516,17 @@ public class NanoHTTPD
 	 */
 	public Response serve( String uri, String method, Properties header, Properties parms )
 	{
-		System.out.println( method + " '" + uri + "' " );
+		;//System.out.println( method + " '" + uri + "' " );
 
 		Enumeration e = header.propertyNames();
 		while ( e.hasMoreElements())
 		{
 			String value = (String)e.nextElement();
-			System.out.println( "  HDR: '" + value + "' = '" +
-								header.getProperty( value ) + "'" );
 		}
 		e = parms.propertyNames();
 		while ( e.hasMoreElements())
 		{
 			String value = (String)e.nextElement();
-			System.out.println( "  PRM: '" + value + "' = '" +
-								parms.getProperty( value ) + "'" );
 		}
 
 		return serveFile( uri, header, new File("."), true );
@@ -557,7 +546,8 @@ public class NanoHTTPD
 		// Remove URL arguments
 		uri = uri.trim().replace( File.separatorChar, '/' );
 		if ( uri.indexOf( '?' ) >= 0 )
-			uri = uri.substring(0, uri.indexOf( '?' ));
+			uri = uri.substring(0, uri.indexOf( '?' ));			
+
 
 		// Prohibit getting out of current directory
 		if ( uri.startsWith( ".." ) || uri.endsWith( ".." ) || uri.indexOf( "../" ) >= 0 )
@@ -738,7 +728,7 @@ public class NanoHTTPD
 	 */
 	static public String decodePercent( String str ) throws InterruptedException
 	{
-		System.out.println(" inside decode percent <"+str+">");
+		;//System.out.println(" inside decode percent <"+str+">");
 		
 		try
 		{
@@ -765,7 +755,7 @@ public class NanoHTTPD
 		}
 		catch( Exception e )
 		{
-			System.out.println(" bad percent encoding");
+			;//System.out.println(" bad percent encoding");
 			e.printStackTrace();
 //			sendError( HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding." );
 			return null;

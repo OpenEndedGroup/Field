@@ -225,7 +225,7 @@ public class FacelessFluidSheet implements iVisualElementOverrides, iUpdateable{
 
 	public <T> VisitCode getProperty(iVisualElement source, iVisualElement.VisualElementProperty<T> property, Ref<T> ref) {
 
-//		System.out.println(" root prop faceless <"+rootProperties+"> / <"+property+">");
+//		;//System.out.println(" root prop faceless <"+rootProperties+"> / <"+property+">");
 
 		if (rootProperties.containsKey(property)) {
 			VisualElementProperty<T> a = property.getAliasedTo();
@@ -341,24 +341,24 @@ public class FacelessFluidSheet implements iVisualElementOverrides, iUpdateable{
 	
 	private static void registerExtendedPlugins(final FacelessFluidSheet sheet) {
 		HashSet<String> p = Trampoline2.plugins;
-		System.out.println(" extended plugins are <" + p + ">");
+		;//System.out.println(" extended plugins are <" + p + ">");
 		for (String s : p) {
-			System.out.println("   loading plugin <" + s + ">");
+			;//System.out.println("   loading plugin <" + s + ">");
 			try {
 				Class<?> loaded = sheet.getClass().getClassLoader().loadClass(s);
 				iPlugin instance = (iPlugin) loaded.newInstance();
 				sheet.registerPlugin(instance);
 			} catch (ClassNotFoundException e) {
-				System.out.println("   error loading plugin <" + s + ">, continuing");
+				;//System.out.println("   error loading plugin <" + s + ">, continuing");
 				e.printStackTrace();
 			} catch (InstantiationException e) {
-				System.out.println("   error loading plugin <" + s + ">, continuing");
+				;//System.out.println("   error loading plugin <" + s + ">, continuing");
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				System.out.println("   error loading plugin <" + s + ">, continuing");
+				;//System.out.println("   error loading plugin <" + s + ">, continuing");
 				e.printStackTrace();
 			} catch (Throwable t) {
-				System.out.println("   error loading plugin <" + s + ">, continuing");
+				;//System.out.println("   error loading plugin <" + s + ">, continuing");
 				t.printStackTrace();
 			}
 		}

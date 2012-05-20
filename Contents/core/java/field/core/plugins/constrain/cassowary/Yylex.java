@@ -335,11 +335,11 @@ public class Yylex implements Scanner {
 					case 12: {
 						String variable_name = new String(yytext());
 						if (m_debug_lex) {
-							System.out.println("Lexical analysis found <" + variable_name + ">");
+							;//System.out.println("Lexical analysis found <" + variable_name + ">");
 						}
 						if (!m_variable_name_object_hash.containsKey(variable_name)) {
 							if (m_debug_lex) {
-								System.out.println("	Putting it in hash for the first time.");
+								;//System.out.println("	Putting it in hash for the first time.");
 							}
 							ClVariable variable = new ClVariable();
 							Object return_value = m_variable_name_object_hash.put(variable_name, variable);
@@ -348,9 +348,9 @@ public class Yylex implements Scanner {
 							}
 							if (m_debug_lex) {
 								if (m_variable_name_object_hash.containsKey(variable_name)) {
-									System.out.println("	Hash table now contains object.");
+									;//System.out.println("	Hash table now contains object.");
 								} else {
-									System.out.println("	Hash table does not contain object.");
+									;//System.out.println("	Hash table does not contain object.");
 								}
 							}
 							if (m_variable_name_object_hash.isEmpty()) {

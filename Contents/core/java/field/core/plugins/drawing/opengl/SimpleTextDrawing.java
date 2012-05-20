@@ -129,20 +129,20 @@ public class SimpleTextDrawing {
 					if (r == null) {
 						r = TextSystem.textSystem.new RectangularLabel(string, font, 0);
 
-						System.out.println(" rendering singleline test <" + string + "> with rect <" + useRect + ">");
+						;//System.out.println(" rendering singleline test <" + string + "> with rect <" + useRect + ">");
 
 						r.getTexture().use_gl_texture_rectangle_ext(useRect);
 						r.setFont(font);
 
 						if (string.startsWith("<html>")) {
-							System.out.println(" reset text as label <" + string + ">");
+							;//System.out.println(" reset text as label <" + string + ">");
 							r.resetTextAsLabel(string, 1, 1, 1, 0, colorFor.x, colorFor.y, colorFor.z, colorFor.w);
 						} else {
 							if (blur != null && blur)
 								r.resetTextDropShadow(string, 1, 1, 1, 0, colorFor.x, colorFor.y, colorFor.z, colorFor.w);
 							else {
 
-								System.out.println(" color is :" + colorFor);
+								;//System.out.println(" color is :" + colorFor);
 
 								r.resetText(string, 1, 1, 1, 0, colorFor.x, colorFor.y, colorFor.z, colorFor.w);
 								// r.resetText(string,0,0,0,1,
@@ -181,7 +181,7 @@ public class SimpleTextDrawing {
 						// context.inside).performPass(null);
 						
 						
-//						System.out.println(" about to draw context text <"+string+"> at <"+destination.x+", "+destination.y+"> "+scale+" "+rr);
+//						;//System.out.println(" about to draw context text <"+string+"> at <"+destination.x+", "+destination.y+"> "+scale+" "+rr);
 //						BasicGLSLangProgram.currentProgram.debugPrintUniforms();
 						
 						glActiveTexture(GL_TEXTURE1);
@@ -296,7 +296,7 @@ public class SimpleTextDrawing {
 					if (r == null) {
 						r = TextSystem.textSystem.new RectangularLabel(string, font, 0);
 
-						System.out.println(" rendering multiline test <" + string + "> with rect <" + useRect + ">");
+						;//System.out.println(" rendering multiline test <" + string + "> with rect <" + useRect + ">");
 
 						r.getTexture().use_gl_texture_rectangle_ext(useRect);
 						r.getTexture().getMipMaps();
@@ -317,7 +317,7 @@ public class SimpleTextDrawing {
 					r.setTotalScale(totalScale);
 					r.setZ(z);
 
-					System.out.println(" drawing multiline text ");
+					;//System.out.println(" drawing multiline text ");
 					r.getTexture().use_gl_texture_rectangle_ext(useRect);
 					r.drawIntoMeshAll(mesh, 1, 1, 1, op, destination.x, destination.y);
 

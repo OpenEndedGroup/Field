@@ -79,7 +79,7 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 		try {
 			channel = DatagramChannel.open();
 		} catch (Exception ex) {
-			System.out.println("Error creating channel for UDPNIOListener");
+			;//System.out.println("Error creating channel for UDPNIOListener");
 			ex.printStackTrace();
 		}
 		DatagramSocket socket = null;
@@ -87,38 +87,38 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 			socket = channel.socket();
 			socket.setReuseAddress(true); //this should probably be an option
 		} catch (Exception ex) {
-			System.out.println("error getting socket for channel.");
+			;//System.out.println("error getting socket for channel.");
 			ex.printStackTrace();
 		}
 		try {
 			address = new InetSocketAddress("127.0.0.1", port);
 			
 		} catch (Exception ex) {
-			System.out.println("Error creating socketAddress for port:" + port);
+			;//System.out.println("Error creating socketAddress for port:" + port);
 			ex.printStackTrace();
 		}
 		try {
 			channel.configureBlocking(true);
 		} catch (Exception ex) {
-			System.out.println("error setting channel to blocking mode.");
+			;//System.out.println("error setting channel to blocking mode.");
 			ex.printStackTrace();
 		}
 		try {
 			channel.socket().bind(address);
 //			channel.connect(address);
 		} catch (Exception ex) {
-			System.out.println("unable to connect channel in UDPNIOListener to address:" + address);
+			;//System.out.println("unable to connect channel in UDPNIOListener to address:" + address);
 			ex.printStackTrace();
 		}
 
 		try {
-			System.out.println("Socket receive buffer size:" + socket.getReceiveBufferSize());
+			;//System.out.println("Socket receive buffer size:" + socket.getReceiveBufferSize());
 		} catch (Exception ex) {
-			System.out.println("error trying to print out the receiveBufferSize of the socket.");
+			;//System.out.println("error trying to print out the receiveBufferSize of the socket.");
 			ex.printStackTrace();
 		}
 		
-		System.out.println(" UDPNIOListener bound to address :"+address+" "+port);
+		;//System.out.println(" UDPNIOListener bound to address :"+address+" "+port);
 		
 		return channel;
 	}
@@ -149,22 +149,22 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 
 	public void run() {
 		
-		System.out.println(" thread <"+this+"> starting on port <"+port+">");
+		;//System.out.println(" thread <"+this+"> starting on port <"+port+">");
 		
 		DatagramSocket sock = channel.socket();
 		while (!sock.isClosed()) {
 			try {
 				buffers[syncData.receivingInto].clear();
-				System.out.println(" ---------------------- entering receive on channel <"+channel+">");
+				;//System.out.println(" ---------------------- entering receive on channel <"+channel+">");
 				froms[syncData.receivingInto] = channel.receive(buffers[syncData.receivingInto]);
-				System.out.println(" got some data ");
+				;//System.out.println(" got some data ");
 				if (updateAfterPacket)
 					update();
 			} catch (java.nio.channels.AsynchronousCloseException asex) {
-				System.out.println("UDPNIOListener socket threw an 'AsynchronousCloseException' exception; probably someone closed it.");
+				;//System.out.println("UDPNIOListener socket threw an 'AsynchronousCloseException' exception; probably someone closed it.");
 				//sockEX.printStackTrace();
 			} catch (Exception ex) {
-				System.out.println("error receiving packet in UDPNIOListener receive thread");
+				;//System.out.println("error receiving packet in UDPNIOListener receive thread");
 				ex.printStackTrace();
 				continue;
 			}
@@ -174,7 +174,7 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 						try {
 							syncData.wait();
 						} catch (Exception ex) {
-							System.out.println("wait interrupted, huh?");
+							;//System.out.println("wait interrupted, huh?");
 							ex.printStackTrace();
 						}
 					}
@@ -188,7 +188,7 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 				}
 			}
 		}
-		System.out.println("UDPNIOListener receive thread exited.");
+		;//System.out.println("UDPNIOListener receive thread exited.");
 	}
 	/**
 	 * //probably don't override this, it handles the buffer. check out "processBuffer".
@@ -208,7 +208,7 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 				processBuffer(buffers[i]);
 				buffercurrentlybeingprocessedbysubclass = -1;
 			} catch (Exception ex) {
-				System.out.println("Exception processing buffer, skipping.");
+				;//System.out.println("Exception processing buffer, skipping.");
 				ex.printStackTrace();
 			}
 			buffers[i].clear();
@@ -221,7 +221,7 @@ public class UDPNIOListener implements iUpdateable, Runnable {
 
 	public SocketAddress whereDidThisBufferComeFrom() {
 		if(buffercurrentlybeingprocessedbysubclass == -1){
-			System.out.println("error, you cannot call \"whereDidThisBufferComeFrom\" unless you are calling it from PacketHandler.handle(..)");
+			;//System.out.println("error, you cannot call \"whereDidThisBufferComeFrom\" unless you are calling it from PacketHandler.handle(..)");
 		}		
 		return froms[buffercurrentlybeingprocessedbysubclass];
 	}

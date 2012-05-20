@@ -110,11 +110,11 @@ public class SimpleWebpageDrawing {
 						}
 					}
 					
-					System.out.println(" // last url :"+lastURL+" "+url);
+					;//System.out.println(" // last url :"+lastURL+" "+url);
 					
 					if (url != null && (lastURL == null || !lastURL.equals(url))) {
 						
-						System.out.println(" _-- browser set url to be <"+url+">");
+						;//System.out.println(" _-- browser set url to be <"+url+">");
 						
 						browser[0].setURL(url);
 						lastURL = url;
@@ -158,7 +158,7 @@ public class SimpleWebpageDrawing {
 								@Override
 								public boolean scroll(Event e) {
 
-									System.out.println(" scroll != " + e.count);
+									;//System.out.println(" scroll != " + e.count);
 
 									browser[0].scroll(0, -e.count * 4.0f);
 
@@ -177,7 +177,7 @@ public class SimpleWebpageDrawing {
 								public boolean up(Event e) {
 
 //									rewriteEvent(properties, v, right, down, camera, e);
-									System.out.println(" up :"+e.x+" "+e.y);
+									;//System.out.println(" up :"+e.x+" "+e.y);
 
 									return super.up(e);
 								}
@@ -196,7 +196,7 @@ public class SimpleWebpageDrawing {
 									
 									e.x = (int) dx;
 									e.y = (int)dy;
-									System.out.println(" down :"+e.x+" "+e.y);
+									;//System.out.println(" down :"+e.x+" "+e.y);
 									browser[0].doClick(e);
 
 									return super.down(e);
@@ -205,7 +205,7 @@ public class SimpleWebpageDrawing {
 								@Override
 								public boolean scroll(Event e) {
 
-									System.out.println(" scroll != " + e.count);
+									;//System.out.println(" scroll != " + e.count);
 
 									browser[0].scroll(0, -e.count * 4.0f);
 
@@ -225,14 +225,14 @@ public class SimpleWebpageDrawing {
 
 					iAcceptsSceneListElement p = context.getVertexProgram();
 					BasicGLSLangProgram was = null;
-					System.out.println(" -- drawing mesh for texture backed webpage -- ");
+					;//System.out.println(" -- drawing mesh for texture backed webpage -- ");
 
 					if (!useRect && p instanceof BasicGLSLangProgram && p != BasicGLSLangProgram.currentProgram) {
 						was = BasicGLSLangProgram.currentProgram;
 
-						System.out.println(" forcing shade on");
-						System.out.println("    current program is <" + BasicGLSLangProgram.currentProgram.getAllCode());
-						System.out.println("    bound program is <" + ((BasicGLSLangProgram) p).getAllCode());
+						;//System.out.println(" forcing shade on");
+						;//System.out.println("    current program is <" + BasicGLSLangProgram.currentProgram.getAllCode());
+						;//System.out.println("    bound program is <" + ((BasicGLSLangProgram) p).getAllCode());
 
 						((BasicGLSLangProgram) p).bindNow();
 					}
@@ -281,7 +281,7 @@ public class SimpleWebpageDrawing {
 					BaseSlowRawTexture t = browser[0].getTexture();
 					if (first)
 					{
-						System.out.println(" texture first, doing setup");
+						;//System.out.println(" texture first, doing setup");
 						t.setup();
 						t.dirty();
 					}
@@ -323,7 +323,7 @@ public class SimpleWebpageDrawing {
 				@Override
 				public void update() {
 
-					System.out.println(" -- deallocating browser <" + browser[0] + ">");
+					;//System.out.println(" -- deallocating browser <" + browser[0] + ">");
 
 					if (browser[0] != null)
 						browser[0].dispose();
@@ -360,7 +360,7 @@ public class SimpleWebpageDrawing {
 	}
 
 	protected void rewriteEvent(final Dict properties, final Vector3 v, Vector3 right, Vector3 down, final BasicCamera camera, Vector2 e) {
-		System.out.println(" up event at :" + e);
+		;//System.out.println(" up event at :" + e);
 
 		Vector3 r1 = new Vector3();
 		Vector3 r2 = new Vector3();
@@ -370,7 +370,7 @@ public class SimpleWebpageDrawing {
 		if (dim == null)
 			dim = new Vector2(500, 1000);
 
-		System.out.println(" view ray is <" + r1 + " -> " + r2);
+		;//System.out.println(" view ray is <" + r1 + " -> " + r2);
 
 		Vector3 normal = new Vector3().cross(right, down);
 
@@ -380,12 +380,12 @@ public class SimpleWebpageDrawing {
 
 		Vector3 a = new Vector3().add(r1).add(r2, d1);
 
-		System.out.println(" intersection at <" + a + ">");
+		;//System.out.println(" intersection at <" + a + ">");
 
 		float xx = new Vector3(a).sub(v).dot(new Vector3(right).normalize());
 		float yy = new Vector3(a).sub(v).dot(new Vector3(down).normalize());
 
-		System.out.println("        " + xx + " " + yy);
+		;//System.out.println("        " + xx + " " + yy);
 
 		xx /= right.mag();
 		yy /= down.mag();
@@ -393,14 +393,14 @@ public class SimpleWebpageDrawing {
 		xx *= dim.x;
 		yy *= dim.y;
 
-		System.out.println(" click on <" + xx + " " + yy + ">");
+		;//System.out.println(" click on <" + xx + " " + yy + ">");
 
 		e.x = (int) xx;
 		e.y = (int) yy;
 	}
 
 	protected void rewriteEvent(final Dict properties, final Vector3 v, Vector3 right, Vector3 down, final BasicCamera camera, Event e) {
-		System.out.println(" up event at :" + e);
+		;//System.out.println(" up event at :" + e);
 
 		Vector3 r1 = new Vector3();
 		Vector3 r2 = new Vector3();
@@ -410,7 +410,7 @@ public class SimpleWebpageDrawing {
 		if (dim == null)
 			dim = new Vector2(500, 1000);
 
-		System.out.println(" view ray is <" + r1 + " -> " + r2);
+		;//System.out.println(" view ray is <" + r1 + " -> " + r2);
 
 		Vector3 normal = new Vector3().cross(right, down);
 
@@ -420,12 +420,12 @@ public class SimpleWebpageDrawing {
 
 		Vector3 a = new Vector3().add(r1).add(r2, d1);
 
-		System.out.println(" intersection at <" + a + ">");
+		;//System.out.println(" intersection at <" + a + ">");
 
 		float xx = new Vector3(a).sub(v).dot(new Vector3(right).normalize());
 		float yy = new Vector3(a).sub(v).dot(new Vector3(down).normalize());
 
-		System.out.println("        " + xx + " " + yy);
+		;//System.out.println("        " + xx + " " + yy);
 
 		xx /= right.mag();
 		yy /= down.mag();
@@ -433,7 +433,7 @@ public class SimpleWebpageDrawing {
 		xx *= dim.x;
 		yy *= dim.y;
 
-		System.out.println(" click on <" + xx + " " + yy + ">");
+		;//System.out.println(" click on <" + xx + " " + yy + ">");
 
 		e.x = (int) xx;
 		e.y = (int) yy;

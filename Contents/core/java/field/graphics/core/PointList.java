@@ -74,9 +74,9 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 		// glDisable(GL_TEXTURE_2D);
 		// glDisable(GL_TEXTURE_RECTANGLE);
 
-//		System.out.println(" drawing <"+this+">");
+//		;//System.out.println(" drawing <"+this+">");
 		
-//		System.out.println(" setting point size to <"+size+">");
+//		;//System.out.println(" setting point size to <"+size+">");
 		glPointSize(size);
 
 		
@@ -106,7 +106,7 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 			FloatBuffer a = aux(Base.color0_id, 0);
 			FloatBuffer ps = aux(13, 0);
 
-			System.out.println(" dawing <" + numVertex() + "> points the slow way");
+			;//System.out.println(" dawing <" + numVertex() + "> points the slow way");
 
 			glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			glPointSize(ps == null ? size : ps.get());
@@ -116,7 +116,7 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 				glVertex3f(x, y, z);
 				if (a != null) {
 					float r = a.get(), g = a.get(), b = a.get(), alpha = a.get();
-					// System.out.println(x+" "+y+" "+z+"   "+r+" "+g+" "+b+" "+alpha);
+					// ;//System.out.println(x+" "+y+" "+z+"   "+r+" "+g+" "+b+" "+alpha);
 					glColor4f(r, g, b, alpha);
 				}
 			}
@@ -128,7 +128,7 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 				glVertex3f(x, y, z);
 				if (a != null) {
 					float r = a.get(), g = a.get(), b = a.get(), alpha = a.get();
-					// System.out.println(x+" "+y+" "+z+"   "+r+" "+g+" "+b+" "+alpha);
+					// ;//System.out.println(x+" "+y+" "+z+"   "+r+" "+g+" "+b+" "+alpha);
 					glColor4f(r, g, b, alpha);
 				}
 			}
@@ -139,7 +139,7 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 
 			if (!CoreHelpers.isCore && useATIPointSpriteWorkaround && field.core.Platform.getOS() == OS.mac) {
 				
-				System.out.println(" using ati point sprite workaround ");
+				;//System.out.println(" using ati point sprite workaround ");
 				
 				glBindVertexArrayAPPLE(0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);

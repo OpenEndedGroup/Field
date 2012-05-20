@@ -63,7 +63,7 @@ public class TypingOverlay {
 		dcvertex.new SetUniform("screenDimensions", new iToFloatArray() {
 
 			public float[] get() {
-				System.out.println(" dimensions are <" + inside.getCanvas().getSize().x + "> <" + inside.getCanvas().getSize().y + ">");
+				;//;//System.out.println(" dimensions are <" + inside.getCanvas().getSize().x + "> <" + inside.getCanvas().getSize().y + ">");
 
 				return new float[] { 2f / inside.getCanvas().getSize().x, -2f / inside.getCanvas().getSize().y, 1, -1 };
 			}
@@ -104,7 +104,7 @@ public class TypingOverlay {
 		
 		if (tt.length()==0) return;
 		
-		System.out.println(" text is <"+tt+">");
+		;//;//System.out.println(" text is <"+tt+">");
 		
 		if (!(w == lw && tt.equals(lt))) {
 

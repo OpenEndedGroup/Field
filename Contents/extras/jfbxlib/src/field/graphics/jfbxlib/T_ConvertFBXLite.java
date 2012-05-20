@@ -13,7 +13,7 @@ public class T_ConvertFBXLite {
 		JFBXMain main = new JFBXMain();
 		main.importFile(SystemProperties.getProperty("in"));
 		int takes = main.getNumTakes();
-		System.out.println(" file has <" + takes + "> takes");
+		;//;//System.out.println(" file has <" + takes + "> takes");
 
 		int take = SystemProperties.getIntProperty("take", 1);
 
@@ -30,7 +30,7 @@ public class T_ConvertFBXLite {
 
 		double startSeconds = AbstractVisitor.convertJFBXTimeToSeconds(start);
 		double endSeconds = AbstractVisitor.convertJFBXTimeToSeconds(end);
-		System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
+		;//;//System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
 
 		double fps = SystemProperties.getDoubleProperty("fps", 30);
 
@@ -40,7 +40,7 @@ public class T_ConvertFBXLite {
 
 			long s = start + i * (end - start) / num;
 
-			System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
+			;//;//System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
 			main.acceptTime(s, markerAnimation.getVisitorForTime(t, (i == 0 ? treeMaker : null)));
 
 			if (i == 0) {
@@ -63,10 +63,10 @@ public class T_ConvertFBXLite {
 		storage.skinningInfo = skinMaker.getSkinningInfos();
 
 		File f = new File(SystemProperties.getProperty("out", SystemProperties.getProperty("in") + ".xml"));
-		System.out.println(" saving xml ...");
+		;//;//System.out.println(" saving xml ...");
 		storage.save(p, f);
-		System.out.println(" finished. Roots are:");
-		System.out.println(storage.meshes.keySet());
+		;//;//System.out.println(" finished. Roots are:");
+		;//;//System.out.println(storage.meshes.keySet());
 		System.exit(0);
 	}
 

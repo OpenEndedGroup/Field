@@ -91,7 +91,7 @@ public class OpenCLSystem implements iProvidesQueue {
 		CLPlatform platform = CLPlatform.getPlatforms().get(0);
 		devices = platform.getDevices(CL10.CL_DEVICE_TYPE_GPU);
 
-		System.out.println(" devices are <" + devices + ">");
+		;//;//System.out.println(" devices are <" + devices + ">");
 		final long group = new MiscNative().getCurrentContextShareGroup();
 
 		context = CLContext.create(platform, devices, null, new Drawable() {
@@ -148,10 +148,10 @@ public class OpenCLSystem implements iProvidesQueue {
 		@InQueue
 		public void construct() {
 
-			System.out.println(" create program with source ");
+			;//;//System.out.println(" create program with source ");
 			program = clCreateProgramWithSource(context, new CharSequence[] { source }, err);
 			checkErr();
-			System.out.println(" error is <" + err.get(0) + ">");
+			;//;//System.out.println(" error is <" + err.get(0) + ">");
 			Object ret = clBuildProgram(program, devices.get(0), "", new CLBuildProgramCallback() {
 
 				@Override
@@ -160,10 +160,10 @@ public class OpenCLSystem implements iProvidesQueue {
 					System.err.println(" !! message from build program <" + arg0.isValid() + ">");
 				}
 			});
-			System.out.println(" ret is <" + ret + ">");
+			;//;//System.out.println(" ret is <" + ret + ">");
 			if (ret == (Integer) CL_BUILD_PROGRAM_FAILURE) {
 				String log = program.getBuildInfoString(devices.get(0), CL_PROGRAM_BUILD_LOG);
-				System.out.println(" log :" + log);
+				;//;//System.out.println(" log :" + log);
 				if (eh != null) {
 					eh.beginError();
 					eh.errorOnLine(-1, log);
@@ -368,11 +368,11 @@ public class OpenCLSystem implements iProvidesQueue {
 		@InQueue
 		protected void init() {
 
-			System.out.println(" creating gl image form texture 2d <" + texture.textureTarget + "> <" + texture.getTextureID() + ">");
+			;//;//System.out.println(" creating gl image form texture 2d <" + texture.textureTarget + "> <" + texture.getTextureID() + ">");
 
 			image = CL10GL.clCreateFromGLTexture2D(context, CL_MEM_WRITE_ONLY, texture.textureTarget, 0, texture.getTextureID(), null);
 
-			System.out.println(" got <" + image + ">");
+			;//;//System.out.println(" got <" + image + ">");
 
 		}
 
@@ -416,7 +416,7 @@ public class OpenCLSystem implements iProvidesQueue {
 
 			checkErr();
 
-			System.out.println(" got fbo image <" + image + "> <" + image.isValid() + "> <" + texture.getOutput().get() + ">");
+			;//;//System.out.println(" got fbo image <" + image + "> <" + image.isValid() + "> <" + texture.getOutput().get() + ">");
 
 		}
 
@@ -551,7 +551,7 @@ public class OpenCLSystem implements iProvidesQueue {
 			t0.rewind();
 			check(clSetKernelArg(program.kernel, parameter, t0));
 			mapped.put(parameter, f);
-			System.out.println(" set float <" + parameter + "> f <" + f + "> now");
+			;//;//System.out.println(" set float <" + parameter + "> f <" + f + "> now");
 		}
 
 		@InQueueThrough
@@ -599,10 +599,10 @@ public class OpenCLSystem implements iProvidesQueue {
 			else if (o instanceof Vector4) {
 				Object oo = mapped.get(parameter);
 				if (oo instanceof MemoryBackedFloat4) {
-					System.out.println(" resetting ");
+					;//;//System.out.println(" resetting ");
 					((MemoryBackedFloat4) oo).set(((Vector4) o));
 				} else {
-					System.out.println(" settting first ");
+					;//;//System.out.println(" settting first ");
 					setParameter(parameter, new MemoryBackedFloat4().set(((Vector4) o)));
 				}
 			} else
@@ -652,7 +652,7 @@ public class OpenCLSystem implements iProvidesQueue {
 					program = nextProgram;
 					for (Map.Entry<Integer, Object> o : mapped.entrySet()) {
 
-						System.out.println(" dirty :" + o);
+						;//;//System.out.println(" dirty :" + o);
 
 						if (o.getValue() instanceof MemoryBackedFloat4) {
 							((MemoryBackedFloat4) o.getValue()).dirty = true;
@@ -740,7 +740,7 @@ public class OpenCLSystem implements iProvidesQueue {
 	}
 
 	protected void checkErr() {
-		System.out.println(" error :" + err.get(0));
+		;//;//System.out.println(" error :" + err.get(0));
 		if (err.get(0) != 0)
 			throw new IllegalArgumentException("error code :" + err.get(0));
 

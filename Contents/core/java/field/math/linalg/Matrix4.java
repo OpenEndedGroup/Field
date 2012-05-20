@@ -3503,14 +3503,14 @@ public class Matrix4 implements java.io.Serializable, Cloneable {
 			d = d.madd((float) (Math.pow(-1, k)*c), x);
 			
 			
-			System.out.println(" -- "+x+" "+n+" "+d+"   "+c);
+			;//System.out.println(" -- "+x+" "+n+" "+d+"   "+c);
 			
 		}
 		
 		x = new Matrix4().mul(new Matrix4().invertGeneral(d), n);
 		int p = (int)Math.pow(2, j);
 
-		System.out.println(" x "+x+" "+p);
+		;//System.out.println(" x "+x+" "+p);
 		
 		Matrix4 x2 = new Matrix4(x);
 		for(int i=0;i<p-1;i++)

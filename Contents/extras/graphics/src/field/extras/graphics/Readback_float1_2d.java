@@ -57,7 +57,7 @@ public class Readback_float1_2d {
 	protected void readbackNow(Object gl)
 	{
 		
-		System.out.println(" reading from <"+from.get()+">");
+		;//;//System.out.println(" reading from <"+from.get()+">");
 		
 		if (from.get()<1) return ;
 	

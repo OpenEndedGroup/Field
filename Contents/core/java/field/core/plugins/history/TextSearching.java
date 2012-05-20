@@ -78,7 +78,7 @@ public class TextSearching {
 			protected VisitCode visit(T n) {
 
 				if (keep.contains(n)) {
-					System.out.println(" cloning <"+n+">");
+					;//System.out.println(" cloning <"+n+">");
 					iMutable cloned = ((iProvidesSearchTerms) n).duplicate();
 					created.put(n, (T) cloned);
 

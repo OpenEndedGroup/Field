@@ -465,7 +465,7 @@ public class InterpretPythonAsDelegate {
 					final Delegate middle = delegateForReturnValue_impl(time, p, forwards, t.__finditem__(Py.java2py("continue")), noDefaultBackwards);
 					final Delegate end = delegateForReturnValue_impl(time, p, forwards, t.__finditem__(Py.java2py("end")), noDefaultBackwards);
 
-					System.out.println(" delegate for dictionary <"+beginning+" -> "+middle+" "+end+">");
+					;//System.out.println(" delegate for dictionary <"+beginning+" -> "+middle+" "+end+">");
 					
 					
 					return new Delegate() {
@@ -541,7 +541,7 @@ public class InterpretPythonAsDelegate {
 							delegates.add(delegate);
 					}
 					
-					System.out.println(" delegate for list<"+delegates+">");
+					;//System.out.println(" delegate for list<"+delegates+">");
 					
 					return new Delegate() {
 						boolean hasStarted = false;
@@ -722,7 +722,7 @@ public class InterpretPythonAsDelegate {
 
 	static public Delegate delegateForReturnValue_impl(float t, Promise p, boolean forwards, Object ret, final boolean noDefaultBackwards) {
 		
-		System.out.println(" dfrv_i :"+ret+" "+(ret == null ? null : ret.getClass()));
+		;//System.out.println(" dfrv_i :"+ret+" "+(ret == null ? null : ret.getClass()));
 		
 		for (iDelegateForReturnValue f : factories) {
 			Delegate d = f.delegateForReturnValue(t, p, forwards, ret, noDefaultBackwards);
@@ -735,7 +735,7 @@ public class InterpretPythonAsDelegate {
 
 	static public void throwExceptionInside(String when, Stack<CapturedEnvironment> ongoingEnvironments, Throwable t) {
 
-		System.out.println(" ongoing environments are <" + ongoingEnvironments + ">");
+		;//System.out.println(" ongoing environments are <" + ongoingEnvironments + ">");
 
 		CapturedEnvironment parent = null;
 		for (CapturedEnvironment e : ongoingEnvironments) {

@@ -78,7 +78,7 @@ public class FieldGraphics2D2 extends AbstractGraphics2D {
 				if (!needsTransform)
 					gc.transform = new AffineTransform();
 
-//				System.out.println(" -- drawing line with stroke <"+gc.stroke+">");
+//				;//System.out.println(" -- drawing line with stroke <"+gc.stroke+">");
 				
 				fill(ss);
 				gc.transform = was;
@@ -129,13 +129,13 @@ public class FieldGraphics2D2 extends AbstractGraphics2D {
 		p.put(iLinearGraphicsContext.stroked, false);
 		p.put(iLinearGraphicsContext.filled, true);
 
-		System.out.println(" inside background <" + gc.getBackground() + "> <" + gc.getPaint() + "> <" + gc.getColor() + ">, shape is <" + s + " " + s.getBounds() + ">");
+		;//System.out.println(" inside background <" + gc.getBackground() + "> <" + gc.getPaint() + "> <" + gc.getColor() + ">, shape is <" + s + " " + s.getBounds() + ">");
 
 		if (gc.getColor() != null)
 			p.put(iLinearGraphicsContext.fillColor, new Vector4(gc.getColor().getRed() / 255f, gc.getColor().getGreen() / 255f, gc.getColor().getBlue() / 255f, gc.getColor().getAlpha() / 255f));
 
 		geometry.add(c);
-		System.out.println(" geometry now <" + geometry.size() + ">");
+		;//System.out.println(" geometry now <" + geometry.size() + ">");
 
 	}
 
@@ -155,7 +155,7 @@ public class FieldGraphics2D2 extends AbstractGraphics2D {
 		
 		AffineTransform t = gc.getTransform();
 		
-		System.out.println(" current transform is <"+t+">");
+		;//System.out.println(" current transform is <"+t+">");
 		
 		g = new LineUtils().transformLine(g, t);
 

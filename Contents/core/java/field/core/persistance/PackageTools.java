@@ -80,12 +80,12 @@ public class PackageTools {
 //			ArrayList<Sheet> sheets = FieldMenus.fieldMenus.getOpenSheets();
 //			if (sheets.size() == 1) {
 //				int option = JOptionPane.showOptionDialog(null, "You have asked Field to open a .fieldpackage file that has not previously been opened in your copy of Field. Import this file into this sheet ('" + sheets.get(0).filename + "') or make a new sheet specific for this file?", "Import .fieldpackage file", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, new Object[] { "New Sheet", "Use Existing Sheet", "Cancel" }, null);
-//				System.out.println(" option selected is <" + option + ">");
+//				;//System.out.println(" option selected is <" + option + ">");
 //				if (option == 0) {
-//					System.out.println(" make new sheet");
+//					;//System.out.println(" make new sheet");
 //					makeNewSheet(openingFile);
 //				} else if (option == 1) {
-//					System.out.println(" import into existing");
+//					;//System.out.println(" import into existing");
 //					importFieldPackage(sheets.get(0).sheet.getRoot(), openingFile);
 //				}
 //			} else if (sheets.size() > 1) {
@@ -164,7 +164,7 @@ public class PackageTools {
 	}
 
 	public File newTempFileWithSet(String suggestedName, FluidCopyPastePersistence copier, Set<iVisualElement> v) {
-		System.out.println(" output is <" + v + ">");
+		;//System.out.println(" output is <" + v + ">");
 
 		File tmpFile = null;
 		try {

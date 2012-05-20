@@ -100,18 +100,18 @@ public class PathFlattener {
 
 	public float dotToLength(float dot) {
 		
-//		System.out.println(" dot to length <"+dot+">");
-//		System.out.println(" mappings :"+mappings);
+//		;//System.out.println(" dot to length <"+dot+">");
+//		;//System.out.println(" mappings :"+mappings);
 		
 		int found = Collections.binarySearch((List) mappings, new Float(dot), searchDot);
-//		System.out.println(" found <"+found+">");
+//		;//System.out.println(" found <"+found+">");
 		if (found >= 0)
 			return mappings.get(found).cumulativeDistanceAtEnd;
 
 		int leftOf = -found - 1;
 		int rightOf = leftOf - 1;
 		
-//		System.out.println(" left right <"+leftOf+"> <"+rightOf+">");
+//		;//System.out.println(" left right <"+leftOf+"> <"+rightOf+">");
 		
 		if (leftOf > mappings.size() - 1)
 			return mappings.get(mappings.size() - 1).cumulativeDistanceAtEnd;
@@ -120,7 +120,7 @@ public class PathFlattener {
 		float l1 = mappings.get(leftOf).dotStart;
 		float l2 = mappings.get(leftOf).dotEnd;
 		
-//		System.out.println(" left <"+l1+"> <"+l2+">");
+//		;//System.out.println(" left <"+l1+"> <"+l2+">");
 
 		if (l2 == l1)
 			return mappings.get(rightOf).cumulativeDistanceAtEnd;

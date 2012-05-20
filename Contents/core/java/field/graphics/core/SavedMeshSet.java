@@ -258,7 +258,7 @@ public class SavedMeshSet {
 					numVertex = m.numVertex;
 			}
 
-			System.out.println(" mesh has max <" + numVertex + "> <" + numTriangle + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
+			;//System.out.println(" mesh has max <" + numVertex + "> <" + numTriangle + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
 			blast.configureChannel(0, 3, numVertex * 3);
 			blast.configureChannel(-1, frame.get(0).meshes.get(i).primativeSize, numTriangle * frame.get(0).meshes.get(i).primativeSize);
 			// for (Map.Entry<Integer, ByteBuffer> e :
@@ -305,8 +305,8 @@ public class SavedMeshSet {
 					numVertex = m.numVertex;
 			}
 
-			System.out.println(" mesh has max <" + numVertex + "> <" + numTriangle + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
-			System.out.println(" configuring channels");
+			;//System.out.println(" mesh has max <" + numVertex + "> <" + numTriangle + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
+			;//System.out.println(" configuring channels");
 			blast.configureChannel(0, 3, numVertex * 3);
 			blast.configureChannel(-1, frame.get(0).meshes.get(i).primativeSize, numTriangle * frame.get(0).meshes.get(i).primativeSize);
 			for (Map.Entry<Integer, ByteBuffer> e : frame.get(0).meshes.get(i).aux.entrySet()) {
@@ -314,13 +314,13 @@ public class SavedMeshSet {
 
 				stride = 4;
 
-				System.out.println(e.getKey() + " -> " + " stride is " + stride + " max length " + (numVertex * stride));
+				;//System.out.println(e.getKey() + " -> " + " stride is " + stride + " max length " + (numVertex * stride));
 				blast.configureChannel(e.getKey(), stride, numVertex * stride);
 			}
 
 			for (int q = 0; q < frame.size(); q++) {
 				Mesh m = frame.get(q).meshes.get(i);
-				System.out.println(" frame <" + q + "> <" + m.numVertex + "> <" + m.numTriangle + ">");
+				;//System.out.println(" frame <" + q + "> <" + m.numVertex + "> <" + m.numTriangle + ">");
 				blast.emit(0, m.vertex, m.numVertex * 3);
 				blast.emit(-1, m.triangle, m.numTriangle * m.primativeSize);
 				for (Map.Entry<Integer, ByteBuffer> e : m.aux.entrySet()) {
@@ -328,7 +328,7 @@ public class SavedMeshSet {
 
 					stride = 4;
 
-					System.out.println(" entry <" + e + "> <" + m.numVertex + " " + stride + "> = " + (m.numVertex * stride) + " <" + e.getValue().limit() / 4.0 + ">");
+					;//System.out.println(" entry <" + e + "> <" + m.numVertex + " " + stride + "> = " + (m.numVertex * stride) + " <" + e.getValue().limit() / 4.0 + ">");
 					blast.emit(e.getKey(), e.getValue(), m.numVertex * stride);
 				}
 				blast.header.numFrames++;
@@ -353,28 +353,28 @@ public class SavedMeshSet {
 					numVertex = m.numVertex;
 			}
 
-			System.out.println(" mesh has max <" + numVertex + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
-			System.out.println(" configuring channels");
+			;//System.out.println(" mesh has max <" + numVertex + "> prim <" + frame.get(0).meshes.get(i).primativeSize);
+			;//System.out.println(" configuring channels");
 			blast.configureChannel(0, 3, numVertex * 3);
 			for (Map.Entry<Integer, ByteBuffer> e : frame.get(0).meshes.get(i).aux.entrySet()) {
 				int stride = (e.getValue().limit() / (frame.get(0).meshes.get(i).numVertex)) / 4;
 
 				stride = 4;
 
-				System.out.println(e.getKey() + " -> " + " stride is " + stride + " max length " + (numVertex * stride));
+				;//System.out.println(e.getKey() + " -> " + " stride is " + stride + " max length " + (numVertex * stride));
 				blast.configureChannel(e.getKey(), stride, numVertex * stride);
 			}
 
 			for (int q = 0; q < frame.size(); q++) {
 				Mesh m = frame.get(q).meshes.get(i);
-				System.out.println(" frame <" + q + "> <" + m.numVertex + "> <" + m.numTriangle + ">");
+				;//System.out.println(" frame <" + q + "> <" + m.numVertex + "> <" + m.numTriangle + ">");
 				blast.emit(0, m.vertex, m.numVertex * 3);
 				for (Map.Entry<Integer, ByteBuffer> e : m.aux.entrySet()) {
 					int stride = (e.getValue().limit() / (frame.get(0).meshes.get(i).numVertex)) / 4;
 
 					stride = 4;
 
-					System.out.println(" entry <" + e + "> <" + m.numVertex + " " + stride + "> = " + (m.numVertex * stride) + " <" + e.getValue().limit() / 4.0 + ">");
+					;//System.out.println(" entry <" + e + "> <" + m.numVertex + " " + stride + "> = " + (m.numVertex * stride) + " <" + e.getValue().limit() / 4.0 + ">");
 					blast.emit(e.getKey(), e.getValue(), m.numVertex * stride);
 				}
 				blast.header.numFrames++;

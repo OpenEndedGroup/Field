@@ -47,7 +47,7 @@ public class HierarchyHandler {
 
 		public iEventHandler idle() {
 
-			// System.out.println(" inside idle <"+highlightRect+">");
+			// ;//;//System.out.println(" inside idle <"+highlightRect+">");
 
 			if (highlightRect != null) {
 				Rect h = new Rect(0, 0, 0, 0).setValue(highlightRect);
@@ -76,7 +76,7 @@ public class HierarchyHandler {
 
 		public iEventHandler mouse(Vector2 at, int buttons) {
 			iVisualElement over = over(at);
-			System.out.println(" hover mouse <" + over + ">");
+			;//;//System.out.println(" hover mouse <" + over + ">");
 			if (over != null) {
 
 				if (wasOver == null) {
@@ -104,7 +104,7 @@ public class HierarchyHandler {
 		}
 
 		public iEventHandler transition(Mode from, Mode to, Vector2 at, int buttons) {
-			System.out.println(" hover <" + from + " -> " + to + "> <" + wasOver + ">");
+			;//;//System.out.println(" hover <" + from + " -> " + to + "> <" + wasOver + ">");
 			if (to == Mode.drag || to == Mode.clicked) {
 				if (wasOver != null) {
 					GLComponentWindow.getCurrentWindow(null).requestRepaint();
@@ -252,7 +252,7 @@ public class HierarchyHandler {
 		public iEventHandler mouse(Vector2 at, int buttons) {
 			iVisualElement over = over(at);
 			this.buttons = buttons;
-			System.out.println(" start mouse <" + at + "> <" + over + "> <" + origin + ">");
+			;//;//System.out.println(" start mouse <" + at + "> <" + over + "> <" + origin + ">");
 			if (over != null && over != origin) {
 				target = over;
 				// draw line, change pointer
@@ -273,7 +273,7 @@ public class HierarchyHandler {
 		}
 
 		public iEventHandler transition(Mode from, Mode to, Vector2 at, int buttons) {
-			System.out.println(" start transition <" + from + " -> " + to + ">");
+			;//;//System.out.println(" start transition <" + from + " -> " + to + ">");
 			this.buttons = buttons;
 			if (to == Mode.up || to == Mode.clicked) {
 				if (target != null) {
@@ -314,7 +314,7 @@ public class HierarchyHandler {
 
 	public void finalizeConnection(iVisualElement origin, iVisualElement target, int buttons) {
 
-		System.out.println(" finalizing conection <" + origin + " " + target + " " + buttons + ">");
+		;//;//System.out.println(" finalizing conection <" + origin + " " + target + " " + buttons + ">");
 
 		List<iVisualElement> c1 = origin.getChildren();
 		List<iVisualElement> c2 = target.getChildren();

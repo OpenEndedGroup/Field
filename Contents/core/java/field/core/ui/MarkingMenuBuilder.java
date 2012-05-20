@@ -166,7 +166,7 @@ public class MarkingMenuBuilder {
 
 			public void update() {
 
-				System.out.println(" entering env <" + env + ">");
+				;//System.out.println(" entering env <" + env + ">");
 
 				env.enter();
 				try {

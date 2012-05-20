@@ -32,7 +32,7 @@ public class DrawImageOverride extends field.core.dispatch.iVisualElementOverrid
 
 	@Override
 	public VisitCode paintNow(iVisualElement source, Rect bounds, boolean visible) {
-		System.out.println(" ? ");
+		;//System.out.println(" ? ");
 		if (source == forElement) {
 			PythonCallableMap m = images.get(source);
 			if (m != null) {

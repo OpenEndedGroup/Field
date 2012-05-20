@@ -71,7 +71,7 @@ public class TextureBackedWebBrowser {
 
 			@Override
 			public void completed(ProgressEvent event) {
-				System.out.println(" completed ");
+				;//System.out.println(" completed ");
 				browser.execute("document.body.style.overflow='hidden'");
 				needsUpdate++;
 				updateTexture();
@@ -80,7 +80,7 @@ public class TextureBackedWebBrowser {
 
 			@Override
 			public void changed(ProgressEvent event) {
-				System.out.println(" changed ");
+				;//System.out.println(" changed ");
 				needsUpdate++;
 				updateTexture();
 			}
@@ -91,7 +91,7 @@ public class TextureBackedWebBrowser {
 			@Override
 			public void paintControl(PaintEvent e) {
 
-				System.out.println(" got paint event ");
+				;//System.out.println(" got paint event ");
 
 				needsUpdate++;
 				updateTexture();
@@ -102,7 +102,7 @@ public class TextureBackedWebBrowser {
 
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println(" browser get mouse down :" + event);
+				;//System.out.println(" browser get mouse down :" + event);
 			}
 		});
 
@@ -120,7 +120,7 @@ public class TextureBackedWebBrowser {
 	@NextUpdate(delay = 5)
 	public void updateTexture() {
 
-		System.out.println(" -- updating texture for texturebackedwebbroswer -- ");
+		;//System.out.println(" -- updating texture for texturebackedwebbroswer -- ");
 
 		if (lastUpdate == needsUpdate)
 			return;
@@ -130,7 +130,7 @@ public class TextureBackedWebBrowser {
 	@HiddenInAutocomplete
 	public void updateTextureNow() {
 
-		System.out.println(" -- updating texture for texturebackedwebbroswer -- ");
+		;//System.out.println(" -- updating texture for texturebackedwebbroswer -- ");
 
 		if (lastUpdate == needsUpdate)
 			return;
@@ -147,7 +147,7 @@ public class TextureBackedWebBrowser {
 		// bufferInt.rewind();
 		long out = System.currentTimeMillis();
 
-		System.out.println(" timing " + (out - in) + " / " + (copy - in));
+		;//System.out.println(" timing " + (out - in) + " / " + (copy - in));
 
 		long data = (new NSBitmapImageRep(image.handle.representations().objectAtIndex(0))).bitmapData();
 		C.memmove(all, data, w * h * 4);
@@ -176,7 +176,7 @@ public class TextureBackedWebBrowser {
 		// e.x += window.getLocation().x;
 		// e.y += window.getLocation().y;
 		//
-		// System.out.println(" posting synthetic event :" + e);
+		// ;//System.out.println(" posting synthetic event :" + e);
 		// e.widget = browser;
 		// Launcher.display.post(e);
 	}

@@ -618,7 +618,7 @@ public class CompleteEdgeRep2 implements Serializable {
 			int v3 = triangles.get() + voffset;
 
 			if (v1==v2 || v2 == v3 || v1 == v3) {
-				System.out.println(" degenerate triangle");
+				;//System.out.println(" degenerate triangle");
 				continue;
 			}
 			
@@ -1515,7 +1515,7 @@ public class CompleteEdgeRep2 implements Serializable {
 //			float r = dx * fx + dy * fy + dz * fz;
 //			float u = ux * fx + uy * fy + uz * fz;
 //
-//			System.out.println(" coordinates <" + r + "> <" + u + "> from <" + i + ">");
+//			;//System.out.println(" coordinates <" + r + "> <" + u + "> from <" + i + ">");
 //
 //			vertex2.put(r).put(u);
 //
@@ -1530,7 +1530,7 @@ public class CompleteEdgeRep2 implements Serializable {
 //
 //		Face[] ret = new Face[r[0].capacity() / 3];
 //		for (int i = 0; i < r[0].capacity() / 3; i++) {
-//			System.out.println(" adding face <" + voffset + " + " + r[0].get(3 * i) + " " + r[0].get(3 * i + 1) + " " + r[0].get(3 * i + 2) + ">");
+//			;//System.out.println(" adding face <" + voffset + " + " + r[0].get(3 * i) + " " + r[0].get(3 * i + 1) + " " + r[0].get(3 * i + 2) + ">");
 //
 //			ret[i] = addFaceOverVertices(vertex(voffset + r[0].get(3 * i)), vertex(voffset + r[0].get(3 * i + 1)), vertex(voffset + r[0].get(3 * i + 2)));
 //		}
@@ -1573,7 +1573,7 @@ public class CompleteEdgeRep2 implements Serializable {
 //
 //		int voffset = allVertex.size();
 //
-//		System.out.println(" creating <" + num + "> vertex");
+//		;//System.out.println(" creating <" + num + "> vertex");
 //
 //		for (int i = 0; i < num; i++) {
 //			float fx = vertex3.get();
@@ -1583,7 +1583,7 @@ public class CompleteEdgeRep2 implements Serializable {
 //			float r = dx * fx + dy * fy + dz * fz;
 //			float u = ux * fx + uy * fy + uz * fz;
 //
-//			System.out.println(" coordinates <" + r + "> <" + u + "> from <" + i + ">");
+//			;//System.out.println(" coordinates <" + r + "> <" + u + "> from <" + i + ">");
 //
 //			vertex2.put(r).put(u);
 //
@@ -1600,7 +1600,7 @@ public class CompleteEdgeRep2 implements Serializable {
 //
 //		Face[] ret = new Face[r[0].capacity() / 3];
 //		for (int i = 0; i < r[0].capacity() / 3; i++) {
-//			System.out.println(" adding face <" + voffset + " + " + r[0].get(3 * i) + " " + r[0].get(3 * i + 1) + " " + r[0].get(3 * i + 2) + ">");
+//			;//System.out.println(" adding face <" + voffset + " + " + r[0].get(3 * i) + " " + r[0].get(3 * i + 1) + " " + r[0].get(3 * i + 2) + ">");
 //
 //			ret[i] = addFaceOverVertices(vertex(alreadyHere, voffset, r[0].get(3 * i)), vertex(alreadyHere, voffset, r[0].get(3 * i + 1)), vertex(alreadyHere, voffset, r[0].get(3 * i + 2)));
 //		}
@@ -1880,7 +1880,7 @@ public class CompleteEdgeRep2 implements Serializable {
 		Vertex[] mid = new Vertex[3];
 		for (int i = 0; i < mid.length; i++) {
 			mid[i] = new Vertex(allVertex.size());
-			System.out.println(" new Vertex <" + allVertex.size() + ">");
+			;//System.out.println(" new Vertex <" + allVertex.size() + ">");
 			allVertex.add(mid[i]);
 			vertexAdded(mid[i]);
 		}

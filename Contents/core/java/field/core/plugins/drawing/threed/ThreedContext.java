@@ -123,9 +123,9 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 
 				windowHeight = parent.getFrame().getSize().y;
 
-				// System.out.println(" viewport <" + ox + " " +
+				// ;//System.out.println(" viewport <" + ox + " " +
 				// oy + " " + w + " " + h + ">");
-				// System.out.println(" actuall viewport <" + ox
+				// ;//System.out.println(" actuall viewport <" + ox
 				// + " " + (windowHeight - oy - (h) *
 				// parent.getYScale()) + " " + w + " " + h +
 				// ">");
@@ -198,7 +198,7 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 	public boolean convertIntermediateSpaceToDrawingSpace(Vector3 three, Vector2 drawing) {
 		float[] tt = three.get(tmp);
 		
-//		System.out.println(" convert intermediate space to drawing space");
+//		;//System.out.println(" convert intermediate space to drawing space");
 		
 		model.rewind();
 		projectionn.rewind();
@@ -227,14 +227,14 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 
 		float d = new Vector3().sub(three, subCamera.getPosition(null)).dot(subCamera.getViewRay(null).normalize());
 
-//		System.out.println(" convert intermediate space to drawing space <"+three+" -> "+drawing+">");
+//		;//System.out.println(" convert intermediate space to drawing space <"+three+" -> "+drawing+">");
 
 		
 		Vector3 t2 = new Vector3(three);
 		Vector2 d2 = new Vector2(drawing);
 		Vector3 t3 = new Vector3();
 		convertDrawingSpaceToIntermediate(d2, t3);
-//		System.out.println(" round trip ? "+t2+" "+d2+" "+t3);
+//		;//System.out.println(" round trip ? "+t2+" "+d2+" "+t3);
 		
 		
 		return d > nearPlane;
@@ -262,7 +262,7 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 
 		float d = new Vector3().sub(three, subCamera.getPosition(null)).dot(subCamera.getViewRay(null).normalize());
 
-		// System.out.println(" CLIP :"+three+" "+outX[2]);
+		// ;//System.out.println(" CLIP :"+three+" "+outX[2]);
 
 		return d < nearPlane;
 	}
@@ -288,7 +288,7 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 
 		world.setValue(r2);
 		
-//		System.out.println(" world :"+world);
+//		;//System.out.println(" world :"+world);
 		
 	}
 
@@ -324,7 +324,7 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 
 
 		float newPerpDistance = newRay.mag();
-		System.out.println(" new perp distance "+newPerpDistance);
+		;//System.out.println(" new perp distance "+newPerpDistance);
 		newRay.scale(currentPerpDistance / newPerpDistance);
 
 		Vector3 inter = newRay.add(subCamera.getPosition(null));
@@ -386,7 +386,7 @@ public class ThreedContext extends BaseGLGraphicsContext implements iTransformin
 					mm[i] = subCamera.modelView[i];
 			}
 		} catch (SingularMatrixException e) {
-			System.out.println(" state not invertable <" + s + ">");
+			;//System.out.println(" state not invertable <" + s + ">");
 			e.printStackTrace();
 		}
 	}

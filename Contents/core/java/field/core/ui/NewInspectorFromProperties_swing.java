@@ -60,7 +60,7 @@ public class NewInspectorFromProperties_swing {
 
 	public <A, B extends JComponent> Inspected<A, B> coallesce(final Inspected<A, B> a, final Inspected<A, B> b) {
 
-		System.out.println(" coallescing <" + a + "> <" + b + ">");
+		;//System.out.println(" coallescing <" + a + "> <" + b + ">");
 
 		Inspected<A, B> ii = new Inspected<A, B>() {
 
@@ -318,7 +318,7 @@ public class NewInspectorFromProperties_swing {
 
 					@Override
 					public void setValue(Object v) {
-						System.out.println(" setting value to <" + v + ">");
+						;//System.out.println(" setting value to <" + v + ">");
 						prop.set(e, e, v);
 					}
 
@@ -372,7 +372,7 @@ public class NewInspectorFromProperties_swing {
 
 						@Override
 						public void setValue(Object v) {
-							System.out.println(" setting value to <" + v + ">");
+							;//System.out.println(" setting value to <" + v + ">");
 							p.set(e, e, v);
 						}
 
@@ -432,7 +432,7 @@ public class NewInspectorFromProperties_swing {
 
 						@Override
 						public void setValue(Object v) {
-							System.out.println(" setting value to <" + v + ">");
+							;//System.out.println(" setting value to <" + v + ">");
 							p.set(e, e, v);
 						}
 
@@ -443,14 +443,14 @@ public class NewInspectorFromProperties_swing {
 					};
 					k.name = p.getName();
 					
-					System.out.println(" about to make something for <"+k.name+">");
+					;//System.out.println(" about to make something for <"+k.name+">");
 					
 					try {
 						k.editor = ee.getValue().getConstructor(Inspected.class).newInstance(k);
 						
 						setPopupMenu(k.editor, p, e);
 						
-						System.out.println(" making <"+k.editor+">");
+						;//System.out.println(" making <"+k.editor+">");
 						
 					} catch (IllegalArgumentException e1) {
 						e1.printStackTrace();

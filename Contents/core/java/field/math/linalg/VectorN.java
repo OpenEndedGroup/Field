@@ -172,10 +172,10 @@ public final class VectorN implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Convenience wrapper around <code>System.out.println(String s)</code>
+	 * Convenience wrapper around <code>;//System.out.println(String s)</code>
 	 */
 	protected static void print(String s) {
-		System.out.println(s);
+		;//System.out.println(s);
 	}
 
 	protected float[] rep;

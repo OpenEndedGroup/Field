@@ -913,7 +913,7 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 
 				if (tweaking != null && tweaking.needsRecomputation()) {
 					executePropertyOfElement(PythonPlugin.python_source, forElement);
-					System.out.println(" post line ...");
+					;//System.out.println(" post line ...");
 					TweakSplineUI.postProcessLineHook(forElement, (PLineList) ref.get());
 				}
 
@@ -975,7 +975,7 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 								if (context == null)
 									context = GLComponentWindow.currentContext;
 								else {
-									// System.out.println("submitting to alternative context");
+									// ;//System.out.println("submitting to alternative context");
 								}
 
 								Vector2 offset = c.getProperties().get(iLinearGraphicsContext.offsetFromSource);
@@ -1250,13 +1250,13 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 	public VisitCode shouldChangeFrame(iVisualElement source, Rect newFrame, Rect oldFrame, boolean now) {
 
 		if (source == forElement) {
-			System.out.println(" should change frame from <" + oldFrame + " -> " + newFrame + ">");
+			;//System.out.println(" should change frame from <" + oldFrame + " -> " + newFrame + ">");
 			new VisualElementProperty<Rect>("oldFrame_").set(source, source, oldFrame);
 		}
 		VisitCode c = super.shouldChangeFrame(source, newFrame, oldFrame, now);
 		if (source == forElement) {
 
-			System.out.println(" source <" + source + "> <" + newFrame + "> <" + oldFrame + ">");
+			;//System.out.println(" source <" + source + "> <" + newFrame + "> <" + oldFrame + ">");
 			new VisualElementProperty<Rect>("newFrame_").set(source, source, newFrame);
 			executePropertyOfElement(onFrameChange, source);
 		}
@@ -1422,7 +1422,7 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 
 			String string = new ExecutableAreaFinder().findExecutableSubstring(promise.getText(), label);
 
-			System.out.println(" found and about to execute <" + string + ">");
+			;//System.out.println(" found and about to execute <" + string + ">");
 
 			promise.beginExecute();
 			PythonInterface.getPythonInterface().execString(string);

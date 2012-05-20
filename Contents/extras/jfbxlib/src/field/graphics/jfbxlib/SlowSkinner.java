@@ -67,15 +67,15 @@ public class SlowSkinner {
 
 			// compute initial matrices
 
-			System.out.println(" initial bind pose description is <"+skinningInfo.bindPoseDescriptions[i]+">");
+			;//;//System.out.println(" initial bind pose description is <"+skinningInfo.bindPoseDescriptions[i]+">");
 			
 			currentLinkInfo[i].bound.set(skinningInfo.bindPoseDescriptions[i].rotation, skinningInfo.bindPoseDescriptions[i].translation, skinningInfo.bindPoseDescriptions[i].scale);
 			
-			System.out.println(skinningInfo.boneNames[i]+" "+skinningInfo.bindPoseDescriptions[i].geometryRotation +" "+skinningInfo.bindPoseDescriptions[i].geometryTranslation+" "+skinningInfo.bindPoseDescriptions[i].geometryScale);
+			;//;//System.out.println(skinningInfo.boneNames[i]+" "+skinningInfo.bindPoseDescriptions[i].geometryRotation +" "+skinningInfo.bindPoseDescriptions[i].geometryTranslation+" "+skinningInfo.bindPoseDescriptions[i].geometryScale);
 			currentLinkInfo[i].inverseGeometry.set(skinningInfo.bindPoseDescriptions[i].geometryRotation, skinningInfo.bindPoseDescriptions[i].geometryTranslation, skinningInfo.bindPoseDescriptions[i].geometryScale);
 
-			//System.out.println(" initial link matricies\n bound:" + currentLinkInfo[i].bound + "\n inverseGeometry (not invert yet):" + currentLinkInfo[i].inverseGeometry);
-			System.out.println(" about to invert <"+currentLinkInfo[i].inverseGeometry+">");
+			//;//;//System.out.println(" initial link matricies\n bound:" + currentLinkInfo[i].bound + "\n inverseGeometry (not invert yet):" + currentLinkInfo[i].inverseGeometry);
+			;//;//System.out.println(" about to invert <"+currentLinkInfo[i].inverseGeometry+">");
 			currentLinkInfo[i].inverseGeometry.invert();
 		}
 
@@ -141,15 +141,15 @@ public class SlowSkinner {
 
 			if (false)
 			{
-			System.out.println(" skinning update <"+positionIn+" -> "+positionOut+"> <"+totalWeight+"> via <"+temp+">");
+			;//;//System.out.println(" skinning update <"+positionIn+" -> "+positionOut+"> <"+totalWeight+"> via <"+temp+">");
 
 			if (positionIn.distanceFrom(positionOut)>2)
 			{
-				System.out.println(" ------- went somewhere, why?");
+				;//;//System.out.println(" ------- went somewhere, why?");
 				for(int i=0;i<compressedVertexIndices[v].length;i++)
 				{
 					CurrentLinkInfo li = currentLinkInfo[compressedVertexIndices[v][i]];
-					System.out.println(" bone <"+li.boneReference+">\ncurrently\n"+li.current+"\nfrom:"+li.frameProvider.get(new CoordinateFrame())+"\nand\n"+li.inverseGeometry+"\nand\n"+li.bound);
+					;//;//System.out.println(" bone <"+li.boneReference+">\ncurrently\n"+li.current+"\nfrom:"+li.frameProvider.get(new CoordinateFrame())+"\nand\n"+li.inverseGeometry+"\nand\n"+li.bound);
 				}
 			}
 			}

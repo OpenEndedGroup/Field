@@ -42,7 +42,7 @@ public class TextAnnotations {
 
 		public boolean attach(Document d) {
 
-			System.out.println(" attaching <" + savedStart + "> <" + savedEnd + "> <" + d.getLength() + ">");
+			;//System.out.println(" attaching <" + savedStart + "> <" + savedEnd + "> <" + d.getLength() + ">");
 
 			try {
 				start = d.createPosition(savedStart);
@@ -68,7 +68,7 @@ public class TextAnnotations {
 			savedStart = start.getOffset();
 			savedEnd = end.getOffset();
 
-			System.out.println(" start and end are <" + savedStart + "> <" + savedEnd + ">");
+			;//System.out.println(" start and end are <" + savedStart + "> <" + savedEnd + ">");
 
 			return savedEnd > savedStart;
 		}
@@ -84,7 +84,7 @@ public class TextAnnotations {
 			try {
 
 				if (!update(ed.getDocument())) {
-					System.out.println(" anotation is stillborn ");
+					;//System.out.println(" anotation is stillborn ");
 
 					return true;
 				}
@@ -186,7 +186,7 @@ public class TextAnnotations {
 
 		this.property =property;
 //		try {
-//			System.out.println(" annotation swap to <" + e + "> <" + d + "> <" + d.getText(0, d.getLength()) + ">");
+//			;//System.out.println(" annotation swap to <" + e + "> <" + d + "> <" + d.getText(0, d.getLength()) + ">");
 //		} catch (BadLocationException e1) {
 //			e1.printStackTrace();
 //		}
@@ -206,7 +206,7 @@ public class TextAnnotations {
 	}
 
 	public void swapOut(iVisualElement e) {
-//		System.out.println(" setting annotation package to <" + pack.getAnnotations(property) + ">");
+//		;//System.out.println(" setting annotation package to <" + pack.getAnnotations(property) + ">");
 		textEditorAnnotationPackage.set(e, e, pack);
 		for (Annotation a : pack.getAnnotations(property)) {
 			a.detach();

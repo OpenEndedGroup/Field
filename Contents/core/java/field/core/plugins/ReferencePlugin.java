@@ -89,7 +89,7 @@ public class ReferencePlugin implements iPlugin {
 			// if (prop.getName().equals(PythonPlugin.python_source.getName()))
 			{
 				if (debug)
-					System.out.println("REF: python source changed");
+					;//System.out.println("REF: python source changed");
 
 				// why was this in?
 				// if (!seenBefore.containsKey(source))
@@ -184,14 +184,14 @@ public class ReferencePlugin implements iPlugin {
 		Triple<VisualElement, PlainComponent, SplineComputingOverride> created = VisualElement.createWithToken("reflected:" + propertyName, root, new Rect(0, 0, 0, 0), VisualElement.class, PlainComponent.class, SplineComputingOverride.class);
 
 		if (debug)
-			System.out.println("REF: adding connection <" + source + "> <" + connectedTo + ">");
+			;//System.out.println("REF: adding connection <" + source + "> <" + connectedTo + ">");
 		// these must be cached once they are working
 
 		List<iUpdateable> instructions = new ArrayList<iUpdateable>();
 		for (final iVisualElement v : connectedTo) {
 
 			if (debug)
-				System.out.println(" connecting to <" + v + "> from <" + source + ">");
+				;//System.out.println(" connecting to <" + v + "> from <" + source + ">");
 
 			ConnectiveThickArc2 con = new ConnectiveThickArc2(created.left, new iProvider.Constant<Vector4>(new Vector4(0.0f, 0.0f, 0.0f, 0.15f)), new iProvider.Constant<Vector4>(new Vector4(0, 0, 0, 0.5f)), source, new iFloatProvider.Constant(10), v, new iFloatProvider.Constant(0));
 			con.addGate(new iFloatProvider() {
@@ -215,26 +215,26 @@ public class ReferencePlugin implements iPlugin {
 
 	private void removeConnection(String name, iVisualElement source) {
 		if (debug)
-			System.out.println("REF: deleting reference marker");
+			;//System.out.println("REF: deleting reference marker");
 		VisualElement.deleteWithToken("reflected:" + name, root);
 	}
 
 	protected void updateReferencesFor(iVisualElement source) {
 
 		if (debug)
-			System.out.println("REF: update references for <" + source + ">");
+			;//System.out.println("REF: update references for <" + source + ">");
 
 		Map<Object, Object> allProperties = source.payload();
 		for (Entry<Object, Object> o : new HashMap<Object, Object>(allProperties).entrySet()) {
 			if (o.getKey() instanceof VisualElementProperty) {
 				if (((VisualElementProperty) o.getKey()).getName().startsWith("__minimalReference")) {
 					if (debug)
-						System.out.println("REF: got property <" + o + ">");
+						;//System.out.println("REF: got property <" + o + ">");
 					if (o.getValue() instanceof List) {
 						List<iVisualElement> connectedTo = (List<iVisualElement>) o.getValue();
 						if (connectedTo != null) {
 							if (debug)
-								System.out.println("REF: ensuring connection");
+								;//System.out.println("REF: ensuring connection");
 							ensureConnection(((VisualElementProperty) o.getKey()).getName(), source, connectedTo);
 						}
 					}
@@ -258,7 +258,7 @@ public class ReferencePlugin implements iPlugin {
 	protected void verifyReferencesFor(iVisualElement source, List<String> text) {
 
 		if (debug)
-			System.out.println("REF: verify references for <" + source + "> with text <" + text + ">");
+			;//System.out.println("REF: verify references for <" + source + "> with text <" + text + ">");
 
 		Map<Object, Object> allProperties = source.payload();
 		for (Entry<Object, Object> o : new HashMap<Object, Object>(allProperties).entrySet()) {
@@ -266,7 +266,7 @@ public class ReferencePlugin implements iPlugin {
 				if (((VisualElementProperty) o.getKey()).getName().startsWith("__minimalReference") && !((VisualElementProperty) o.getKey()).getName().endsWith("source")) {
 
 					if (debug)
-						System.out.println(" checking <" + o + "> for in name <" + text + ">");
+						;//System.out.println(" checking <" + o + "> for in name <" + text + ">");
 
 					if (indexOf(text, ((VisualElementProperty) o.getKey()).getName()) == -1) {
 						removeConnection(((VisualElementProperty) o.getKey()).getName(), source);

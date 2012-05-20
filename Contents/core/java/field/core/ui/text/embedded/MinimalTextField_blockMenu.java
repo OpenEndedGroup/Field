@@ -594,7 +594,7 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 			List l = (List) q.__dir__();
 			for (int i = 0; i < l.size(); i++) {
 				final String name = (String) l.get(i);
-				System.out.println(" :: "+q.__getattr__(name)+" "+q.__getattr__(name).getClass());
+				;//System.out.println(" :: "+q.__getattr__(name)+" "+q.__getattr__(name).getClass());
 				if (!name.startsWith("__") && name.length()>3 && q.__getattr__(name).getClass().isAssignableFrom(PyFunction.class)) {
 
 					try {
@@ -604,7 +604,7 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 						if (d.length() > 0)
 							d = "" + PythonTextEditor.limitDocumentation(d);
 
-						System.out.println(name+" <"+d+">");
+						;//System.out.println(name+" <"+d+">");
 						
 						
 						items.put(" \u223d  <b>" + name + "</b> \u2014 <i>" + d.replace("\n", " ").trim() + "</i>", new iUpdateable() {

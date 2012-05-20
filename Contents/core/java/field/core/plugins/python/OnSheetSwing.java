@@ -130,7 +130,7 @@ public class OnSheetSwing {
 				topLeft.y += p.y;
 
 
-				System.out.println(" canvas bounds are :"+frame.getCanvas().getBounds());
+				;//System.out.println(" canvas bounds are :"+frame.getCanvas().getBounds());
 				
 				topLeft.x += frame.getCanvas().getBounds().x;
 				topLeft.y += frame.getCanvas().getBounds().y;
@@ -167,13 +167,13 @@ public class OnSheetSwing {
 	static public void upgrade(iVisualElement e) {
 
 		iComponent c = iVisualElement.localView.get(e);
-		System.out.println(" upgrading a <" + e + "> from <" + c + ">");
+		;//System.out.println(" upgrading a <" + e + "> from <" + c + ">");
 		if (c instanceof Wrap)
 			return;
 		if (c == null)
 			return;
 
-		System.out.println(" something doing");
+		;//System.out.println(" something doing");
 
 		iVisualElement.enclosingFrame.get(e).getRoot().removeComponent(c);
 

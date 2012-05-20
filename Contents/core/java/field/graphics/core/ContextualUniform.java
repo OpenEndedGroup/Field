@@ -30,7 +30,7 @@ public class ContextualUniform {
 		public void push() {
 
 			if (Base.trace) if (tags.size() > 0)
-				System.out.println(" pushing uniform <" + tags + ">");
+				;//System.out.println(" pushing uniform <" + tags + ">");
 
 			pushed = new LinkedHashMap<String, String>();
 
@@ -49,7 +49,7 @@ public class ContextualUniform {
 				return;
 			// throw new IllegalStateException(" pop without push");
 
-			if (Base.trace)  System.out.println(" popping <" + pushed + ">");
+			if (Base.trace)  ;//System.out.println(" popping <" + pushed + ">");
 
 			Map<String, String> target = ContextualUniform.tags.get();
 			for (Map.Entry<String, String> e : pushed.entrySet()) {

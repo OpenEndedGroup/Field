@@ -27,8 +27,8 @@ public class ClTests extends CL {
 		ClLinearEquation eq = new ClLinearEquation(x, new ClLinearExpression(y));
 		solver.addConstraint(eq);
 		fOkResult = (x.value() == y.value());
-		System.out.println("x == " + x.value());
-		System.out.println("y == " + y.value());
+		;//System.out.println("x == " + x.value());
+		;//System.out.println("y == " + y.value());
 		return (fOkResult);
 	}
 
@@ -41,8 +41,8 @@ public class ClTests extends CL {
 		solver.addStay(y);
 		fOkResult = fOkResult && CL.approx(x, 5);
 		fOkResult = fOkResult && CL.approx(y, 10);
-		System.out.println("x == " + x.value());
-		System.out.println("y == " + y.value());
+		;//System.out.println("x == " + x.value());
+		;//System.out.println("y == " + y.value());
 		return (fOkResult);
 	}
 
@@ -55,23 +55,23 @@ public class ClTests extends CL {
 		ClLinearInequality c20 = new ClLinearInequality(x, CL.LEQ, 20.0);
 		solver.addConstraint(c10).addConstraint(c20);
 		fOkResult = fOkResult && CL.approx(x, 10.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		solver.removeConstraint(c10);
 		fOkResult = fOkResult && CL.approx(x, 20.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		solver.removeConstraint(c20);
 		fOkResult = fOkResult && CL.approx(x, 100.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		ClLinearInequality c10again = new ClLinearInequality(x, CL.LEQ, 10.0);
 		solver.addConstraint(c10).addConstraint(c10again);
 		fOkResult = fOkResult && CL.approx(x, 10.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		solver.removeConstraint(c10);
 		fOkResult = fOkResult && CL.approx(x, 10.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		solver.removeConstraint(c10again);
 		fOkResult = fOkResult && CL.approx(x, 100.0);
-		System.out.println("x == " + x.value());
+		;//System.out.println("x == " + x.value());
 		return (fOkResult);
 	}
 
@@ -85,20 +85,20 @@ public class ClTests extends CL {
 		ClLinearInequality c20 = new ClLinearInequality(x, CL.LEQ, 20.0);
 		solver.addConstraint(c10).addConstraint(c20);
 		fOkResult = fOkResult && CL.approx(x, 10.0) && CL.approx(y, 120.0);
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		solver.removeConstraint(c10);
 		fOkResult = fOkResult && CL.approx(x, 20.0) && CL.approx(y, 120.0);
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		ClLinearEquation cxy = new ClLinearEquation(CL.Times(2.0, x), y);
 		solver.addConstraint(cxy);
 		fOkResult = fOkResult && CL.approx(x, 20.0) && CL.approx(y, 40.0);
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		solver.removeConstraint(c20);
 		fOkResult = fOkResult && CL.approx(x, 60.0) && CL.approx(y, 120.0);
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		solver.removeConstraint(cxy);
 		fOkResult = fOkResult && CL.approx(x, 100.0) && CL.approx(y, 120.0);
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		return (fOkResult);
 	}
 
@@ -109,7 +109,7 @@ public class ClTests extends CL {
 		ClSimplexSolver solver = new ClSimplexSolver();
 		solver.addConstraint(new ClLinearInequality(x, CL.LEQ, y)).addConstraint(new ClLinearEquation(y, CL.Plus(x, 3.0))).addConstraint(new ClLinearEquation(x, 10.0, ClStrength.weak)).addConstraint(new ClLinearEquation(y, 10.0, ClStrength.weak));
 		fOkResult = fOkResult && (CL.approx(x, 10.0) && CL.approx(y, 13.0) || CL.approx(x, 7.0) && CL.approx(y, 10.0));
-		System.out.println("x == " + x.value() + ", y == " + y.value());
+		;//System.out.println("x == " + x.value() + ", y == " + y.value());
 		return (fOkResult);
 	}
 
@@ -122,7 +122,7 @@ public class ClTests extends CL {
 			return (false);
 		} catch (ExCLRequiredFailure err) {
 			// we want this exception to get thrown
-			System.out.println("Success -- got the exception");
+			;//System.out.println("Success -- got the exception");
 			return (true);
 		}
 	}
@@ -136,7 +136,7 @@ public class ClTests extends CL {
 			return (false);
 		} catch (ExCLRequiredFailure err) {
 			// we want this exception to get thrown
-			System.out.println("Success -- got the exception");
+			;//System.out.println("Success -- got the exception");
 			return (true);
 		}
 	}
@@ -152,22 +152,22 @@ public class ClTests extends CL {
 			solver.addStay(x).addStay(y).addStay(w).addStay(h);
 			solver.addEditVar(x).addEditVar(y).beginEdit();
 			solver.suggestValue(x, 10).suggestValue(y, 20).resolve();
-			System.out.println("x = " + x.value() + "; y = " + y.value());
-			System.out.println("w = " + w.value() + "; h = " + h.value());
+			;//System.out.println("x = " + x.value() + "; y = " + y.value());
+			;//System.out.println("w = " + w.value() + "; h = " + h.value());
 			fOkResult = fOkResult && CL.approx(x, 10) && CL.approx(y, 20) && CL.approx(w, 0) && CL.approx(h, 0);
 			solver.addEditVar(w).addEditVar(h).beginEdit();
 			solver.suggestValue(w, 30).suggestValue(h, 40).endEdit();
-			System.out.println("x = " + x.value() + "; y = " + y.value());
-			System.out.println("w = " + w.value() + "; h = " + h.value());
+			;//System.out.println("x = " + x.value() + "; y = " + y.value());
+			;//System.out.println("w = " + w.value() + "; h = " + h.value());
 			fOkResult = fOkResult && CL.approx(x, 10) && CL.approx(y, 20) && CL.approx(w, 30) && CL.approx(h, 40);
 			solver.suggestValue(x, 50).suggestValue(y, 60).endEdit();
-			System.out.println("x = " + x.value() + "; y = " + y.value());
-			System.out.println("w = " + w.value() + "; h = " + h.value());
+			;//System.out.println("x = " + x.value() + "; y = " + y.value());
+			;//System.out.println("w = " + w.value() + "; h = " + h.value());
 			fOkResult = fOkResult && CL.approx(x, 50) && CL.approx(y, 60) && CL.approx(w, 30) && CL.approx(h, 40);
 			return (fOkResult);
 		} catch (ExCLRequiredFailure err) {
 			// we want this exception to get thrown
-			System.out.println("Success -- got the exception");
+			;//System.out.println("Success -- got the exception");
 			return (true);
 		}
 	}
@@ -189,7 +189,7 @@ public class ClTests extends CL {
 			return (false);
 		} catch (ExCLRequiredFailure err) {
 			// we want this exception to get thrown
-			System.out.println("Success -- got the exception");
+			;//System.out.println("Success -- got the exception");
 			return (true);
 		}
 	}
@@ -199,7 +199,7 @@ public class ClTests extends CL {
 		// FIXGJB: from where did .12 come?
 		final double ineqProb = 0.12;
 		final int maxVars = 3;
-		System.out.println("starting timing test. nCns = " + nCns + ", nVars = " + nVars + ", nResolves = " + nResolves);
+		;//System.out.println("starting timing test. nCns = " + nCns + ", nVars = " + nVars + ", nResolves = " + nResolves);
 		timer.Start();
 		ClSimplexSolver solver = new ClSimplexSolver();
 		ClVariable[] rgpclv = new ClVariable[nVars];
@@ -229,8 +229,8 @@ public class ClTests extends CL {
 			if (fTraceOn)
 				traceprint("Constraint " + j + " is " + rgpcns[j]);
 		}
-		System.out.println("done building data structures");
-		System.out.println("time = " + timer.ElapsedTime());
+		;//System.out.println("done building data structures");
+		;//System.out.println("time = " + timer.ElapsedTime());
 		timer.Start();
 		int cExceptions = 0;
 		for (j = 0; j < nCns; j++) {
@@ -247,25 +247,25 @@ public class ClTests extends CL {
 			}
 		}
 		// FIXGJB end = Timer.now();
-		System.out.println("done adding constraints [" + cExceptions + " exceptions]");
-		System.out.println("time = " + timer.ElapsedTime() + "\n");
+		;//System.out.println("done adding constraints [" + cExceptions + " exceptions]");
+		;//System.out.println("time = " + timer.ElapsedTime() + "\n");
 		timer.Start();
 		int e1Index = (int) (UniformRandomDiscretized() * nVars);
 		int e2Index = (int) (UniformRandomDiscretized() * nVars);
-		System.out.println("indices " + e1Index + ", " + e2Index);
+		;//System.out.println("indices " + e1Index + ", " + e2Index);
 		ClEditConstraint edit1 = new ClEditConstraint(rgpclv[e1Index], ClStrength.strong);
 		ClEditConstraint edit2 = new ClEditConstraint(rgpclv[e2Index], ClStrength.strong);
 		//   CL.fDebugOn = CL.fTraceOn = true;
 		solver.addConstraint(edit1).addConstraint(edit2);
-		System.out.println("done creating edit constraints -- about to start resolves");
-		System.out.println("time = " + timer.ElapsedTime() + "\n");
+		;//System.out.println("done creating edit constraints -- about to start resolves");
+		;//System.out.println("time = " + timer.ElapsedTime() + "\n");
 		timer.Start();
 		// FIXGJB start = Timer.now();
 		for (int m = 0; m < nResolves; m++) {
 			solver.resolve(rgpclv[e1Index].value() * 1.001, rgpclv[e2Index].value() * 1.001);
 		}
-		System.out.println("done resolves -- now removing constraints");
-		System.out.println("time = " + timer.ElapsedTime() + "\n");
+		;//System.out.println("done resolves -- now removing constraints");
+		;//System.out.println("time = " + timer.ElapsedTime() + "\n");
 		solver.removeConstraint(edit1);
 		solver.removeConstraint(edit2);
 		timer.Start();
@@ -274,8 +274,8 @@ public class ClTests extends CL {
 				solver.removeConstraint(rgpcns[j]);
 			}
 		}
-		System.out.println("done removing constraints and addDel timing test");
-		System.out.println("time = " + timer.ElapsedTime() + "\n");
+		;//System.out.println("done removing constraints and addDel timing test");
+		;//System.out.println("time = " + timer.ElapsedTime() + "\n");
 		timer.Start();
 		return true;
 	}
@@ -295,70 +295,70 @@ public class ClTests extends CL {
 			ClTests clt = new ClTests();
 			boolean fAllOkResult = true;
 			boolean fResult;
-			System.out.println("simple1:");
+			;//System.out.println("simple1:");
 			fResult = simple1();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("justStay1:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("justStay1:");
 			fResult = justStay1();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("addDelete1:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("addDelete1:");
 			fResult = addDelete1();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("addDelete2:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("addDelete2:");
 			fResult = addDelete2();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("casso1:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("casso1:");
 			fResult = casso1();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("inconsistent1:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("inconsistent1:");
 			fResult = inconsistent1();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("inconsistent2:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("inconsistent2:");
 			fResult = inconsistent2();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("inconsistent3:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("inconsistent3:");
 			fResult = inconsistent3();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("multiedit:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("multiedit:");
 			fResult = multiedit();
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
-			System.out.println("addDel:");
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+			;//System.out.println("addDel:");
 			int cns = 900, vars = 900, resolves = 10000;
 			if (args.length > 0)
 				cns = Integer.parseInt(args[0]);
@@ -373,9 +373,9 @@ public class ClTests extends CL {
 			// fResult = addDel(5,5,10);
 			fAllOkResult &= fResult;
 			if (!fResult)
-				System.out.println("Failed!");
+				;//System.out.println("Failed!");
 			if (CL.fGC)
-				System.out.println("Num vars = " + ClAbstractVariable.numCreated());
+				;//System.out.println("Num vars = " + ClAbstractVariable.numCreated());
 		}
 		//    catch (Exception err)
 		//      {

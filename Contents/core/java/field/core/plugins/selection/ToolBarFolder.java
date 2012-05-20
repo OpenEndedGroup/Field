@@ -99,19 +99,14 @@ public class ToolBarFolder {
 				r.width = b.width;
 				r.height = b.height;
 
-				System.out.println(" shell <" + tools + "> resized <" + b + ">");
+				;//System.out.println(" shell <" + tools + "> resized <" + b + ">");
 
-				System.out.println(" toolbar has <" + toolbar.getItemCount() + "> items");
+				;//System.out.println(" toolbar has <" + toolbar.getItemCount() + "> items");
 
 				ToolItem[] items = toolbar.getItems();
 				for (ToolItem c : items) {
-					System.out.println(" item :" + c + " " + c.getBounds());
+					;//System.out.println(" item :" + c + " " + c.getBounds());
 				}
-				
-				
-				
-				
-
 			}
 
 			@Override
@@ -122,13 +117,13 @@ public class ToolBarFolder {
 				r.width = b.width;
 				r.height = b.height;
 
-				System.out.println(" shell <" + tools + "> moved <" + b + ">");
+				;//System.out.println(" shell <" + tools + "> moved <" + b + ">");
 
-				System.out.println(" toolbar has <" + toolbar.getItemCount() + "> items");
+				;//System.out.println(" toolbar has <" + toolbar.getItemCount() + "> items");
 
 				ToolItem[] items = toolbar.getItems();
 				for (ToolItem c : items) {
-					System.out.println(" item :" + c + " " + c.getBounds());
+					;//System.out.println(" item :" + c + " " + c.getBounds());
 				}
 			}
 		});
@@ -148,7 +143,7 @@ public class ToolBarFolder {
 			toolbar = new ToolBar(into, SWT.SMOOTH | SWT.NO_FOCUS);
 			{
 				GridData data = new GridData();
-				data.heightHint = 23;
+				data.heightHint = Platform.isMac() ? 23 : 33;
 				data.widthHint = 1000;
 				data.horizontalAlignment = SWT.FILL;
 				data.grabExcessHorizontalSpace = true;
@@ -230,7 +225,7 @@ public class ToolBarFolder {
 
 		ToolItem toolItem = new ToolItem(toolbar, SWT.FLAT | SWT.RADIO | SWT.NO_FOCUS);
 		toolItem.setImage(icon);
-
+		
 		SelectionListener sl = new SelectionListener() {
 
 			@Override
@@ -251,7 +246,6 @@ public class ToolBarFolder {
 
 		into.layout(true);
 		toolbar.traverse(SWT.TRAVERSE_TAB_NEXT);
-
 	}
 
 	public void add(final String icon, final Control c) {

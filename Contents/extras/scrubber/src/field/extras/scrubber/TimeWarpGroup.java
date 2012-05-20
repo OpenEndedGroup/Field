@@ -113,7 +113,7 @@ public class TimeWarpGroup extends LightweightGroup implements iUpdateable {
 	public void update() {
 
 		Rect f = forElement.getFrame(null);
-		System.out.println(" checking group <" + f + "> <" + warp + ">");
+		;//;//System.out.println(" checking group <" + f + "> <" + warp + ">");
 		Warp warp = forElement.getProperty(TimeWarpGroup.warp);
 		boolean dirty = false;
 		if (warp == null) {
@@ -126,7 +126,7 @@ public class TimeWarpGroup extends LightweightGroup implements iUpdateable {
 
 		if (dirty || warp.dirty) {
 
-			System.out.println(" recomputing warp <" + warp + ">");
+			;//;//System.out.println(" recomputing warp <" + warp + ">");
 			recomputeWarp(warp);
 		}
 
@@ -237,7 +237,7 @@ public class TimeWarpGroup extends LightweightGroup implements iUpdateable {
 			if (!shouldBound(v))
 				continue;
 
-			System.out.println(" checking child <" + v + "> <" + warp + ">");
+			;//;//System.out.println(" checking child <" + v + "> <" + warp + ">");
 			Vector2 ex = originalExtension.get(v);
 			Rect r = v.getFrame(null);
 			if (ex == null) {
@@ -246,13 +246,13 @@ public class TimeWarpGroup extends LightweightGroup implements iUpdateable {
 				originalExtension.set(v, v, ex = new Vector2(a1, a2));
 			}
 
-			System.out.println(" <" + ex + ">");
+			;//;//System.out.println(" <" + ex + ">");
 
 			float a = warp.map(ex.x);
 			float b = warp.map(ex.y);
 
 			if (Math.abs(r.x - a) > 5e-1 || Math.abs((r.x + r.w) - b) > 5e-1) {
-				System.out.println(" warp updated contents to be <" + originalExtension + " -> " + a + " " + b);
+				;//;//System.out.println(" warp updated contents to be <" + originalExtension + " -> " + a + " " + b);
 
 				v.setFrame(new Rect(a, r.y, b - a, r.h));
 				GLComponentWindow.getCurrentWindow(null).requestRepaint();

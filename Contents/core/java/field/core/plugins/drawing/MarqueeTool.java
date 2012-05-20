@@ -82,7 +82,7 @@ public class MarqueeTool implements iMousePeer, iProvidesQueue, iPaintPeer {
 
 		ComponentDrawingUtils.drawRectangle(mesh, line, null, (float) r.x, (float) r.y, (float) r.w, (float) r.h, new Vector4(0, 0, 0.1f, 0.1), new Vector4(1, 1, 1, 0.2));
 
-		System.out.println(" marquee drawing <" + r + ">");
+		;//System.out.println(" marquee drawing <" + r + ">");
 
 		mesh.getUnderlyingGeometry().performPass(null);
 		line.getUnderlyingGeometry().performPass(null);

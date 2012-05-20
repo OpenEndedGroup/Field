@@ -18,12 +18,12 @@ public class T_SimpleWrapped implements iLaunchable {
 		@SimplyWrapped
 		public Object banana()
 		{
-			System.out.println(" I'm a banana ");
+			;//System.out.println(" I'm a banana ");
 			return new Vector3(0,0,0);
 		}
 		
 		public iWrappedExit enter(Method m) {
-			System.out.println(" entering <"+m+">");
+			;//System.out.println(" entering <"+m+">");
 			return null;
 		}
 		

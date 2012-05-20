@@ -133,7 +133,7 @@ public class SimpleExtendedAssignment extends InvocationLogging {
 
 			public boolean handle(final Class fieldType, Class assignmentType, final Field f, final Object in, Object value) throws IllegalArgumentException, IllegalAccessException {
 
-				System.out.println(" value is of type <"+value+">");
+				;//System.out.println(" value is of type <"+value+">");
 				
 				if (value instanceof PyGenerator) {
 
@@ -253,7 +253,7 @@ public class SimpleExtendedAssignment extends InvocationLogging {
 	private final iTypeErrorRecovery recovery = new iTypeErrorRecovery() {
 		public void recover(Object javaObject, String field, Object setToBe) {
 
-			System.out.println(" recovery <"+javaObject+"> <"+field+"> <"+setToBe+"> ");
+			;//System.out.println(" recovery <"+javaObject+"> <"+field+"> <"+setToBe+"> ");
 			
 			Field f = ReflectionTools.getFirstFIeldCalled(javaObject.getClass(), field);
 			Class<?> fieldType = f.getType();

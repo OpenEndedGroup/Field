@@ -19,7 +19,7 @@ public class OSCPlugin extends BaseSimplePlugin {
 
 	@Override
 	public void close() {
-		System.out.println(" OSC Plugin is closing down ");
+		;//;//System.out.println(" OSC Plugin is closing down ");
 //		OSCOut o = oscout.get(root);
 //		if (o != null)
 //			o.close();
@@ -27,7 +27,7 @@ public class OSCPlugin extends BaseSimplePlugin {
 //		if (i != null)
 //			i.close();
 
-		System.out.println(" OSC Plugin is finished closing down ");
+		;//;//System.out.println(" OSC Plugin is finished closing down ");
 	}
 
 	@Override

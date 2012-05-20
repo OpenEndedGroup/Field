@@ -76,7 +76,7 @@ public class PopupTextBox {
 		// @Override
 		// public void verifyText(VerifyEvent e) {
 		//
-		// System.out.println(" keycode is <"+e.keyCode+">");
+		// ;//System.out.println(" keycode is <"+e.keyCode+">");
 		//
 		// if (e.character == SWT.ESC) {
 		// if (exitAllowed) {

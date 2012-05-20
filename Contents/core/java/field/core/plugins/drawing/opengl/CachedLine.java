@@ -335,7 +335,7 @@ public class CachedLine {
 				}
 			}
 		} catch (NullPointerException e) {
-			System.out.println(" problem while interpolating property <"+property+">");
+			;//System.out.println(" problem while interpolating property <"+property+">");
 			e.printStackTrace();
 		}
 	}
@@ -409,7 +409,7 @@ public class CachedLine {
 	}
 
 	public void getClassCustomCompletion(String prefix, Object o) {
-		System.out.println(" gccc <" + prefix + "> <" + o + ">");
+		;//System.out.println(" gccc <" + prefix + "> <" + o + ">");
 	}
 
 	int modCount = 0;

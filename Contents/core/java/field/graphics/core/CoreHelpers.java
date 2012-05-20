@@ -169,7 +169,7 @@ public class CoreHelpers {
 	}
 
 	static public void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
-		// System.out.println(" ortho :" + left + " " + right + " " +
+		// ;//System.out.println(" ortho :" + left + " " + right + " " +
 		// bottom + " " + top + " " + zNear + " " + zFar);
 		if (!isCore)
 			GL11.glOrtho(left, right, bottom, top, zNear, zFar);
@@ -194,21 +194,21 @@ public class CoreHelpers {
 	static private void glMultiply(float[] m) {
 		switch (mode) {
 		case GL11.GL_PROJECTION:
-			// System.out.println(" projection matrix was :" +
+			// ;//System.out.println(" projection matrix was :" +
 			// projection);
 			System.arraycopy(glMultiply(projection.head, m), 0, projection.head, 0, 16);
-			// System.out.println(" projection matrix is :" +
+			// ;//System.out.println(" projection matrix is :" +
 			// projection);
 			break;
 		case GL11.GL_MODELVIEW:
-			// System.out.println(" model metrix was:" + modelview);
+			// ;//System.out.println(" model metrix was:" + modelview);
 			System.arraycopy(glMultiply(modelview.head, m), 0, modelview.head, 0, 16);
-			// System.out.println(" model metrix is :" + modelview);
+			// ;//System.out.println(" model metrix is :" + modelview);
 			break;
 		case GL11.GL_TEXTURE:
-			// System.out.println(" texture metrix was:" + texture);
+			// ;//System.out.println(" texture metrix was:" + texture);
 			System.arraycopy(glMultiply(texture.head, m), 0, texture.head, 0, 16);
-			// System.out.println(" texture metrix is :" + texture);
+			// ;//System.out.println(" texture metrix is :" + texture);
 			break;
 		default:
 			throw new IllegalArgumentException();
@@ -292,7 +292,7 @@ public class CoreHelpers {
 	}
 
 	public static void glPushMatrix() {
-		// System.out.println(" -------- push "+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
+		// ;//System.out.println(" -------- push "+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
 
 		if (!isCore)
 			GL11.glPushMatrix();
@@ -355,7 +355,7 @@ public class CoreHelpers {
 			texture.head = texture.stack.get(texture.stack.size() - 1);
 			break;
 		}
-		// System.out.println(" -------- pop"+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
+		// ;//System.out.println(" -------- pop"+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
 
 	}
 
@@ -366,7 +366,7 @@ public class CoreHelpers {
 		{
 			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_viewMatrix");
 
-			// System.out.println(" finding model view matrix, got :"
+			// ;//System.out.println(" finding model view matrix, got :"
 			// + vm);
 
 			if (vm != -1) {
@@ -374,13 +374,13 @@ public class CoreHelpers {
 				tq.rewind();
 				tq.put(modelview.head);
 				tq.rewind();
-				// System.out.println(" -- updating model view matrix -- ");
+				// ;//System.out.println(" -- updating model view matrix -- ");
 				//
 				// for (int j = 0; j < 4; j++) {
 				// for (int i = 0; i < 4; i++) {
 				// System.out.print(tq.get() + " ");
 				// }
-				// System.out.println();
+				// ;//System.out.println();
 				// }
 				// tq.rewind();
 
@@ -389,20 +389,20 @@ public class CoreHelpers {
 		}
 		{
 			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_projMatrix");
-			// System.out.println(" finding projection matrix, got :"
+			// ;//System.out.println(" finding projection matrix, got :"
 			// + vm);
 			if (vm != -1) {
 				// hack, no caching
 				tq.rewind();
 				tq.put(projection.head);
 				tq.rewind();
-				// System.out.println(" -- updating projeciton matrix -- ");
+				// ;//System.out.println(" -- updating projeciton matrix -- ");
 				//
 				// for (int j = 0; j < 4; j++) {
 				// for (int i = 0; i < 4; i++) {
 				// System.out.print(tq.get() + " ");
 				// }
-				// System.out.println();
+				// ;//System.out.println();
 				// }
 				// tq.rewind();
 

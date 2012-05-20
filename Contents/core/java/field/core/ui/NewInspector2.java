@@ -341,7 +341,7 @@ public class NewInspector2 {
 				@Woven
 				@NextUpdate
 				public void handleEvent(Event event) {
-					System.out.println(" update value <" + ((Spinner) editor).getSelection() + ">");
+					;//System.out.println(" update value <" + ((Spinner) editor).getSelection() + ">");
 					updateValue((float) ((Spinner) editor).getSelection());
 				}
 			});
@@ -365,7 +365,7 @@ public class NewInspector2 {
 
 		@Override
 		public void setValue(Number s) {
-			System.out.println(" set value <" + s + ">");
+			;//System.out.println(" set value <" + s + ">");
 			((Spinner) editor).setSelection(s.intValue());
 		}
 
@@ -465,7 +465,7 @@ public class NewInspector2 {
 						value = new Vector4();
 					ColorDialog d = new org.eclipse.swt.widgets.ColorDialog(editor.getShell());
 					RGB rgb = new RGB((int) (Math.max(0, Math.min(255, 255 * value.x))), (int) (Math.max(0, Math.min(255, 255 * value.y))), (int) (Math.max(0, Math.min(255, 255 * value.z))));
-					System.out.println(" initial color is <" + rgb + "> / <" + value + ">");
+					;//System.out.println(" initial color is <" + rgb + "> / <" + value + ">");
 					d.setRGB(rgb);
 					d.open();
 					rgb = d.getRGB();
@@ -586,7 +586,7 @@ public class NewInspector2 {
 	// textField.addMouseListener(new MouseAdapter() {
 	// @Override
 	// public void mouseClicked(MouseEvent e) {
-	// System.out.println(" mouse clicked in action control");
+	// ;//System.out.println(" mouse clicked in action control");
 	// super.mouseClicked(e);
 	// actionPerformed(null);
 	// }
@@ -599,7 +599,7 @@ public class NewInspector2 {
 	//
 	// public void actionPerformed(ActionEvent e) {
 	//
-	// System.out.println(" action performed here <" + e + ">");
+	// ;//System.out.println(" action performed here <" + e + ">");
 	//
 	// i.getValue().apply();
 	// }

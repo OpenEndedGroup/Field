@@ -210,12 +210,12 @@ public class ProcessingLoader2 implements iProcessingLoader, iProvidesQueue {
 
 	public EditorExecutionInterface getEditorExecutionInterface(final EditorExecutionInterface delegateTo) {
 
-		System.out.println(" get editor execution interface  ");
+		;//;//System.out.println(" get editor execution interface  ");
 
 		return new EditorExecutionInterface() {
 			public void executeFragment(final String fragment) {
 
-				System.out.println(" inside ef <" + fragment + ">");
+				;//;//System.out.println(" inside ef <" + fragment + ">");
 				ProcessingLoader2.this.executeFragment(fragment, delegateTo);
 			}
 
@@ -248,9 +248,9 @@ public class ProcessingLoader2 implements iProcessingLoader, iProvidesQueue {
 
 	@InQueue
 	public void injectIntoGlobalNamespace() {
-		System.out.println(" inecting into global namespace ");
+		;//;//System.out.println(" inecting into global namespace ");
 		PythonInterface.getPythonInterface().setVariable("p", applet);
-		PythonInterface.getPythonInterface().execString("from processing.core import PApplet\n" + "methodNames = [m.name for m in PApplet.getDeclaredMethods()]\n" + "def bind(meth, inst):	\n" + "	globals()[meth.__name__]=meth\n" + "\n" + "for n in dir(p):\n" + "	try:\n" + "		if n not in methodNames: continue\n" + "		aa = getattr(p, n)\n" + "		System.out.println(n)\n" + "\n" + "		bind(aa, p)\n" + "\n" + "	except: pass\n");
+		PythonInterface.getPythonInterface().execString("from processing.core import PApplet\n" + "methodNames = [m.name for m in PApplet.getDeclaredMethods()]\n" + "def bind(meth, inst):	\n" + "	globals()[meth.__name__]=meth\n" + "\n" + "for n in dir(p):\n" + "	try:\n" + "		if n not in methodNames: continue\n" + "		aa = getattr(p, n)\n" + "		;//;//System.out.println(n)\n" + "\n" + "		bind(aa, p)\n" + "\n" + "	except: pass\n");
 
 	}
 
@@ -282,14 +282,14 @@ public class ProcessingLoader2 implements iProcessingLoader, iProvidesQueue {
 			firstUpdate = false;
 		}
 
-		// System.out.println(" calling applet redraw ");
+		// ;//;//System.out.println(" calling applet redraw ");
 		// applet.redraw();
 	}
 
 	@InQueue
 	protected void addActive(iFloatProvider timeProvider, final Promise p, iExecutesPromise delegateTo) {
 
-		System.out.println("PROCESSING about to add active <" + timeProvider + "> <" + p + "> <" + delegateTo + ">");
+		;//;//System.out.println("PROCESSING about to add active <" + timeProvider + "> <" + p + "> <" + delegateTo + ">");
 
 		try {
 			runner.addActive(timeProvider, p);
@@ -306,7 +306,7 @@ public class ProcessingLoader2 implements iProcessingLoader, iProvidesQueue {
 
 	@InQueue
 	protected void executeFragment(String fragment, EditorExecutionInterface delegateTo) {
-		System.out.println("PROCESSING execute fragment, delegating to <" + delegateTo + ">");
+		;//;//System.out.println("PROCESSING execute fragment, delegating to <" + delegateTo + ">");
 		PythonInterface.getPythonInterface().setVariable("p", applet);
 		if (delegateTo == null) {
 			// PythonInterface.getPythonInterface().execString(fragment);
@@ -324,7 +324,7 @@ public class ProcessingLoader2 implements iProcessingLoader, iProvidesQueue {
 	@InQueue
 	protected void removeActive(Promise p, iExecutesPromise delegateTo) {
 
-		System.out.println(" remove active <" + p + "> from runner <" + runner + ">");
+		;//;//System.out.println(" remove active <" + p + "> from runner <" + runner + ">");
 
 		runner.removeActive(p);
 	}

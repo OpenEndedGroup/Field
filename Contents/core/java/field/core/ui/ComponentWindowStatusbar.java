@@ -160,13 +160,13 @@ public class ComponentWindowStatusbar {
 			//			g2.fillRect(-1000,-1000,3000,3000);
 			
 			
-			System.out.println(" reuploading texture ");
+			;//System.out.println(" reuploading texture ");
 			component.reupload();
-			System.out.println(" reuploading texture complete ");
+			;//System.out.println(" reuploading texture complete ");
 			
 		}
 		
-		component.drawIntoMesh(labelTriangle, 1, 1, 1, 1, inset, (Platform.isMac() ? 0 : -53)+h - inset - height);
+		component.drawIntoMesh(labelTriangle, 1, 1, 1, 1, inset, (Platform.isMac() ? 0 : -30)+h - inset - height);
 		//		component.drawIntoMesh(labelTriangle, 1, 1, 1, 1, 50, 50);
 		
 		component.on();

@@ -287,7 +287,7 @@ public class FastVisualElementOverridesDispatch implements iVisualElementOverrid
 
 	public VisitCode menuItemsFor(iVisualElement source, Map<String, iUpdateable> items) {
 		
-		System.out.println(" menu items for <"+source+">  starting at <"+iVisualElementOverrides.topology.getAt()+">");	
+		;//System.out.println(" menu items for <"+source+">  starting at <"+iVisualElementOverrides.topology.getAt()+">");	
 		
 		List<iVisualElement> fringe = new LinkedList<iVisualElement>();
 		fringe.add(iVisualElementOverrides.topology.getAt());
@@ -310,7 +310,7 @@ public class FastVisualElementOverridesDispatch implements iVisualElementOverrid
 							fringe.addAll(next.getChildren());
 						
 						
-						System.out.println(" fringe now <"+fringe+"> elements now <"+items.size()+">");
+						;//System.out.println(" fringe now <"+fringe+"> elements now <"+items.size()+">");
 						
 					}
 				}

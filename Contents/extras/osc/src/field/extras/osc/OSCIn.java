@@ -33,13 +33,13 @@ public class OSCIn implements iCallable {
 	public OSCIn(iVisualElement root, int port) {
 		this.root = root;
 
-		System.out.println(" opening input for <" + root + " : " + port + ">");
+		;//;//System.out.println(" opening input for <" + root + " : " + port + ">");
 
 		in = new OSCInput(port);
 		in.setDefaultHandler(new DispatchableHandler() {
 			public void handle(String s, Object[] args) {
 
-				System.out.println(" default handle :" + s + " " + args);
+				;//;//System.out.println(" default handle :" + s + " " + args);
 
 				defaultHandle(s, args);
 			}
@@ -58,7 +58,7 @@ public class OSCIn implements iCallable {
 		elements.addAll(Arrays.asList(split));
 		Collections.reverse(elements);
 
-		System.out.println(" looking at default handle for <" + s + "> starting with <" + dispatchOver + ">");
+		;//;//System.out.println(" looking at default handle for <" + s + "> starting with <" + dispatchOver + ">");
 
 		Set<iVisualElement> fringe = new LinkedHashSet<iVisualElement>(dispatchOver);
 		Set<iVisualElement> nextFringe = new LinkedHashSet<iVisualElement>();
@@ -75,7 +75,7 @@ public class OSCIn implements iCallable {
 			for (iVisualElement e : fringe) {
 				for (iVisualElement p : ((Collection<iVisualElement>) e.getParents())) {
 
-					System.out.println(" checking <" + elements.peek() + ">");
+					;//;//System.out.println(" checking <" + elements.peek() + ">");
 
 					if (matches(elements.peek(), p)) {
 						success.remove(e);
@@ -99,13 +99,13 @@ public class OSCIn implements iCallable {
 
 	private void match(iVisualElement e, String s, Object[] args) {
 		PythonCallableMap map = handleOsc.get(e, e);
-		System.out.println(" does <" + e + "> have a map ? " + map + " " + e.payload());
+		;//;//System.out.println(" does <" + e + "> have a map ? " + map + " " + e.payload());
 		if (map != null) {
 			Object[] o = new Object[args.length + 1];
 			System.arraycopy(args, 0, o, 1, args.length);
 			o[0] = s;
 
-			System.out.println(" about to call map <" + map + "> <" + s + ">");
+			;//;//System.out.println(" about to call map <" + map + "> <" + s + ">");
 			map.invoke(o);
 		}
 	}
@@ -116,11 +116,11 @@ public class OSCIn implements iCallable {
 		peek = peek.replace("?", ".");
 		String name = iVisualElement.name.get(e);
 
-		System.out.println(" checking <" + peek + "> against <" + name + ">");
+		;//;//System.out.println(" checking <" + peek + "> against <" + name + ">");
 
 		boolean b = Pattern.matches(peek, name);
 
-		System.out.println(" got <" + b + ">");
+		;//;//System.out.println(" got <" + b + ">");
 		return b;
 	}
 
@@ -130,7 +130,7 @@ public class OSCIn implements iCallable {
 
 	void update() {
 
-//		System.out.println(" -- update of OSCIn --");
+//		;//;//System.out.println(" -- update of OSCIn --");
 		iVisualElement e = (iVisualElement) PythonInterface.getPythonInterface().getVariable("_self");
 		if (e != null)
 			dispatchOver.add(e);

@@ -239,12 +239,12 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 	@Override
 	public void mouseDragged(ComponentContainer inside, Event arg0) {
 
-		System.out.println(" wrap drag ");
+		;//System.out.println(" wrap drag ");
 
 		if (!shouldSendUpwards(arg0))
 			try {
 				if (componentToRender != null) {
-					System.out.println(" mouse dragged AA :"+arg0);
+					;//System.out.println(" mouse dragged AA :"+arg0);
 
 					MouseEvent me = rewriteCoordinates(arg0, true);
 
@@ -253,7 +253,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 						return;
 
 					
-					System.out.println(" mouse dragged A :"+me.getX());
+					;//System.out.println(" mouse dragged A :"+me.getX());
 
 					Component comp = SwingUtilities.getDeepestComponentAt(componentToRender, me.getX(), me.getY());
 					if (comp==null) return;
@@ -261,7 +261,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 					me.setSource(comp);
 
 
-					System.out.println(" converted to :"+me.getX()+" via "+comp);
+					;//System.out.println(" converted to :"+me.getX()+" via "+comp);
 
 					comp.dispatchEvent(me);
 
@@ -348,7 +348,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 		if (!shouldSendUpwards(arg0)) {
 			if (componentToRender != null) {
 				
-				System.out.println(" mouse pressed AA :"+arg0);
+				;//System.out.println(" mouse pressed AA :"+arg0);
 				
 				MouseEvent me = rewriteCoordinates(arg0, false);
 				if (me == null)
@@ -365,7 +365,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 				// componentToRender.dispatchEvent(me);
 				
 				
-				System.out.println(" mouse pressed A :"+me.getX());
+				;//System.out.println(" mouse pressed A :"+me.getX());
 				
 				
 				Component comp = SwingUtilities.getDeepestComponentAt(componentToRender, me.getX(), me.getY());
@@ -373,7 +373,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 				me = SwingUtilities.convertMouseEvent(componentToRender, me, comp);
 				me.setSource(comp);
 
-				System.out.println(" converted to <"+me.getX()+"> via <"+comp+">");
+				;//System.out.println(" converted to <"+me.getX()+"> via <"+comp+">");
 				
 				comp.dispatchEvent(me);
 
@@ -415,7 +415,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 				me = SwingUtilities.convertMouseEvent(componentToRender, me, comp);
 				me.setSource(comp);
 
-				System.out.println(" deepest component at returns <" + comp + "> <" + me + ">");
+				;//System.out.println(" deepest component at returns <" + comp + "> <" + me + ">");
 
 				comp.dispatchEvent(me);
 
@@ -434,7 +434,7 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 
 		Object oldParent = null;
 
-//		System.out.println(" component to render is <" + componentToRender + ">");
+//		;//System.out.println(" component to render is <" + componentToRender + ">");
 
 		try {
 			oldParent = ReflectionTools.illegalGetObject(componentToRender, "next");

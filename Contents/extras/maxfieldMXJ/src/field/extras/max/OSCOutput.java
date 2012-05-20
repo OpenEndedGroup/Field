@@ -106,7 +106,7 @@ public class OSCOutput {
 		buffer.limit(buffer.position());
 		buffer.rewind();
 		
-//		System.out.println(" sending buffer :"+buffer);
+//		;//;//System.out.println(" sending buffer :"+buffer);
 		
 		sender.send(buffer);
 		return this;

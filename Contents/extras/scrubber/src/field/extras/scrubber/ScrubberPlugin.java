@@ -166,7 +166,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 				if (!local)
 					installLocal();
 				else {
-					System.out.println(" deleting local");
+					;//;//System.out.println(" deleting local");
 					uninstallLocal();
 				}
 				once = tick;
@@ -174,7 +174,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 				if (!local)
 					installLocal();
 				else {
-					System.out.println(" pausing local");
+					;//;//System.out.println(" pausing local");
 					stopLocal();
 				}
 				once = tick;
@@ -227,7 +227,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 
 		public void keyReleased(ComponentContainer inside, Event event) {
 			if ((event.keyCode == 's' || event.keyCode == 'k') && event.type == SWT.KeyUp) {
-				System.out.println(" deinstalling ");
+				;//;//System.out.println(" deinstalling ");
 				if (installed)
 					uninstall();
 			}
@@ -244,7 +244,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 		public void mouseDragged(ComponentContainer inside, Event arg0) {
 
 			Vector2 pos = GLComponentWindow.mousePositionForEvent(arg0);
-			System.out.println(" moving <" + pos + ">");
+			;//;//System.out.println(" moving <" + pos + ">");
 			mouseTo(pos, true);
 		}
 
@@ -279,7 +279,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 	}
 
 	protected void uninstall() {
-		System.out.println(" uninstalling ");
+		;//;//System.out.println(" uninstalling ");
 
 		GlassComponent glass = iVisualElement.glassComponent.get(root);
 		glass.removeMousePeer(peer);
@@ -373,7 +373,7 @@ public class ScrubberPlugin extends BaseSimplePlugin {
 	public void registeredWith(iVisualElement root) {
 		super.registeredWith(root);
 		String devices = SystemProperties.getProperty("scrubber.devices", null);
-		System.out.println(" property is <" + devices + ">");
+		;//;//System.out.println(" property is <" + devices + ">");
 		if (devices == null)
 			return;
 		String[] dev = devices.split(":");

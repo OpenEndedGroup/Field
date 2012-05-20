@@ -171,13 +171,13 @@ public class ReloadPlugin extends BaseSimplePlugin {
 			items[i].dispose();
 		}
 
-		// System.out.println(" ----------- reload domains ------------");
+		// ;//;//System.out.println(" ----------- reload domains ------------");
 		List<ReloadingDomain> domains = Trampoline2.trampoline.reloadingSupport.getDomains();
 
 		for (ReloadingDomain d : domains) {
 			TreeItem i = new TreeItem(tree, 0);
 
-			// System.out.println(" domain :" + d.matcher);
+			// ;//;//System.out.println(" domain :" + d.matcher);
 
 			i.setText("Reload: <b>" + d.matcher.toString() + "</b>");
 			i.setData(d);
@@ -186,7 +186,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 
 		Set<Class> allClasses = ((MyClassLoader) Trampoline2.trampoline.getClassLoader()).getAllLoadedClasses();
 
-		// System.out.println(" we have <" + allClasses.size() +
+		// ;//;//System.out.println(" we have <" + allClasses.size() +
 		// "> classes");
 
 		packageList = new TreeMap<String, ReloadPlugin.Node>();
@@ -220,7 +220,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 
 			String name = c.getName();
 			String[] parts = name.split("\\.");
-			// System.out.println("          class :" + c.getName()
+			// ;//;//System.out.println("          class :" + c.getName()
 			// + " " + parts.length);
 			String x = "";
 			Node p = null;
@@ -237,11 +237,11 @@ public class ReloadPlugin extends BaseSimplePlugin {
 		Set<Entry<String, Node>> pp = packageList.entrySet();
 		for (Entry<String, Node> e : pp) {
 
-			// System.out.println(" scanning node <" + e + ">");
+			// ;//;//System.out.println(" scanning node <" + e + ">");
 
 			if (e.getValue().parent == null) {
 
-				// System.out.println(" adding element :" +
+				// ;//;//System.out.println(" adding element :" +
 				// e.getValue().name);
 				TreeItem i;
 				if (e.getValue().name.startsWith("field"))
@@ -270,7 +270,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 		tick++;
 		if (tick == 2) {
 			internal = new LinkedHashSet<Class>(((MyClassLoader) Trampoline2.trampoline.getClassLoader()).getAllLoadedClasses());
-			System.out.println(" ----------- reload plugin ----------");
+			;//;//System.out.println(" ----------- reload plugin ----------");
 			populateTree();
 		} else if (tick > 2) {
 
@@ -332,7 +332,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 	}
 
 	protected void popupFor(TreeItem s, Event event) {
-		System.out.println(" popup for :" + s);
+		;//;//System.out.println(" popup for :" + s);
 		final Object d = s.getData();
 
 		LinkedHashMap<String, iUpdateable> up = new LinkedHashMap<String, iUpdateable>();

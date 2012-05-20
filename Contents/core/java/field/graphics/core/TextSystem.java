@@ -228,7 +228,7 @@ public class TextSystem {
 
 			g2.setColor(new Color(1, 0, 1, 1f));
 			
-			System.out.println(" painting <"+componentToRender+"> into <"+g2+">");
+			;//System.out.println(" painting <"+componentToRender+"> into <"+g2+">");
 			
 			RepaintManager.currentManager(componentToRender).setDoubleBufferingEnabled(false);
 			componentToRender.paint(g2);
@@ -237,7 +237,7 @@ public class TextSystem {
 			// g2.fillRect(0, 0, w, h);
 			bounds = componentToRender.getBounds();
 
-			System.out.println(" bounds are <"+bounds+">");
+			;//System.out.println(" bounds are <"+bounds+">");
 			
 			DataBufferInt dataBuffer = (DataBufferInt) image.getRaster().getDataBuffer();
 			data = dataBuffer.getData();
@@ -518,7 +518,7 @@ public class TextSystem {
 			this.h = h;
 			font = new Font(Constants.defaultFont, Font.PLAIN, 12).deriveFont(12 * scaling);
 
-			System.out.println(" made a font <"+font+"> from <"+Constants.defaultFont+">");
+			;//System.out.println(" made a font <"+font+"> from <"+Constants.defaultFont+">");
 			
 			image = dev.getDefaultConfiguration().createCompatibleImage(w, h, Transparency.OPAQUE);
 
@@ -555,7 +555,7 @@ public class TextSystem {
 			this.font = font;
 			this.rotation = rotation;
 
-			System.out.println(" made a font <"+font.getFontName()+"> from <"+Constants.defaultFont+">");
+			;//System.out.println(" made a font <"+font.getFontName()+"> from <"+Constants.defaultFont+">");
 
 			BufferedImage imageTmp = dev.getDefaultConfiguration().createCompatibleImage(1, 1, Transparency.TRANSLUCENT);
 			g2 = (Graphics2D) imageTmp.getGraphics();
@@ -612,7 +612,7 @@ public class TextSystem {
 
 		public void dispose() {
 			// a change
-			System.out.println(" deallocating rect text <" + text + "> n <" + ResourceMonitor.resourceMonitor + ">");
+			;//System.out.println(" deallocating rect text <" + text + "> n <" + ResourceMonitor.resourceMonitor + ">");
 			slow.deallocate(ResourceMonitor.resourceMonitor.getQueue());
 		}
 
@@ -728,9 +728,9 @@ public class TextSystem {
 			triangle.setAux(v2, Base.texture0_id, scaling * hw, scaling * hh);
 			triangle.setAux(v3, Base.texture0_id, 0, scaling * hh);
 
-			System.out.println(" text target is :"+slow.textureTarget +" "+GL_TEXTURE_2D);
+			;//System.out.println(" text target is :"+slow.textureTarget +" "+GL_TEXTURE_2D);
 			if (slow.textureTarget == GL_TEXTURE_2D) {
-				System.out.println(" rectangular text is actually 2d texture");
+				;//System.out.println(" rectangular text is actually 2d texture");
 				triangle.setAux(v0, Base.texture0_id, 0, 0);
 				triangle.setAux(v1, Base.texture0_id, (scaling * hw) / w, 0);
 				triangle.setAux(v2, Base.texture0_id, scaling * hw / w, scaling * hh / h);
@@ -779,9 +779,9 @@ public class TextSystem {
 			triangle.setAux(v2, Base.texture0_id,  hw,  hh);
 			triangle.setAux(v3, Base.texture0_id, 0,  hh);
 			
-			System.out.println(" text target is :"+slow.textureTarget +" "+GL_TEXTURE_2D);
+			;//System.out.println(" text target is :"+slow.textureTarget +" "+GL_TEXTURE_2D);
 			if (slow.textureTarget == GL_TEXTURE_2D) {
-				System.out.println(" rectangular text is actually 2d texture");
+				;//System.out.println(" rectangular text is actually 2d texture");
 				triangle.setAux(v0, Base.texture0_id, 0, 0);
 				triangle.setAux(v1, Base.texture0_id, (scaling * hw) / w, 0);
 				triangle.setAux(v2, Base.texture0_id, scaling * hw / w, scaling * hh / h);
@@ -1002,10 +1002,10 @@ public class TextSystem {
 			assert gl != null;
 
 			
-//			System.out.println(" label on ---------");
+//			;//System.out.println(" label on ---------");
 			slow.setGL(gl);
 			if (first) {
-				System.out.println(" setup --------");
+				;//System.out.println(" setup --------");
 				slow.setup();
 				first = false;
 			}
@@ -1094,10 +1094,10 @@ public class TextSystem {
 			l.setFont(font);
 			view.setSize(width, 1000);
 
-			System.out.println(" view dimensions <" + view.getPreferredSpan(view.Y_AXIS) + "> width = <"+width+">");
+			;//System.out.println(" view dimensions <" + view.getPreferredSpan(view.Y_AXIS) + "> width = <"+width+">");
 
 			if ((int)(width*1.2f) != w || view.getPreferredSpan(view.Y_AXIS) != h) {
-				System.out.println(" redeclaring label ");
+				;//System.out.println(" redeclaring label ");
 				w = (int) (width*1.2f);
 				h = (int) view.getPreferredSpan(view.Y_AXIS);
 				image = dev.getDefaultConfiguration().createCompatibleImage(w, h, Transparency.TRANSLUCENT);

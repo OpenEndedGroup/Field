@@ -247,7 +247,7 @@ public class ThreedComputingOverride extends SplineComputingOverride {
 					@Override
 					protected void updateCamera() {
 						State newState = context.get(forElement).getTransformState().duplicate();
-						System.out.println(" setting state to <" + newState + ">");
+						;//System.out.println(" setting state to <" + newState + ">");
 
 						newState.reorthogonalizeUp();
 						camera.set(forElement, forElement, newState);
@@ -447,7 +447,7 @@ public class ThreedComputingOverride extends SplineComputingOverride {
 	@Override
 	public VisitCode handleKeyboardEvent(iVisualElement newSource, Event event) {
 
-		System.out.println(" hke <" + newSource + "> <" + event + "> <" + isSelected() + ">");
+		;//System.out.println(" hke <" + newSource + "> <" + event + "> <" + isSelected() + ">");
 
 		if (isSelected() && newSource == forElement) {
 			{

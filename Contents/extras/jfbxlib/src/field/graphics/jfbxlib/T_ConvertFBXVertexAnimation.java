@@ -20,7 +20,7 @@ public class T_ConvertFBXVertexAnimation {
 		JFBXMain main = new JFBXMain();
 		main.importFile(SystemProperties.getProperty("in"));
 		int takes = main.getNumTakes();
-		System.out.println(" file has <" + takes + "> takes");
+		;//;//System.out.println(" file has <" + takes + "> takes");
 
 		int take = SystemProperties.getIntProperty("take", 1);
 
@@ -37,7 +37,7 @@ public class T_ConvertFBXVertexAnimation {
 
 		double startSeconds =  printMaker.convertJFBXTimeToSeconds(start);
 		double endSeconds = printMaker.convertJFBXTimeToSeconds(end);
-		System.out.println(" take <" + take + "> runs from <" + startSeconds + " / "+start+"> <" + endSeconds + ">");
+		;//;//System.out.println(" take <" + take + "> runs from <" + startSeconds + " / "+start+"> <" + endSeconds + ">");
 
 		double fps = SystemProperties.getDoubleProperty("fps", 30);
 
@@ -47,7 +47,7 @@ public class T_ConvertFBXVertexAnimation {
 
 			long s = start + i * (end - start) / num;
 
-			System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(printMaker.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
+			;//;//System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(printMaker.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
 			main.acceptTime(s, markerAnimation.getVisitorForTime(t,  treeMaker));
 
 //			//if (i == 0) 
@@ -75,10 +75,10 @@ public class T_ConvertFBXVertexAnimation {
 						{
 							Sample sample = n.animation.getSample(i);
 							
-							System.out.println(((CoordinateFrame)sample.data).getRotation(null).mag());
+							;//;//System.out.println(((CoordinateFrame)sample.data).getRotation(null).mag());
 							if (((CoordinateFrame)sample.data).getRotation(null).mag()<0.5)
 							{
-								System.out.println(" -- warning, non unit rotation, replacing with nearest sample");
+								;//;//System.out.println(" -- warning, non unit rotation, replacing with nearest sample");
 								boolean found = false;
 								int q = i;
 								while(q>0)
@@ -106,18 +106,18 @@ public class T_ConvertFBXVertexAnimation {
 									}
 								}
 								if (!found)
-									System.out.println(" -- warning, found nothing");
+									;//;//System.out.println(" -- warning, found nothing");
 								else
-									System.out.println(" found <"+((CoordinateFrame)sample.data).getRotation(null)+">");
+									;//;//System.out.println(" found <"+((CoordinateFrame)sample.data).getRotation(null)+">");
 							}
 						}
 						
-						// System.out.println("\n\n\n\n\n\n\n\n\n\n visited <"+n.name+">");
-						// System.out.println(" for marker <" + n.name + ">");
+						// ;//;//System.out.println("\n\n\n\n\n\n\n\n\n\n visited <"+n.name+">");
+						// ;//;//System.out.println(" for marker <" + n.name + ">");
 						// int num = n.animation.getNumSamples();
 						// for (int i = 0; i < num; i++) {
 						// CubicInterpolatorDynamic<CoordinateFrame>.Sample s = n.animation.getSample(i);
-						// System.out.println(" <" + s + ">");
+						// ;//;//System.out.println(" <" + s + ">");
 						// }
 						//						
 						// DownsampleCubic<CoordinateFrame> down = new DownsampleCubic<CoordinateFrame>(new iMetric<CoordinateFrame, CoordinateFrame>(){
@@ -162,7 +162,7 @@ public class T_ConvertFBXVertexAnimation {
 		File f = new File(SystemProperties.getProperty("out", SystemProperties.getProperty("in") + ".xml"));
 		storage.save(p, f);
 		storage = storage.load(p, f);
-		System.out.println(storage.meshes.keySet());
+		;//;//System.out.println(storage.meshes.keySet());
 		System.exit(0);
 	}
 

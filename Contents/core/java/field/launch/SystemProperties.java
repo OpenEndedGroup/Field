@@ -35,7 +35,7 @@ public class SystemProperties {
 				additionalProperties.put(a.substring(1), n);
 			}
 		}
-		System.out.println("ap :"+additionalProperties);
+		;//System.out.println("ap :"+additionalProperties);
 	}
 
 	static public boolean getBooleanProperty(String s, boolean def)
@@ -195,7 +195,7 @@ public class SystemProperties {
 		HashMap<String, Object> a = new HashMap<String, Object>(additionalProperties);
 
 		String k = new MiscNative().getPropertyKeys_safe();
-		System.out.println(" parsing property keys :"+k+">");
+		;//System.out.println(" parsing property keys :"+k+">");
 		for(String kk : k.split(":"))
 		{
 			if (canBePropertyName(kk))
@@ -212,7 +212,7 @@ public class SystemProperties {
 			}
 		}
 		
-		System.out.println(" additional are <"+a+">");
+		;//System.out.println(" additional are <"+a+">");
 		
 		return a;
 	}

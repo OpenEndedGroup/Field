@@ -126,7 +126,7 @@ public final class DeferedDiskCached extends BasicInstrumentation2.DeferCallingF
 					try {
 						loaded = new PythonUtils().loadAsXML(filename);
 					} catch (Throwable t) {
-						System.out.println(" (( non fatal error while attempting to load (xml) cache from <" + filename + "> is ))");
+						;//System.out.println(" (( non fatal error while attempting to load (xml) cache from <" + filename + "> is ))");
 						t.printStackTrace();
 					}
 				} else {

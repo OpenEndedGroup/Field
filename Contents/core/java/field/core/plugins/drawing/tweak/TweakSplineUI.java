@@ -436,7 +436,7 @@ public class TweakSplineUI {
 			if ((arg0.stateMask & SWT.COMMAND) !=0) return;
 			
 
-			System.out.println(" arg0 count is <" + arg0.count + ">");
+			;//System.out.println(" arg0 count is <" + arg0.count + ">");
 
 			if (arg0.count == 2) {
 				MarkingMenuBuilder b = null;
@@ -445,7 +445,7 @@ public class TweakSplineUI {
 					b = (b == null ? vv : b.mergeWith(vv));
 				}
 
-				System.out.println(" popping up for double click <" + b + ">");
+				;//System.out.println(" popping up for double click <" + b + ">");
 
 				if (b != null) {
 					GLComponentWindow.getCurrentWindow(inside).untransformMouseEvent(arg0);
@@ -516,13 +516,13 @@ public class TweakSplineUI {
 
 		public void mousePressed(ComponentContainer inside, org.eclipse.swt.widgets.Event arg0) {
 
-			System.out.println(" mouse pressed in tweak spline ui <"+getCurrentSelectionTool()+">");
+			;//System.out.println(" mouse pressed in tweak spline ui <"+getCurrentSelectionTool()+">");
 			
 			if (getCurrentSelectionTool() != null) {
 				arg0.doit = false;
 				if (!getCurrentSelectionTool().mouseDown(arg0)) {
 					
-					System.out.println(" mouse down says finish ");
+					;//System.out.println(" mouse down says finish ");
 					
 					setCurrentSelectionTool(null);
 				}
@@ -564,7 +564,7 @@ public class TweakSplineUI {
 				
 				if (Platform.isPopupTrigger(arg0) && (arg0.stateMask & SWT.SHIFT) != 0) {
 
-					System.out.println(" popup and shift ");
+					;//System.out.println(" popup and shift ");
 
 					LinkedHashMap<String, iUpdateable> upup = new LinkedHashMap<String, iUpdateable>();
 
@@ -578,7 +578,7 @@ public class TweakSplineUI {
 					GLComponentWindow.getCurrentWindow(inside).transformMouseEvent(arg0);
 				} else if (Platform.isPopupTrigger(arg0) && (arg0.stateMask & SWT.SHIFT) == 0) {
 
-					System.out.println(" popup over <" + selection + ">");
+					;//System.out.println(" popup over <" + selection + ">");
 
 					MarkingMenuBuilder b = null;
 					for (SelectedVertex v : selection) {
@@ -586,7 +586,7 @@ public class TweakSplineUI {
 						b = (b == null ? vv : b.mergeWith(vv));
 					}
 
-					System.out.println(" popping up <" + b + ">");
+					;//System.out.println(" popping up <" + b + ">");
 
 					if (b != null) {
 						GLComponentWindow.getCurrentWindow(inside).untransformMouseEvent(arg0);
@@ -1546,7 +1546,7 @@ public class TweakSplineUI {
 				Object state = ((iTransformingContext) context).getTransformState();
 				String p = TweakSplineCodeGen.uniqProperty(this.inside, null);
 
-				System.out.println(" setting property <" + p + "> to be <" + state + ">");
+				;//System.out.println(" setting property <" + p + "> to be <" + state + ">");
 				this.inside.setProperty(new VisualElementProperty(p), state);
 				tool.getExtraArguments().put("camera", "_self." + p);
 				break;

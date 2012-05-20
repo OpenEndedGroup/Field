@@ -538,7 +538,7 @@ public class SimplePDFLineDrawing_3d {
 				}
 				Vector2 at = transform(b);
 				
-				System.out.println(" line to <"+b+" -> "+at);
+				;//System.out.println(" line to <"+b+" -> "+at);
 				if (!shouldClip)
 					path.lineTo(at.x, at.y);
 				lastOut.x = b.x;
@@ -674,7 +674,7 @@ public class SimplePDFLineDrawing_3d {
 
 				public void update() {
 
-					System.out.println(" will update fill ");
+					;//System.out.println(" will update fill ");
 
 					if (!context.isLayer(line))
 						return;
@@ -692,10 +692,10 @@ public class SimplePDFLineDrawing_3d {
 					//lineEmitter.globalGeometricScale = 0;
 					lineEmitter.globalFlatnessScale = context.getGlobalProperties().getFloat(iLinearGraphicsContext.flatnessScale, 1);
 
-					System.out.println(" begin transform ");
+					;//System.out.println(" begin transform ");
 					beginTransform(line, properties);
 
-					System.out.println(" drawing now ");
+					;//System.out.println(" drawing now ");
 					drawInto(line, properties, null, context, lineEmitter);
 
 					firstOut = true;
@@ -703,7 +703,7 @@ public class SimplePDFLineDrawing_3d {
 					// context.getOutput().clip();
 					context.getOutput().fill();
 
-					System.out.println(" call that a path ");
+					;//System.out.println(" call that a path ");
 					context.getOutput().newPath();
 
 					fillEmitter.globalFlatnessScale = 1;
@@ -1070,7 +1070,7 @@ public class SimplePDFLineDrawing_3d {
 			if (!properties.isTrue(iLinearGraphicsContext.containsDepth, false))
 				return null;
 			
-			System.out.println(" circular pointer 3d");
+			;//System.out.println(" circular pointer 3d");
 			
 
 			line.finish();
@@ -1148,7 +1148,7 @@ public class SimplePDFLineDrawing_3d {
 
 							Vector2 at = transform(new Vector3(a.x, a.y, z));
 							
-							System.out.println(" transformed <"+a+" "+z+"> to <"+at+"> <"+shouldClip+">");
+							;//System.out.println(" transformed <"+a+" "+z+"> to <"+at+"> <"+shouldClip+">");
 							
 							if (!shouldClip)
 								context.getOutput().addTemplate(unitSquare, -size / 2 + at.x, -size / 2 + at.y);
@@ -1322,7 +1322,7 @@ public class SimplePDFLineDrawing_3d {
 	protected void beginTransform(CachedLine line, Dict properties) {
 		iLinearGraphicsContext context = properties.get(iLinearGraphicsContext.context);
 
-		System.out.println(" line context is <" + context + ">");
+		;//System.out.println(" line context is <" + context + ">");
 
 		if (context instanceof iTransformingContext) {
 			transformContext = (iTransformingContext) context;

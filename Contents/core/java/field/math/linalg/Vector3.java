@@ -1176,21 +1176,21 @@ public class Vector3 implements java.io.Serializable, Cloneable,
 		Vector3 a = new Vector3();
 		float tot = 0;
 
-//		System.out.println(" blending over <" + q + "> <" + w + ">");
+//		;//System.out.println(" blending over <" + q + "> <" + w + ">");
 
 		for (int i = 0; i < q.size(); i++) {
 			a.add(new Vector3(q.get(i)).scale(w.get(i).floatValue()));
 
 			tot += w.get(i).floatValue();
-//			System.out.println(" tot :" + w.get(i).floatValue() + " tot = "
+//			;//System.out.println(" tot :" + w.get(i).floatValue() + " tot = "
 //					+ tot);
 		}
 
-//		System.out.println(" total weight is <" + tot + ">");
+//		;//System.out.println(" total weight is <" + tot + ">");
 
 		a.scale(1 / tot);
 
-//		System.out.println(" returning <" + a + ">");
+//		;//System.out.println(" returning <" + a + ">");
 		return a;
 	}
 

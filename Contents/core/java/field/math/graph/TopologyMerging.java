@@ -176,7 +176,7 @@ public class TopologyMerging {
 				if (!app.hasSeen(a))
 					app.apply(a);
 				else
-					System.out.println("skipped <" + a + ">");
+					;//System.out.println("skipped <" + a + ">");
 			}
 			queue.update();
 			return getAll();
@@ -268,7 +268,7 @@ public class TopologyMerging {
 		}
 
 		public List<T> perform() {
-			System.out.println(" glossing graph");
+			;//System.out.println(" glossing graph");
 			boolean changed = true;
 			while (changed) {
 				changed = false;
@@ -462,8 +462,8 @@ public class TopologyMerging {
 
 			List<T> path = shortestPath(at, node, soFar);
 
-			System.out.println(" shortest path from <" + at + "> to <" + node + "> is <" + path + ">");
-			System.out.println(" shortest path from <" + at.getChildren() + "> to <" + node.getChildren() + "> is <" + path + ">");
+			;//System.out.println(" shortest path from <" + at + "> to <" + node + "> is <" + path + ">");
+			;//System.out.println(" shortest path from <" + at.getChildren() + "> to <" + node.getChildren() + "> is <" + path + ">");
 			Collections.reverse(path);
 
 			// this
@@ -516,7 +516,7 @@ public class TopologyMerging {
 				});
 
 				for (int i = 0; i < domains.size(); i++) {
-					System.out.println(" domain <" + i + "> is size <" + domains.get(i).size() + ">");
+					;//System.out.println(" domain <" + i + "> is size <" + domains.get(i).size() + ">");
 					List<T> from = domains.get(i);
 					float d = Float.POSITIVE_INFINITY;
 					List<T> to = null;
@@ -535,7 +535,7 @@ public class TopologyMerging {
 					if (ato != null) {
 						ato[0].addChild(ato[1]);
 						ato[1].addChild(ato[0]);
-						System.out.println(" connected <" + ato[0] + "> to <" + ato[1] + ">");
+						;//System.out.println(" connected <" + ato[0] + "> to <" + ato[1] + ">");
 					}
 				}
 
@@ -594,7 +594,7 @@ public class TopologyMerging {
 				});
 
 				for (int i = 0; i < domains.size(); i++) {
-					System.out.println(" domain <" + i + "> is size <" + domains.get(i).size() + ">");
+					;//System.out.println(" domain <" + i + "> is size <" + domains.get(i).size() + ">");
 					List<T> from = domains.get(i);
 					float d = Float.POSITIVE_INFINITY;
 					List<T> to = null;
@@ -613,7 +613,7 @@ public class TopologyMerging {
 
 					if (ato != null) {
 						connect((T) ato[0], (T) ato[1]);
-						System.out.println(" connected <" + ato[0] + "> to <" + ato[1] + ">");
+						;//System.out.println(" connected <" + ato[0] + "> to <" + ato[1] + ">");
 					}
 				}
 

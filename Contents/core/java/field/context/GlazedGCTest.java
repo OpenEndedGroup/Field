@@ -44,7 +44,7 @@ public class GlazedGCTest implements iLaunchable {
 
 				b.add(new Banana(System.currentTimeMillis()));
 				h.update();
-				System.out.println(" channel size :"+b.size()+"   "+Runtime.getRuntime().freeMemory());
+				;//System.out.println(" channel size :"+b.size()+"   "+Runtime.getRuntime().freeMemory());
 				
 				if (Math.random()<0.05)
 				{

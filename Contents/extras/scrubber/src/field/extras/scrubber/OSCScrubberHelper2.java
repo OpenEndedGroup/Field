@@ -26,7 +26,7 @@ public class OSCScrubberHelper2 implements iUpdateable {
 
 		input.registerHandler("float", new Handler() {
 			public void handle(float f) {
-				System.out.println(" time -- <" + f + ">");
+				;//;//System.out.println(" time -- <" + f + ">");
 				OSCScrubberHelper2.this.time(f*1000);
 			}
 		});

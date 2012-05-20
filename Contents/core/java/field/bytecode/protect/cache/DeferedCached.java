@@ -86,7 +86,7 @@ public final class DeferedCached extends BasicInstrumentation2.DeferCallingFast 
 			Object object = cache.get(iaw);
 			if (object == null && !cache.containsKey(iaw)) {
 				try {
-//					System.out.println(" cache miss");
+//					;//System.out.println(" cache miss");
 					cache.put(iaw, object = original.invoke(fromThis, argArray));
 				} catch (IllegalAccessException e) {
 					e.printStackTrace();
@@ -96,7 +96,7 @@ public final class DeferedCached extends BasicInstrumentation2.DeferCallingFast 
 			}
 			else
 			{
-//				System.out.println(" cache hit");
+//				;//System.out.println(" cache hit");
 			}
 			return object;
 		}

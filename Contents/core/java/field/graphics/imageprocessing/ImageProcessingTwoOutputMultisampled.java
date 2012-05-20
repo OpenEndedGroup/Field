@@ -399,7 +399,7 @@ public class ImageProcessingTwoOutputMultisampled implements iImageProcessor {
 
 		int status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 		
-		System.out.println(" status is <"+status+"> <"+GL_FRAMEBUFFER_COMPLETE+"> ? ");
+		;//System.out.println(" status is <"+status+"> <"+GL_FRAMEBUFFER_COMPLETE+"> ? ");
 		
 		if (status!=GL_FRAMEBUFFER_COMPLETE)
 			throw new IllegalArgumentException();

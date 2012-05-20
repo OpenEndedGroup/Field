@@ -71,13 +71,13 @@ public class BetterComboBox {
 			}
             
 			private void go(MouseEvent e) {
-				System.out.println(" -- making menu ");
+				;//System.out.println(" -- making menu ");
 				try {
 					makeMenu();
 				} catch (Exception ee) {
 					ee.printStackTrace();
 				}
-				System.out.println(" -- making menu complete ");
+				;//System.out.println(" -- making menu complete ");
                 
 				try {
 					LinkedHashMap<String, iUpdateable> map = new LinkedHashMap<String, iUpdateable>();

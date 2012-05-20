@@ -120,7 +120,7 @@ public class GraphNodeSearching {
 		protected VisitCode _apply(List<T> c) {
 			depth++;
 			if (depth > maxDepth*2) {
-				System.out.println(" (( warning, max depth exceeded in search ))");
+				;//System.out.println(" (( warning, max depth exceeded in search ))");
 				return VisitCode.stop;
 			}
 

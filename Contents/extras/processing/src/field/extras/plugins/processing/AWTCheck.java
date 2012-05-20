@@ -12,7 +12,7 @@ public class AWTCheck {
 	private static PApplet pa;
 
 	static public void main(String[] a) {
-//		System.out.println(" 1212");
+//		;//;//System.out.println(" 1212");
 //
 ////		display = new Display();
 ////		display.setAppName("Field");
@@ -21,18 +21,18 @@ public class AWTCheck {
 //		f.setBounds(50, 50, 500, 500);
 //		f.setVisible(true);
 //
-//		System.out.println(" ?? ");
+//		;//;//System.out.println(" ?? ");
 
 		pa = new PApplet() {
 			@Override
 			public void setup() {
-				System.out.println(" setup called ");
+				;//;//System.out.println(" setup called ");
 				size(500,500,this.OPENGL);
 			}
 
 			@Override
 			public void draw() {
-				System.out.println(" draw called ");
+				;//;//System.out.println(" draw called ");
 			}
 		};
 

@@ -35,7 +35,7 @@ public class GitVersioningSystem extends VersioningSystem {
 	}
 
 	protected String executeCommand(String dir, String... command) {
-		System.out.println(":: " + dir + " @ " + Arrays.asList(command));
+		;//System.out.println(":: " + dir + " @ " + Arrays.asList(command));
 		ExecuteCommand c = new ExecuteCommand(dir, command, true);
 		c.waitFor(true);
 		String output = c.getOutput();

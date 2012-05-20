@@ -529,7 +529,7 @@ public class FieldPyObjectAdaptor {
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
-			System.out.println(" alt <" + alt + ">");
+			;//System.out.println(" alt <" + alt + ">");
 			// frame is both a field and
 			// something that we want to be
 			// a (psuedo) property
@@ -552,7 +552,7 @@ public class FieldPyObjectAdaptor {
 			if (alt == null || alt == Py.None || alt.__tojava__(Object.class) instanceof VisualElementProperty || name.equals("frame")) {
 				Object o = PythonPlugin.getAttr(contents, name);
 
-				System.out.println(" parent lookup <" + o + ">");
+				;//System.out.println(" parent lookup <" + o + ">");
 
 				if (o == null)
 					return Py.None;
@@ -693,7 +693,7 @@ public class FieldPyObjectAdaptor {
 		
 		if (!initialized) {
 
-			System.out.println(" initializing adaptor ");
+			;//System.out.println(" initializing adaptor ");
 
 			ExtensiblePyObjectAdapter a = Py.getAdapter();
 			fieldPyObjectAdaptor = new FieldPyObjectAdaptor(a);

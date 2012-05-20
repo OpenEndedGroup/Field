@@ -98,7 +98,7 @@ public class Occlusion {
 
 		protected void update(int binNum) {
 
-			System.out.println(" updating biin <" + binNum + ">");
+			;//System.out.println(" updating biin <" + binNum + ">");
 
 			range.x = bins[binNum];
 			range.y = bins[binNum + 1];
@@ -115,7 +115,7 @@ public class Occlusion {
 			a.post();
 
 			source.post();
-			System.out.println(" current value for <" + binNum + "> is <" + a.evaluate() + ">");
+			;//System.out.println(" current value for <" + binNum + "> is <" + a.evaluate() + ">");
 
 		}
 

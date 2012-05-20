@@ -208,7 +208,7 @@ public class Templating {
 		List<iVisualElementOverrides> callList = null;
 
 		if (o instanceof iMixinProxy) {
-			System.out.println(" o is <" + o + ">");
+			;//System.out.println(" o is <" + o + ">");
 
 			callList = ((iMixinProxy) o).getCallList();
 			oclass = DefaultOverride.class;
@@ -251,7 +251,7 @@ public class Templating {
 	 * TODO: this needs rearchitecting
 	 */
 	public static boolean shouldCopy(VisualElementProperty p) {
-		System.out.println(" should copy ? "+p);
+		;//System.out.println(" should copy ? "+p);
 		if (p.equals(OutputInsertsOnSheet.outputInsertsOnSheet_knownComponents)) return false;
 		if (p.equals(OutputInsertsOnSheet.outputInsertsOnSheet)) return false;
 

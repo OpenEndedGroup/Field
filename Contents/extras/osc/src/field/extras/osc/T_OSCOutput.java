@@ -24,10 +24,10 @@ public class T_OSCOutput implements iLaunchable {
 			public void update() {
 				tt++;
 				
-				System.out.println(" tt = <"+tt+">");
+				;//;//System.out.println(" tt = <"+tt+">");
 				float x = (float) Math.sin(tt/40f);
 				
-				System.out.println(" sendgin <"+x+"> <"+tt+">");
+				;//;//System.out.println(" sendgin <"+x+"> <"+tt+">");
 				
 //				output.encode("scrubPosition", new OSCElement[]{new OscFloat((t/100f)%1)}).send();				
 				

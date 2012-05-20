@@ -21,11 +21,11 @@ public class T_ConvertFBX {
 
 	public static void main(String[] args) {
 
-		System.out.println(" markers");
+		;//;//System.out.println(" markers");
 		JFBXMain main = new JFBXMain();
 		main.importFile(SystemProperties.getProperty("in"));
 		int takes = main.getNumTakes();
-		System.out.println(" file has <" + takes + "> takes");
+		;//;//System.out.println(" file has <" + takes + "> takes");
 
 		int take = SystemProperties.getIntProperty("take", 1);
 		
@@ -42,21 +42,21 @@ public class T_ConvertFBX {
 
 		double startSeconds = AbstractVisitor.convertJFBXTimeToSeconds(start);
 		double endSeconds = AbstractVisitor.convertJFBXTimeToSeconds(end);
-		System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
+		;//;//System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
 
 		double fps = SystemProperties.getDoubleProperty("fps", 30);
 
 		int num = (int) ((endSeconds - startSeconds) * fps) + 1;
 		
 		//num = 1;
-		System.out.println(" ?x? ");
+		;//;//System.out.println(" ?x? ");
 		
 		for (int i = 0; i < num; i++) {
 			float t = i;
 
 			long s = start + i * (end - start) / num;
 
-			System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
+			;//;//System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
 			main.acceptTime(s, markerAnimation.getVisitorForTime(t, (i == 0 ? treeMaker : null))); 
 
 			if (i == 0) {
@@ -88,7 +88,7 @@ public class T_ConvertFBX {
 							animation.removeSample(runStart+3);
 							rem++;
 						}
-						System.out.println(" removed <"+rem+"> from <"+runStart+" > "+runStop+">");
+						;//;//System.out.println(" removed <"+rem+"> from <"+runStart+" > "+runStop+">");
 						return rem;
 					}
 
@@ -101,9 +101,9 @@ public class T_ConvertFBX {
 						for (int i = 0; i < n.animation.getNumSamples(); i++) {
 							Sample sample = n.animation.getSample(i);
 
-							// System.out.println(((CoordinateFrame)sample.data).getRotation(null).mag());
+							// ;//;//System.out.println(((CoordinateFrame)sample.data).getRotation(null).mag());
 							if (((CoordinateFrame) sample.data).getRotation(null).mag() < 0.5) {
-								System.out.println(" -- warning, non unit rotation, replacing with nearest sample");
+								;//;//System.out.println(" -- warning, non unit rotation, replacing with nearest sample");
 								boolean found = false;
 								int q = i;
 								while (q > 0) {
@@ -126,9 +126,9 @@ public class T_ConvertFBX {
 									}
 								}
 								if (!found)
-									System.out.println(" -- warning, found nothing");
+									;//;//System.out.println(" -- warning, found nothing");
 								else
-									System.out.println(" found <" + ((CoordinateFrame) sample.data).getRotation(null) + ">");
+									;//;//System.out.println(" found <" + ((CoordinateFrame) sample.data).getRotation(null) + ">");
 							}
 						}
 
@@ -169,12 +169,12 @@ public class T_ConvertFBX {
 							int removed = eliminateRun(runStart, runStop, n.animation);
 						}
 
-						// System.out.println("\n\n\n\n\n\n\n\n\n\n visited <"+n.name+">");
-						// System.out.println(" for marker <" + n.name + ">");
+						// ;//;//System.out.println("\n\n\n\n\n\n\n\n\n\n visited <"+n.name+">");
+						// ;//;//System.out.println(" for marker <" + n.name + ">");
 						// int num = n.animation.getNumSamples();
 						// for (int i = 0; i < num; i++) {
 						// CubicInterpolatorDynamic<CoordinateFrame>.Sample s = n.animation.getSample(i);
-						// System.out.println(" <" + s + ">");
+						// ;//;//System.out.println(" <" + s + ">");
 						// }
 						//
 						// DownsampleCubic<CoordinateFrame> down = new DownsampleCubic<CoordinateFrame>(new iMetric<CoordinateFrame, CoordinateFrame>(){
@@ -223,11 +223,11 @@ public class T_ConvertFBX {
 			final List<Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>> unlink = new ArrayList<Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>>();
 			for (AnimatedCoordinateSystem a : storage.coordinateSystemAnimationRoots)
 			{
-				System.out.println(" animted <"+a+">");
+				;//;//System.out.println(" animted <"+a+">");
 				new GraphNodeSearching.GraphNodeVisitor_depthFirst<AnimatedCoordinateSystem>(true) {
 					@Override
 					protected VisitCode visit(AnimatedCoordinateSystem n) {
-						System.out.println(" checking <"+n.name+">");
+						;//;//System.out.println(" checking <"+n.name+">");
 						if (n.name.toLowerCase().contains("optics") || n.name.contains("TRC")) {
 							if (n.getParents().size()>0)
 								unlink.add(new Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>((AnimatedCoordinateSystem) n.getParents().get(0), n));
@@ -238,18 +238,18 @@ public class T_ConvertFBX {
 			}
 			for(Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem> pp : unlink)
 			{
-				System.out.println(" deleting <"+pp+">");
+				;//;//System.out.println(" deleting <"+pp+">");
 				pp.left.removeChild(pp.right);
 			}
 		}
 
 		File f = new File(SystemProperties.getProperty("out", SystemProperties.getProperty("in") + ".xml"));
-		System.out.println(" saving xml ...");
+		;//;//System.out.println(" saving xml ...");
 		storage.save(p, f);
-		System.out.println(" loading it back in again to test ... ");
+		;//;//System.out.println(" loading it back in again to test ... ");
 		storage = storage.load(p, f);
-		System.out.println(" finished. Roots are:");
-		System.out.println(storage.meshes.keySet());
+		;//;//System.out.println(" finished. Roots are:");
+		;//;//System.out.println(storage.meshes.keySet());
 		System.exit(0);
 	}
 

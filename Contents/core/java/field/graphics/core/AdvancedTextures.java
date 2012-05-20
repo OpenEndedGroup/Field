@@ -155,7 +155,7 @@ public class AdvancedTextures extends BasicTextures {
 				dirty = true;
 
 			if (dirty) {
-				System.out.println(" pixel buffer is <" + pixelBuffer + ">");
+				;//System.out.println(" pixel buffer is <" + pixelBuffer + ">");
 				pixelBuffer.rewind();
 				glTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
 				// glTexSubImage2D(GL_TEXTURE_RECTANGLE,
@@ -251,7 +251,7 @@ public class AdvancedTextures extends BasicTextures {
 				textureId = BasicContextManager.getId(this);
 				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
 			}
-			// System.out.println(" binding texture <" + textureId +
+			// ;//System.out.println(" binding texture <" + textureId +
 			// "> <" + pixelBuffer + "> <" + in + ">");
 			assert (glGetError() == 0) : this.getClass().getName();
 			glBindTexture(this.textureTarget, textureId);
@@ -643,7 +643,7 @@ public class AdvancedTextures extends BasicTextures {
 		public void pre() {
 			glBindTexture(textureTarget, textureId);
 
-//			System.out.println(" -- binding to <" + textureId + "> <" + textureTarget + ">"+(GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE)-GL13.GL_TEXTURE0));
+//			;//System.out.println(" -- binding to <" + textureId + "> <" + textureTarget + ">"+(GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE)-GL13.GL_TEXTURE0));
 
 			try {
 
@@ -817,7 +817,7 @@ public class AdvancedTextures extends BasicTextures {
 
 		public int getTextureID() {
 
-			System.out.println(" returning texture id <" + textureId + ">");
+			;//System.out.println(" returning texture id <" + textureId + ">");
 			return textureId;
 		}
 	}
@@ -928,7 +928,7 @@ public class AdvancedTextures extends BasicTextures {
 
 			int[] textures = new int[1];
 
-			System.out.println(" setting up ");
+			;//System.out.println(" setting up ");
 
 			textures[0] = glGenTextures();
 			textureId = textures[0];

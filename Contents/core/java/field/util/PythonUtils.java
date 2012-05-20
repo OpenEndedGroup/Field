@@ -111,13 +111,13 @@ public class PythonUtils {
 		public T get() {
 			Reference<OKey> k = (Reference<OKey>) Key.internedKeys.get(name);
 
-			System.out.println(" looking up key <" + name + "> got <" + k + " / " + (k != null ? k.get() : null) + "> of class <"+k+">");
+			;//System.out.println(" looking up key <" + name + "> got <" + k + " / " + (k != null ? k.get() : null) + "> of class <"+k+">");
 
 			if (k == null || k.get() == null)
 				return def;
 
 			Object oo = k.get().evaluate();
-			System.out.println(" evaluating to <" + oo + ">");
+			;//System.out.println(" evaluating to <" + oo + ">");
 
 			return (T) oo;
 		}
@@ -381,26 +381,26 @@ public class PythonUtils {
 	}
 
 	public Object loadAsSerialization(String filename) {
-		System.out.println(" reading from <" + filename + ">");
+		;//System.out.println(" reading from <" + filename + ">");
 		try {
 			ObjectInputStream input = new ObjectInputStream(new BufferedInputStream(new FileInputStream(new File(filename)))) {
 				@Override
 				protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
 					String name = desc.getName();
-					System.out.println(" resolving <" + name + ">");
+					;//System.out.println(" resolving <" + name + ">");
 					try {
 						Class<?> c = Class.forName(name, false, Trampoline2.trampoline.getClassLoader());
-						System.out.println(" found <" + c + ">");
+						;//System.out.println(" found <" + c + ">");
 						return c;
 					} catch (ClassNotFoundException ex) {
-						System.out.println(" didn't find <" + name + ">");
+						;//System.out.println(" didn't find <" + name + ">");
 						return super.resolveClass(desc);
 					}
 				}
 			};
 			Object o = input.readObject();
 			input.close();
-			System.out.println(" read ");
+			;//System.out.println(" read ");
 			return o;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -439,7 +439,7 @@ public class PythonUtils {
 	}
 
 	public void persistAsSerialization(Object o, String filename) {
-		System.out.println(" writing to <" + filename + ">");
+		;//System.out.println(" writing to <" + filename + ">");
 		try {
 			ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))));
 			oos.writeObject(o);
@@ -449,7 +449,7 @@ public class PythonUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(" written ");
+		;//System.out.println(" written ");
 	}
 
 	public void persistAsXML(Object o, String filename) {
@@ -539,7 +539,7 @@ public class PythonUtils {
 
 	public iProvider<Object> providerObject(final PyFunction f, final CapturedEnvironment inside) {
 		
-		System.out.println(" creating provider object with environment <"+inside+">");
+		;//System.out.println(" creating provider object with environment <"+inside+">");
 		
 		return new iProvider<Object>() {
 			/** @see innards.provider.iFloatProvider#evaluate() */
@@ -1082,7 +1082,7 @@ public class PythonUtils {
 			Method m = System.class.getDeclaredMethod("getCallerClass");
 			m.setAccessible(true);
 			Class cc = (Class) m.invoke(null);
-			System.out.println(cc.getClassLoader());
+			;//System.out.println(cc.getClassLoader());
 			return cc;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

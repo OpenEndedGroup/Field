@@ -47,7 +47,7 @@ public class ExecutionMonitor implements Runnable {
 			at = System.currentTimeMillis();
 
 			if (inside && !outside) {
-				System.out.println(" down");
+				;//System.out.println(" down");
 				new MiscNative().noteDown_safe();
 				lastSpeculativeDown = System.currentTimeMillis();
 				inside = false;

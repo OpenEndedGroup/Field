@@ -219,7 +219,7 @@ public class Globals {
 
 					PythonInterface.getPythonInterface().print("Automatically executing " + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'");
 
-					System.out.println("auto executing '" + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'");
+					;//System.out.println("auto executing '" + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'");
 					// OutputInserts.printFoldStart("auto executing '"
 					// +
 					// known.getProperty(iVisualElement.name)
@@ -258,7 +258,7 @@ public class Globals {
 					PythonPlugin.toolsModule.__dict__.__setitem__("_self".intern(), Py.java2py(e));
 
 					PyObject now = PythonInterface.getPythonInterface().getLocalDictionary().__superfinditem__(name);
-					System.out.println(" executed and now we get <" + now + ">");
+					;//System.out.println(" executed and now we get <" + now + ">");
 					if (now == null) {
 						System.err.println(" warning: tried to execute <" + iVisualElement.name.get(known) + "> in order to declare a <" + name + "> but got nothing");
 						// remove

@@ -59,7 +59,7 @@ public class MinimalImageHistogram extends JComponent {
 					super.paintComponent(g);
 					localKey.rootSet(Component.this.state);
 					Component.this.state.set(getState());
-					System.out.println(" set state <" + Component.this.state + "> to <" + this + ">");
+					;//System.out.println(" set state <" + Component.this.state + "> to <" + this + ">");
 
 					Component.this.state.setOutput(this);
 				}
@@ -417,7 +417,7 @@ public class MinimalImageHistogram extends JComponent {
 				// float tx =
 				// performMapping((float)blackIn.hitBox.x,(float)greyIn.hitBox.x,(float)whiteIn.hitBox.x,
 				// (float)blackOut.hitBox.x,(float)greyOut.hitBox.x,(float)whiteOut.hitBox.x,rx);
-				// System.out.println("
+				// ;//System.out.println("
 				// remapped
 				// <"+rx+" ->
 				// "+tx+">");

@@ -154,7 +154,7 @@ public class Freehand3dUtils {
 
 		if (max-min<0.1) return;
 		
-		System.out.println(" max - min for line <"+(max-min)+">");
+		;//System.out.println(" max - min for line <"+(max-min)+">");
 		
 		List<Event> e = c.events;
 		Vector3 last = null;

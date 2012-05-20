@@ -31,10 +31,10 @@ public class HyperlinkedErrorMessage {
 			Matcher m = p.matcher(output);
 			boolean found = m.find();
 
-			System.out.println(" found ? <" + found + "> in <" + output + ">");
+			;//System.out.println(" found ? <" + found + "> in <" + output + ">");
 
 			while (found) {
-				System.out.println(" matched <" + m.group() + ">");
+				;//System.out.println(" matched <" + m.group() + ">");
 				outputTo.insertString(outputTo.getEndPosition().getOffset() - 1, output.substring(a, m.start()), es);
 
 				JComponent component = makeButton(m.group(1), m.group(2));

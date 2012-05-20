@@ -25,7 +25,7 @@ public class T_ConvertFBXInplace {
 
 		int take = SystemProperties.getIntProperty("take", Math.min(takes, 1));
 
-		System.out.println(" using take <" + take + ">");
+		;//;//System.out.println(" using take <" + take + ">");
 
 		if (take > takes - 1)
 			take = takes - 1;
@@ -48,14 +48,14 @@ public class T_ConvertFBXInplace {
 
 		double startSeconds = AbstractVisitor.convertJFBXTimeToSeconds(start);
 		double endSeconds = AbstractVisitor.convertJFBXTimeToSeconds(end);
-		System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
+		;//;//System.out.println(" take <" + take + "> runs from <" + startSeconds + "> <" + endSeconds + ">");
 
 		double fps = SystemProperties.getDoubleProperty("fps", 30);
 
 		int num = (int) ((endSeconds - startSeconds) * fps);
 
 		// num = 1;
-		System.out.println(" ?x? ");
+		;//;//System.out.println(" ?x? ");
 
 		if (num < 1)
 			num = 1;
@@ -66,7 +66,7 @@ public class T_ConvertFBXInplace {
 
 			long s = (long) (start + (num == 1 ? 0 : (i * (end - start) / (num - 1d))));
 
-			System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
+			;//;//System.out.println(" time <" + startSeconds + " -> " + BaseMath.toDP(AbstractVisitor.convertJFBXTimeToSeconds(s), 3) + " -> " + endSeconds);
 			main.acceptTime(s, markerAnimation.getVisitorForTime(t, (i == 0 ? treeMaker : null)));
 
 			if (i == 0) {
@@ -93,11 +93,11 @@ public class T_ConvertFBXInplace {
 
 			final List<Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>> unlink = new ArrayList<Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>>();
 			for (AnimatedCoordinateSystem a : storage.coordinateSystemAnimationRoots) {
-				System.out.println(" animted <" + a + ">");
+				;//;//System.out.println(" animted <" + a + ">");
 				new GraphNodeSearching.GraphNodeVisitor_depthFirst<AnimatedCoordinateSystem>(true) {
 					@Override
 					protected VisitCode visit(AnimatedCoordinateSystem n) {
-						System.out.println(" checking <" + n.name + ">");
+						;//;//System.out.println(" checking <" + n.name + ">");
 						if (n.name.toLowerCase().contains("optics") || n.name.contains("TRC")) {
 							if (n.getParents().size() > 0)
 								unlink.add(new Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem>((AnimatedCoordinateSystem) n.getParents().get(0), n));
@@ -107,7 +107,7 @@ public class T_ConvertFBXInplace {
 				}.visit(a);
 			}
 			for (Pair<AnimatedCoordinateSystem, AnimatedCoordinateSystem> pp : unlink) {
-				System.out.println(" deleting <" + pp + ">");
+				;//;//System.out.println(" deleting <" + pp + ">");
 				pp.left.removeChild(pp.right);
 			}
 		}

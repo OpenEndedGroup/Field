@@ -92,7 +92,7 @@ public class SkinningTools implements iUpdateable {
 				Pair<Double, Mesh> p2 = ((List<Pair<Double, Mesh>>) m).get(at1);
 				FloatBuffer v = e.getValue().vertex();
 
-				System.out.println(" at  " + at + " " + alpha);
+				;//;//System.out.println(" at  " + at + " " + alpha);
 
 				for (int i = 0; i < p1.right.vertexArray.length; i++) {
 					v.put(p1.right.vertexArray[i] * (1 - alpha) + alpha * p2.right.vertexArray[i]);
@@ -175,7 +175,7 @@ public class SkinningTools implements iUpdateable {
 
 		if (s.skinningInfo != null)
 			for (Map.Entry<String, SkinningInfo> e : s.skinningInfo.entrySet()) {
-				System.out.println(" constructing skins <" + e.getValue() + ">");
+				;//;//System.out.println(" constructing skins <" + e.getValue() + ">");
 				final SlowSkinner skinner = new SlowSkinner(localMap, e.getValue());
 				final iGeometry bindMesh = bindMeshes.get(e.getKey());
 				final iGeometry destMesh = meshes.get(e.getKey());
@@ -330,7 +330,7 @@ public class SkinningTools implements iUpdateable {
 
 					map.put(q, cf);
 				} else {
-					System.out.println("warning: no <" + e.getValue().boneNames[n] + ">");
+					;//;//System.out.println("warning: no <" + e.getValue().boneNames[n] + ">");
 				}
 				n++;
 			}

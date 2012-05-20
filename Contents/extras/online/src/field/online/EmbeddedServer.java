@@ -150,13 +150,13 @@ public class EmbeddedServer implements iUpdateable {
 						return new Response(HTTP_OK, null, ans);
 					}
 
-					System.out.println(" -- looking up handlers for <" + uri + ">");
+					;//;//System.out.println(" -- looking up handlers for <" + uri + ">");
 
 					synchronized (handlers) {
 
 						Collection<Handler> m = handlers.get(uri);
 
-						System.out.println(" handlers for <" + uri + "> are <" + m + "> <" + handlers + ">");
+						;//;//System.out.println(" handlers for <" + uri + "> are <" + m + "> <" + handlers + ">");
 						if (m != null) {
 							Iterator<Handler> mi = m.iterator();
 							Response r = null;
@@ -183,7 +183,7 @@ public class EmbeddedServer implements iUpdateable {
 				@Override
 				public void onMessage(final WebSocket arg0, String uri) {
 
-					System.out.println(" WSS :" + uri);
+					;//;//System.out.println(" WSS :" + uri);
 
 					Properties parms = new Properties();
 					int qmi = uri.indexOf('?');
@@ -198,7 +198,7 @@ public class EmbeddedServer implements iUpdateable {
 
 					Object id = parms.get("id");
 
-					System.out.println(" ID = " + id);
+					;//;//System.out.println(" ID = " + id);
 
 					if (id == null || ((String) id).trim().length() == 0) {
 						id = "" + (uniq++);
@@ -303,13 +303,13 @@ public class EmbeddedServer implements iUpdateable {
 						respond(arg0, ans);
 					}
 
-					System.out.println(" -- looking up handlers for <" + uri + ">");
+					;//;//System.out.println(" -- looking up handlers for <" + uri + ">");
 
 					synchronized (handlers) {
 
 						Collection<Handler> m = handlers.get(uri);
 
-						System.out.println(" handlers for <" + uri + "> are <" + m + "> <" + handlers + ">");
+						;//;//System.out.println(" handlers for <" + uri + "> are <" + m + "> <" + handlers + ">");
 						if (m != null) {
 							Iterator<Handler> mi = m.iterator();
 							Response r = null;
@@ -391,7 +391,7 @@ public class EmbeddedServer implements iUpdateable {
 	}
 
 	protected InputStream findAndRun(String replace, Properties parms) {
-		System.out.println(" find and run <" + replace + "> <" + parms + ">");
+		;//;//System.out.println(" find and run <" + replace + "> <" + parms + ">");
 		return null;
 	}
 
@@ -399,7 +399,7 @@ public class EmbeddedServer implements iUpdateable {
 
 	protected String findElementAndProperty(String nam, String prop) {
 
-		System.out.println(" root is <" + root + ">");
+		;//;//System.out.println(" root is <" + root + ">");
 
 		if (root == null)
 			return null;
@@ -457,20 +457,20 @@ public class EmbeddedServer implements iUpdateable {
 
 	protected Object getUpdateForID(Integer id) {
 
-		System.out.println(" get update for ID :" + id);
+		;//;//System.out.println(" get update for ID :" + id);
 
 		synchronized (contentsLock) {
 			Integer lastUpdate = cursors.get(id);
 			if (lastUpdate == null)
 				lastUpdate = 0;
 
-			System.out.println(" wait and collect for <" + id + " " + lastUpdate + " " + contents + ">");
+			;//;//System.out.println(" wait and collect for <" + id + " " + lastUpdate + " " + contents + ">");
 
 			Object r = waitAndCollect(id, lastUpdate, contents);
 
-			System.out.println(" wait and collect finished for <" + id + ">");
+			;//;//System.out.println(" wait and collect finished for <" + id + ">");
 
-			System.out.println(" returning <" + r + "> for <" + id + ">");
+			;//;//System.out.println(" returning <" + r + "> for <" + id + ">");
 
 			return r;
 		}
@@ -518,7 +518,7 @@ public class EmbeddedServer implements iUpdateable {
 			Coalesce c = stack.get(lastUpdate2);
 
 			cursors.put(id, lastUpdate2 + 1);
-			System.out.println(" id :" + id + " now at " + lastUpdate);
+			;//;//System.out.println(" id :" + id + " now at " + lastUpdate);
 
 			if (c.contents != null)
 				return c.contents;

@@ -127,7 +127,7 @@ public class ContextualHelp {
 			@Override
 			public void handleEvent(Event event) {
 
-				System.out.println(" got mouse move over <" + w + "> <"+name+">");
+				;//System.out.println(" got mouse move over <" + w + "> <"+name+">");
 
 				c.inContext = duration;
 			}
@@ -149,7 +149,7 @@ public class ContextualHelp {
 						c.inContext = duration;
 				}
 
-				System.out.println(" got mouse move over <" + w + ">");
+				;//System.out.println(" got mouse move over <" + w + ">");
 
 			}
 		});

@@ -879,7 +879,7 @@ public class TopologySearching {
 				visitFringe(currentFringe);
 
 			} while (currentFringe.size() > 0 && (maxDepth == -1 || m < maxDepth));
-			System.out.println(" exhaused fringe ");
+			;//System.out.println(" exhaused fringe ");
 		}
 
 		abstract protected VisitCode visit(T c);

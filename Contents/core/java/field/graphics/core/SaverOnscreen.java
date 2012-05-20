@@ -97,9 +97,9 @@ public class SaverOnscreen {
 
 			storage = newStorage();
 		} else {
-			System.out.println("state opf workers: ");
+			;//System.out.println("state opf workers: ");
 			for(FutureTask t : workers)
-				System.out.println(t.isDone());
+				;//System.out.println(t.isDone());
 
 			FutureTask<ByteBuffer> w = workers.remove(0);
 			try {
@@ -187,7 +187,7 @@ public class SaverOnscreen {
 				JAI.create("encode", pb);
 
 
-				System.out.println(" thread <"+Thread.currentThread()+"> saved <"+filename+">");
+				;//System.out.println(" thread <"+Thread.currentThread()+"> saved <"+filename+">");
 
 				return storage;
 			}

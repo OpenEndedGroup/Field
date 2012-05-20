@@ -260,7 +260,7 @@ public class FreehandTool3d_tweak implements iSimpleSelectionTool {
 
 	protected void handleNewRawSplineData(iVisualElement v, RawSplineData data) {
 		rawSplineData.addToList(ArrayList.class, v, data);
-		System.out.println(" adding new raw spline data to element <" + rawSplineData.get(v) + ">");
+		;//System.out.println(" adding new raw spline data to element <" + rawSplineData.get(v) + ">");
 
 		data.elementFrameAtDrawTime = v.getFrame(null);
 
@@ -279,7 +279,7 @@ public class FreehandTool3d_tweak implements iSimpleSelectionTool {
 		// try {
 		// NSEvent v = NSApplication.sharedApplication().currentEvent();
 		// float p = v.pressure();
-		// System.out.println("current event: " + v+
+		// ;//System.out.println("current event: " + v+
 		// " / "+p+" "+v.tilt());
 		// } catch (Throwable t) {
 		// }

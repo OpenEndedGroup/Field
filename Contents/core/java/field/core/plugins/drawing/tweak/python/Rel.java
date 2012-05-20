@@ -19,7 +19,7 @@ public class Rel implements iCoordTransformation{
 	
 	public void transformNode(float selectedAmount, SelectedVertex vertex) {
 		
-		System.out.println("\nInside transformnode for Rel---------------------------");
+		;//System.out.println("\nInside transformnode for Rel---------------------------");
 		
 		if (previousControl!=null)
 			vertex.setPositionFor(vertex.onLine, SubSelection.previousControl, vertex.positionFor(SubSelection.previousControl, null).add(new Vector2().interpolate(new Vector2(), previousControl, selectedAmount)));
@@ -27,7 +27,7 @@ public class Rel implements iCoordTransformation{
 			vertex.setPositionFor(vertex.onLine, SubSelection.postion, vertex.positionFor(SubSelection.postion, null).add(new Vector2().interpolate(new Vector2(), position, selectedAmount)));
 		if (nextControl!=null)
 			vertex.setPositionFor(vertex.onLine, SubSelection.nextControl, vertex.positionFor(SubSelection.nextControl, null).add(new Vector2().interpolate(new Vector2(), nextControl, selectedAmount)));
-		System.out.println("Outside transformnode for Rel---------------------------");
+		;//System.out.println("Outside transformnode for Rel---------------------------");
 	}
 
 }

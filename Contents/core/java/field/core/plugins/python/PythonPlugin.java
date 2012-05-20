@@ -408,7 +408,7 @@ public class PythonPlugin implements iPlugin {
 	static public Object getAttr(iVisualElement from, iVisualElement to, String name) {
 		name = externalPropertyNameToInternalName(name);
 
-		// System.out.println(" get attr <"+from+" "+to+" "+name+">");
+		// ;//System.out.println(" get attr <"+from+" "+to+" "+name+">");
 
 		VisualElementProperty<Object> n = new iVisualElement.VisualElementProperty<Object>(name);
 		Ref<Object> r = new Ref<Object>(null);
@@ -417,7 +417,7 @@ public class PythonPlugin implements iPlugin {
 		forward.getProperty.getProperty(to, n, r);
 		topology.end(to);
 
-		// System.out.println(" returning <"+r.get()+">");
+		// ;//System.out.println(" returning <"+r.get()+">");
 		return r.get();
 	}
 
@@ -651,7 +651,7 @@ public class PythonPlugin implements iPlugin {
 
 	protected void deleteElement(iVisualElement element) {
 
-		System.out.println(" delete element <" + element.getUniqueID() + "> database is <" + database + ">");
+		;//System.out.println(" delete element <" + element.getUniqueID() + "> database is <" + database + ">");
 
 		database.remove(element.getUniqueID());
 		Promise p = promises.get(element);

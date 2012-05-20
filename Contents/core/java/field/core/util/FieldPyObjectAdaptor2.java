@@ -53,7 +53,7 @@ public class FieldPyObjectAdaptor2 {
 	public static void initialize() {
 		if (!initialized) {
 
-			System.out.println(" initializing adaptor2 ");
+			;//System.out.println(" initializing adaptor2 ");
 
 			ExtensiblePyObjectAdapter a = Py.getAdapter();
 			fieldPyObjectAdaptor = new FieldPyObjectAdaptor2().install(a);
@@ -513,7 +513,7 @@ public class FieldPyObjectAdaptor2 {
 		// @Override
 		// public PyObject __call__(PyObject o) {
 		//
-		// System.out.println(" inside coerce")
+		// ;//System.out.println(" inside coerce")
 		//
 		// return Py.None;
 		// }

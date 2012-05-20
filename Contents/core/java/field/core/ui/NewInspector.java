@@ -126,7 +126,7 @@ public class NewInspector {
 
 			@Override
 			public void setValue(String s) {
-				System.out.println(" set string to <" + s + ">");
+				;//System.out.println(" set string to <" + s + ">");
 			}
 
 			@Override
@@ -151,7 +151,7 @@ public class NewInspector {
 
 			@Override
 			public void setValue(Integer s) {
-				System.out.println(" set value to <" + s + ">");
+				;//System.out.println(" set value to <" + s + ">");
 			}
 
 			@Override
@@ -325,7 +325,7 @@ public class NewInspector {
 			textField.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					System.out.println(" mouse clicked in action control");
+					;//System.out.println(" mouse clicked in action control");
 					super.mouseClicked(e);
 					actionPerformed(null);
 				}
@@ -338,7 +338,7 @@ public class NewInspector {
 
 		public void actionPerformed(ActionEvent e) {
 
-			System.out.println(" action performed here <" + e + ">");
+			;//System.out.println(" action performed here <" + e + ">");
 
 			i.getValue().apply();
 		}
@@ -419,7 +419,7 @@ public class NewInspector {
 
 				@Override
 				protected void processMouseEvent(MouseEvent e) {
-					System.out.println(" mouse event should precipitate a cd :"+e);
+					;//System.out.println(" mouse event should precipitate a cd :"+e);
 					if (e.getID() == e.MOUSE_PRESSED && e.getButton() == 1) {
 
 						Point x = e.getLocationOnScreen();
@@ -431,7 +431,7 @@ public class NewInspector {
 							color = new Vector4(0.5, 0.5, 0.5, 0);
 						
 						
-						System.out.println(" here we go for a color dialog ....... ");
+						;//System.out.println(" here we go for a color dialog ....... ");
 
 						org.eclipse.swt.widgets.ColorDialog d = new org.eclipse.swt.widgets.ColorDialog(GLComponentWindow.getCurrentWindow(null).getFrame(), SWT.PRIMARY_MODAL);
 						d.setRGB(new RGB((int) (Math.max(0, Math.min(255, 255 * color.x))), (int) (Math.max(0, Math.min(255, 255 * color.y))), (int) (Math.max(0, Math.min(255, 255 * color.z)))));

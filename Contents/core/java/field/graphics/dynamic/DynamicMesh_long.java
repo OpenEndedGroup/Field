@@ -113,12 +113,12 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 		if (openCount == 0) {
 
 			if (!dirty) {
-				// System.out.println(" cached mesh is clean ");
+				// ;//System.out.println(" cached mesh is clean ");
 				if (this.getUnderlyingGeometry() instanceof TriangleMesh)
 					((TriangleMesh) this.getUnderlyingGeometry()).forceClean();
 
 			}
-			// System.out.println(" limits are <" + vertexCursor +
+			// ;//System.out.println(" limits are <" + vertexCursor +
 			// "> <" + triangleCursor + ">");
 
 			if (basis instanceof BasicGeometry.TriangleMesh) {
@@ -165,7 +165,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 		dirty = true;
 
 		if (copy == null) {
-			// System.out.println(" new hashed copy");
+			// ;//System.out.println(" new hashed copy");
 			copy = new HashedCopy();
 		}
 
@@ -173,7 +173,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 			if (subMesh.copy != null) {
 				if (!subMesh.copy.copyInto(copy, vertexCursor)) {
 
-					// System.out.println(" -- I would have cached -- ");
+					// ;//System.out.println(" -- I would have cached -- ");
 					iWouldHaveCached = true;
 
 					// debugMeshCaching(subMesh,
@@ -182,7 +182,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 					vertexCursor += subMesh.delegate.vertexCursor;
 					triangleCursor += subMesh.delegate.triangleCursor;
 					//
-					// System.out.println(" cursor now "+vertexCursor+" "+triangleCursor+">");
+					// ;//System.out.println(" cursor now "+vertexCursor+" "+triangleCursor+">");
 					//
 					// // if (this.getUnderlyingGeometry()
 					// // instanceof TriangleMesh)
@@ -254,17 +254,17 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 			for (int i = 0; i < r; i++) {
 				float f1 = cachedVertexBuffer.get();
 				float f2 = from.get();
-				System.out.println((f1 != f2 ? "!!!!" : "") + f1 + " " + f2);
+				;//System.out.println((f1 != f2 ? "!!!!" : "") + f1 + " " + f2);
 			}
 
-			System.out.println(" -- triangle -- ");
+			;//System.out.println(" -- triangle -- ");
 
 			int num = triangle.remaining();
 			for (int i = 0; i < num; i++) {
 				int t1 = cachedTriangleBuffer.get();
 				int t2 = (triangle.get() - offset);
 
-				System.out.println((t1 != t2 ? "!!!!" : "") + t1 + " " + t2);
+				;//System.out.println((t1 != t2 ? "!!!!" : "") + t1 + " " + t2);
 
 			}
 		} catch (Exception e) {
@@ -305,7 +305,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 
 		dirty = true;
 
-		// System.out.println(" about to copy <"+vertex.limit()+"> <"+triangle.limit()+">");
+		// ;//System.out.println(" about to copy <"+vertex.limit()+"> <"+triangle.limit()+">");
 
 		int offset = (oldVertexCursor - vertexCursor);
 
@@ -313,7 +313,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 		cachedVertexBuffer.position(vertexCursor * 3);
 		int originalVertexCursor = vertexCursor;
 
-		// System.out.println(cachedVertexBuffer + " " + vertex);
+		// ;//System.out.println(cachedVertexBuffer + " " + vertex);
 
 		safePut(cachedVertexBuffer, vertex);
 		// cachedVertexBuffer.put(vertex);
@@ -378,7 +378,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 				// for (int i = 0; i < a; i++) {
 				// float x = from.get(s + i);
 				// float y = to.get(s2 + i);
-				// System.out.println((x!=y ?
+				// ;//System.out.println((x!=y ?
 				// "!!!!!!!!!!!!!!!!!! " : "")+x + " " + y);
 				// }
 			} else

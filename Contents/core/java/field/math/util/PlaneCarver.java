@@ -18,10 +18,10 @@ public class PlaneCarver {
 
 		while (true) {
 			
-			System.out.println(" ransac of <"+pop.size()+"> <"+maxMembership+">");
+			;//System.out.println(" ransac of <"+pop.size()+"> <"+maxMembership+">");
 			PlaneRansac ran = new PlaneRansac(new ArrayList<Vector3>(pop), inside, numInterations, maxMembership);
 			if (ran.bestModel != null) {
-				System.out.println(" extracted <"+ran.bestModel.points.size()+">");
+				;//System.out.println(" extracted <"+ran.bestModel.points.size()+">");
 				models.add(ran.bestModel);
 				pop.removeAll(ran.bestModel.points);
 				maxMembership = pop.size();

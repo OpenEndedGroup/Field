@@ -137,7 +137,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
     public boolean drawImage(Image img, int x, int y,
                              int width, int height,
                              ImageObserver observer) {
-        System.out.println("drawImage");
+        ;//System.out.println("drawImage");
         return true;
     }
 
@@ -169,7 +169,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      * @see         java.awt.Graphics#create()
      */
     public void dispose(){
-        System.out.println("dispose");
+        ;//System.out.println("dispose");
     }
 
     /**
@@ -187,7 +187,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      * @see #setComposite(java.awt.Composite)
      */
     public void draw(Shape s){
-        System.out.println("draw(Shape)");
+        ;//System.out.println("draw(Shape)");
     }
 
     /**
@@ -210,7 +210,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      */
     public void drawRenderedImage(RenderedImage img,
                                   AffineTransform xform) {
-        System.out.println("drawRenderedImage");
+        ;//System.out.println("drawRenderedImage");
     }
 
 
@@ -244,7 +244,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      */
      public void drawRenderableImage(RenderableImage img,
                                      AffineTransform xform){
-         System.out.println("drawRenderableImage");
+         ;//System.out.println("drawRenderableImage");
      }
 
     /**
@@ -272,7 +272,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      * @see #setClip(Shape)
      */
     public void drawString(String s, float x, float y){
-        System.out.println("drawString(String)");
+        ;//System.out.println("drawString(String)");
     }
 
     /**
@@ -326,7 +326,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      * <code>Graphics2D</code>.
      */
     public GraphicsConfiguration getDeviceConfiguration(){
-        System.out.println("getDeviceConviguration");
+        ;//System.out.println("getDeviceConviguration");
         return null;
     }
 
@@ -370,7 +370,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      * @param     c1 the XOR alternation color
      */
     public void setXORMode(Color c1){
-        System.out.println("setXORMode");
+        ;//System.out.println("setXORMode");
     }
 
 
@@ -395,7 +395,7 @@ public class DefaultGraphics2D extends AbstractGraphics2D {
      */
     public void copyArea(int x, int y, int width, int height,
                          int dx, int dy){
-        System.out.println("copyArea");
+        ;//System.out.println("copyArea");
     }
 
 }

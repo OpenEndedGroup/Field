@@ -90,10 +90,10 @@ public class HGTools {
 			}
 
 			String shortname = filenameInRepository.replaceAll(vd + "/", "");
-			System.out.println(" shortname is <" + shortname + ">");
-			// System.out.println("vd<" + vd + "> <" +
+			;//System.out.println(" shortname is <" + shortname + ">");
+			// ;//System.out.println("vd<" + vd + "> <" +
 			// filenameInRepository + "> <" + shortname);
-			// System.out.println(" all text <" +
+			// ;//System.out.println(" all text <" +
 			// allText.substring(0, 1000) + ">");
 
 			while (at < allText.length()) {
@@ -107,7 +107,7 @@ public class HGTools {
 					VersionNode already = foundSoFar.get(Long.parseLong(rev_matcher.group(1)));
 					files_matcher.find();
 					String found = files_matcher.group(1);
-					// System.out.println(at + " files:" +
+					// ;//System.out.println(at + " files:" +
 					// found + " " + shortname + "(" +
 					// rev_matcher.group(1) + ")");
 
@@ -127,14 +127,14 @@ public class HGTools {
 						if (m.find()) {
 							foundSoFar.put(Long.parseLong(rev_matcher.group(1)), n);
 							n.revision = Long.parseLong(rev_matcher.group(1));
-							// System.out.println(" we've been copied to <"
+							// ;//System.out.println(" we've been copied to <"
 							// + m.group(1) +
 							// ">, building that history ");
 							List<VersionNode> copyTargetHistory = new HGLog(vd + "/" + m.group(1), allText).getVersionNodes(foundSoFar);
 							VersionNode prev = null;
 							for (VersionNode q : copyTargetHistory) {
 
-								// System.out.println(" parallel history has node <"
+								// ;//System.out.println(" parallel history has node <"
 								// + q +
 								// ">\n we're looking for <"
 								// +
@@ -148,7 +148,7 @@ public class HGTools {
 										prev.copiedFromFilename = filename;
 									}
 
-									// System.out.println(" connected <"
+									// ;//System.out.println(" connected <"
 									// + n +
 									// "> to <"
 									// +
@@ -201,12 +201,12 @@ public class HGTools {
 						desc_matcher.find();
 						at = desc_matcher.end() + 1;
 
-						// System.out.println(" already seen <"
+						// ;//System.out.println(" already seen <"
 						// + rev_matcher.group(1) +
 						// ">");
 						// if (at < allText.length() +
 						// 50)
-						// System.out.println(" string starts <"
+						// ;//System.out.println(" string starts <"
 						// + allText.substring(at, at +
 						// 40) + ">");
 						nodes.add(already);
@@ -217,7 +217,7 @@ public class HGTools {
 						boolean f2 = date_matcher.find();
 						assert f2;
 						// try {
-						// System.out.println(" parsing date <"+date_matcher.group(1)+">");
+						// ;//System.out.println(" parsing date <"+date_matcher.group(1)+">");
 
 						// n.date = new
 						// SimpleDateFormat("yyyy-MM-dd HH:mm Z").parse(date_matcher.group(1));

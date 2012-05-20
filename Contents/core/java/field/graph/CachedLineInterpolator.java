@@ -381,7 +381,7 @@ public class CachedLineInterpolator {
 			};
 		}
 
-		System.out.println(" warning: cannot interpolate " + key + " (" + left + " -> " + right + ")");
+		;//System.out.println(" warning: cannot interpolate " + key + " (" + left + " -> " + right + ")");
 
 		return null;
 
@@ -452,7 +452,7 @@ public class CachedLineInterpolator {
 			};
 		}
 
-		System.out.println(" warning: cannot interpolate " + key + " (" + left + " -> " + right + ")");
+		;//System.out.println(" warning: cannot interpolate " + key + " (" + left + " -> " + right + ")");
 
 		return null;
 

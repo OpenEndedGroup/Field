@@ -279,7 +279,7 @@ public class BasicTextures {
 			//
 			// for (int i = 0; i < b.capacity(); i++) {
 			// if (i % 4 == 0)
-			// System.out.println();
+			// ;//System.out.println();
 			// System.out.print(b.get() + " ");
 			// }
 			//
@@ -388,12 +388,12 @@ public class BasicTextures {
 			// textureParams
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
+			;//System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
 			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
+			;//System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
 			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
@@ -437,7 +437,7 @@ public class BasicTextures {
 		public ExplicitMipTexture(String... name) {
 			super(name[0]);
 
-			System.out.println(" ExplicitMipTexture constructor");
+			;//System.out.println(" ExplicitMipTexture constructor");
 
 			textureName = name;
 			use_gl_texture_rectangle_ext(false);
@@ -463,11 +463,11 @@ public class BasicTextures {
 		public boolean loadImage(String... name) {
 			image = new ByteImage[name.length];
 
-			System.out.println(" ExplicitMipTexture <" + name.length + ">");
+			;//System.out.println(" ExplicitMipTexture <" + name.length + ">");
 			for (int i = 0; i < name.length; i++) {
 				image[i] = new ByteImage(name[i]);
 
-				System.out.println(" loaded <" + image[i] + "> <" + name[i] + ">");
+				;//System.out.println(" loaded <" + image[i] + "> <" + name[i] + ">");
 
 				if (i == 0) {
 					pixelsWide = image[0].pixelsWide();
@@ -500,7 +500,7 @@ public class BasicTextures {
 		@Override
 		protected void pre() {
 
-			System.out.println(" pre for ExplicitMipTexture");
+			;//System.out.println(" pre for ExplicitMipTexture");
 
 			assert !deallocated;
 			assert (glGetError() == 0) : this.getClass().getName();
@@ -531,7 +531,7 @@ public class BasicTextures {
 		@Override
 		protected void setup() {
 
-			System.out.println(" setup for ExplicitMipTexture <" + valid + ">");
+			;//System.out.println(" setup for ExplicitMipTexture <" + valid + ">");
 
 			assert valid;
 			if (!valid)
@@ -556,9 +556,9 @@ public class BasicTextures {
 			// glTexParameteri(GL_TEXTURE_2D,
 			// GL_GENERATE_MIPMAP_SGIS, 1);
 
-			System.out.println(" binding explicit mip texture");
+			;//System.out.println(" binding explicit mip texture");
 			for (int i = 0; i < image.length; i++) {
-				System.out.println(" level <" + i + "> is <" + image[i].getImage() + "> <" + (pixelsWide >> i) + " x " + (pixelsHigh >> i) + "> target <" + textureTarget + "> <" + GL_TEXTURE_2D + ">");
+				;//System.out.println(" level <" + i + "> is <" + image[i].getImage() + "> <" + (pixelsWide >> i) + " x " + (pixelsHigh >> i) + "> target <" + textureTarget + "> <" + GL_TEXTURE_2D + ">");
 				glTexImage2D(textureTarget, i, GL_RGBA, pixelsWide >> i, pixelsHigh >> i, 0, GL12.GL_BGRA, GL_UNSIGNED_INT_8_8_8_8, image[i].getImage());
 			}
 			// glTexParameteri(textureTarget,
@@ -568,7 +568,7 @@ public class BasicTextures {
 			// textureParams
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
+			;//System.out.println(" tex parameter i <" + textureTarget + "> <" + gl_texture_mag_filter + "> <" + gl_texture_min_filter + ">");
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
@@ -625,7 +625,7 @@ public class BasicTextures {
 
 		@Override
 		protected void post() {
-			// System.out.println(unit+" ))");
+			// ;//System.out.println(unit+" ))");
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE0 + getUnit());
 			assert glGetError() == 0;
@@ -640,7 +640,7 @@ public class BasicTextures {
 
 		@Override
 		protected void pre() {
-			// System.out.println("(("+unit);
+			// ;//System.out.println("(("+unit);
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE0 + getUnit());
 			assert glGetError() == 0;
@@ -711,7 +711,7 @@ public class BasicTextures {
 			else
 				left = this.right;
 
-			// System.out.println(unit+" ))");
+			// ;//System.out.println(unit+" ))");
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE0 + getUnit());
 			assert glGetError() == 0;
@@ -731,7 +731,7 @@ public class BasicTextures {
 				left = this.left;
 			else
 				left = this.right;
-			// System.out.println("(("+unit);
+			// ;//System.out.println("(("+unit);
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE0 + getUnit());
 			assert glGetError() == 0;

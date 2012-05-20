@@ -208,7 +208,7 @@ public class BaseTextEditor2 {
 
 	public BaseTextEditor2() {
 
-		// System.out.println(" window is <"+GLComponentWindow.lastCreatedWindow);
+		// ;//System.out.println(" window is <"+GLComponentWindow.lastCreatedWindow);
 
 		// todo ÔøΩ pass in parent
 
@@ -318,7 +318,7 @@ public class BaseTextEditor2 {
 				// super.drawBackground(gc, x, y, width,
 				// height);
 
-				System.out.println(" toolbar spacer is <" + this.getBounds() + ">");
+				;//System.out.println(" toolbar spacer is <" + this.getBounds() + ">");
 			}
 		};
 		c.setBackground(ToolBarFolder.background);
@@ -350,7 +350,7 @@ public class BaseTextEditor2 {
 			public void paste() {
 
 				String clipContents = getClipContents();
-				System.out.println(" inside paste <" + clipAtCopy + "> <" + clipContents + ">");
+				;//System.out.println(" inside paste <" + clipAtCopy + "> <" + clipContents + ">");
 
 				if (clipAtCopy != null && clipAtCopy.equals(clipContents)) {
 					System.out.print("local paste" + clipAtCopy);
@@ -367,7 +367,7 @@ public class BaseTextEditor2 {
 				super.paste();
 				String t2 = ed.getText();
 
-				System.out.println(" text before <" + t1 + "> text after <" + t2 + ">");
+				;//System.out.println(" text before <" + t1 + "> text after <" + t2 + ">");
 			}
 
 			protected String getClipContents() {
@@ -378,7 +378,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void cut() {
-				System.out.println(" cut called ");
+				;//System.out.println(" cut called ");
 				super.cut();
 				clipAtCopy = getClipContents();
 				localCopyRewritten = localCopy(clipAtCopy);
@@ -386,7 +386,7 @@ public class BaseTextEditor2 {
 
 			public void copy() {
 				super.copy();
-				System.out.println(" copy called ");
+				;//System.out.println(" copy called ");
 				clipAtCopy = getClipContents();
 
 				localCopyRewritten = localCopy(clipAtCopy);
@@ -394,7 +394,7 @@ public class BaseTextEditor2 {
 
 			public void copy(int i) {
 				super.copy(i);
-				System.out.println(" copy called <" + i + ">");
+				;//System.out.println(" copy called <" + i + ">");
 			}
 
 		};
@@ -423,7 +423,7 @@ public class BaseTextEditor2 {
 
 				if (!r.equals(ro) && tick == 0) {
 
-					System.out.println(" forcing redraw of text editor, we have a changed ro :" + r + " " + ro);
+					;//System.out.println(" forcing redraw of text editor, we have a changed ro :" + r + " " + ro);
 
 					// ed.redraw((int)r.x, (int)r.y,
 					// (int)r.w, (int)r.h, true);
@@ -480,7 +480,7 @@ public class BaseTextEditor2 {
 					event.doit = false;
 				} else if ((event.keyCode == SWT.ARROW_UP) && (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(1, true);
-					System.out.println(" scrolling ");
+					;//System.out.println(" scrolling ");
 					event.doit = false;
 				} else if ((event.keyCode == SWT.ARROW_DOWN) && (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(-1, true);
@@ -513,7 +513,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (textDecoration.known.size() > 0) {
-					System.out.println(" redrawing everything ");
+					;//System.out.println(" redrawing everything ");
 					ed.redrawRange(0, ed.getText().length(), true);
 				}
 
@@ -550,7 +550,7 @@ public class BaseTextEditor2 {
 					paintSearchString(e.gc, searchString);
 
 				for (Control c : ed.getChildren()) {
-					// System.out.println(" child control of styled text is <"+c+">");
+					// ;//System.out.println(" child control of styled text is <"+c+">");
 					Object d = c.getData();
 					if (d instanceof Nub) {
 						JComponent component = ((Nub) d).getComponent();
@@ -700,7 +700,7 @@ public class BaseTextEditor2 {
 
 					ranges.add(s);
 
-					// System.out.println(" style <" +
+					// ;//System.out.println(" style <" +
 					// text.substring(left)
 					// + " -> " + s + ">");
 
@@ -711,7 +711,7 @@ public class BaseTextEditor2 {
 				for (int i = 0; i < ranges.size(); i++)
 					event.styles[i] = ranges.get(i);
 
-				// System.out.println(" cache miss ");
+				// ;//System.out.println(" cache miss ");
 
 				if (!doNotCache)
 					cache.put(lr, event.styles);
@@ -851,7 +851,7 @@ public class BaseTextEditor2 {
 	}
 
 	protected void getStyleForEmbeddedString(StyleRange s, String substring) {
-		System.out.println(" get style for embedded string <" + s + " " + substring + ">");
+		;//System.out.println(" get style for embedded string <" + s + " " + substring + ">");
 	}
 
 	protected void paintRulerNow(GC gc) {
@@ -932,7 +932,7 @@ public class BaseTextEditor2 {
 			// if (items.size() > 0) {
 			// Rectangle ca = edOut.getClientArea();
 			// actionsOutput.setEnabled(true);
-			// System.out.println(" setting bounds <" + ca + ">");
+			// ;//System.out.println(" setting bounds <" + ca + ">");
 			// actionsOutput.setBounds(ca.width - 30 + ca.x, 5 +
 			// ca.y,
 			// 25, 25);
@@ -940,7 +940,7 @@ public class BaseTextEditor2 {
 			// } else {
 			// Rectangle ca = edOut.getClientArea();
 			// actionsOutput.setEnabled(false);
-			// System.out.println(" setting bounds <" + ca + ">");
+			// ;//System.out.println(" setting bounds <" + ca + ">");
 			// actionsOutput.setBounds(ca.width - 30 + ca.y, 5 +
 			// ca.y,
 			// 25, 25);
@@ -1024,7 +1024,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (!Character.isISOControl(arg0.character)) {
-					System.out.println(" inserting character ");
+					;//System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					completionHandle(publicOnly);
@@ -1037,7 +1037,7 @@ public class BaseTextEditor2 {
 					return true;
 				}
 
-				System.out.println(" what is an option key <" + arg0 + "> <" + arg0.keyCode + ">");
+				;//System.out.println(" what is an option key <" + arg0 + "> <" + arg0.keyCode + ">");
 				if (arg0.keyCode == SWT.ALT) {
 					completionHandle(!publicOnly);
 					return true;
@@ -1055,7 +1055,7 @@ public class BaseTextEditor2 {
 				// menu.setVisible(false);
 				// if (arg0 != null)
 				// try {
-				// System.out.println(" sending event <" + arg0
+				// ;//System.out.println(" sending event <" + arg0
 				// + ">");
 				// ReflectionTools.findFirstMethodCalled(JEditorPane.class,
 				// "processKeyEvent").invoke(ed, new Object[] {
@@ -1091,7 +1091,7 @@ public class BaseTextEditor2 {
 			if (c == null)
 				continue;
 
-			System.out.println(" text is <" + c + " " + c.text + ">");
+			;//System.out.println(" text is <" + c + " " + c.text + ">");
 
 			if (c.optionalDocumentation != null && optionalYes) {
 				insert.put(c + "_optional", new Documentation("\n\n" + c.optionalDocumentation));
@@ -1110,7 +1110,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				System.out.println(" forcing focus <" + ed + ">");
+				;//System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
@@ -1257,7 +1257,7 @@ public class BaseTextEditor2 {
 			@Override
 			public boolean update(Event arg0) {
 				if (!Character.isISOControl(arg0.character)) {
-					System.out.println(" inserting character ");
+					;//System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					completionQuotedHandle();
@@ -1285,7 +1285,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				System.out.println(" forcing focus <" + ed + ">");
+				;//System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
@@ -1426,7 +1426,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (!Character.isISOControl(arg0.character)) {
-					System.out.println(" inserting character ");
+					;//System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					importHandle();
@@ -1448,7 +1448,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				System.out.println(" forcing focus <" + ed + ">");
+				;//System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
@@ -1571,7 +1571,7 @@ public class BaseTextEditor2 {
 			}
 		});
 
-		System.out.println(" popping up <" + items + "> at <" + arg0.x + " " + arg0.y + ">");
+		;//System.out.println(" popping up <" + items + "> at <" + arg0.x + " " + arg0.y + ">");
 
 		BetterPopup m = new SmallMenu().createMenu(items, frame, null);
 		m.show(Launcher.display.map(ed, frame, new Point(arg0.x, arg0.y)));
@@ -1579,7 +1579,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				System.out.println(" -- done ? ");
+				;//System.out.println(" -- done ? ");
 			}
 		};
 

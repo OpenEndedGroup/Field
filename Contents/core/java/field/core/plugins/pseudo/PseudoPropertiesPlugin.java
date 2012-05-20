@@ -62,7 +62,7 @@ public class PseudoPropertiesPlugin extends BaseSimplePlugin {
 
 		public Object getItem(Object object) {
 
-			System.out.println(" get item in finder called <" + object + ">");
+			;//System.out.println(" get item in finder called <" + object + ">");
 
 			if (object == null || object == Py.None)
 				return all;

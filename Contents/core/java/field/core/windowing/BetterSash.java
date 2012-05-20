@@ -51,12 +51,12 @@ public class BetterSash {
 
 				@Override
 				public void controlMoved(ControlEvent e) {
-					System.out.println(" sash moved :" + e);
+					;//System.out.println(" sash moved :" + e);
 				}
 
 				@Override
 				public void controlResized(ControlEvent e) {
-					System.out.println(" sash resized:" + e);
+					;//System.out.println(" sash resized:" + e);
 
 				}
 			});

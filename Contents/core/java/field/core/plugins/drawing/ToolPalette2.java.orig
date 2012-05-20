@@ -44,7 +44,7 @@ public class ToolPalette2 {
 		if (toolBarPaletteInspector.getShell() != null) {
 			toolBarPaletteInspector.getShell().setText("Mouse tools");
 			toolBarPaletteInspector.getShell().open();
-			System.out.println(" tool palette 2 is open and on screen? <" + toolBarPaletteInspector.getShell().getBounds() + ">");
+			;//System.out.println(" tool palette 2 is open and on screen? <" + toolBarPaletteInspector.getShell().getBounds() + ">");
 		}
 
 	}

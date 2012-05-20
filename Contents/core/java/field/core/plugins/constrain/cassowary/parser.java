@@ -206,16 +206,16 @@ class CUP$parser$actions {
 			String a = (String) ((Symbol) CUP$parser$stack.elementAt(CUP$parser$top - 0)).value;
 			// look up variable first
 			if (parser.m_debug_parse) {
-				System.out.println("Grammar found variable: <" + a + ">");
+				;//System.out.println("Grammar found variable: <" + a + ">");
 			}
 			if (parser.m_variable_name_object_hash == null) {
 				System.err.println("	Don't have hash.");
 			}
 			if (parser.m_debug_parse) {
 				if (!parser.m_variable_name_object_hash.containsKey(a)) {
-					System.out.println("	Unrecognized variable parsed: <" + a + ">");
+					;//System.out.println("	Unrecognized variable parsed: <" + a + ">");
 				} else {
-					System.out.println("	Found variable: <" + a + "> in hash.");
+					;//System.out.println("	Found variable: <" + a + "> in hash.");
 				}
 			}
 			ClVariable variable_object = parser.m_variable_name_object_hash.get(a);

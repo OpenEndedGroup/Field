@@ -47,7 +47,7 @@ public class UDPNIOSender {
 			socket = theChannel.socket();
 			socket.setReuseAddress(true);
 		}catch(Exception ex){
-			System.out.println("error creating channel:");
+			;//System.out.println("error creating channel:");
 			ex.printStackTrace();
 		}
 
@@ -59,10 +59,10 @@ public class UDPNIOSender {
 				socket.bind(new InetSocketAddress(local_port));
 			}
 		}catch(Exception ex){
-			System.out.println("could not bind socket to local port("+local_port+")");
+			;//System.out.println("could not bind socket to local port("+local_port+")");
 			ex.printStackTrace();
 		}
-		System.out.println("local port is:"+socket.getLocalPort());
+		;//System.out.println("local port is:"+socket.getLocalPort());
 		return theChannel;
 	}
 
@@ -73,11 +73,11 @@ public class UDPNIOSender {
 				channel.socket().setBroadcast(true);
 			}
 		}catch(Exception ex){
-			System.out.println("error creating socket from address:"+to);
+			;//System.out.println("error creating socket from address:"+to);
 			ex.printStackTrace();
 		}
 		if(ip.isUnresolved()){
-			System.out.println("Could not resolve host \""+to+"\"");
+			;//System.out.println("Could not resolve host \""+to+"\"");
 		}
 		try{
 			channel.configureBlocking(true);
@@ -85,9 +85,9 @@ public class UDPNIOSender {
 			ex.printStackTrace();
 		}
 		try{
-			System.out.println("Socket send buffer size:"+channel.socket().getSendBufferSize());
+			;//System.out.println("Socket send buffer size:"+channel.socket().getSendBufferSize());
 		}catch(Exception ex){
-			System.out.println("error trying to print out the sendbuffersize of the socket.");
+			;//System.out.println("error trying to print out the sendbuffersize of the socket.");
 			ex.printStackTrace();
 		}
 	}
@@ -109,10 +109,10 @@ public class UDPNIOSender {
 		try{
 			
 			channel.send(data, ip);
-			System.out.println(" sent <"+data+" "+ip+">");
+			;//System.out.println(" sent <"+data+" "+ip+">");
 
 		}catch(IOException ioex){
-			System.out.println("io exception writing to buffer in UDPNIOSender!");
+			;//System.out.println("io exception writing to buffer in UDPNIOSender!");
 			ioex.printStackTrace();
 		}
 	}

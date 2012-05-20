@@ -80,7 +80,7 @@ public class Platform {
 
 	public static boolean is17() {
 		
-		System.out.println(" java version is <"+System.getProperty("java.version")+">");
+		;//System.out.println(" java version is <"+System.getProperty("java.version")+">");
 		
 		return System.getProperty("java.version").contains("1.7");
 	}

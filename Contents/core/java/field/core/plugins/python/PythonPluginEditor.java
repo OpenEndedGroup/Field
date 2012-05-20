@@ -603,7 +603,7 @@ public class PythonPluginEditor extends PythonPlugin {
 							// delayed repaint
 							editor.getFrame().redraw();
 						}
-						System.out.println(" waiting ........... (could be swinging....)");
+						;//System.out.println(" waiting ........... (could be swinging....)");
                         
 						List<String> m = messaging.getMessages();
 						if (m.size() > 0) {
@@ -870,7 +870,7 @@ public class PythonPluginEditor extends PythonPlugin {
 			@Override
 			protected boolean globalShortcutHook(VerifyEvent e) {
 				if (e.keyCode == '=' && (e.stateMask == (SWT.COMMAND | SWT.SHIFT))) {
-					System.out.println(" -- next tab --");
+					;//System.out.println(" -- next tab --");
 					nextTab();
 					return true;
 				} else {
@@ -887,7 +887,7 @@ public class PythonPluginEditor extends PythonPlugin {
 				int oldStart = editor.getInputEditor().getSelectionRanges()[0];
 				int oldEnd = editor.getInputEditor().getSelectionRanges()[1] + oldStart;
                 
-				System.out.println(" old selection is <" + oldStart + "> <" + oldEnd + ">");
+				;//System.out.println(" old selection is <" + oldStart + "> <" + oldEnd + ">");
                 
 				String plainText = customInsertSystem.convertUserTextToExecutableText(ed.getText());
 				int p1 = ExecutedAreas.positionForLineStart(currentArea.lineStart, ed.getText());
@@ -900,7 +900,7 @@ public class PythonPluginEditor extends PythonPlugin {
                 
 				this.inter.executeFragment(expression);
                 
-				// System.out.println(" executing area <" + area
+				// ;//System.out.println(" executing area <" + area
 				// + ">");
 				// if (area.exec.size() > 1) {
 				// OpportinisticSlider o = new
@@ -948,7 +948,7 @@ public class PythonPluginEditor extends PythonPlugin {
                 
 				this.inter.executeFragment(expression);
                 
-				System.out.println(" executing area <" + area + ">");
+				;//System.out.println(" executing area <" + area + ">");
 				if (area.exec.size() > 1) {
 					OpportinisticSlider o = new OpportinisticSlider();
 					boolean m = o.execute(area.exec.get(area.exec.size() - 2).stringAtExecution, area.exec.get(area.exec.size() - 1).stringAtExecution);
@@ -970,7 +970,7 @@ public class PythonPluginEditor extends PythonPlugin {
                     
 					public void output(String s) {
                         
-						System.out.println(" -- output is <" + s + "> -- end output");
+						;//System.out.println(" -- output is <" + s + "> -- end output");
 						o[0] = s;
 					}
 				});
@@ -989,7 +989,7 @@ public class PythonPluginEditor extends PythonPlugin {
                             
 							if (expectedOutput != null) {
 								getOutputFlusher().update();
-								System.out.println(" output from unit test was <" + o[0] + ">");
+								;//System.out.println(" output from unit test was <" + o[0] + ">");
 								return o[0].trim().equals(expectedOutput.trim());
 							}
 							return null;
@@ -1048,9 +1048,9 @@ public class PythonPluginEditor extends PythonPlugin {
                         
 						public Boolean get() {
                             
-							System.out.println(" output from unit test was <" + o[0] + ">");
+							;//System.out.println(" output from unit test was <" + o[0] + ">");
 							if (expectedOutput == null || !o[0].trim().equals(expectedOutput.trim())) {
-								System.out.println(" about to revise <" + expression + "> to <" + o[0] + ">");
+								;//System.out.println(" about to revise <" + expression + "> to <" + o[0] + ">");
 								UnitTestHelper.reviseOutputForExpression(ed, p1, expression, expectedOutput, o[0].trim());
 							}
 							return null;
@@ -1170,7 +1170,7 @@ public class PythonPluginEditor extends PythonPlugin {
             
 			@Override
 			protected void executionBegin() {
-				System.out.println(" BEGIN EXECUTION IN TEXT ED");
+				;//System.out.println(" BEGIN EXECUTION IN TEXT ED");
 				super.executionBegin();
 				Beginner beginner = PseudoPropertiesPlugin.begin.get(currentlyEditing);
 				beginner.call(new Object[] {});
@@ -1179,7 +1179,7 @@ public class PythonPluginEditor extends PythonPlugin {
 			@Override
 			protected void executionEnd() {
                 
-				System.out.println(" END EXECUTION IN TEXT ED");
+				;//System.out.println(" END EXECUTION IN TEXT ED");
                 
 				super.executionEnd();
 				Ender beginner = PseudoPropertiesPlugin.end.get(currentlyEditing);
@@ -1293,7 +1293,7 @@ public class PythonPluginEditor extends PythonPlugin {
 						}
 					}
                     
-					System.out.println(" -- hello ?? -- ");
+					;//System.out.println(" -- hello ?? -- ");
 					
 					items.put("Browse", null);
 					items.put(" B\tEvaluate, show in <b>browser</b>", new iUpdateable() {
@@ -1349,12 +1349,12 @@ public class PythonPluginEditor extends PythonPlugin {
 			protected void handleMouseEventOnArea(MouseEvent e, Area currentArea) {
 				super.handleMouseEventOnArea(e, currentArea);
                 
-				System.out.println(" handle mouse on area <" + e + " " + currentArea + ">");
+				;//System.out.println(" handle mouse on area <" + e + " " + currentArea + ">");
                 
 				if ((e.stateMask & SWT.ALT) != 0 && currentArea != null && (e.stateMask & SWT.SHIFT) == 0) {
 					Object m = currentArea.textend.get(new Prop("monitor"));
 					if (executionRuler.updateMonitor(m)) {
-						System.out.println(" stopping area ");
+						;//System.out.println(" stopping area ");
 						stopArea(m);
 					} else {
 						executeArea(currentArea);
@@ -1401,7 +1401,7 @@ public class PythonPluginEditor extends PythonPlugin {
 			@Override
 			protected String localPaste(String was, String s) {
                 
-				System.out.println(" local paste!!");
+				;//System.out.println(" local paste!!");
                 
 				String text = customInsertSystem.mergeInText(localCopyRewritten);
                 
@@ -1412,7 +1412,7 @@ public class PythonPluginEditor extends PythonPlugin {
                 
 				customInsertSystem.updateAllStyles(this.ed, currentlyEditing);
                 
-				System.out.println(" ::::::::::::::::::::::::::: did local paste :::::::::::::::::::::: <" + b + ">");
+				;//System.out.println(" ::::::::::::::::::::::::::: did local paste :::::::::::::::::::::: <" + b + ">");
                 
 				localCopy(text);
                 
@@ -1457,7 +1457,7 @@ public class PythonPluginEditor extends PythonPlugin {
 					PythonInterface.getPythonInterface().setVariable("__c2", this);
 					String s = Py.tojava((PyObject) PythonInterface.getPythonInterface().eval("markdownForJavaClass(__c2, __c1)"), String.class);
                     
-					System.out.println(" got <" + s + ">");
+					;//System.out.println(" got <" + s + ">");
                     
 					HelpBrowser.helpBrowser.get(currentlyEditing).help.offerHelp("completion", s);
 				} catch (Exception e) {
@@ -1469,7 +1469,7 @@ public class PythonPluginEditor extends PythonPlugin {
         
 		new CustomInsertDrawing(editor.getInputEditor()) {
 			public void updateAllStylesNow() {
-				System.out.println(" -- doing update of all styles --");
+				;//System.out.println(" -- doing update of all styles --");
 				customInsertSystem.updateAllStyles(editor.getInputEditor(), currentlyEditing);
 			};
 		};
@@ -1546,7 +1546,7 @@ public class PythonPluginEditor extends PythonPlugin {
 						ll = "\u2606 <font color='#333333'>" + ll + "</font>";
 					} else if (rr.getStorageSource() != currentlyEditing && currentlyEditing.getProperty(e.getValue()) == null) {
                         
-						System.out.println(" storage source is <" + rr.getStorageSource() + "> <" + currentlyEditing + ">");
+						;//System.out.println(" storage source is <" + rr.getStorageSource() + "> <" + currentlyEditing + ">");
                         
 						ll = "\u2041 " + ll;
 					} else
@@ -1728,7 +1728,7 @@ public class PythonPluginEditor extends PythonPlugin {
 			}
 			banner = "disabled (no selection)";
 			currentlyEditing = null;
-			System.out.println(" disabled ");
+			;//System.out.println(" disabled ");
 			editor.setEnabled(false);
             
 			currentlyEditingProperty = prop;
@@ -1745,7 +1745,7 @@ public class PythonPluginEditor extends PythonPlugin {
 			}
 			banner = "disabled (multiple selection)";
 			currentlyEditing = null;
-			System.out.println(" disabled ");
+			;//System.out.println(" disabled ");
 			editor.setEnabled(false);
 			currentlyEditingProperty = prop;
 			editor.setActionMenu(null);
@@ -1769,13 +1769,13 @@ public class PythonPluginEditor extends PythonPlugin {
 			currentlyEditingProperty = prop;
 			python_currentlyEditingProperty.set(lve, lve, new Pair<iVisualElement, VisualElementProperty<String>>(visualElement, prop));
 			if (visualElement == null) {
-				System.out.println(" disabled ");
+				;//System.out.println(" disabled ");
 				editor.setEnabled(false);
 				banner = "disabled (no selection)";
 				editor.setActionMenu(null);
 				button.combo.setEnabled(false);
 			} else if (!canEdit(visualElement)) {
-				System.out.println(" disabled (can't edit)");
+				;//System.out.println(" disabled (can't edit)");
 				editor.setEnabled(false);
 				banner = "disabled (python_noEdit has been set)";
 				editor.setActionMenu(null);
@@ -2077,7 +2077,7 @@ public class PythonPluginEditor extends PythonPlugin {
 		// 0);
 		//
 		// p.validate();
-		// System.out.println(" panel <" + p.countComponents() + "> <" +
+		// ;//System.out.println(" panel <" + p.countComponents() + "> <" +
 		// Arrays.asList(p.getComponents()) + ">");
         
 	}
@@ -2103,7 +2103,7 @@ public class PythonPluginEditor extends PythonPlugin {
 				if (currentlyEditingProperty.equals(python_source)) {
 					Pair<String, Object> swappedOut = customInsertSystem.swapOutText(plainText);
                     
-					// System.out.println(" swapping out text <"
+					// ;//System.out.println(" swapping out text <"
 					// + swappedOut + ">");
                     
 					python_customInsertPersistanceInfo.set(element, element, swappedOut.right);

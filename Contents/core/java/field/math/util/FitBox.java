@@ -144,7 +144,7 @@ public class FitBox {
 			e.printStackTrace();
 		} catch (EigenStructureException e) {
 			e.printStackTrace();
-			System.out.println( Arrays.asList(points));
+			;//System.out.println( Arrays.asList(points));
 		}
 		return null;
 	}

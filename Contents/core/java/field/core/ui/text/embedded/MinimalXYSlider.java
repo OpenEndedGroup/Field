@@ -199,7 +199,7 @@ public class MinimalXYSlider extends MinimalExpandable {
 
 	public void setValue(float lvalue, float lvalueY) {
 
-		System.out.println(" set value <" + lvalue + " " + lvalueY + ">");
+		;//System.out.println(" set value <" + lvalue + " " + lvalueY + ">");
 
 		if (Float.isNaN(lvalue))
 			return;
@@ -301,7 +301,7 @@ public class MinimalXYSlider extends MinimalExpandable {
 
 		enableEvents(AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK);
 
-		System.out.println(" coll :"+collapseness);
+		;//System.out.println(" coll :"+collapseness);
 		
 		if (collapseness>1)
 			g2.drawImage(Constants.plus, bounds.width-14, 2, 12, 12, null);
@@ -359,7 +359,7 @@ public class MinimalXYSlider extends MinimalExpandable {
 
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
-		System.out.println(" checking for shift down <"+(e.getID()==e.MOUSE_PRESSED)+"> <"+(e.getModifiers() & e.SHIFT_MASK)+">");
+		;//System.out.println(" checking for shift down <"+(e.getID()==e.MOUSE_PRESSED)+"> <"+(e.getModifiers() & e.SHIFT_MASK)+">");
 		super.processMouseEvent(e);
 		if (Platform.isPopupTrigger(e)) {
 			popup(e);
@@ -397,7 +397,7 @@ public class MinimalXYSlider extends MinimalExpandable {
 					float nnx = sx + (nx - sx) * alpha;
 					float nny = sy + (ny - sy) * alpha;
 
-					System.out.println(" -- nnx :" + nnx + " " + nny);
+					;//System.out.println(" -- nnx :" + nnx + " " + nny);
 
 					setValue(nnx, collapseness > 1 ? valueY : nny);
 					if (irc!=null)
@@ -427,7 +427,7 @@ public class MinimalXYSlider extends MinimalExpandable {
 		super.processMouseMotionEvent(e);
 		// if (collapseness>0) return;
 
-		System.out.println(" cc : " + collapseness + " check");
+		;//System.out.println(" cc : " + collapseness + " check");
 
 		int x = e.getX() - 0 * this.bounds().x;
 		int y = e.getY() - 0 * this.bounds().y;

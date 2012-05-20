@@ -55,7 +55,7 @@ public class RawLineList2 extends RawMesh2 {
 
 		glBindVertexArrayAPPLE(vertexObjectID);
 
-		//System.out.println(" drawing <" + frame.get(0).length / 3 + " / <" + frame.get(-1).length + "> lines <"+matrix+"> <"+System.identityHashCode(this)+">");
+		//;//System.out.println(" drawing <" + frame.get(0).length / 3 + " / <" + frame.get(-1).length + "> lines <"+matrix+"> <"+System.identityHashCode(this)+">");
 
 		glDrawRangeElements(GL_LINES, 0, (int) frame.get(0).length / 3, (int) frame.get(-1).length, GL_UNSIGNED_INT, 0);
 		glBindVertexArrayAPPLE(0);

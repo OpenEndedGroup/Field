@@ -304,7 +304,7 @@ public class GLCanvas_field extends Canvas {
 	public void setCurrent() {
 //		checkWidget();
 		context.makeCurrentContext();
-//		System.out.println(GLContext.getCapabilities());
+//		;//System.out.println(GLContext.getCapabilities());
 	}
 
 	/**

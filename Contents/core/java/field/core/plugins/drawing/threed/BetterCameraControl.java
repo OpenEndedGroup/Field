@@ -59,7 +59,7 @@ public class BetterCameraControl implements iUpdateable {
 
 				State current = on.getState();
 
-				System.out.println(" moving from <" + current + "> to <" + in + "> by <" + fraction + ">");
+				;//System.out.println(" moving from <" + current + "> to <" + in + "> by <" + fraction + ">");
 
 				current = State.blend(current, in, fraction);
 
@@ -93,7 +93,7 @@ public class BetterCameraControl implements iUpdateable {
 
 				State current = on.getState();
 
-				System.out.println(" moving from <" + current + "> to <" + in + "> by <" + fraction + ">");
+				;//System.out.println(" moving from <" + current + "> to <" + in + "> by <" + fraction + ">");
 
 				current = State.blend(current, in, fraction);
 
@@ -180,19 +180,19 @@ public class BetterCameraControl implements iUpdateable {
 				v.position(3 * i);
 				Vector3 vv = new Vector3(v);
 
-				System.out.println(" position <" + vv + ">");
+				;//System.out.println(" position <" + vv + ">");
 
 				if (vv.isNaN())
 					continue;
 				ff.transformPosition(vv);
-				System.out.println(" position <" + vv + "> transformed ");
+				;//System.out.println(" position <" + vv + "> transformed ");
 
 				LinePointIntersectionInfo ii = IntersectionPrimatives.lineToPoint(p, view, vv);
 				float o = ii.intersectionDistance;
 				float at = ii.distanceAlongLine;
 				Vector3 aFrom = ii.closestPoint;
 
-				System.out.println(" at :" + at + " " + f + " " + o);
+				;//System.out.println(" at :" + at + " " + f + " " + o);
 
 				float aMin = at - (float) (o / Math.tan( (2*Math.PI*f/360.0)/2));
 
@@ -200,14 +200,14 @@ public class BetterCameraControl implements iUpdateable {
 					dMin = aMin;
 				}
 
-				System.out.println(" min is <" + dMin + ">");
+				;//System.out.println(" min is <" + dMin + ">");
 			}
 		}
 
 		State o = in.duplicate();
 
 		view.normalize();
-		System.out.println(" frame <" + view + "> <" + dMin + "> <" + p + ">");
+		;//System.out.println(" frame <" + view + "> <" + dMin + "> <" + p + ">");
 
 		o.position = (p.add(view.scale(dMin)));
 		return o;
@@ -247,7 +247,7 @@ public class BetterCameraControl implements iUpdateable {
 				if (vv.isNaN())
 					continue;
 				ff.transformPosition(vv);
-				System.out.println(vv);
+				;//System.out.println(vv);
 				min.min(vv);
 				max.max(vv);
 				set = true;

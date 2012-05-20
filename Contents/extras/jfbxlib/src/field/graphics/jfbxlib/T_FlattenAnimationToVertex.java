@@ -56,7 +56,7 @@ public class T_FlattenAnimationToVertex implements iLaunchable {
 		for (int i = 0; i < numFrames; i++) {
 			float time = start + (end - start) * i / (numFrames - 1f);
 
-			System.out.println(" ------------- <"+time+"> ------------------");
+			;//;//System.out.println(" ------------- <"+time+"> ------------------");
 			
 			loaded.applyAnimation(time);
 			loaded.applyVertexAnimations(time);
@@ -76,11 +76,11 @@ public class T_FlattenAnimationToVertex implements iLaunchable {
 			}
 		}
 
-		System.out.println(" - --- finishing ");
+		;//;//System.out.println(" - --- finishing ");
 		
-		System.out.println(" persisting ....");
+		;//;//System.out.println(" persisting ....");
 		new PythonUtils().persistAsSerialization(ret, SystemProperties.getProperty("in") + ".rawMesh");
-		System.out.println(" complete");
+		;//;//System.out.println(" complete");
 		System.exit(0);
 
 	}

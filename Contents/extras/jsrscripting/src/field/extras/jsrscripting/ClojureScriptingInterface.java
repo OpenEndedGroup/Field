@@ -32,7 +32,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 	@Override
 	protected ScriptEngine makeEngine() {
 
-		System.out.println(" making engine ");
+		;//;//System.out.println(" making engine ");
 
 		try {
 
@@ -127,12 +127,12 @@ public class ClojureScriptingInterface extends JSRInterface {
 
 	@Override
 	public Object eval(String eval) {
-		System.out.println(" -- eval in >>>>>>>>>");
+		;//;//System.out.println(" -- eval in >>>>>>>>>");
 
 		final PrintStream oldOut = System.out;
 		final PrintStream oldErr = System.err;
 
-		System.out.println(" outputstack error peek <" + outputStack.peek() + ">");
+		;//;//System.out.println(" outputstack error peek <" + outputStack.peek() + ">");
 
 		System.setOut(new PrintStream(new OutputStream() {
 
@@ -186,7 +186,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 
 			if (e != null)
 			{
-				System.out.println(e+" "+e.getClass());
+				;//;//System.out.println(e+" "+e.getClass());
 				
 				if (e instanceof Var)
 				{
@@ -217,7 +217,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 			System.setOut(oldOut);
 			System.setErr(oldErr);
 
-			System.out.println(" -- eval out <<<<<<<<<<<<<<");
+			;//;//System.out.println(" -- eval out <<<<<<<<<<<<<<");
 
 		}
 	}

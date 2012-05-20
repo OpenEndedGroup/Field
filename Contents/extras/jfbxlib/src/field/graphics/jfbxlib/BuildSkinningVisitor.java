@@ -58,7 +58,7 @@ public class BuildSkinningVisitor extends AbstractVisitor {
 	public void visitMeshSkinDeformBegin() {
 		super.visitMeshSkinDeformBegin();
 		
-		System.out.println(" skin deform begin ");
+		;//;//System.out.println(" skin deform begin ");
 		
 		currentSkinning = new SkinningInfo();
 		tempStorage = new HashMap[numVertex];
@@ -81,14 +81,14 @@ public class BuildSkinningVisitor extends AbstractVisitor {
 		desc.geometryScale= new Vector3(gs0,gs1,gs2);
 		
 		
-		System.out.println(" defined bone <"+desc+">");
+		;//;//System.out.println(" defined bone <"+desc+">");
 		
 		boneBindPoses.put(boneNumber, desc);
 	}
 
 	@Override
 	public void visitMeshSkinDeformSetInfluence(int boneNumber, int vertexIndex, float isWeight) {
-		System.out.println(" bone number <"+boneNumber+"> vertex index <"+vertexIndex+">");
+		;//;//System.out.println(" bone number <"+boneNumber+"> vertex index <"+vertexIndex+">");
 		super.visitMeshSkinDeformSetInfluence(boneNumber, vertexIndex, isWeight);
 		HashMap<Integer, Float> map = tempStorage[vertexIndex];
 		if (map == null) {
@@ -102,10 +102,10 @@ public class BuildSkinningVisitor extends AbstractVisitor {
 	@Override
 	public void visitMeshEnd() {
 		super.visitMeshEnd();
-		System.out.println(" skin deform end ");
+		;//;//System.out.println(" skin deform end ");
 
 		if (currentSkinning != null) {
-			System.out.println(" (read skin) ");
+			;//;//System.out.println(" (read skin) ");
 			Iterator<Entry<Integer, Long>> i = boneDefinitions.entrySet().iterator();
 			int max = 0;
 			while (i.hasNext()) {
@@ -124,7 +124,7 @@ public class BuildSkinningVisitor extends AbstractVisitor {
 			currentSkinning.compressedVertexWeights = new float[numVertex][];
 			currentSkinning.compressedVertexIndices= new int[numVertex][];
 			for (int n = 0; n < numVertex; n++) {
-				System.out.println(" compressed vertex <"+n+">");
+				;//;//System.out.println(" compressed vertex <"+n+">");
 				currentSkinning.compressedVertexWeights[n] = new float[tempStorage[n].size()];
 				currentSkinning.compressedVertexIndices[n] = new int[tempStorage[n].size()];
 				int a = 0;
@@ -141,7 +141,7 @@ public class BuildSkinningVisitor extends AbstractVisitor {
 			currentSkinning = null;
 		}
 		
-		System.out.println(" and out ");
+		;//;//System.out.println(" and out ");
 		
 	}
 	

@@ -211,7 +211,7 @@ public class Polar {
 		public CachedLine visitPolar(iPolarVisitor visit) {
 			c = new CachedLineCursor(input);
 
-			System.out.println(" inside visitPolar " + c.hasNextSegment() + " " + input.events);
+			;//System.out.println(" inside visitPolar " + c.hasNextSegment() + " " + input.events);
 
 			List<CachedLine> cl = new ArrayList<CachedLine>();
 
@@ -300,14 +300,14 @@ public class Polar {
 		public List<Pair<Vector2, Vector2>> allStarts = new ArrayList<Pair<Vector2, Vector2>>();
 
 		public void beginSubpath(Vector2 at, Vector2 heading) {
-			System.out.println(" begin subpath ");
+			;//System.out.println(" begin subpath ");
 			Pair<Vector2, Vector2> p = new Pair<Vector2, Vector2>(at, heading);
 			allStarts.add(p);
 			allMoves.add(new ArrayList<PolarMove>());
 		}
 
 		public void visitPolarMove(PolarMove m, PolarFilter in) {
-			System.out.println(" move ");
+			;//System.out.println(" move ");
 			allMoves.get(allMoves.size() - 1).add(m);
 		}
 	}

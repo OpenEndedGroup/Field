@@ -242,9 +242,9 @@ public class EigenStructure {
 
 		try {
 			EigenStructure e = new EigenStructure(m);
-			System.out.println(e.getEigenvectors());
-			System.out.println();
-			System.out.println(e.getEigenvalues());
+			;//System.out.println(e.getEigenvectors());
+			;//System.out.println();
+			;//System.out.println(e.getEigenvalues());
 
 		} catch (Exception e) {
 			System.exit(-1);

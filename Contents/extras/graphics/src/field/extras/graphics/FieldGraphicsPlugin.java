@@ -15,7 +15,7 @@ public class FieldGraphicsPlugin extends BaseSimplePlugin {
 	public void registeredWith(iVisualElement root) {
 		super.registeredWith(root);
 
-		System.out.println(" -- field graphics plugin initializing --");
+		;//;//System.out.println(" -- field graphics plugin initializing --");
 		
 		new FieldExtensionsToBasic();
 

@@ -37,10 +37,10 @@ public class JavaDocCache {
 	public JavaClass getClass(Class c) {
 		String cname = c.getName();
 		if (debug)
-			System.out.println(" looking for <" + cname + " : " + c + ">");
+			;//System.out.println(" looking for <" + cname + " : " + c + ">");
 		for (JavaClass cc : classes) {
 			if (debug)
-				System.out.println(" name :" + cc.getFullyQualifiedName());
+				;//System.out.println(" name :" + cc.getFullyQualifiedName());
 			if (cc.getFullyQualifiedName().equals(cname))
 				return cc;
 		}
@@ -51,14 +51,14 @@ public class JavaDocCache {
 	public void addJarFile(String name) throws IOException {
 
 		if (debug)
-			System.out.println(" add jar file <" + name + ">");
+			;//System.out.println(" add jar file <" + name + ">");
 
 		for (JarFile j : jarCache.keySet())
 			if (j.getName().equals(name))
 				return;
 
 		if (debug)
-			System.out.println(" new jar file <" + name + ">");
+			;//System.out.println(" new jar file <" + name + ">");
 
 		JarFile ff = new JarFile(name);
 		Enumeration<JarEntry> entries = ff.entries();
@@ -79,7 +79,7 @@ public class JavaDocCache {
 
 			JarEntry entry = v.get(pathName);
 			if (debug)
-				System.out.println(" looked in jar <" + ee.getKey().getName() + "> for <" + pathName + "> and found <" + entry + ">");
+				;//System.out.println(" looked in jar <" + ee.getKey().getName() + "> for <" + pathName + "> and found <" + entry + ">");
 
 			if (entry == null) {
 				// some jars (like the processing src jar) have
@@ -89,7 +89,7 @@ public class JavaDocCache {
 					if (je.getName().endsWith(pathName)) {
 						entry = je;
 						if (debug)
-							System.out.println(" found suffix <" + entry + ">");
+							;//System.out.println(" found suffix <" + entry + ">");
 						break;
 					}
 				}
@@ -109,7 +109,7 @@ public class JavaDocCache {
 	LinkedHashSet<String> triedAndFailed = new LinkedHashSet<String>();
 
 	public JavaClass loadFromFile(String pathName, String className) throws FileNotFoundException {
-//		System.out.println(" looking for path <" + pathName + " / " + className + ">");
+//		;//System.out.println(" looking for path <" + pathName + " / " + className + ">");
 
 		if (!new File(pathName).exists())
 			return null;
@@ -123,7 +123,7 @@ public class JavaDocCache {
 		int s = className.lastIndexOf('.');
 		String maybeInner = className.subSequence(0, s)+"$"+className.substring(s+1);
 		
-//		System.out.println(" maybe inner "+maybeInner);
+//		;//System.out.println(" maybe inner "+maybeInner);
 		JavaClass r2 = db.getClassByName(maybeInner);
 
 		if (r2.getMethods().length>r.getMethods().length){
@@ -157,7 +157,7 @@ public class JavaDocCache {
 				triedAndFailed.add(className);
 		}
 
-//		System.out.println(" found <"+(r!=null)+">");
+//		;//System.out.println(" found <"+(r!=null)+">");
 		
 		return r;
 	}

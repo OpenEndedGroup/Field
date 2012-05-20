@@ -404,7 +404,7 @@ public class TranscriptViewing {
 				@Override
 				protected VisitCode visit(LoggingEventModel n) {
 
-					System.out.println(" filtering node " + n.node + " " + (n.node == null ? null : n.node.getClass()));
+					;//System.out.println(" filtering node " + n.node + " " + (n.node == null ? null : n.node.getClass()));
 
 					if (n.node instanceof MoveEvent) {
 						MoveEvent m = ((MoveEvent) n.node);
@@ -483,7 +483,7 @@ public class TranscriptViewing {
 				@Override
 				protected VisitCode visit(LoggingEventModel n) {
 
-					System.out.println(" filtering node " + n.node + " " + (n.node == null ? null : n.node.getClass()));
+					;//System.out.println(" filtering node " + n.node + " " + (n.node == null ? null : n.node.getClass()));
 
 					if (n.node instanceof DidSetLocalVariable) {
 						DidSetLocalVariable m = ((DidSetLocalVariable) n.node);

@@ -96,17 +96,17 @@ public class CustomInsertDrawing {
 
 				@Override
 				public void paintControl(PaintEvent e) {
-//					System.out.println("        drawing background for sub canvas <" + Nub.this + ">");
+//					;//System.out.println("        drawing background for sub canvas <" + Nub.this + ">");
 					if (output != null)
 						output.dispose();
 					output = updageAndMakeImage(e.gc.getDevice(), Math.max(Nub.this.width, e.width), Math.max(Nub.this.height,e.height));
 
-					System.out.println("        image is <" + output + ">");
+					;//System.out.println("        image is <" + output + ">");
 
 					if (output != null)
 					{
 						Rectangle mapped = Launcher.getLauncher().display.map(canvas, canvas.getShell(), new Rectangle(0, 0, Math.max(Nub.this.width, e.width), Math.max(Nub.this.height,e.height)));
-						System.out.println(" drawing image at origin <"+output+"> <"+e.gc+"> <"+e.x+" "+e.y+"> <"+canvas.getBounds()+"> <"+mapped+">");
+						;//System.out.println(" drawing image at origin <"+output+"> <"+e.gc+"> <"+e.x+" "+e.y+"> <"+canvas.getBounds()+"> <"+mapped+">");
 						e.gc.drawImage(output, 0, 0);
 					}
 				}
@@ -119,7 +119,7 @@ public class CustomInsertDrawing {
 				@Override
 				public void handleEvent(Event event) {
 
-//					System.out.println(" event in component <" + event + ">");
+//					;//System.out.println(" event in component <" + event + ">");
 
 					currentNub = Nub.this;
 
@@ -199,7 +199,7 @@ public class CustomInsertDrawing {
 			if (disposed)
 				return null;
 
-			System.out.println(" update and make image <"+d+"> <"+width+"> <"+height+">");
+			;//System.out.println(" update and make image <"+d+"> <"+width+"> <"+height+">");
 			
 			component.setBounds(0, 0, width, height);
 
@@ -273,16 +273,16 @@ public class CustomInsertDrawing {
 				int start = e.start;
 				int end = e.end;
 
-//				System.out.println(" text event at <"+e.start+" -> "+e.end+">");
+//				;//System.out.println(" text event at <"+e.start+" -> "+e.end+">");
 				
 				Iterator<Map.Entry<JComponent, Nub>> i = nubs.entrySet().iterator();
 				while (i.hasNext()) {
 					Nub v = i.next().getValue();
 
-//					System.out.println(" nub is at <"+v.start+" "+v.start+v.length+">");
+//					;//System.out.println(" nub is at <"+v.start+" "+v.start+v.length+">");
 					
 					if (start < v.start + v.length && end > v.start) {
-						System.out.println(" removing nub <" + v + ">");
+						;//System.out.println(" removing nub <" + v + ">");
 						i.remove();
 						v.destroy();
 					}
@@ -299,18 +299,18 @@ public class CustomInsertDrawing {
 		target.addPaintObjectListener(new PaintObjectListener() {
 			public void paintObject(PaintObjectEvent event) {
 
-				System.out.println(" paint object event at <"+event.x+", "+event.y+">");
+				;//System.out.println(" paint object event at <"+event.x+", "+event.y+">");
 //				new Exception().printStackTrace();
 				
 				if (event.style.data != null) {
-//					System.out.println(" picked up an component embedded here <" + event.style.data + "> <" + event.x + " " + event.y + " " + event.ascent + " " + event.descent + " @ " + event.style + ">");
+//					;//System.out.println(" picked up an component embedded here <" + event.style.data + "> <" + event.x + " " + event.y + " " + event.ascent + " " + event.descent + " @ " + event.style + ">");
 
 					int width = event.style.length * event.style.metrics.width;
 
 					int height = event.ascent + event.descent;
 
 					if (((JComponent) event.style.data).getClientProperty("dead") != null) {
-//						System.out.println(" trying to draw dead component ");
+//						;//System.out.println(" trying to draw dead component ");
 						event.style.data = null;
 						return;
 					}
@@ -322,17 +322,17 @@ public class CustomInsertDrawing {
 					boolean found = false;
 					if (nub != null) {
 						
-//						System.out.println(" control has <"+target.getChildren().length+"> children");
+//						;//System.out.println(" control has <"+target.getChildren().length+"> children");
 						
 						for (Control cc : target.getChildren()) {
-//							System.out.println(" checking :"+cc+" / "+nub.canvas);
+//							;//System.out.println(" checking :"+cc+" / "+nub.canvas);
 							
 							if (cc == nub.canvas)
 								found = true;
 						}
 					}
 					if (nub == null || !found) {
-//						System.out.println(" :: needs a new nub ");
+//						;//System.out.println(" :: needs a new nub ");
 						nub = new Nub(((JComponent) event.style.data), target, width, height);
 						nub.canvas.setBounds(event.x, event.y, width, height);
 
@@ -350,7 +350,7 @@ public class CustomInsertDrawing {
 					nub.start = event.style.start;
 					nub.length = event.style.length;
 
-//					System.out.println(" nub starts at <" + event.style.start + " " + event.style.length + ">");
+//					;//System.out.println(" nub starts at <" + event.style.start + " " + event.style.length + ">");
 
 					// BufferedImage image =
 					// GraphicsEnvironment
@@ -420,7 +420,7 @@ public class CustomInsertDrawing {
 				}
 				int pixel = palette.getPixel(new RGB(pixelArray[0], pixelArray[1], pixelArray[2]));
 
-				// System.out.println(x+" "+y+" pixel :"+pixelArray[0]+" "+pixelArray[1]+" "+pixelArray[2]);
+				// ;//System.out.println(x+" "+y+" pixel :"+pixelArray[0]+" "+pixelArray[1]+" "+pixelArray[2]);
 
 				data.setPixel(x, y, pixel);
 				data.setAlpha(x, y, 255);
@@ -448,7 +448,7 @@ public class CustomInsertDrawing {
 				}
 				int pixel = palette.getPixel(new RGB(pixelArray[0], pixelArray[1], pixelArray[2]));
 
-				// System.out.println(x+" "+y+" pixel :"+pixelArray[0]+" "+pixelArray[1]+" "+pixelArray[2]);
+				// ;//System.out.println(x+" "+y+" pixel :"+pixelArray[0]+" "+pixelArray[1]+" "+pixelArray[2]);
 
 				data.setPixel(x, y, pixel);
 				// data.setAlpha(x, y, pixelArray[3]);
@@ -460,7 +460,7 @@ public class CustomInsertDrawing {
 
 	@NextUpdate
 	protected void deferedRedraw(StyledText target) {
-		System.out.println(" -- inside defered redraw --");
+		;//System.out.println(" -- inside defered redraw --");
 		target.redraw();
 	}
 

@@ -31,7 +31,7 @@ public class OpportunisticSlider2 {
 
 				String text = inside.ed.getSelectionText();
 
-				System.out.println(" selected is <" + text + ">");
+				;//System.out.println(" selected is <" + text + ">");
 
 				if (isInteger(text) || isFloat(text)) {
 					arg0.doit = false;
@@ -48,7 +48,7 @@ public class OpportunisticSlider2 {
 			@Override
 			public void paintControl(PaintEvent arg0) {
 
-				System.out.println("paint event :" + arg0);
+				;//System.out.println("paint event :" + arg0);
 
 				String text = inside.ed.getSelectionText();
 				if (isInteger(text) || isFloat(text)) {
@@ -164,7 +164,7 @@ public class OpportunisticSlider2 {
 			n += arg0;
 
 			int start = inside.ed.getSelectionRanges()[0];
-			System.out.println(" replace " + start + " " + inside.ed.getSelectionRanges()[1]);
+			;//System.out.println(" replace " + start + " " + inside.ed.getSelectionRanges()[1]);
 			inside.ed.replaceTextRange(start, inside.ed.getSelectionRanges()[1], "" + n);
 			inside.ed.setSelectionRange(start, ("" + n).length());
 
@@ -198,7 +198,7 @@ public class OpportunisticSlider2 {
 			u.toString();
 
 			int start = inside.ed.getSelectionRanges()[0];
-			System.out.println(" replace " + start + " " + inside.ed.getSelectionRanges()[1]);
+			;//System.out.println(" replace " + start + " " + inside.ed.getSelectionRanges()[1]);
 			inside.ed.replaceTextRange(start, inside.ed.getSelectionRanges()[1], "" + u.toPlainString());
 			inside.ed.setSelectionRange(start, ("" + u.toPlainString()).length());
 

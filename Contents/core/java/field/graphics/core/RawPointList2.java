@@ -40,7 +40,7 @@ public class RawPointList2 extends RawMesh2 {
 
 
 		
-		//System.out.println(" drawing <" + frame.get(0).length / 3+"> points <"+matrix+"> <"+System.identityHashCode(this)+">");
+		//;//System.out.println(" drawing <" + frame.get(0).length / 3+"> points <"+matrix+"> <"+System.identityHashCode(this)+">");
 
 		glBindVertexArrayAPPLE(vertexObjectID);
 

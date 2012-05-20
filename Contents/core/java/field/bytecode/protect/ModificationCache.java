@@ -36,21 +36,21 @@ public class ModificationCache {
 		Modification m = known.get(name);
 		if (m == null)
 		{
-			//System.out.println(" cache miss :"+name+" "+at);
+			//;//System.out.println(" cache miss :"+name+" "+at);
 			return def;
 		}
 		if (m.at < at) {
-			//System.out.println(" cache stale :"+name+" "+at+" > "+m.at);
+			//;//System.out.println(" cache stale :"+name+" "+at+" > "+m.at);
 			known.remove(name);
 			return def;
 		}
-		//System.out.println(" cache hit :"+name+" "+m.instrumented);
+		//;//System.out.println(" cache hit :"+name+" "+m.instrumented);
 		return m.instrumented;
 	}
 	
 	public void state(String name, boolean is, long at)
 	{
-		//System.out.println(" marking <"+name+"> as <"+is+"> @ "+at);
+		//;//System.out.println(" marking <"+name+"> as <"+is+"> @ "+at);
 		known.put(name, new Modification(is, at));
 	}
 	
@@ -68,7 +68,7 @@ public class ModificationCache {
 			String e = external.substring("jar:file:".length(), external.indexOf("!"));
 			return new File(e).lastModified();
 		}
-		System.out.println(" no modification date available from <"+u.toExternalForm()+">");
+		;//System.out.println(" no modification date available from <"+u.toExternalForm()+">");
 		return 0;
 	}
 	

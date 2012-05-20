@@ -84,7 +84,7 @@ public class PythonOverridden extends DefaultOverride {
 
 	public void add(String methodname, PyFunction call) {
 		Callable c = callableForFunction(call);
-		System.out.println(" adding <" + methodname + "> <" + call + "> <" + c + ">");
+		;//System.out.println(" adding <" + methodname + "> <" + call + "> <" + c + ">");
 		// methods.addToList(methodname, c);
 		Collection<Callable> cc = methods.getCollection(methodname);
 		if (cc != null) {
@@ -97,7 +97,7 @@ public class PythonOverridden extends DefaultOverride {
 		}
 		methods.addToList(methodname, c);
 
-		System.out.println("  now <" + methods + ">");
+		;//System.out.println("  now <" + methods + ">");
 	}
 
 	@Override

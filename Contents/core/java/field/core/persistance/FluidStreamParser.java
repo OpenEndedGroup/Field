@@ -75,7 +75,7 @@ public class FluidStreamParser {
 		}
 		try {
 
-			System.out.println(" about to prse <" + file + ">");
+			;//System.out.println(" about to prse <" + file + ">");
 
 			StringBuffer ddoc = new StringBuffer(1024 * 1024);
 			BufferedReader r = new BufferedReader(new FileReader(file));
@@ -87,7 +87,7 @@ public class FluidStreamParser {
 
 			document = builder.parse(new InputSource(new StringReader(doc)));
 
-			System.out.println(" parse elements <" + file + ">");
+			;//System.out.println(" parse elements <" + file + ">");
 
 			// pre-walk, pulling out ids
 			findIds(document);
@@ -96,7 +96,7 @@ public class FluidStreamParser {
 
 			parseElements(document);
 
-			System.out.println(" finished <" + file + ">");
+			;//System.out.println(" finished <" + file + ">");
 
 		} catch (SAXException e) {
 			e.printStackTrace();
@@ -113,7 +113,7 @@ public class FluidStreamParser {
 			Node id = document.getAttributes().getNamedItem("id");
 			if (id != null) {
 				String idIs = id.getTextContent();
-				System.out.println(" node <" + idIs + "> is <" + document);
+				;//System.out.println(" node <" + idIs + "> is <" + document);
 				nodeMap.put(idIs, document);
 			}
 		}
@@ -130,7 +130,7 @@ public class FluidStreamParser {
 	private void parseElements(Node node) {
 
 		if (debug)
-			System.out.println(" inside parse elements for <" + file + ">");
+			;//System.out.println(" inside parse elements for <" + file + ">");
 
 		if (node.getNodeName().equals("field.core.dispatch.VisualElement")) {
 			NodeList nl = node.getChildNodes();
@@ -145,17 +145,17 @@ public class FluidStreamParser {
 				if (ii.getNodeName().equals("uid")) {
 					uid = ii.getTextContent().trim();
 
-					System.out.println(" got <" + uid + ">");
+					;//System.out.println(" got <" + uid + ">");
 
 				}
 				if (ii.getNodeName().equals("properties")) {
 					HashMap<String, Object> props = parseProperties(ii);
-					System.out.println(" parsed props, got <" + props + ">");
+					;//System.out.println(" parsed props, got <" + props + ">");
 
 					if (props != null) {
 						properties.put(uid, props);
 
-						System.out.println(" we now have <" + properties.keySet() + ">");
+						;//System.out.println(" we now have <" + properties.keySet() + ">");
 					}
 				}
 			}
@@ -189,7 +189,7 @@ public class FluidStreamParser {
 
 			ii = resolve(ii);
 
-			System.out.println(" entry, name <" + ii.getNodeName() + ">");
+			;//System.out.println(" entry, name <" + ii.getNodeName() + ">");
 
 			if (ii.getNodeName().equals("field.core.dispatch.iVisualElement_-VisualElementProperty")) {
 				NodeList childNodes = ii.getChildNodes();
@@ -198,7 +198,7 @@ public class FluidStreamParser {
 					Node cn = childNodes.item(j);
 					cn = resolve(cn);
 
-					System.out.println(" property <" + cn.getNodeName() + ">");
+					;//System.out.println(" property <" + cn.getNodeName() + ">");
 					if (cn.getNodeName().equals("name")) {
 						name = cn.getTextContent();
 					}
@@ -211,7 +211,7 @@ public class FluidStreamParser {
 				value = Double.parseDouble(ii.getTextContent().trim());
 			} else {
 
-				System.out.println(" node is xml <" + loadProperties + ">");
+				;//System.out.println(" node is xml <" + loadProperties + ">");
 
 				if (loadProperties) {
 					try {
@@ -221,7 +221,7 @@ public class FluidStreamParser {
 						if (xml.contains("reference="))
 							continue;
 
-						System.out.println(" xml is <" + xml + ">");
+						;//System.out.println(" xml is <" + xml + ">");
 						xml = "<object-stream>" + xml + "</object-stream>";
 
 						XStream stream = new XStream(new Sun14ReflectionProvider());
@@ -231,7 +231,7 @@ public class FluidStreamParser {
 						stream.setMarshallingStrategy(new ReferenceByIdMarshallingStrategy());
 						Object o = stream.createObjectInputStream(new StringReader(xml)).readObject();
 						value = o;
-						System.out.println(" -- loaded <" + value + ">");
+						;//System.out.println(" -- loaded <" + value + ">");
 					} catch (Throwable t) {
 						t.printStackTrace();
 					}
@@ -239,7 +239,7 @@ public class FluidStreamParser {
 			}
 		}
 
-		System.out.println(" got <" + name + " = " + value + ">");
+		;//System.out.println(" got <" + name + " = " + value + ">");
 
 		if (name == null)
 			return null;
@@ -266,7 +266,7 @@ public class FluidStreamParser {
 		try {
 			t.transform(new DOMSource(node), new StreamResult(sw));
 		} catch (TransformerException te) {
-			System.out.println("nodeToString Transformer Exception");
+			;//System.out.println("nodeToString Transformer Exception");
 		}
 		return sw.toString();
 	}

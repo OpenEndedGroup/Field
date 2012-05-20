@@ -138,7 +138,7 @@ public class SimpleImageDrawing {
 					Number o = c.getProperties().get(iLinearGraphicsContext.totalOpacity);
 					opacityMul *= o == null ? 1 : o.floatValue();
 
-					System.out.println(" checking image <" + e.attributes.get(iLinearGraphicsContext.image_v) + ">");
+					;//System.out.println(" checking image <" + e.attributes.get(iLinearGraphicsContext.image_v) + ">");
 
 					Vector4 v = pick(position, e.getDestination(new Vector2()), e.attributes.get(iLinearGraphicsContext.image_v));
 					if (v != null)
@@ -151,19 +151,19 @@ public class SimpleImageDrawing {
 
 	private static Vector4 pick(Vector2 target, Vector2 point, Image image) {
 
-		System.out.println(target + " " + point + " " + image + " " + image.getExtents());
+		;//System.out.println(target + " " + point + " " + image + " " + image.getExtents());
 
 		Rect x = image.getExtents();
 		x.x += point.x;
 		x.y += point.y;
 
-		System.out.println(" is <" + target + "> inside <" + x + ">");
+		;//System.out.println(" is <" + target + "> inside <" + x + ">");
 		if (!x.isInside(target))
 			return null;
 
 		int px = (int) (target.x - point.x);
 		int py = (int) (target.y - point.y);
-		System.out.println(" is <" + px + ", " + py + "> inside <" + x.w + " " + x.h + ">");
+		;//System.out.println(" is <" + px + ", " + py + "> inside <" + x.w + " " + x.h + ">");
 		if (px >= 0 && px < (int) x.w && py >= 0 && py < (int) x.h) {
 			FloatBuffer f = image.toFloatBuffer();
 			float r = f.get(py * ((int) (x.w)) * 4 + px * 4 + 0);

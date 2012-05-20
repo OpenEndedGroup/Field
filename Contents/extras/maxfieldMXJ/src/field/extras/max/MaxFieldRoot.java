@@ -111,7 +111,7 @@ public class MaxFieldRoot extends MaxObject {
 			}
 			String message = (String) args[1];
 
-			System.out.println(" sending data message called <" + args[0] + "> of length <" + message.length() + "> to <" + address + ">");
+			;//;//System.out.println(" sending data message called <" + args[0] + "> of length <" + message.length() + "> to <" + address + ">");
 			m.send("__data__", new Atom[] { Atom.newAtom((String) args[0]), Atom.newAtom(message) });
 		}
 		if (s.startsWith("/return/")) {

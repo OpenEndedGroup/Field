@@ -184,7 +184,7 @@ public class PopupMarkingArea {
 
 		public void pop(Event e) {
 
-			System.out.println(" popping up ? ");
+			;//System.out.println(" popping up ? ");
 
 			if (menu == null) {
 
@@ -199,7 +199,7 @@ public class PopupMarkingArea {
 
 			pop = (BetterPopup) new SmallMenu().createMenu(menu, shell, null);
 			Point m = Launcher.display.map((Control) e.widget, shell, new Point(e.x, e.y));
-			System.out.println(" popping up <" + e + ">");
+			;//System.out.println(" popping up <" + e + ">");
 
 			pop.doneHook = new iUpdateable() {
 				@Override
@@ -217,7 +217,7 @@ public class PopupMarkingArea {
 
 		@NextUpdate(delay = 10)
 		public void pop(int x, int y) {
-			System.out.println(" popping up ? ");
+			;//System.out.println(" popping up ? ");
 
 			if (menu == null) {
 
@@ -240,7 +240,7 @@ public class PopupMarkingArea {
 				}
 			};
 
-			System.out.println(" create menu :" + menu + " " + shell.getLocation() + " " + x + " " + y);
+			;//System.out.println(" create menu :" + menu + " " + shell.getLocation() + " " + x + " " + y);
 
 			pop.show(new Point(x, y));
 			popped = true;
@@ -348,7 +348,7 @@ public class PopupMarkingArea {
 				if (!event.doit)
 					return;
 
-				System.out.println(" event in mouse move");
+				;//System.out.println(" event in mouse move");
 
 				hoverToOpen = null;
 				Point loc = new Point(event.x, event.y);
@@ -370,7 +370,7 @@ public class PopupMarkingArea {
 
 			@Override
 			public void handleEvent(Event event) {
-				System.out.println(" mouse up, who knows?");
+				;//System.out.println(" mouse up, who knows?");
 			}
 		});
 
@@ -393,7 +393,7 @@ public class PopupMarkingArea {
 			public void handleEvent(Event event) {
 
 				if (Launcher.display.getFocusControl() == shell) {
-					System.out.println(" event in FILTERED mouse move");
+					;//System.out.println(" event in FILTERED mouse move");
 
 					hoverToOpen = null;
 					Point loc = new Point(event.x, event.y);
@@ -510,7 +510,7 @@ public class PopupMarkingArea {
 
 				Control control = Launcher.display.getFocusControl();
 
-				// System.out.println(" focus is <" + control +
+				// ;//System.out.println(" focus is <" + control +
 				// "> <"
 				// + (control == shell) + "> <"
 				// + (control instanceof Table) +
@@ -527,7 +527,7 @@ public class PopupMarkingArea {
 
 //				if (badFocus > 50) {
 //					
-//					System.out.println(" focus was <"+control+">");
+//					;//System.out.println(" focus was <"+control+">");
 //					
 //					closeThis();
 //				}
@@ -540,7 +540,7 @@ public class PopupMarkingArea {
 		shell.setLocation((!noFakePositionWorkaround && Platform.getOS() == OS.mac) ? 100000 : realLocation, screenPoint.y - height / 2);
 		openNext();
 
-		System.out.println("\n\n opening pop at <" + shell.getBounds() + ">\n\n");
+		;//System.out.println("\n\n opening pop at <" + shell.getBounds() + ">\n\n");
 
 	}
 
@@ -551,7 +551,7 @@ public class PopupMarkingArea {
 	}
 
 	protected void handleMouse(Event event, Point loc) {
-		System.out.println(" entering handlemouse <" + event + " @ " + loc + ">");
+		;//System.out.println(" entering handlemouse <" + event + " @ " + loc + ">");
 
 		shell.redraw();
 
@@ -571,7 +571,7 @@ public class PopupMarkingArea {
 
 			opened = null;
 
-			System.out.println(" in middle ");
+			;//System.out.println(" in middle ");
 		} else
 
 			for (MenuArea b : components) {
@@ -580,7 +580,7 @@ public class PopupMarkingArea {
 				float d2 = b.area.contains(new Point(Math.min(shell.getSize().x - 1, Math.max(1, loc.x)), Math.min(shell.getSize().y - 1, Math.max(1, loc.y)))) ? 0 : 1;
 
 				if (d1 < 20) {
-					System.out.println(" d1<20, <" + opened + "> <" + b + ">");
+					;//System.out.println(" d1<20, <" + opened + "> <" + b + ">");
 					if (opened != b) {
 						if (opened != null) {
 							if (opened.pop != null) {
@@ -596,7 +596,7 @@ public class PopupMarkingArea {
 						hoverEvent = event;
 						hoverFast = true;
 
-						System.out.println(" now we have <" + hoverToOpen + "> <" + event + ">");
+						;//System.out.println(" now we have <" + hoverToOpen + "> <" + event + ">");
 
 						// b.pop((MouseEvent)
 						// event);
@@ -667,13 +667,13 @@ public class PopupMarkingArea {
 		for (MenuArea m : components) {
 			m.site = v.add(m.labelAt);
 
-			System.out.println(" voronoi :" + m.labelAt);
+			;//System.out.println(" voronoi :" + m.labelAt);
 
 			if (m.labelAt.distanceFrom(new Vector2(width / 2, height / 2)) < 5)
 				hasCenter = true;
 		}
 		if (!hasCenter) {
-			System.out.println(" missing center ");
+			;//System.out.println(" missing center ");
 			centerSite = v.add(new Vector2(width / 2, height / 2));
 		}
 
@@ -697,14 +697,14 @@ public class PopupMarkingArea {
 		}
 
 		if (!hasCenter) {
-			System.out.println(" center area is <" + centerArea + ">");
+			;//System.out.println(" center area is <" + centerArea + ">");
 			// all.add(centerArea);
 			// centerArea = new Region();
 			// centerArea.add(0, 0, 1, 1);
 			// all.add(centerArea);
 		}
 
-		System.out.println(" region bounds are :"+all.getBounds());
+		;//System.out.println(" region bounds are :"+all.getBounds());
 		Rectangle r = all.getBounds();
 		
 		// work around SWT issue on Linux
@@ -763,7 +763,7 @@ public class PopupMarkingArea {
 	//
 	// // g = getBufferStrategy().getDrawGraphics();
 	//
-	// System.out.println(" clearing background ? ");
+	// ;//System.out.println(" clearing background ? ");
 	//
 	// HashMap hints = new HashMap();
 	// hints.put(RenderingHints.KEY_ANTIALIASING,
@@ -810,7 +810,7 @@ public class PopupMarkingArea {
 
 	protected void closeThis() {
 
-		System.out.println(" close this ");
+		;//System.out.println(" close this ");
 
 		new Exception().printStackTrace();
 
@@ -836,7 +836,7 @@ public class PopupMarkingArea {
 
 		if (best != null) {
 			if (best.callback != null) {
-				System.out.println("\n\n\n executing area callback \n\n\n");
+				;//System.out.println("\n\n\n executing area callback \n\n\n");
 				best.callback.update();
 			}
 			best.callback = null;
@@ -853,7 +853,7 @@ public class PopupMarkingArea {
 
 		// setLocation(new Point(400,400));
 
-		System.out.println(" will grab back focus ");
+		;//System.out.println(" will grab back focus ");
 		// grabBackFocus();
 
 	}
@@ -865,7 +865,7 @@ public class PopupMarkingArea {
 	//
 	// Window window = invoker instanceof Window ? (Window) invoker
 	// : SwingUtilities.getWindowAncestor(invoker);
-	// System.out.println(" trying to get this to the front <" + window
+	// ;//System.out.println(" trying to get this to the front <" + window
 	// + " / <" + invoker + ">");
 	//
 	// try {
@@ -873,7 +873,7 @@ public class PopupMarkingArea {
 	// .findFirstMethodCalled(window.getClass(),
 	// "getGLComponentWindow").invoke(window);
 	// GLCanvas canvas = inside.getCanvas();
-	// System.out.println(" forcing focus to window ? <" + canvas + ">");
+	// ;//System.out.println(" forcing focus to window ? <" + canvas + ">");
 	// window.requestFocus();
 	// canvas.requestFocusInWindow();
 	// } catch (Exception e) {
@@ -900,13 +900,13 @@ public class PopupMarkingArea {
 
 		Control control = Launcher.display.getFocusControl();
 
-		System.out.println(" -- focus out to control <" + control + ">  = " + (control == null ? null : control.getBounds()) + " (" + System.identityHashCode(control) + "> shell is <" + System.identityHashCode(shell) + ">");
+		;//System.out.println(" -- focus out to control <" + control + ">  = " + (control == null ? null : control.getBounds()) + " (" + System.identityHashCode(control) + "> shell is <" + System.identityHashCode(shell) + ">");
 
 		// TODO swt \u2014 bit of a hack this one
 
 		if (control != null && !(control instanceof Table) && control != shell) {
 
-			System.out.println(" forcing a close");
+			;//System.out.println(" forcing a close");
 
 			shell.dispose();
 		}

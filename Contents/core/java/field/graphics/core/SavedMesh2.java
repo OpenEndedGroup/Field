@@ -91,7 +91,7 @@ public class SavedMesh2 {
 			if (header.maximumDimensions.get(i) == null)
 				continue;
 
-			System.out.println(" loading aux <" + i + " " + header.maximumDimensions.get(i) + " " + header.maximumDimensions.get(0) + " = " + (header.maximumDimensions.get(i) * 3 / header.maximumDimensions.get(0)));
+			;//System.out.println(" loading aux <" + i + " " + header.maximumDimensions.get(i) + " " + header.maximumDimensions.get(0) + " = " + (header.maximumDimensions.get(i) * 3 / header.maximumDimensions.get(0)));
 
 			FloatBuffer a = mesh.aux(i, header.maximumDimensions.get(i) * 3 / header.maximumDimensions.get(0));
 

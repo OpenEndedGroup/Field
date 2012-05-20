@@ -130,20 +130,20 @@ public class HistoryExplorerHG {
 		final Map<VersionNode, DiffSetVertical> ret = new HashMap<VersionNode, DiffSetVertical>();
 		final Map<VersionNode, String> cache = new HashMap<VersionNode, String>();
 
-//		System.out.println(" building diff history ");
+//		;//System.out.println(" building diff history ");
 
 		new GraphNodeSearching.GraphNodeVisitor_depthFirst<VersionNode>(false) {
 			@Override
 			protected VisitCode visit(VersionNode n) {
 
-//				System.out.println(" at <"+n+">");
+//				;//System.out.println(" at <"+n+">");
 
 				List<VersionNode> parents = n.getChildren();
 				String left = null;
 				long leftVersion = 0;
 				if (parents.size()>0)
 				{
-//					System.out.println(" fetching parent <"+parents.get(0).revision+"> <"+parents.get(0).path+">");
+//					;//System.out.println(" fetching parent <"+parents.get(0).revision+"> <"+parents.get(0).path+">");
 					left = (String) getVersionProperty(parents.get(0).revision, parents.get(0).path, null);
 					leftVersion = parents.get(0).revision;
 				}
@@ -155,7 +155,7 @@ public class HistoryExplorerHG {
 				String right = (String) getVersionProperty(n.revision, n.path, null);
 
 				long rightVersion = n.revision;
-//				System.out.println(" comparing\n"+left+"("+leftVersion+")\n"+right+"("+n.revision+")");
+//				;//System.out.println(" comparing\n"+left+"("+leftVersion+")\n"+right+"("+n.revision+")");
 
 				String l = left;
 				left = right;
@@ -183,16 +183,16 @@ public class HistoryExplorerHG {
 		HGLog log = new HGLog(string);
 		List<VersionNode> vn = log.getVersionNodes();
 
-	//	System.out.println(" nodes are <"+vn+">");
+	//	;//System.out.println(" nodes are <"+vn+">");
 
 //		for (VersionNode n : vn) {
-//			System.out.println("node <" + System.identityHashCode(n) + ">");
-//			System.out.println("   " + n);
-//			System.out.println("   path:"+n.path);
+//			;//System.out.println("node <" + System.identityHashCode(n) + ">");
+//			;//System.out.println("   " + n);
+//			;//System.out.println("   path:"+n.path);
 //
-//			System.out.println("   next:" + System.identityHashCode(n.next));
-//			System.out.println("   copiedFrom:" + System.identityHashCode(n.copiedFrom));
-//			System.out.println("   copiedTo:" + System.identityHashCode(n.copyTo));
+//			;//System.out.println("   next:" + System.identityHashCode(n.next));
+//			;//System.out.println("   copiedFrom:" + System.identityHashCode(n.copiedFrom));
+//			;//System.out.println("   copiedTo:" + System.identityHashCode(n.copyTo));
 //		}
 
 		return new LinkedHashSet<VersionNode>(vn);

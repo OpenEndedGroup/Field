@@ -45,7 +45,7 @@ public class BetterPythonConstructors implements ClassLoadedNotification {
 				inside = true;
 				try {
 
-					System.out.println(" found synthetize factory <" + loaded + ">");
+					;//System.out.println(" found synthetize factory <" + loaded + ">");
 
 					String name = loaded.getSimpleName();
 					String upperName = name;
@@ -59,29 +59,29 @@ public class BetterPythonConstructors implements ClassLoadedNotification {
 
 					String s = "def " + name + "(**args):\n" + "\tr = " + upperName + "()\n" + "\tfor k,v in args.items():\n" + "\t\tsetattr(r, k, v)\n" + "\treturn r\n" + name + ".__doc__=\"\"\"" + doc + "\"\"\"";
 
-					System.out.println(" eval :\n" + s);
+					;//System.out.println(" eval :\n" + s);
 
 					String n = loaded.getName();
 					String clazz = "";
 					String pack = "";
 
-					System.out.println(" name is <" + n + ">");
+					;//System.out.println(" name is <" + n + ">");
 
 					if (n.contains("$")) {
-						System.out.println(" split <" + Arrays.asList(n.split("\\$")) + ">");
+						;//System.out.println(" split <" + Arrays.asList(n.split("\\$")) + ">");
 						clazz = n.split("\\$")[1];
 						pack = n.split("\\$")[0];
 
 						String pack2 = pack.substring(0, pack.lastIndexOf("."));
 						String clazz2 = pack.substring(pack.lastIndexOf(".") + 1);
 
-						System.out.println(" import <" + clazz2 + "> <" + pack2 + ">");
+						;//System.out.println(" import <" + clazz2 + "> <" + pack2 + ">");
 						PythonInterface.getPythonInterface().importJava(pack2, clazz2);
 					} else {
 						pack = n.substring(0, n.lastIndexOf("."));
 						clazz = n.substring(n.lastIndexOf(".") + 1);
 					}
-					System.out.println(" import2 <" + clazz + "> <" + pack + ">");
+					;//System.out.println(" import2 <" + clazz + "> <" + pack + ">");
 
 					PythonInterface.getPythonInterface().importJava(pack, clazz);
 					PythonInterface.getPythonInterface().execString(s);
