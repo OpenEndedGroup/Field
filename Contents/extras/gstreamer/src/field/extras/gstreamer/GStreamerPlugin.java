@@ -25,14 +25,14 @@ public class GStreamerPlugin extends BaseSimplePlugin {
 
 			System.setProperty("jna.library.path", extensionsDir + "/lib/macosx");
 
-			;//;//System.out.println(" binary file is :" + new File(extensionsDir + "lib/macosx").getAbsolutePath());
+			System.out.println(" will load gstreamer from:" + new File(extensionsDir + "lib/macosx").getAbsolutePath());
 		} else {
 			extensionsDir = SystemProperties.getDirProperty("gstreamer_dir", "/usr/lib/gstreamer-0.10/");
 
-			System.setProperty("jna.library.path", extensionsDir );
+			System.setProperty("jna.library.path", extensionsDir);
 
-			;//;//System.out.println(" binary file is :" + new File(extensionsDir).getAbsolutePath());
-			
+			System.out.println(" will load gstreamer from: " + new File(extensionsDir).getAbsolutePath());
+
 			NativeLibrary.getProcess();
 		}
 
@@ -40,7 +40,11 @@ public class GStreamerPlugin extends BaseSimplePlugin {
 		Gst.init("field", new String[] {});
 
 		if (field.core.Platform.isMac()) {
-			Registry.getDefault().scanPath(extensionsDir + "/lib/macosx/plugins");
+			try {
+				Registry.getDefault().scanPath(extensionsDir + "/lib/macosx/plugins");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
