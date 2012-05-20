@@ -9,6 +9,8 @@
 *.log
 *.pkc
 *.idx
+*.java.orig
+*.java_
 
 # emacs
 *~

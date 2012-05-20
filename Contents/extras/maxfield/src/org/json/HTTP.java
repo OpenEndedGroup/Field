@@ -26,9 +26,6 @@ SOFTWARE.
 
 import java.util.Iterator;
 
-import field.online.org.json.HTTPTokener;
-import field.online.org.json.JSONException;
-import field.online.org.json.JSONObject;
 
 /**
  * Convert an HTTP header to a JSONObject and back.

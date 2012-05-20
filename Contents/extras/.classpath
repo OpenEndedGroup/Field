@@ -16,6 +16,7 @@
 	<classpathentry kind="src" output="processing/bin" path="processing/src"/>
 	<classpathentry kind="src" output="scrubber/bin" path="scrubber/src"/>
 	<classpathentry kind="src" path="gstreamer/src"/>
+	<classpathentry kind="src" output="syphon/bin" path="syphon/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/field"/>
 	<classpathentry kind="lib" path="/field/jython-complete.jar"/>
@@ -34,6 +35,6 @@
 	<classpathentry kind="lib" path="/Applications/Max6/Cycling &apos;74/java/lib/jode-1.1.2-pre-embedded.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6/Cycling &apos;74/java/lib/max.jar"/>
 	<classpathentry kind="lib" path="gstreamer/lib/gstreamer-java.jar"/>
-	<classpathentry kind="lib" path="/field/Contents/lib/jruby-complete-1.6.7.2.jar"/>
+	<classpathentry kind="lib" path="/field/jruby-complete-1.6.7.2.jar"/>
 	<classpathentry kind="output" path="topology/bin"/>
 </classpath>
