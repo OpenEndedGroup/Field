@@ -271,7 +271,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 		if (nothing) {
 			Composite status = new Composite(folder.getContainer(), 0);
 
-			folder.add("P", status);
+			folder.add("icons/p_16x16.png", status);
 
 			;//;//System.out.println(" status is :" + nothing + " " + error);
 			status.setBackground(ToolBarFolder.firstLineBackground);
