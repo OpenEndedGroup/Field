@@ -11,9 +11,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.java_websocket.WebSocket;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import field.core.StandardFluidSheet;
 import field.core.dispatch.Mixins;
@@ -45,6 +42,9 @@ import field.math.abstraction.iFloatProvider;
 import field.math.graph.GraphNodeSearching.VisitCode;
 import field.math.linalg.Vector4;
 import field.online.EmbeddedServer.Handler;
+import field.online.org.json.JSONArray;
+import field.online.org.json.JSONException;
+import field.online.org.json.JSONObject;
 
 // this (and all subelements) of the node that this is installed on will become "in a web browser"
 

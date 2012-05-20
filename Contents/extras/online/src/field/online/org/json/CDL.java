@@ -1,9 +1,4 @@
-package org.json;
-
-import field.online.org.json.JSONArray;
-import field.online.org.json.JSONException;
-import field.online.org.json.JSONObject;
-import field.online.org.json.JSONTokener;
+package field.online.org.json;
 
 /*
 Copyright (c) 2002 JSON.org

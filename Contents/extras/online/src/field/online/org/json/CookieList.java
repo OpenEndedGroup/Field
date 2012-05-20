@@ -1,4 +1,4 @@
-package org.json;
+package field.online.org.json;
 
 /*
 Copyright (c) 2002 JSON.org
@@ -26,10 +26,6 @@ SOFTWARE.
 
 import java.util.Iterator;
 
-import field.online.org.json.Cookie;
-import field.online.org.json.JSONException;
-import field.online.org.json.JSONObject;
-import field.online.org.json.JSONTokener;
 
 /**
  * Convert a web browser cookie list string to a JSONObject and back.

@@ -1,8 +1,5 @@
-package org.json;
+package field.online.org.json;
 
-import field.online.org.json.JSONException;
-import field.online.org.json.JSONTokener;
-import field.online.org.json.XML;
 
 /*
 Copyright (c) 2002 JSON.org

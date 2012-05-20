@@ -1,21 +1,10 @@
-package org.json;
+package field.online.org.json;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.io.StringWriter;
 
-import field.online.org.json.CDL;
-import field.online.org.json.Cookie;
-import field.online.org.json.CookieList;
-import field.online.org.json.HTTP;
-import field.online.org.json.JSONArray;
-import field.online.org.json.JSONML;
-import field.online.org.json.JSONObject;
-import field.online.org.json.JSONString;
-import field.online.org.json.JSONStringer;
-import field.online.org.json.JSONTokener;
-import field.online.org.json.XML;
 
 /**
  * Test class. This file is not formally a member of the org.json library.

@@ -1,4 +1,4 @@
-package org.json;
+package field.online.org.json;
 
 /*
 Copyright (c) 2006 JSON.org
@@ -26,7 +26,7 @@ SOFTWARE.
 
 import java.io.StringWriter;
 
-import field.online.org.json.JSONWriter;
+import org.json.JSONWriter;
 
 /**
  * JSONStringer provides a quick and convenient way of producing JSON text.
