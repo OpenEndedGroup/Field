@@ -1,0 +1,241 @@
+// !$*UTF8*$!
+{
+	08FB7793FE84155DC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Debug;
+		activeTarget = D2AAC0620554660B00DB518D /* syphon */;
+		addToTargets = (
+			D2AAC0620554660B00DB518D /* syphon */,
+		);
+		codeSenseManager = 498FA008130EC65000BB4D5E /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					849,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					809,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 319735367;
+			PBXWorkspaceStateSaveDate = 319735367;
+		};
+		perUserProjectItems = {
+			498FA0BA130ED76B00BB4D5E /* PBXTextBookmark */ = 498FA0BA130ED76B00BB4D5E /* PBXTextBookmark */;
+			498FA0BB130ED76B00BB4D5E /* PBXTextBookmark */ = 498FA0BB130ED76B00BB4D5E /* PBXTextBookmark */;
+			498FA0C7130ED80E00BB4D5E /* PBXTextBookmark */ = 498FA0C7130ED80E00BB4D5E /* PBXTextBookmark */;
+			498FA0C9130ED80E00BB4D5E /* PBXTextBookmark */ = 498FA0C9130ED80E00BB4D5E /* PBXTextBookmark */;
+			498FA102130EDD2400BB4D5E /* PBXTextBookmark */ = 498FA102130EDD2400BB4D5E /* PBXTextBookmark */;
+			498FA12E1313468700BB4D5E /* PBXTextBookmark */ = 498FA12E1313468700BB4D5E /* PBXTextBookmark */;
+			498FA12F1313468700BB4D5E /* PBXTextBookmark */ = 498FA12F1313468700BB4D5E /* PBXTextBookmark */;
+			498FA1321313468700BB4D5E /* PBXTextBookmark */ = 498FA1321313468700BB4D5E /* PBXTextBookmark */;
+			498FA1341313468700BB4D5E /* PBXTextBookmark */ = 498FA1341313468700BB4D5E /* PBXTextBookmark */;
+		};
+		sourceControlManager = 498FA007130EC65000BB4D5E /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	498FA007130EC65000BB4D5E /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	498FA008130EC65000BB4D5E /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	498FA026130ED47300BB4D5E /* field_syphon_SyphonClient.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1027, 910}}";
+			sepNavSelRange = "{248, 1363}";
+			sepNavVisRange = "{517, 1130}";
+			sepNavWindowFrame = "{{717, 180}, {1525, 1310}}";
+		};
+	};
+	498FA03A130ED4DA00BB4D5E /* field_syphon_SyphonClient.mm */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1027, 1534}}";
+			sepNavSelRange = "{2482, 20}";
+			sepNavVisRange = "{2049, 1249}";
+		};
+	};
+	498FA03F130ED4EE00BB4D5E /* field_syphon_SyphonClient.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = field_syphon_SyphonClient.h;
+		path = /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.h;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {593, 871}}";
+			sepNavSelRange = "{54, 0}";
+			sepNavVisRange = "{0, 451}";
+		};
+	};
+	498FA0BA130ED76B00BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA03F130ED4EE00BB4D5E /* field_syphon_SyphonClient.h */;
+		name = "field_syphon_SyphonClient.h: 2";
+		rLen = 0;
+		rLoc = 54;
+		rType = 0;
+		vrLen = 1287;
+		vrLoc = 0;
+	};
+	498FA0BB130ED76B00BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA026130ED47300BB4D5E /* field_syphon_SyphonClient.h */;
+		name = "field_syphon_SyphonClient.h: 10";
+		rLen = 1363;
+		rLoc = 248;
+		rType = 0;
+		vrLen = 1130;
+		vrLoc = 517;
+	};
+	498FA0C7130ED80E00BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA0C8130ED80E00BB4D5E /* CGGeometry.h */;
+		name = "CGGeometry.h: 21";
+		rLen = 16;
+		rLoc = 325;
+		rType = 0;
+		vrLen = 953;
+		vrLoc = 0;
+	};
+	498FA0C8130ED80E00BB4D5E /* CGGeometry.h */ = {
+		isa = PBXFileReference;
+		name = CGGeometry.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Headers/CGGeometry.h;
+		sourceTree = "<absolute>";
+	};
+	498FA0C9130ED80E00BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA0CA130ED80E00BB4D5E /* NSGeometry.h */;
+		name = "NSGeometry.h: 26";
+		rLen = 6;
+		rLoc = 725;
+		rType = 0;
+		vrLen = 1184;
+		vrLoc = 0;
+	};
+	498FA0CA130ED80E00BB4D5E /* NSGeometry.h */ = {
+		isa = PBXFileReference;
+		name = NSGeometry.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Versions/C/Headers/NSGeometry.h;
+		sourceTree = "<absolute>";
+	};
+	498FA102130EDD2400BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA103130EDD2400BB4D5E /* NSString.h */;
+		name = "NSString.h: 291";
+		rLen = 72;
+		rLoc = 17438;
+		rType = 0;
+		vrLen = 3700;
+		vrLoc = 15889;
+	};
+	498FA103130EDD2400BB4D5E /* NSString.h */ = {
+		isa = PBXFileReference;
+		name = NSString.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Versions/C/Headers/NSString.h;
+		sourceTree = "<absolute>";
+	};
+	498FA12E1313468700BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA03A130ED4DA00BB4D5E /* field_syphon_SyphonClient.mm */;
+		name = "field_syphon_SyphonClient.mm: 87";
+		rLen = 20;
+		rLoc = 2482;
+		rType = 0;
+		vrLen = 1236;
+		vrLoc = 2050;
+	};
+	498FA12F1313468700BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA03A130ED4DA00BB4D5E /* field_syphon_SyphonClient.mm */;
+		name = "field_syphon_SyphonClient.mm: 87";
+		rLen = 20;
+		rLoc = 2482;
+		rType = 0;
+		vrLen = 1249;
+		vrLoc = 2049;
+	};
+	498FA1321313468700BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA1331313468700BB4D5E /* ChartComposite.java */;
+		rLen = 0;
+		rLoc = 9223372036854775807;
+		rType = 0;
+	};
+	498FA1331313468700BB4D5E /* ChartComposite.java */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.java;
+		name = ChartComposite.java;
+		path = /Users/marc/fieldwork/temp/jfreechart/trunk/swt/org/jfree/experimental/chart/swt/ChartComposite.java;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1466, 23907}}";
+			sepNavSelRange = "{67838, 5}";
+			sepNavVisRange = "{63526, 3647}";
+			sepNavWindowFrame = "{{245, 53}, {1525, 1310}}";
+		};
+	};
+	498FA1341313468700BB4D5E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 498FA1351313468700BB4D5E /* ChartComposite.java */;
+		name = "ChartComposite.java: 1857";
+		rLen = 5;
+		rLoc = 67838;
+		rType = 0;
+		vrLen = 3647;
+		vrLoc = 63526;
+	};
+	498FA1351313468700BB4D5E /* ChartComposite.java */ = {
+		isa = PBXFileReference;
+		name = ChartComposite.java;
+		path = /Users/marc/fieldwork/temp/jfreechart/trunk/swt/org/jfree/experimental/chart/swt/ChartComposite.java;
+		sourceTree = "<absolute>";
+	};
+	D2AAC0620554660B00DB518D /* syphon */ = {
+		activeExec = 0;
+	};
+}

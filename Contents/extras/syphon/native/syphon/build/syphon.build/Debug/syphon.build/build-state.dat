@@ -1,0 +1,169 @@
+Tsyphon
+v7
+r0
+t319742063.698154
+cCheck dependencies
+cCompileC build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm normal x86_64 objective-c++ com.apple.compilers.gcc.4_2
+cLd /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib normal x86_64
+
+N/Developer/SDKs/MacOSX10.6.sdk
+c000000004BF4701900000000000000EE
+t1274310681
+s238
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Cocoa.framework/Cocoa
+c000000004C5342AB0000000000003430
+t1280524971
+s13360
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
+c0000000040C4AA6800000000000001E5
+t1086630504
+s485
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/JavaVM.framework/Headers/jni.h
+c000000004A8D280C0000000000010AF0
+t1250764812
+s68336
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework/Headers/OpenGL.h
+c000000004C44D4240000000000001659
+t1279579172
+s5721
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL
+c000000004C5342AD000000000000DB14
+t1280524973
+s56084
+
+N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Quartz.framework/Headers/Quartz.h
+c000000004BE54CE90000000000000124
+t1273318633
+s292
+
+N/System/Library/Frameworks/Cocoa.framework/Cocoa
+c000000004A1F2D63000000000000A5E0
+t1243557219
+s42464
+
+N/System/Library/Frameworks/JavaVM.framework/JavaVM
+c000000004CACB2900000000000037E10
+t1286386320
+s228880
+
+N/Users/marc/fieldwork/field/extras/syphon/native/field_syphon_SyphonClient.h
+c000000004D5E9CEE000000000000066F
+t1298046190
+s1647
+i<jni.h>
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m
+c000000004D5E9E1D000000000000058C
+t1298046493
+s1420
+i"field_syphon_SyphonClient.h"
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm
+c000000004D5EA8EE0000000000000CE2
+t1298049262
+s3298
+i<Cocoa/Cocoa.h>
+i"field_syphon_SyphonClient.h"
+i"Syphon.h"
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers/Syphon.h
+c000000004D5E8E120000000000001F43
+t1298042386
+s8003
+i"SyphonServerDirectory.h"
+i"SyphonServer.h"
+i"SyphonClient.h"
+i"SyphonImage.h"
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers/SyphonClient.h
+c000000004D5E8E12000000000000138B
+t1298042386
+s5003
+i<Cocoa/Cocoa.h>
+i<Quartz/Quartz.h>
+i<OpenGL/OpenGL.h>
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers/SyphonImage.h
+c000000004D5E8E1200000000000007AC
+t1298042386
+s1964
+i<Cocoa/Cocoa.h>
+i<OpenGL/OpenGL.h>
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers/SyphonServer.h
+c000000004D5E8E120000000000002A80
+t1298042386
+s10880
+i<Cocoa/Cocoa.h>
+i<Quartz/Quartz.h>
+i<OpenGL/OpenGL.h>
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers/SyphonServerDirectory.h
+c000000004D5E8E12000000000000141C
+t1298042386
+s5148
+i<Cocoa/Cocoa.h>
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Syphon
+c000000004D5E8E13000000000002D1E0
+t1298042387
+s184800
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib
+t1298049263
+s16040
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o
+t1298049263
+s60204
+
+N/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/syphon.LinkFileList
+c000000004D5E9D680000000000000090
+t1298046312
+s144
+
+CCheck dependencies
+r0
+lSLF07#2@18"Check dependencies319742062#319742062#0(0"0(0#1#0"8640392864#0"0#
+
+CCompileC build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
+s319739293.144082
+e319739293.237439
+r0
+xCompileC
+xbuild/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o
+x/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m
+xnormal
+xx86_64
+xobjective-c
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@94"Compile /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m319739293#319739293#0(1038"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m: In function 'Java_field_syphon_SyphonClient_initWithUUID':/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:15: error: request for member 'GetStringUTFChars' in something not a structure or union/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:16: error: 'NSString' undeclared (first use in this function)/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:16: error: (Each undeclared identifier is reported only once/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:16: error: for each function it appears in.)/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:16: error: 'nsuid' undeclared (first use in this function)/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m:18: warning: control reaches end of non-void function4(4@76"Request for member 'GetStringUTFChars' in something not a structure or union319739293#147#175#0(6@86"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m319739293#15#0#15#0#0"0(4@50"'NSString' undeclared (first use in this function)319739293#322#149#0(6@86"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m319739293#16#0#16#0#43"'*' undeclared (first use in this function)0(4@47"'nsuid' undeclared (first use in this function)319739293#751#146#0(6@86"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m319739293#16#0#16#0#43"'*' undeclared (first use in this function)0(22@40"Control reaches end of non-void function319739293#897#141#0(6@86"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m319739293#18#0#18#0#40"control reaches end of non-void function0(0#0#86"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m8629086336#1636"    cd /Users/marc/fieldwork/field/extras/syphon/native/syphon    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-generated-files.hmap -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-own-target-headers.hmap -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-all-target-headers.hmap -iquote /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-project-headers.hmap -F/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug -F/Users/marc/fieldwork/field/extras/syphon/native/syphon -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/include -I/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/JavaVM.framework/Headers -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/DerivedSources/x86_64 -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/DerivedSources -c /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.m -o /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o1#
+
+CCompileC build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm normal x86_64 objective-c++ com.apple.compilers.gcc.4_2
+s319742062.673073
+e319742063.662045
+r1
+xCompileC
+xbuild/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o
+x/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm
+xnormal
+xx86_64
+xobjective-c++
+xcom.apple.compilers.gcc.4_2
+lSLF07#2@95"Compile /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm319742062#319742063#0(420"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm: In function 'jlong Java_field_syphon_SyphonClient_initWithUUID(JNIEnv*, _jobject*, _jstring*)':/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm:47: warning: incompatible Objective-C types 'NSString*', expected 'NSNumber*' when passing argument 1 of 'compare:' from distinct Objective-C type1(22@133"Incompatible Objective-C types 'NSString*', expected 'NSNumber*' when passing argument 1 of 'compare:' from distinct Objective-C type319742063#185#235#0(6@87"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm319742062#47#0#47#0#0"0(0#0#87"/Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm8639343200#1739"    cd /Users/marc/fieldwork/field/extras/syphon/native/syphon    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c++ -arch x86_64 -fmessage-length=0 -pipe -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fvisibility-inlines-hidden -mmacosx-version-min=10.6 -gdwarf-2 -iquote /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-generated-files.hmap -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-own-target-headers.hmap -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-all-target-headers.hmap -iquote /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/syphon-project-headers.hmap -F/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug -F/Users/marc/fieldwork/field/extras/syphon/native/syphon -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/include -I/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/JavaVM.framework/Headers -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/Syphon.framework/Headers -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/DerivedSources/x86_64 -I/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/DerivedSources -c /Users/marc/fieldwork/field/extras/syphon/native/syphon/../field_syphon_SyphonClient.mm -o /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/field_syphon_SyphonClient.o0#
+
+CLd /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib normal x86_64
+s319742063.662115
+e319742063.698042
+r1
+xLd
+x/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib
+xnormal
+xx86_64
+lSLF07#2@88"Link /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib319742063#319742063#0(0"0(0#0#0"8641108000#833"    cd /Users/marc/fieldwork/field/extras/syphon/native/syphon    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/g++-4.2 -arch x86_64 -dynamiclib -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug -F/Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug -F/Users/marc/fieldwork/field/extras/syphon/native/syphon -filelist /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/syphon.build/Debug/syphon.build/Objects-normal/x86_64/syphon.LinkFileList -install_name /usr/local/lib/libsyphon.dylib -mmacosx-version-min=10.6 -framework JavaVM -framework Cocoa -framework Syphon -framework OpenGL -single_module -compatibility_version 1 -current_version 1 -o /Users/marc/fieldwork/field/extras/syphon/native/syphon/build/Debug/libsyphon.dylib0#
+

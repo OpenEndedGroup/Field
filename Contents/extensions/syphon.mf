@@ -1,0 +1,5 @@
+Field-RedirectionPath: ../extras/syphon/bin
+Field-Property-Append-java-source-paths: ../extras/syphon
+Field-Property-Append-java-library-path: ../extras/syphon/native/syphon/build/Debug/
+Field-PluginClass: field.syphon.SyphonPlugin
+
