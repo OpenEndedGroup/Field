@@ -28,6 +28,7 @@ To use an OpenJDK 1.7 VM place the .jdk bundle inside Contents/Plugins and:
 ### Running --- Linux
 
 To run:
+
 	Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
 
 
