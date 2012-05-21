@@ -8,9 +8,9 @@ Field is an open-source software project initiated by OpenEndedGroup, for the cr
 
 To build Field:
 
-   git clone git@github.com:OpenEndedGroup/Field.git
-   cd Field
-   ant
+	git clone git@github.com:OpenEndedGroup/Field.git
+	cd Field
+	ant
 
 That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0x installed) then `ant extras_all`
 
