@@ -1,6 +1,5 @@
 
-
-<project>
+<project default="core">
   <target name="clean">
     <delete dir="core/classes/" />
     <delete dir="core/.apt_generated" />
@@ -55,6 +54,8 @@
            includes="**/*.class" />
     </copy>
   </target>
+
+  <target name="core" depends="build_core,extras_topology,extras_modal"/>
 
   <target name="extras_cl" depends="build_core">
     <mkdir dir="extras/cl/bin" />
