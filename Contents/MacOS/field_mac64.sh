@@ -4,7 +4,7 @@ echo $fieldhome
 cd $fieldhome/Resources/
 
 
-if [[ `defaults read com.openendedgroup.Field use16 | grep YES` ]]
+if [[ -z `defaults read com.openendedgroup.Field use16 | grep -c YES` ]]
 then
     echo "using 1.6"
     jdk=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/

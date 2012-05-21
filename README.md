@@ -12,24 +12,30 @@ To build Field:
 	cd Field
 	ant
 
+
 That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0x installed) then `ant extras_all`
 
 ### Running --- Mac OS X
 
-This repository is _inside_ a Mac OS X Application structure. That is, if you name this repository `field.app` then you'll have a double-clickable Mac app. To run from the command line, run 
+This repository is _inside_ a Mac OS X Application structure. That is, if you name this repository `field.app` then you'll have a double-clickable Mac app. 
 
-	defaults write com.openendedgroup.Field use16 1
-	Contents/MacOS/field_mac64.sh -field.scratch nameOfFileToOpen.field
+If you are on OS X you probably want to set this:
 
-To use an OpenJDK 1.7 VM place the .jdk bundle inside Contents/Plugins and:
+	defaults write com.openendedgroup.Field use16 YES
+
+This tells Field to launch using an OS installed 1.6 VM. If you want to use an OpenJDK 1.7 VM place the .jdk bundle inside Contents/Plugins and:
 	
 	defaults delete com.openendedgroup.Field use16 
+
+Finally, to run from the command line, run 
+
+	./Contents/MacOS/field_mac64.sh -field.scratch nameOfFileToOpen.field
 
 ### Running --- Linux
 
 To run:
 
-	Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
+	./Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
 
 
 
