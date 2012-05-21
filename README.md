@@ -2,7 +2,7 @@
 
 Field is an open-source software project initiated by OpenEndedGroup, for the creation of their digital artworks. It is an environment for writing code to rapidly and experimentally assemble and explore algorithmic systems. It is _visual_, it is _hybrid_, it is _code-based_. We think that it has something to offer a diverse range of programmers and artists. It is developed and tested on Mac OS X (primarily) and Ubuntu 12 + Nvidia proprietary drivers.
 
-*Our main documentation website is here: http://OpenEndedGroup.com/field*
+*Our main documentation website is here: http://openendedgroup.com/field*
 
 ### Building
 
