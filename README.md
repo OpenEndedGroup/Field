@@ -9,7 +9,7 @@ Field is an open-source software project initiated by OpenEndedGroup, for the cr
 To build Field:
 
 	git clone git@github.com:OpenEndedGroup/Field.git
-	cd Field
+	cd Field/Contents
 	ant
 
 
@@ -35,7 +35,7 @@ Finally, to run from the command line, run
 
 To run:
 
-	./Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
+	./Contents/Linux/field_linux32.sh -field.scratch nameOfFileToOpen.field
 
 
 
