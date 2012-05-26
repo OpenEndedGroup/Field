@@ -185,10 +185,10 @@ public class Trampoline2 implements iLaunchable {
 		@Override
 		synchronized protected Class<?> loadClass(String class_name, boolean resolve) throws ClassNotFoundException {
 
-//			;//System.out.println(" load :"+class_name);
+//			System.out.println(" load :"+class_name);
 			
 			if (alreadyFailed.contains(class_name))
-				throw new ClassNotFoundException();
+				throw new ClassNotFoundException(class_name);
 
 			deferTo = getParent();
 			try {
@@ -295,8 +295,8 @@ public class Trampoline2 implements iLaunchable {
 						// popped.equals(class_name);
 					}
 					if (classNotFound != null) {
+						System.err.println("exception (" + classNotFound.getClass() + "): while trying to load <" + class_name + " / <" + loading + ">");
 						if (debug) {
-							System.err.println("exception (" + classNotFound.getClass() + "): while trying to load <" + class_name + " / <" + loading + ">");
 							new Exception().printStackTrace();
 						}
 						alreadyFailed.add(class_name);
@@ -800,7 +800,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void launch() {
-		;//System.out.println("## trampoline <" + this.getClass() + ":" + this.getClass().getClassLoader() + ">");
+		System.out.println("## trampoline <" + this.getClass() + ":" + this.getClass().getClassLoader() + ">");
 		trampoline = this;
 
 		String exceptions = SystemProperties.getProperty("trampolineExceptions", null);
@@ -922,6 +922,9 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	private Set<Object> injectManifestProperties(Manifest manifest) {
+		
+		System.out.println(" inject manifest properties ");
+		
 		Set<Object> ks = manifest.getMainAttributes().keySet();
 		for (Object o : ks) {
 			if (o instanceof Attributes.Name) {
@@ -937,6 +940,9 @@ public class Trampoline2 implements iLaunchable {
 						String pp = SystemProperties.getProperty(prop, null);
 						pp = (pp == null ? pathify(manifest.getMainAttributes().getValue(an)) : (pp + ":" + pathify(manifest.getMainAttributes().getValue(an))));
 						SystemProperties.setProperty(prop, pp);
+						
+						System.out.println(" property <"+prop+"> now <"+pp+">");
+						
 					} else {
 						SystemProperties.setProperty(prop, manifest.getMainAttributes().getValue(an));
 					}

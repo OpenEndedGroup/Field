@@ -45,8 +45,8 @@ public class CoreHelpers {
 			for (float[] f : copy.stack) {
 				stack.add(Arrays.copyOf(f, f.length));
 			}
-			
-			if (stack.size()>0)
+
+			if (stack.size() > 0)
 				head = stack.get(stack.size() - 1);
 		}
 
@@ -82,8 +82,8 @@ public class CoreHelpers {
 		int mode = CoreHelpers.mode;
 		int[] viewport = new int[4];
 
-		IntBuffer ii = ByteBuffer.allocateDirect(4*4*16).order(ByteOrder.nativeOrder()).asIntBuffer();
-		
+		IntBuffer ii = ByteBuffer.allocateDirect(4 * 4 * 16).order(ByteOrder.nativeOrder()).asIntBuffer();
+
 		public Attrib() {
 			ii.rewind();
 			GL11.glGetInteger(GL11.GL_VIEWPORT, ii);
@@ -92,14 +92,14 @@ public class CoreHelpers {
 		}
 
 		public void pop() {
-//			CoreHelpers.modelview = modelview;
-//			CoreHelpers.projection = projection;
-//			CoreHelpers.texture0 = texture0;
-//			CoreHelpers.texture1 = texture1;
-//			CoreHelpers.texture2 = texture2;
-//			CoreHelpers.texture3 = texture3;
-//			CoreHelpers.texture4 = texture4;
-//			CoreHelpers.texture5 = texture5;
+			// CoreHelpers.modelview = modelview;
+			// CoreHelpers.projection = projection;
+			// CoreHelpers.texture0 = texture0;
+			// CoreHelpers.texture1 = texture1;
+			// CoreHelpers.texture2 = texture2;
+			// CoreHelpers.texture3 = texture3;
+			// CoreHelpers.texture4 = texture4;
+			// CoreHelpers.texture5 = texture5;
 			CoreHelpers.texture = texture;
 			CoreHelpers.mode = mode;
 
@@ -194,21 +194,13 @@ public class CoreHelpers {
 	static private void glMultiply(float[] m) {
 		switch (mode) {
 		case GL11.GL_PROJECTION:
-			// ;//System.out.println(" projection matrix was :" +
-			// projection);
 			System.arraycopy(glMultiply(projection.head, m), 0, projection.head, 0, 16);
-			// ;//System.out.println(" projection matrix is :" +
-			// projection);
 			break;
 		case GL11.GL_MODELVIEW:
-			// ;//System.out.println(" model metrix was:" + modelview);
 			System.arraycopy(glMultiply(modelview.head, m), 0, modelview.head, 0, 16);
-			// ;//System.out.println(" model metrix is :" + modelview);
 			break;
 		case GL11.GL_TEXTURE:
-			// ;//System.out.println(" texture metrix was:" + texture);
 			System.arraycopy(glMultiply(texture.head, m), 0, texture.head, 0, 16);
-			// ;//System.out.println(" texture metrix is :" + texture);
 			break;
 		default:
 			throw new IllegalArgumentException();
@@ -292,7 +284,6 @@ public class CoreHelpers {
 	}
 
 	public static void glPushMatrix() {
-		// ;//System.out.println(" -------- push "+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
 
 		if (!isCore)
 			GL11.glPushMatrix();
@@ -327,14 +318,14 @@ public class CoreHelpers {
 	public static void glMultMatrix(FloatBuffer matrixm) {
 		if (!isCore)
 			GL11.glMultMatrix(matrixm);
-		
+
 		matrixm.rewind();
 		matrixm.get(tmp);
 
 		matrixm.rewind();
 
 		glMultiply(tmp);
-		
+
 	}
 
 	public static void glPopMatrix() {
@@ -518,13 +509,50 @@ public class CoreHelpers {
 	}
 
 	static List<Attrib> attrib = new LinkedList<Attrib>();
-	
+
 	public static void glPushAttrib(int glAllAttribBits) {
 		attrib.add(new Attrib());
 	}
 
 	public static void glPopAttrib() {
-		attrib.remove(attrib.size()-1).pop();
+		attrib.remove(attrib.size() - 1).pop();
+	}
+
+	public static void backOutStacks() {
+		while (modelview.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL11.GL_MODELVIEW);
+			CoreHelpers.glPopMatrix();
+		}
+		while (projection.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL11.GL_PROJECTION);
+			CoreHelpers.glPopMatrix();
+		}
+		while (texture0.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE0);
+			CoreHelpers.glPopMatrix();
+		}
+		while (texture1.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE1);
+			CoreHelpers.glPopMatrix();
+		}
+		while (texture2.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE2);
+			CoreHelpers.glPopMatrix();
+		}
+
+		while (texture3.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE3);
+			CoreHelpers.glPopMatrix();
+		}
+		while (texture4.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE4);
+			CoreHelpers.glPopMatrix();
+		}
+		while (texture5.stack.size() > 1) {
+			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE5);
+			CoreHelpers.glPopMatrix();
+		}
+
 	}
 
 }

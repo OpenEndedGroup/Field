@@ -78,6 +78,7 @@ import field.graphics.core.BasicCamera;
 import field.graphics.core.BasicContextManager;
 import field.graphics.core.BasicSceneList;
 import field.graphics.core.BasicUtilities;
+import field.graphics.core.CoreHelpers;
 import field.graphics.core.BasicUtilities.Clear;
 import field.graphics.core.DynamicFrameRateCuller;
 import field.graphics.core.ResourceMonitor;
@@ -559,6 +560,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		} finally {
 			currentCanvas = null;
+			CoreHelpers.backOutStacks();
 		}
 	}
 
