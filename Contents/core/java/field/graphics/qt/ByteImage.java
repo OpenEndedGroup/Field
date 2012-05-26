@@ -47,6 +47,7 @@ public class ByteImage {
 					System.err.println(" file <"+filename+"> does not exist");
 					return null;
 				}
+				filename = filename.replaceAll(" ", "%20");
 				filename = "file://"+filename;
 			}
 			

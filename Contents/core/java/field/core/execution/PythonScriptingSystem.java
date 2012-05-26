@@ -69,7 +69,7 @@ public class PythonScriptingSystem {
 				Promise p2 = (Promise) o2;
 				float y1 = p1.getPriority();
 				float y2 = p2.getPriority();
-				return y1 < y2 ? -1 : 1;
+				return y1 < y2 ? -1 : (y1==y2 ? 0 : 1);
 			}
 		};
 

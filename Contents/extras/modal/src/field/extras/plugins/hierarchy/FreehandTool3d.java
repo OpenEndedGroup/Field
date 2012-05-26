@@ -20,6 +20,7 @@ import field.core.plugins.drawing.opengl.iLine;
 import field.core.plugins.drawing.opengl.iLinearGraphicsContext;
 import field.core.plugins.drawing.threed.ThreedContext;
 import field.core.plugins.drawing.tweak.Freehand3dUtils;
+import field.core.plugins.drawing.tweak.FreehandTool3d_tweak;
 import field.core.plugins.drawing.tweak.FreehandTool3d_tweak.RawSplineData;
 import field.core.ui.UbiquitousLinks;
 import field.core.windowing.components.SelectionGroup;
@@ -34,6 +35,20 @@ import field.math.linalg.Vector4;
 
 public class FreehandTool3d extends BaseSimplePlugin {
 
+	// we have data stored in sheets that reference FreehandTool3d.RawSplineData
+	static public class RawSplineData extends FreehandTool3d_tweak.RawSplineData
+	{
+		public RawSplineData copy() {
+			RawSplineData rsd = new RawSplineData();
+			rsd.points = new ArrayList<Vector2>(this.points);
+			rsd.pressureData = new ArrayList<Vector3>(this.pressureData);
+			rsd.timestamps = new ArrayList<Long>(this.timestamps);
+			rsd.elementFrameAtDrawTime = this.elementFrameAtDrawTime;
+			rsd.transformState = this.transformState;
+			return rsd;
+		}
+	}
+	
 	static public final VisualElementProperty<List<RawSplineData>> rawSplineData = new VisualElementProperty<List<RawSplineData>>("rawSplineData");
 
 	private HierarchyPlugin hp;

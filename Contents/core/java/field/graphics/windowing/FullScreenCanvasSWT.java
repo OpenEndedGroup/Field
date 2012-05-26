@@ -179,6 +179,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 			dev = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
 		java.awt.Rectangle bb = dev.getConfigurations()[0].getBounds();
+
 		frame = new Shell(Launcher.display, inAWindow ? (SWT.SHELL_TRIM | SWT.RESIZE) : SWT.NO_TRIM);
 		frame.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_BLACK));
 		frame.setBounds(new Rectangle(bb.x, bb.y, bb.width, bb.height));
@@ -295,7 +296,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		createInitialLists();
 
-		if (SystemProperties.getIntProperty("above", 0) == 1)
+		if (SystemProperties.getIntProperty("	", 0) == 1)
 			new MiscNative().enterKiosk_safe();
 
 		dimensions[0] = 0;
