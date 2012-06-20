@@ -1317,7 +1317,7 @@ public class BasicGeometry {
 			// this.glu = BasicContextManager.getGlu();
 
 			assert !deallocated;
-//			;//System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
+			System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
 			if (triangleLimit == 0)
 				return;
 

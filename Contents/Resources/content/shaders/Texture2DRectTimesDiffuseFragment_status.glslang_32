@@ -4,10 +4,10 @@ in vec4 vertexColor;
 in vec4 vertexTexture;
 uniform sampler2DRect tex;
 
-out vec4 __output;
+out vec4 _output;
 
 void main()
 {
-	__output = texture(tex, vertexTexture.st)*vertexColor;
+	_output = texture(tex, vertexTexture.st)*vertexColor;
 
 }
