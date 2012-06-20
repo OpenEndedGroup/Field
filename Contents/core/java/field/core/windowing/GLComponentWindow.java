@@ -1166,7 +1166,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 				public void handleEvent(Event event) {
 					;//System.out.println(" paint listener called ");
 					requestRepaint();
-					display();
+//					display();
 				}
 			});
 

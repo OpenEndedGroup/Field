@@ -2086,6 +2086,7 @@ public class PythonTextEditor extends BaseTextEditor2 {
 		addClassToStaticallyImportedClasses("org.lwjgl.opengl.GL14", allClassesMap);
 		addClassToStaticallyImportedClasses("org.lwjgl.opengl.GL15", allClassesMap);
 		addClassToStaticallyImportedClasses("org.lwjgl.opengl.GL20", allClassesMap);
+		addClassToStaticallyImportedClasses("org.lwjgl.opengl.GL30", allClassesMap);
 
 		allClasses = new ArrayList<ClassRecord>();
 		allClasses.addAll(allClassesMap.values());
