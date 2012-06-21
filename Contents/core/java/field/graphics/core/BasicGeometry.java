@@ -548,7 +548,11 @@ public class BasicGeometry {
 				triangleLimit = 0;
 			}
 
-			clean();
+			if (numInstances==0)
+				cleanNew();
+			else
+				clean();
+			
 			CoreHelpers.glBindVertexArrayAPPLE(vertexObjectID);
 			float cw = clamp(width * globalLineScale);
 			CoreHelpers.glLineWidth(cw);
@@ -1215,7 +1219,7 @@ public class BasicGeometry {
 
 				triangleBuffer.bBuffer.rewind();
 
-				triangleBuffer.bBuffer.limit(triangleBuffer.elementSize * triangleLimit);
+				triangleBuffer.bBuffer.limit(triangleBuffer.primitiveSizeof*triangleBuffer.elementSize * triangleLimit);
 				glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, triangleBuffer.bBuffer);
 				triangleBuffer.clean(context);
 			}
@@ -1321,7 +1325,10 @@ public class BasicGeometry {
 				triangleLimit = 0;
 			}
 
-			clean();
+			if (numInstances==0)
+				cleanNew();
+			else
+				clean();
 
 			if (triangleLimit == 0)
 				return;

@@ -584,6 +584,7 @@ public class BasicTextures {
 			super(image);
 		}
 
+		
 		public TextureFromImage(String name) {
 			super(name);
 		}
