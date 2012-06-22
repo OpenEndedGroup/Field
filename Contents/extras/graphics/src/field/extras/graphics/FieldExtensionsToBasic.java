@@ -1751,9 +1751,15 @@ public class FieldExtensionsToBasic {
 	static public final VisualElementProperty<String> vertexShader = new VisualElementProperty<String>("vertexShader_v");
 	static public final VisualElementProperty<String> fragmentShader = new VisualElementProperty<String>("fragmentShader_v");
 	static public final VisualElementProperty<String> geometryShader = new VisualElementProperty<String>("geometryShader_v");
+	static public final VisualElementProperty<String> tessEvalShader = new VisualElementProperty<String>("tessEvalShader_v");
+	static public final VisualElementProperty<String> tessControlShader = new VisualElementProperty<String>("tessControlShader_v");
 
 	static {
 		PythonPluginEditor.knownPythonProperties.put("<b>Vertex Shader</b> - <font size=-2>vertexShader_v</font>", vertexShader);
+		if (CoreHelpers.isCore) {
+			PythonPluginEditor.knownPythonProperties.put("<b>Tesselation Control Shader</b> - <font size=-2>tessControlShader_v</font>", tessControlShader);
+			PythonPluginEditor.knownPythonProperties.put("<b>Tesselation Evaluation Shader</b> - <font size=-2>tessEvalShader_v</font>", tessEvalShader);
+		}
 		PythonPluginEditor.knownPythonProperties.put("<b>Geometry Shader</b> - <font size=-2>geometryShader_v</font>", geometryShader);
 		PythonPluginEditor.knownPythonProperties.put("<b>Fragment Shader</b> - <font size=-2>fragmentShader_v</font>", fragmentShader);
 	}
@@ -1773,7 +1779,7 @@ public class FieldExtensionsToBasic {
 			}
 			vertexShader.set(element, element, vs);
 		}
-
+		
 		;//;//System.out.println(" initial vs is <" + vs + ">");
 
 		String fs = fragmentShader.get(element);
@@ -1796,6 +1802,8 @@ public class FieldExtensionsToBasic {
 		final BasicGLSLangElement e1 = program.new BasicGLSLangElement(vertexShader.get(element), BasicGLSLangProgram.ElementType.vertex);
 		final BasicGLSLangElement e2 = program.new BasicGLSLangElement(geometryShader.get(element), BasicGLSLangProgram.ElementType.geometry);
 		final BasicGLSLangElement e3 = program.new BasicGLSLangElement(fragmentShader.get(element), BasicGLSLangProgram.ElementType.fragment);
+		final BasicGLSLangElement e4 = program.new BasicGLSLangElement(tessControlShader.get(element), BasicGLSLangProgram.ElementType.tessControl);
+		final BasicGLSLangElement e5 = program.new BasicGLSLangElement(tessEvalShader.get(element), BasicGLSLangProgram.ElementType.tessEval);
 
 		PythonPluginEditor.python_customToolbar.addToList(ArrayList.class, element, new Pair<String, iUpdateable>("Refresh shader", new iUpdateable() {
 			public void update() {
@@ -1844,6 +1852,94 @@ public class FieldExtensionsToBasic {
 					}
 
 				});
+				
+				if (CoreHelpers.isCore)
+					e4.reload(tessControlShader.get(element), new BasicGLSLangProgram.iErrorHandler() {
+
+						public void beginError() {
+							if (redir.size() > 0) {
+								Writer e = redir.peek();
+								try {
+									e.write(" Errors occured on tess control shader reload \n");
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								System.err.println(" errors on tess control shader reload ");
+							}
+						}
+
+						public void endError() {
+						}
+
+						public void errorOnLine(int line, String error) {
+							Writer e = redir.peek();
+							try {
+								e.write("on line " + line + " '" + error + "\n");
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+
+						}
+
+						public void noError() {
+							if (reodir.size() > 0) {
+								Writer e = reodir.peek();
+								try {
+									e.write(" Reloaded tess control shader successfully \n");
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								System.err.println(" Reloaded tess control shader successfully \n");
+							}
+						}
+
+					});
+				if (CoreHelpers.isCore)
+					e5.reload(tessEvalShader.get(element), new BasicGLSLangProgram.iErrorHandler() {
+
+						public void beginError() {
+							if (redir.size() > 0) {
+								Writer e = redir.peek();
+								try {
+									e.write(" Errors occured on tess eval shader reload \n");
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								System.err.println(" errors on tess eval shader reload ");
+							}
+						}
+
+						public void endError() {
+						}
+
+						public void errorOnLine(int line, String error) {
+							Writer e = redir.peek();
+							try {
+								e.write("on line " + line + " '" + error + "\n");
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+
+						}
+
+						public void noError() {
+							if (reodir.size() > 0) {
+								Writer e = reodir.peek();
+								try {
+									e.write(" Reloaded tess control eval successfully \n");
+								} catch (IOException e1) {
+									e1.printStackTrace();
+								}
+							} else {
+								System.err.println(" Reloaded tess control eval successfully \n");
+							}
+						}
+
+					});
+					
 				e2.reload(geometryShader.get(element), new BasicGLSLangProgram.iErrorHandler() {
 
 					public void beginError() {

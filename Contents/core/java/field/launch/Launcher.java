@@ -53,6 +53,8 @@ public class Launcher {
 
 	public static void main(final String[] args) {
 
+		System.out.println(" hello ");
+		
 		// ];//System.out.println(" main ? "+NSThread.isMainThread());
 
 		// GLProfile.initSingleton(true);
@@ -285,13 +287,17 @@ public class Launcher {
 
 			int in = 0;
 
+			long timeIn = 0;
+			
 			public void run() {
 
 				// new Exception().printStackTrace();
 
-				if (!dying)
-					display.timerExec((int) (interval * 1000), timer);
+//				if (!dying)
+//					display.timerExec((int) (interval * 1000), timer);
 
+				timeIn = System.currentTimeMillis();
+				
 				if (continuation != null) {
 					try {
 						iContinuation was = continuation;
@@ -365,6 +371,14 @@ public class Launcher {
 						u.update();
 					}
 				}
+				
+				long duration = System.currentTimeMillis()-timeIn;
+				
+				int next= (int) ((long)(interval*1000)-duration);
+				if (next<5) next = 5;
+				if (!dying)
+					display.timerExec(next, timer);
+				
 			}
 		};
 

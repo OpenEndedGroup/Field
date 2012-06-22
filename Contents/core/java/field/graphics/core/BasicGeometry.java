@@ -13,7 +13,6 @@ import static org.lwjgl.opengl.GL11.GL_UNSIGNED_SHORT;
 import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
 import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL11.glEnableClientState;
-import static org.lwjgl.opengl.GL11.glGetError;
 import static org.lwjgl.opengl.GL11.glVertexPointer;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
@@ -53,7 +52,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL40;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.DispatchOverTopology;
@@ -72,21 +71,6 @@ import field.math.linalg.iCoordinateFrame;
 import field.math.linalg.iCoordinateFrame.iMutable;
 import field.namespace.generic.ReflectionTools;
 import field.util.TaskQueue;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
-import static org.lwjgl.opengl.GL11.GL_MODELVIEW_MATRIX;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION;
-import static org.lwjgl.opengl.GL11.GL_PROJECTION_MATRIX;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE;
-import static org.lwjgl.opengl.GL11.glFrustum;
-import static org.lwjgl.opengl.GL11.glGetFloat;
-import static org.lwjgl.opengl.GL11.glLoadIdentity;
-import static org.lwjgl.opengl.GL11.glMatrixMode;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
-import static org.lwjgl.opengl.GL11.glPushMatrix;
-import static org.lwjgl.opengl.GL11.glViewport;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
-import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
-import static org.lwjgl.opengl.GL13.glActiveTexture;
 
 public class BasicGeometry {
 
@@ -564,7 +548,11 @@ public class BasicGeometry {
 				triangleLimit = 0;
 			}
 
-			clean();
+			if (numInstances==0)
+				cleanNew();
+			else
+				clean();
+			
 			CoreHelpers.glBindVertexArrayAPPLE(vertexObjectID);
 			float cw = clamp(width * globalLineScale);
 			CoreHelpers.glLineWidth(cw);
@@ -1231,7 +1219,7 @@ public class BasicGeometry {
 
 				triangleBuffer.bBuffer.rewind();
 
-				triangleBuffer.bBuffer.limit(triangleBuffer.elementSize * triangleLimit);
+				triangleBuffer.bBuffer.limit(triangleBuffer.primitiveSizeof*triangleBuffer.elementSize * triangleLimit);
 				glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, triangleBuffer.bBuffer);
 				triangleBuffer.clean(context);
 			}
@@ -1303,6 +1291,12 @@ public class BasicGeometry {
 
 		}
 
+		boolean drawsAsPatches = false;
+		public TriangleMesh setDrawsAsPatches(boolean drawsAsPatches) {
+			this.drawsAsPatches = drawsAsPatches;
+			return this;
+		}
+		
 		/**
 		 * This method is responsible for doing the actual drawing and
 		 * is called by performPass() of BasicMesh. Because this is
@@ -1317,7 +1311,7 @@ public class BasicGeometry {
 			// this.glu = BasicContextManager.getGlu();
 
 			assert !deallocated;
-//			;//System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
+//			System.out.println(" --- drawing trangle mesh :"+triangleLimit+" "+BasicGLSLangProgram.currentProgram);
 			if (triangleLimit == 0)
 				return;
 
@@ -1331,7 +1325,10 @@ public class BasicGeometry {
 				triangleLimit = 0;
 			}
 
-			clean();
+			if (numInstances==0)
+				cleanNew();
+			else
+				clean();
 
 			if (triangleLimit == 0)
 				return;
@@ -1359,43 +1356,31 @@ public class BasicGeometry {
 			CoreHelpers.doCameraState();
 
 			if (!disableDraw) {
-				// ;//System.out.println(" drawing :"+this);
-				// new Exception().printStackTrace();
-//				;//System.out.println(" numinstances <"+numInstances+"> sub instances <"+subInstances+">");
 
 				if (numInstances == 0) {
 					FullScreenCanvasSWT.triangleCount += triangleLimit;
 					FullScreenCanvasSWT.vertexCount += vertexLimit;
 
-					glDrawElements(GL_TRIANGLES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0);
+					if (drawsAsPatches)
+					{
+						GL40.glPatchParameteri(GL40.GL_PATCH_VERTICES, 3);
+						glDrawElements(GL40.GL_PATCHES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0);
+					}else
+					{
+						glDrawElements(GL_TRIANGLES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0);
+					}
 				} else if (subInstances > 0) {
 
 					FullScreenCanvasSWT.triangleCount += triangleLimit * subInstances;
 					FullScreenCanvasSWT.vertexCount += vertexLimit * subInstances;
-
-					// no instance support under osx yet.
-					// pah!
-
-					// int m =
-					// BasicGLSLangProgram.currentProgram.uniformCache.find(null,
-					// BasicGLSLangProgram.currentProgram.getProgram(),
-					// "fake_id");
-					// if (m != -1)
-					// for (int i = 0; i < numInstances;
-					// i++) {
-					// glUniform1i(m, i);
-					// glDrawElements(GL_TRIANGLES, ((int)
-					// (drawFraction * triangleLimit)) * 3,
-					// triangleBuffer.primitiveSizeof == 2 ?
-					// GL_UNSIGNED_SHORT : GL_UNSIGNED_INT,
-					// 0);
-					// }
-
-					// int e1 = glGetError();
-					glDrawElementsInstancedARB(GL_TRIANGLES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0, subInstances);
-					// int e2 = glGetError();
-
-					// ;//System.out.println(" after instance <"+e1+" "+e2+">");
+					if (drawsAsPatches)
+					{
+						GL40.glPatchParameteri(GL40.GL_PATCH_VERTICES, 3);
+						glDrawElementsInstancedARB(GL40.GL_PATCHES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0, subInstances);
+					}else
+					{
+						glDrawElementsInstancedARB(GL_TRIANGLES, ((int) (drawFraction * triangleLimit)) * 3, triangleBuffer.primitiveSizeof == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT, 0, subInstances);
+					}
 
 				}
 			}

@@ -12,7 +12,7 @@ in vec4 textureBlend;
 uniform vec4 mul;
 uniform vec4 add;
 
-out vec4 __output;
+out vec4 _output;
 
 void main()
 {
@@ -21,9 +21,6 @@ void main()
 	vec4 c2 = (vec4(1,1,1,1)*vertexColor+add)*mul;
 	
 
-	__output = mix(c1, c2, textureBlend.x);
+	_output = mix(c1, c2, textureBlend.x);
 
-
-
-//	__output = vec4(1,0,0,1);
 }

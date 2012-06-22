@@ -38,13 +38,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL40;
+import org.lwjgl.opengl.GL41;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.InheritWeave;
@@ -143,7 +144,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 
 			;//System.out.println(" compiling <" + isFragment + "> <" + code[0] + "> from <" + (originalFiles.length > 0 ? originalFiles[0] : "") + ">");
 
-			shader = GL20.glCreateShader((isFragment == ElementType.fragment ? GL_FRAGMENT_SHADER : isFragment == ElementType.vertex ? GL_VERTEX_SHADER : GL_GEOMETRY_SHADER));
+			shader = GL20.glCreateShader((isFragment == ElementType.fragment ? GL_FRAGMENT_SHADER : isFragment == ElementType.vertex ? GL_VERTEX_SHADER : (isFragment == ElementType.tessControl ? GL40.GL_TESS_CONTROL_SHADER : (isFragment == ElementType.tessEval ? GL40.GL_TESS_EVALUATION_SHADER : GL_GEOMETRY_SHADER))));
 			glShaderSource(shader, code);
 			glCompileShader(shader);
 
@@ -197,7 +198,7 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 	private HashMap<Object, UniformCache> uniformCache = new HashMap<Object, UniformCache>();
 
 	public enum ElementType {
-		vertex, geometry, fragment;
+		vertex, geometry, fragment, tessControl, tessEval;
 	}
 
 	static public class ModelView implements iProvider<Matrix4> {

@@ -2470,7 +2470,7 @@ public class BasicFrameBuffers {
 		}
 	}
 
-	static public class NullTexture extends BaseTexture {
+	static public class NullTexture extends BaseTexture implements iHasTexture{
 		private final int width;
 
 		private final int height;
@@ -2505,7 +2505,8 @@ public class BasicFrameBuffers {
 			assert !deallocated;
 			CoreHelpers.glDisable(GL_TEXTURE_2D);
 		}
-
+		
+		
 		@Override
 		public void pre() {
 			assert !deallocated;
@@ -2563,6 +2564,17 @@ public class BasicFrameBuffers {
 			}
 			assert (glGetError() == 0);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
+		}
+
+
+		@Override
+		public iProvider<Integer> getOutput() {
+			return new iProvider<Integer>(){
+
+				@Override
+				public Integer get() {
+					return textureId;
+				}};
 		}
 	}
 
