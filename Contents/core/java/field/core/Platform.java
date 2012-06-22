@@ -54,6 +54,13 @@ public class Platform {
 			return SWT.CTRL;
 	}
 
+	static public int getCommandModifier2() {
+		if (os == OS.mac)
+			return SWT.COMMAND;
+		else
+			return SWT.CTRL;
+		}
+
 	public static boolean isPopupTrigger(MouseEvent e) {
 		return e.getButton() == e.BUTTON3 && e.getID() == MouseEvent.MOUSE_PRESSED;
 	}

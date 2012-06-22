@@ -239,7 +239,7 @@ public class FieldExtensionsToBasic {
 			};
 			PyType.fromClass(FullScreenCanvasSWT.class).addMethod(meth);
 		}
-
+	
 		{
 			PyBuiltinMethodNarrow meth = new PyBuiltinMethodNarrow("__ilshift__", 1) {
 				@Override
@@ -1757,8 +1757,8 @@ public class FieldExtensionsToBasic {
 	static {
 		PythonPluginEditor.knownPythonProperties.put("<b>Vertex Shader</b> - <font size=-2>vertexShader_v</font>", vertexShader);
 		if (CoreHelpers.isCore) {
-			PythonPluginEditor.knownPythonProperties.put("<b>Tesselation Control Shader</b> - <font size=-2>tessControlShader_v</font>", tessControlShader);
-			PythonPluginEditor.knownPythonProperties.put("<b>Tesselation Evaluation Shader</b> - <font size=-2>tessEvalShader_v</font>", tessEvalShader);
+			PythonPluginEditor.knownPythonProperties.put("<b>Tessellation Control Shader</b> - <font size=-2>tessControlShader_v</font>", tessControlShader);
+			PythonPluginEditor.knownPythonProperties.put("<b>Tessellation Evaluation Shader</b> - <font size=-2>tessEvalShader_v</font>", tessEvalShader);
 		}
 		PythonPluginEditor.knownPythonProperties.put("<b>Geometry Shader</b> - <font size=-2>geometryShader_v</font>", geometryShader);
 		PythonPluginEditor.knownPythonProperties.put("<b>Fragment Shader</b> - <font size=-2>fragmentShader_v</font>", fragmentShader);

@@ -152,7 +152,8 @@ public class BaseTextEditor2 {
 
 	private ToolBar toolbar;
 
-	static public Rectangle defaultRect = new AutoPersist().persist("textEditorPosition", new Rectangle(500, 50, 500, 600));
+	static public Rectangle defaultRect = new AutoPersist().persist(
+			"textEditorPosition", new Rectangle(500, 50, 500, 600));
 
 	private StyledTextUndo undoHelper;
 
@@ -177,7 +178,8 @@ public class BaseTextEditor2 {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + offset;
-			result = prime * result + ((string == null) ? 0 : string.hashCode());
+			result = prime * result
+					+ ((string == null) ? 0 : string.hashCode());
 			return result;
 		}
 
@@ -213,13 +215,14 @@ public class BaseTextEditor2 {
 		// todo ÔøΩ pass in parent
 
 		Composite target = GLComponentWindow.lastCreatedWindow.rightComp;
-		final Composite targetWindow = GLComponentWindow.lastCreatedWindow.getFrame();
+		final Composite targetWindow = GLComponentWindow.lastCreatedWindow
+				.getFrame();
 		frame = GLComponentWindow.lastCreatedWindow.getFrame();
 
 		// toolbar = GLComponentWindow.lastCreatedWindow.toolbar;
 		// toolbar = target.getToolBar();
 		if (toolbar == null) {
-			toolbar = new ToolBar(target, SWT.SMOOTH);
+			toolbar = new ToolBar(target, SWT.FLAT);
 			{
 				GridData data = new GridData();
 				data.heightHint = 30;
@@ -231,7 +234,6 @@ public class BaseTextEditor2 {
 
 				toolbar.setLayoutData(data);
 			}
-
 			toolbar.setBackground(ToolBarFolder.background);
 			toolbar.getParent().setBackground(ToolBarFolder.background);
 
@@ -298,7 +300,8 @@ public class BaseTextEditor2 {
 
 				if (currentRuler == executionRuler) {
 					if (executionRuler.getCurrentArea() != null)
-						handleMouseEventOnArea(arg0, executionRuler.getCurrentArea());
+						handleMouseEventOnArea(arg0,
+								executionRuler.getCurrentArea());
 				}
 
 			}
@@ -314,11 +317,13 @@ public class BaseTextEditor2 {
 
 		final Canvas c = new Canvas(toolbar, 0) {
 			@Override
-			public void drawBackground(GC gc, int x, int y, int width, int height) {
+			public void drawBackground(GC gc, int x, int y, int width,
+					int height) {
 				// super.drawBackground(gc, x, y, width,
 				// height);
 
-				;//System.out.println(" toolbar spacer is <" + this.getBounds() + ">");
+				;// System.out.println(" toolbar spacer is <" + this.getBounds()
+					// + ">");
 			}
 		};
 		c.setBackground(ToolBarFolder.background);
@@ -328,7 +333,8 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void handleEvent(Event event) {
-				c.setLayoutData(new RowData(rulerCanvas.getSize().x - 10-25, 1));
+				c.setLayoutData(new RowData(rulerCanvas.getSize().x - 10 - 25,
+						1));
 				toolbar.layout();
 			}
 		});
@@ -350,7 +356,8 @@ public class BaseTextEditor2 {
 			public void paste() {
 
 				String clipContents = getClipContents();
-				;//System.out.println(" inside paste <" + clipAtCopy + "> <" + clipContents + ">");
+				;// System.out.println(" inside paste <" + clipAtCopy + "> <" +
+					// clipContents + ">");
 
 				if (clipAtCopy != null && clipAtCopy.equals(clipContents)) {
 					System.out.print("local paste" + clipAtCopy);
@@ -367,18 +374,20 @@ public class BaseTextEditor2 {
 				super.paste();
 				String t2 = ed.getText();
 
-				;//System.out.println(" text before <" + t1 + "> text after <" + t2 + ">");
+				;// System.out.println(" text before <" + t1 + "> text after <"
+					// + t2 + ">");
 			}
 
 			protected String getClipContents() {
 				TextTransfer plainTextTransfer = TextTransfer.getInstance();
-				String clipContents = (String) new Clipboard(Launcher.display).getContents(plainTextTransfer, DND.CLIPBOARD);
+				String clipContents = (String) new Clipboard(Launcher.display)
+						.getContents(plainTextTransfer, DND.CLIPBOARD);
 				return clipContents;
 			}
 
 			@Override
 			public void cut() {
-				;//System.out.println(" cut called ");
+				;// System.out.println(" cut called ");
 				super.cut();
 				clipAtCopy = getClipContents();
 				localCopyRewritten = localCopy(clipAtCopy);
@@ -386,7 +395,7 @@ public class BaseTextEditor2 {
 
 			public void copy() {
 				super.copy();
-				;//System.out.println(" copy called ");
+				;// System.out.println(" copy called ");
 				clipAtCopy = getClipContents();
 
 				localCopyRewritten = localCopy(clipAtCopy);
@@ -394,7 +403,7 @@ public class BaseTextEditor2 {
 
 			public void copy(int i) {
 				super.copy(i);
-				;//System.out.println(" copy called <" + i + ">");
+				;// System.out.println(" copy called <" + i + ">");
 			}
 
 		};
@@ -423,7 +432,8 @@ public class BaseTextEditor2 {
 
 				if (!r.equals(ro) && tick == 0) {
 
-					;//System.out.println(" forcing redraw of text editor, we have a changed ro :" + r + " " + ro);
+					;// System.out.println(" forcing redraw of text editor, we have a changed ro :"
+						// + r + " " + ro);
 
 					// ed.redraw((int)r.x, (int)r.y,
 					// (int)r.w, (int)r.h, true);
@@ -436,10 +446,15 @@ public class BaseTextEditor2 {
 			}
 		});
 
-		edOut = new StyledText(vsplit, SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
+		edOut = new StyledText(vsplit, SWT.MULTI | SWT.WRAP | SWT.H_SCROLL
+				| SWT.V_SCROLL);
 
-		int size = SystemProperties.getIntProperty("editorFontSize", (int) (Platform.isMac() ? (Launcher.display.getSystemFont().getFontData()[0].height * 1.25f) : (Launcher.display.getSystemFont().getFontData()[0].height)));
-		Font font = new Font(Launcher.display, field.core.Constants.defaultTextEditorFont, size, SWT.NORMAL);
+		int size = SystemProperties.getIntProperty("editorFontSize",
+				(int) (Platform.isMac() ? (Launcher.display.getSystemFont()
+						.getFontData()[0].height * 1.25f) : (Launcher.display
+						.getSystemFont().getFontData()[0].height)));
+		Font font = new Font(Launcher.display,
+				field.core.Constants.defaultTextEditorFont, size, SWT.NORMAL);
 		ed.setTabs(SystemProperties.getIntProperty("editorTabSize", 8));
 		ed.setFont(font);
 		ed.setText("");
@@ -452,7 +467,12 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void verifyKey(VerifyEvent event) {
-				if (event.keyCode == '\r' && (event.stateMask & Platform.getCommandModifier()) != 0) {
+
+				System.out.println(" event.stateMask :" + event.stateMask + " "
+						+ Platform.getCommandModifier2() + " " + event.keyCode);
+
+				if (event.keyCode == '\r'
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					if ((event.stateMask & SWT.ALT) != 0) {
 						edOut.setText("");
 					} else if ((event.stateMask & SWT.SHIFT) == 0)
@@ -460,50 +480,67 @@ public class BaseTextEditor2 {
 					else
 						executeHandleSpecial();
 					event.doit = false;
-				} else if (event.keyCode == '\'' && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if (event.keyCode == '\''
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					completionQuotedHandle();
 					event.doit = false;
-				} else if (event.keyCode == '.' && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if (event.keyCode == '.'
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					completionHandle((event.stateMask & SWT.ALT) == 0);
 					event.doit = false;
-				} else if (event.keyCode == '/' && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if (event.keyCode == '/'
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					executePrintHandle();
 					event.doit = false;
-				} else if (event.keyCode >= '0' && event.keyCode <= '9' && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if (event.keyCode >= '0'
+						&& event.keyCode <= '9'
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					executeSpecial(event.keyCode - '0');
 					event.doit = false;
-				} else if ((event.keyCode == SWT.PAGE_UP) && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == SWT.PAGE_UP)
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					executionBegin();
 					event.doit = false;
-				} else if ((event.keyCode == SWT.PAGE_DOWN) && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == SWT.PAGE_DOWN)
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					executionEnd();
 					event.doit = false;
-				} else if ((event.keyCode == SWT.ARROW_UP) && (event.stateMask & SWT.ALT) != 0) {
+				} else if ((event.keyCode == SWT.ARROW_UP)
+						&& (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(1, true);
-					;//System.out.println(" scrolling ");
+					;// System.out.println(" scrolling ");
 					event.doit = false;
-				} else if ((event.keyCode == SWT.ARROW_DOWN) && (event.stateMask & SWT.ALT) != 0) {
+				} else if ((event.keyCode == SWT.ARROW_DOWN)
+						&& (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(-1, true);
 					event.doit = false;
-				} else if ((event.keyCode == 'i') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == 'i')
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					importHandle();
 					event.doit = false;
-				} else if ((event.keyCode == 'a') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == 'a')
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					ed.selectAll();
 					event.doit = false;
-				} else if ((event.keyCode == ']') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == ']')
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					indentSelectionOrCurrentLine();
 					event.doit = false;
-				} else if ((event.keyCode == '[') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == '[')
+						&& (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					outdentSelectionOrCurrentLine();
 					event.doit = false;
-				} else if ((event.keyCode == 'z') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == 'z')
+						&& (event.stateMask & Platform.getCommandModifier()) != 0) {
 					undoHelper.undo();
 					event.doit = false;
-				} else if ((event.keyCode == 'y') && (event.stateMask & Platform.getCommandModifier()) != 0) {
+				} else if ((event.keyCode == 'y')
+						&& (event.stateMask & Platform.getCommandModifier()) != 0) {
 					undoHelper.redo();
 					event.doit = false;
-				} else if ((event.keyCode == 'z') && ((event.stateMask & SWT.SHIFT) != 0 && (event.stateMask & Platform.getCommandModifier()) != 0)) {
+				} else if ((event.keyCode == 'z')
+						&& ((event.stateMask & SWT.SHIFT) != 0 && (event.stateMask & Platform
+								.getCommandModifier()) != 0)) {
 					undoHelper.redo();
 					event.doit = false;
 				} else if (globalShortcutHook(event)) {
@@ -513,7 +550,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (textDecoration.known.size() > 0) {
-					;//System.out.println(" redrawing everything ");
+					;// System.out.println(" redrawing everything ");
 					ed.redrawRange(0, ed.getText().length(), true);
 				}
 
@@ -536,14 +573,17 @@ public class BaseTextEditor2 {
 
 				if (!ed.isEnabled()) {
 					// e.gc.setAdvanced(true);
-					e.gc.setBackground(new Color(Launcher.display, 200, 200, 200));
+					e.gc.setBackground(new Color(Launcher.display, 200, 200,
+							200));
 					Rectangle area = ed.getClientArea();
 					e.gc.fillRectangle(area);
-					e.gc.setForeground(Launcher.display.getSystemColor(SWT.COLOR_BLACK));
+					e.gc.setForeground(Launcher.display
+							.getSystemColor(SWT.COLOR_BLACK));
 					e.gc.setAlpha(128);
 					String tt = "Disabled (nothing selected)";
 					Point rr = e.gc.textExtent(tt);
-					e.gc.drawText(tt, area.width / 2 - rr.x / 2, area.height / 2 - rr.y / 2);
+					e.gc.drawText(tt, area.width / 2 - rr.x / 2, area.height
+							/ 2 - rr.y / 2);
 				}
 
 				if (ed.isEnabled() && searchString != null)
@@ -555,7 +595,8 @@ public class BaseTextEditor2 {
 					if (d instanceof Nub) {
 						JComponent component = ((Nub) d).getComponent();
 						if (component instanceof iOutOfBandDrawing) {
-							((iOutOfBandDrawing) component).paintOutOfBand(e.gc, ed);
+							((iOutOfBandDrawing) component).paintOutOfBand(
+									e.gc, ed);
 						}
 					}
 				}
@@ -580,7 +621,9 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void handleEvent(Event arg0) {
-				currentRuler.keyEvent(arg0, ed.getCaretOffset(), ed.getSelectionRanges()[0], ed.getSelectionRanges()[1] + ed.getSelectionRanges()[0]);
+				currentRuler.keyEvent(arg0, ed.getCaretOffset(),
+						ed.getSelectionRanges()[0], ed.getSelectionRanges()[1]
+								+ ed.getSelectionRanges()[0]);
 			}
 		});
 
@@ -596,9 +639,12 @@ public class BaseTextEditor2 {
 		undoHelper = new StyledTextUndo(ed);
 
 		ed.setBackground(new Color(ed.getBackground().getDevice(), 85, 85, 85));
-		ed.setSelectionBackground(new Color(ed.getBackground().getDevice(), 50, 50, 60));
-		edOut.setBackground(new Color(ed.getBackground().getDevice(), 85, 85, 85));
-		edOut.setSelectionBackground(new Color(ed.getBackground().getDevice(), 50, 50, 60));
+		ed.setSelectionBackground(new Color(ed.getBackground().getDevice(), 50,
+				50, 60));
+		edOut.setBackground(new Color(ed.getBackground().getDevice(), 85, 85,
+				85));
+		edOut.setSelectionBackground(new Color(ed.getBackground().getDevice(),
+				50, 50, 60));
 
 		ed.setMargins(5, 5, 5, 5);
 		edOut.setMargins(5, 5, 5, 15);
@@ -608,42 +654,53 @@ public class BaseTextEditor2 {
 
 		/**
 		 * public static final Color4 tab = new
-		 * AutoPersist().persist("Color4_tab", new Color4(0, 0, 0,
-		 * 0.1f)); public static final Color4 self = new
-		 * AutoPersist().persist("Color4_self", new Color4(0.5f, 0.5f,
-		 * 0.4f, 1f)); public static final Color4 localTemp = new
-		 * AutoPersist().persist("Color4_localTemp", new Color4(0.5f,
-		 * 0.5f, 0.6f, 1f)); public static final Color4 localPersistant
-		 * = new AutoPersist().persist("Color4_localPersistant", new
-		 * Color4(0.6f, 0.5f, 0.5f, 1f)); public static final Color4
-		 * number = new AutoPersist().persist("Color4_number", new
-		 * Color4(0.6f, 0.8f, 1, 1f)); public static final Color4
-		 * operator = new AutoPersist().persist("Color4_operator", new
-		 * Color4(1, 0.7f, 0.75f, 1f)); public static final Color4
-		 * identifier = new AutoPersist().persist("Color4_identifier",
-		 * new Color4(1, 1, 1, 1f)); public static final Color4 string =
-		 * new AutoPersist().persist("Color4_string", new Color4(0.7f,
-		 * 0.7f, 1, 1f)); public static final Color4 keyword = new
-		 * AutoPersist().persist("Color4_keyword", new Color4(0.75f,
-		 * 0.8f, 1, 1f)); public static final Color4 decorator = new
-		 * AutoPersist().persist("Color4_decorator", new Color4(1.0f,
-		 * 1.0f, 1.0f, 1f)); public static final Color4 comment = new
-		 * AutoPersist().persist("Color4_comment", new Color4(0.0f,
-		 * 0.0f, 0.0f, 0.5f)); public static final Color4 background =
-		 * new AutoPersist().persist("Color4_background", new
-		 * Color4(85/255f, 85/255f, 85/255f, 1f));
+		 * AutoPersist().persist("Color4_tab", new Color4(0, 0, 0, 0.1f));
+		 * public static final Color4 self = new
+		 * AutoPersist().persist("Color4_self", new Color4(0.5f, 0.5f, 0.4f,
+		 * 1f)); public static final Color4 localTemp = new
+		 * AutoPersist().persist("Color4_localTemp", new Color4(0.5f, 0.5f,
+		 * 0.6f, 1f)); public static final Color4 localPersistant = new
+		 * AutoPersist().persist("Color4_localPersistant", new Color4(0.6f,
+		 * 0.5f, 0.5f, 1f)); public static final Color4 number = new
+		 * AutoPersist().persist("Color4_number", new Color4(0.6f, 0.8f, 1,
+		 * 1f)); public static final Color4 operator = new
+		 * AutoPersist().persist("Color4_operator", new Color4(1, 0.7f, 0.75f,
+		 * 1f)); public static final Color4 identifier = new
+		 * AutoPersist().persist("Color4_identifier", new Color4(1, 1, 1, 1f));
+		 * public static final Color4 string = new
+		 * AutoPersist().persist("Color4_string", new Color4(0.7f, 0.7f, 1,
+		 * 1f)); public static final Color4 keyword = new
+		 * AutoPersist().persist("Color4_keyword", new Color4(0.75f, 0.8f, 1,
+		 * 1f)); public static final Color4 decorator = new
+		 * AutoPersist().persist("Color4_decorator", new Color4(1.0f, 1.0f,
+		 * 1.0f, 1f)); public static final Color4 comment = new
+		 * AutoPersist().persist("Color4_comment", new Color4(0.0f, 0.0f, 0.0f,
+		 * 0.5f)); public static final Color4 background = new
+		 * AutoPersist().persist("Color4_background", new Color4(85/255f,
+		 * 85/255f, 85/255f, 1f));
 		 */
-		colors[PythonScanner.TokenTypes.comment.ordinal()] = new Color(d, 128, 128, 128);
-		colors[PythonScanner.TokenTypes.self.ordinal()] = new Color(d, 128, 128, 100);
-		colors[PythonScanner.TokenTypes.localTemp.ordinal()] = new Color(d, 128, 128, 160);
-		colors[PythonScanner.TokenTypes.localPersistant.ordinal()] = new Color(d, 160, 128, 128);
-		colors[PythonScanner.TokenTypes.number.ordinal()] = new Color(d, 160, 200, 255);
-		colors[PythonScanner.TokenTypes.operator.ordinal()] = new Color(d, 255, 200, 210);
-		colors[PythonScanner.TokenTypes.identifier.ordinal()] = new Color(d, 255, 255, 255);
-		colors[PythonScanner.TokenTypes.string.ordinal()] = new Color(d, 200, 200, 255);
-		colors[PythonScanner.TokenTypes.keyword.ordinal()] = new Color(d, 210, 220, 255);
-		colors[PythonScanner.TokenTypes.whitespace.ordinal()] = new Color(d, 255, 255, 255);
-		colors[PythonScanner.TokenTypes.decorator.ordinal()] = new Color(d, 255, 255, 255);
+		colors[PythonScanner.TokenTypes.comment.ordinal()] = new Color(d, 128,
+				128, 128);
+		colors[PythonScanner.TokenTypes.self.ordinal()] = new Color(d, 128,
+				128, 100);
+		colors[PythonScanner.TokenTypes.localTemp.ordinal()] = new Color(d,
+				128, 128, 160);
+		colors[PythonScanner.TokenTypes.localPersistant.ordinal()] = new Color(
+				d, 160, 128, 128);
+		colors[PythonScanner.TokenTypes.number.ordinal()] = new Color(d, 160,
+				200, 255);
+		colors[PythonScanner.TokenTypes.operator.ordinal()] = new Color(d, 255,
+				200, 210);
+		colors[PythonScanner.TokenTypes.identifier.ordinal()] = new Color(d,
+				255, 255, 255);
+		colors[PythonScanner.TokenTypes.string.ordinal()] = new Color(d, 200,
+				200, 255);
+		colors[PythonScanner.TokenTypes.keyword.ordinal()] = new Color(d, 210,
+				220, 255);
+		colors[PythonScanner.TokenTypes.whitespace.ordinal()] = new Color(d,
+				255, 255, 255);
+		colors[PythonScanner.TokenTypes.decorator.ordinal()] = new Color(d,
+				255, 255, 255);
 
 		SyntaxHighlightingStyles2.initStyles(colors, ed);
 
@@ -654,7 +711,8 @@ public class BaseTextEditor2 {
 
 			{
 				BaseTextEditor2.this.cache = new LinkedHashMap<LineRec, StyleRange[]>() {
-					protected boolean removeEldestEntry(java.util.Map.Entry<LineRec, StyleRange[]> eldest) {
+					protected boolean removeEldestEntry(
+							java.util.Map.Entry<LineRec, StyleRange[]> eldest) {
 						return size() > 100;
 					};
 				};
@@ -684,17 +742,23 @@ public class BaseTextEditor2 {
 
 					int token = scanner.token;
 
-					StyleRange s = new StyleRange(left + event.lineOffset, scanner.getEndOffset(), colors[token], ed.getBackground());
+					StyleRange s = new StyleRange(left + event.lineOffset,
+							scanner.getEndOffset(), colors[token], ed
+									.getBackground());
 
 					if (token == TokenTypes.embedded_control.ordinal()) {
 						doNotCache = true;
 
-						getStyleForEmbeddedString(s, text.substring(left, left + scanner.getEndOffset()));
+						getStyleForEmbeddedString(
+								s,
+								text.substring(left,
+										left + scanner.getEndOffset()));
 						if (s.data instanceof JComponent) {
 							int h = ((JComponent) s.data).getMinimumSize().height;
 							if (h < 12)
 								h = 12;
-							s.metrics = new GlyphMetrics((int) (h * 2 / 3.0f), (int) (h * 1 / 3.0f), s.metrics.width);
+							s.metrics = new GlyphMetrics((int) (h * 2 / 3.0f),
+									(int) (h * 1 / 3.0f), s.metrics.width);
 						}
 					}
 
@@ -729,18 +793,20 @@ public class BaseTextEditor2 {
 			public void handleEvent(Event event) {
 				if (Platform.isPopupTrigger(event)) {
 					LinkedHashMap<String, iUpdateable> items = getActionOutputMenu();
-					BetterPopup m = new SmallMenu().createMenu(items, edOut.getShell(), null);
-					m.show(Launcher.display.map(edOut, edOut.getShell(), new Point(event.x, event.y)));
+					BetterPopup m = new SmallMenu().createMenu(items,
+							edOut.getShell(), null);
+					m.show(Launcher.display.map(edOut, edOut.getShell(),
+							new Point(event.x, event.y)));
 				}
 			}
 		});
-		
+
 		ed.addListener(SWT.MouseHover, new Listener() {
 
 			@Override
 			public void handleEvent(Event event) {
 				String tt = computeToolTip();
-				tt = tt==null ? "" : tt;
+				tt = tt == null ? "" : tt;
 				ed.setToolTipText(tt);
 			}
 		});
@@ -754,11 +820,13 @@ public class BaseTextEditor2 {
 				BaseTextEditor2.this.executeAreaSpecial(area);
 			};
 
-			protected void executeAreaAndRewrite(Area minIs, field.namespace.generic.Bind.iFunction<String, String> up) {
+			protected void executeAreaAndRewrite(Area minIs,
+					field.namespace.generic.Bind.iFunction<String, String> up) {
 				BaseTextEditor2.this.executeAreaAndRewrite(minIs, up);
 			};
 
-			protected field.core.util.LocalFuture<Boolean> runAndCheckArea(Area area) {
+			protected field.core.util.LocalFuture<Boolean> runAndCheckArea(
+					Area area) {
 				return BaseTextEditor2.this.runAndCheckArea(area);
 			};
 
@@ -797,8 +865,10 @@ public class BaseTextEditor2 {
 			Point leftp = ed.getLocationAtOffset(i);
 			Point rightp = ed.getLocationAtOffset(i + ss.length());
 
-			Rectangle left = new Rectangle(leftp.x, leftp.y, 0, ed.getLineHeight(i));
-			Rectangle right = new Rectangle(rightp.x, rightp.y, 0, ed.getLineHeight(i));
+			Rectangle left = new Rectangle(leftp.x, leftp.y, 0,
+					ed.getLineHeight(i));
+			Rectangle right = new Rectangle(rightp.x, rightp.y, 0,
+					ed.getLineHeight(i));
 
 			gc.setForeground(new Color(Launcher.display, 128, 128, 255));
 			gc.setAlpha(255);
@@ -851,7 +921,8 @@ public class BaseTextEditor2 {
 	}
 
 	protected void getStyleForEmbeddedString(StyleRange s, String substring) {
-		;//System.out.println(" get style for embedded string <" + s + " " + substring + ">");
+		;// System.out.println(" get style for embedded string <" + s + " " +
+			// substring + ">");
 	}
 
 	protected void paintRulerNow(GC gc) {
@@ -984,7 +1055,8 @@ public class BaseTextEditor2 {
 		this.actionMenu = actionMenu;
 	}
 
-	public void setOutputActionMenu(LinkedHashMap<String, iUpdateable> actionMenu) {
+	public void setOutputActionMenu(
+			LinkedHashMap<String, iUpdateable> actionMenu) {
 		this.actionOutputMenu = actionMenu;
 	}
 
@@ -1024,7 +1096,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (!Character.isISOControl(arg0.character)) {
-					;//System.out.println(" inserting character ");
+					;// System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					completionHandle(publicOnly);
@@ -1037,7 +1109,8 @@ public class BaseTextEditor2 {
 					return true;
 				}
 
-				;//System.out.println(" what is an option key <" + arg0 + "> <" + arg0.keyCode + ">");
+				;// System.out.println(" what is an option key <" + arg0 + "> <"
+					// + arg0.keyCode + ">");
 				if (arg0.keyCode == SWT.ALT) {
 					completionHandle(!publicOnly);
 					return true;
@@ -1091,10 +1164,11 @@ public class BaseTextEditor2 {
 			if (c == null)
 				continue;
 
-			;//System.out.println(" text is <" + c + " " + c.text + ">");
+			;// System.out.println(" text is <" + c + " " + c.text + ">");
 
 			if (c.optionalDocumentation != null && optionalYes) {
-				insert.put(c + "_optional", new Documentation("\n\n" + c.optionalDocumentation));
+				insert.put(c + "_optional", new Documentation("\n\n"
+						+ c.optionalDocumentation));
 			}
 			if (c.isDocumentation) {
 				insert.put("" + c, new Documentation(c.text));
@@ -1110,13 +1184,14 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				;//System.out.println(" forcing focus <" + ed + ">");
+				;// System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
 		};
 		// menu.setMinimumSize(new Dimension(500, 50));
-		menu.show(Launcher.display.map(ed, frame, new Point(line.x + 2, line.y)));
+		menu.show(Launcher.display
+				.map(ed, frame, new Point(line.x + 2, line.y)));
 
 		menu.selectFirst();
 		// menu.requestFocusInWindow();
@@ -1178,7 +1253,11 @@ public class BaseTextEditor2 {
 
 			try {
 				if (Platform.getOS() == OS.mac)
-					ReflectionTools.findFirstMethodCalled(ReflectionTools.illegalGetObject(frame, "window").getClass(), "setHidesOnDeactivate").invoke(ReflectionTools.illegalGetObject(frame, "window"), true);
+					ReflectionTools.findFirstMethodCalled(
+							ReflectionTools.illegalGetObject(frame, "window")
+									.getClass(), "setHidesOnDeactivate")
+							.invoke(ReflectionTools.illegalGetObject(frame,
+									"window"), true);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -1191,7 +1270,8 @@ public class BaseTextEditor2 {
 		return this;
 	}
 
-	private void completionsForFilename(final String string, LinkedHashMap<String, iUpdateable> completions) {
+	private void completionsForFilename(final String string,
+			LinkedHashMap<String, iUpdateable> completions) {
 
 		int lastSlash = string.lastIndexOf('/');
 		String left;
@@ -1214,22 +1294,38 @@ public class BaseTextEditor2 {
 			}
 		});
 		for (final File f : allFiles) {
-			completions.put((f.isDirectory() ? "\u2208 <b>" : "\u2802 <i>") + f.getName() + (f.isDirectory() ? "</b>" : "</i>"), new iUpdateable() {
-				public void update() {
-					int pos = ed.getCaretOffset();
-					ed.getContent().replaceTextRange(pos - string.length(), string.length(), f.getAbsolutePath() + (f.isDirectory() ? "/" : ""));
-					if (f.isDirectory())
-						completionQuotedHandle();
-				}
-			});
+			completions
+					.put((f.isDirectory() ? "\u2208 <b>" : "\u2802 <i>")
+							+ f.getName() + (f.isDirectory() ? "</b>" : "</i>"),
+							new iUpdateable() {
+								public void update() {
+									int pos = ed.getCaretOffset();
+									ed.getContent().replaceTextRange(
+											pos - string.length(),
+											string.length(),
+											f.getAbsolutePath()
+													+ (f.isDirectory() ? "/"
+															: ""));
+									if (f.isDirectory())
+										completionQuotedHandle();
+								}
+							});
 		}
 
 		if (allFiles.length == 1) {
-			completions.put((allFiles[0].isDirectory() ? "\u2208 reveal in Finder - <b>" : "\u2802 <i> reveal in Finder - ") + allFiles[0].getName() + " " + (allFiles[0].isDirectory() ? "</b>" : "</i"), new iUpdateable() {
-				public void update() {
-					UbiquitousLinks.showPathInFinder(allFiles[0].getAbsolutePath());
-				}
-			});
+			completions
+					.put((allFiles[0].isDirectory() ? "\u2208 reveal in Finder - <b>"
+							: "\u2802 <i> reveal in Finder - ")
+							+ allFiles[0].getName()
+							+ " "
+							+ (allFiles[0].isDirectory() ? "</b>" : "</i"),
+							new iUpdateable() {
+								public void update() {
+									UbiquitousLinks
+											.showPathInFinder(allFiles[0]
+													.getAbsolutePath());
+								}
+							});
 		}
 
 	}
@@ -1257,7 +1353,7 @@ public class BaseTextEditor2 {
 			@Override
 			public boolean update(Event arg0) {
 				if (!Character.isISOControl(arg0.character)) {
-					;//System.out.println(" inserting character ");
+					;// System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					completionQuotedHandle();
@@ -1274,24 +1370,29 @@ public class BaseTextEditor2 {
 			}
 		};
 
-		if (leftText.lastIndexOf("(\"") != -1 && leftText.lastIndexOf("(\"") == leftText.lastIndexOf("\"") - 1) {
+		if (leftText.lastIndexOf("(\"") != -1
+				&& leftText.lastIndexOf("(\"") == leftText.lastIndexOf("\"") - 1) {
 			if (!completionKeyHandle(leftText, items, ks))
-				completionsForFilename(leftText.substring(leftText.lastIndexOf("\"") + 1), items);
+				completionsForFilename(
+						leftText.substring(leftText.lastIndexOf("\"") + 1),
+						items);
 		} else
-			completionsForFilename(leftText.substring(leftText.lastIndexOf("\"") + 1), items);
+			completionsForFilename(
+					leftText.substring(leftText.lastIndexOf("\"") + 1), items);
 
 		menu = new SmallMenu().createMenu(items, frame, ks);
 		menu.doneHook = new iUpdateable() {
 
 			@Override
 			public void update() {
-				;//System.out.println(" forcing focus <" + ed + ">");
+				;// System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
 		};
 		// menu.setMinimumSize(new Dimension(500, 50));
-		menu.show(Launcher.display.map(ed, frame, new Point(line.x + 2, line.y)));
+		menu.show(Launcher.display
+				.map(ed, frame, new Point(line.x + 2, line.y)));
 
 		menu.selectFirst();
 
@@ -1322,7 +1423,8 @@ public class BaseTextEditor2 {
 		// m.show(ed, line.x, line.y);
 	}
 
-	protected boolean completionKeyHandle(String leftText, LinkedHashMap<String, iUpdateable> items, iKeystrokeUpdate ks) {
+	protected boolean completionKeyHandle(String leftText,
+			LinkedHashMap<String, iUpdateable> items, iKeystrokeUpdate ks) {
 		return false;
 	}
 
@@ -1368,7 +1470,8 @@ public class BaseTextEditor2 {
 		return "";
 	}
 
-	protected List<Completion> getCompletions(String leftText, boolean publicOnly, iKeystrokeUpdate ks) {
+	protected List<Completion> getCompletions(String leftText,
+			boolean publicOnly, iKeystrokeUpdate ks) {
 		ArrayList<Completion> comp = new ArrayList<Completion>();
 		return comp;
 	}
@@ -1426,7 +1529,7 @@ public class BaseTextEditor2 {
 				}
 
 				if (!Character.isISOControl(arg0.character)) {
-					;//System.out.println(" inserting character ");
+					;// System.out.println(" inserting character ");
 					ed.insert("" + arg0.character);
 					ed.setCaretOffset(ed.getCaretOffset() + 1);
 					importHandle();
@@ -1448,13 +1551,14 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				;//System.out.println(" forcing focus <" + ed + ">");
+				;// System.out.println(" forcing focus <" + ed + ">");
 				frame.forceActive();
 				ed.forceFocus();
 			}
 		};
 		// menu.setMinimumSize(new Dimension(500, 50));
-		menu.show(Launcher.display.map(ed, frame, new Point(line.x + 2, line.y)));
+		menu.show(Launcher.display
+				.map(ed, frame, new Point(line.x + 2, line.y)));
 
 		menu.selectFirst();
 
@@ -1521,8 +1625,10 @@ public class BaseTextEditor2 {
 				Point leftp = ed.getLocationAtOffset(startAt);
 				Point rightp = ed.getLocationAtOffset(endAt - 1);
 
-				Rectangle left = new Rectangle(leftp.x, leftp.y, 0, ed.getLineHeight(startAt));
-				Rectangle right = new Rectangle(rightp.x, rightp.y, 0, ed.getLineHeight(startAt));
+				Rectangle left = new Rectangle(leftp.x, leftp.y, 0,
+						ed.getLineHeight(startAt));
+				Rectangle right = new Rectangle(rightp.x, rightp.y, 0,
+						ed.getLineHeight(startAt));
 
 				if (left.y == right.y)
 					pa.drawRect(left.union(right), g2);
@@ -1561,17 +1667,19 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				SyntaxHighlightingStyles2.openCustomizer(colors, ed, new iUpdateable() {
+				SyntaxHighlightingStyles2.openCustomizer(colors, ed,
+						new iUpdateable() {
 
-					@Override
-					public void update() {
-						cache.clear();
-					}
-				});
+							@Override
+							public void update() {
+								cache.clear();
+							}
+						});
 			}
 		});
 
-		;//System.out.println(" popping up <" + items + "> at <" + arg0.x + " " + arg0.y + ">");
+		;// System.out.println(" popping up <" + items + "> at <" + arg0.x + " "
+			// + arg0.y + ">");
 
 		BetterPopup m = new SmallMenu().createMenu(items, frame, null);
 		m.show(Launcher.display.map(ed, frame, new Point(arg0.x, arg0.y)));
@@ -1579,7 +1687,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				;//System.out.println(" -- done ? ");
+				;// System.out.println(" -- done ? ");
 			}
 		};
 

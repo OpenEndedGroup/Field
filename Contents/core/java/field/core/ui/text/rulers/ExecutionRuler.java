@@ -160,7 +160,7 @@ public class ExecutionRuler implements iRuler {
 
 	public void keyEvent(Event e, int caretPosition, int selectionStart, int selectionEnd) {
 
-		if ((e.stateMask & SWT.COMMAND) != 0 && (e.stateMask & SWT.ALT) != 0) {
+		if ((e.stateMask & Platform.getCommandModifier()) != 0 && (e.stateMask & SWT.ALT) != 0) {
 
 			if (e.keyCode == SWT.ARROW_LEFT) {
 
@@ -463,7 +463,7 @@ public class ExecutionRuler implements iRuler {
 			else
 				g.setAlpha(64);
 
-			g.drawString("" + (i + 1), (int) (ruler.getClientArea().width - 5 - e.x), pix + 4);
+			g.drawString("" + (i + 1), (int) (ruler.getClientArea().width - 5 - e.x), pix + 4+(Platform.isLinux() ? -2 : 0));
 			at += splat[i].length() + 1;
 
 			last = i;

@@ -262,13 +262,13 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 			if (arg0.keyCode == SWT.F1) {
 				getCurrentWindow(this).resetViewParameters();
 				setNeedsRedisplay(true);
-			} else if (arg0.keyCode == '=' && (arg0.stateMask & SWT.COMMAND) != 0 && (arg0.stateMask & SWT.SHIFT) == 0) {
+			} else if (arg0.keyCode == '=' && (arg0.stateMask & Platform.getCommandModifier()) != 0 && (arg0.stateMask & SWT.SHIFT) == 0) {
 				;//System.out.println(" zoom in ");
 				getCurrentWindow(this).sx /= 1.25;
 				getCurrentWindow(this).sy /= 1.25;
 				getCurrentWindow(this).clampViewParameters();
 				setNeedsRedisplay(true);
-			} else if (arg0.keyCode == '-' && (arg0.stateMask & SWT.COMMAND) != 0) {
+			} else if (arg0.keyCode == '-' && (arg0.stateMask & Platform.getCommandModifier()) != 0) {
 				;//System.out.println(" zoom in ");
 				getCurrentWindow(this).sx *= 1.25;
 				getCurrentWindow(this).sy *= 1.25;

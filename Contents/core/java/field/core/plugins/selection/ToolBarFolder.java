@@ -46,9 +46,9 @@ public class ToolBarFolder {
 	private Composite tools;
 
 	// TODO mac only?
-	public static Color background = Platform.isMac()  ? new Color(Launcher.display, 200, 200, 200) : new Color(Launcher.display, 230, 230, 230);
+	public static Color background = Platform.isMac()  ? new Color(Launcher.display, 200, 200, 200) : new Color(Launcher.display, 200, 200, 200);
 	public static Color firstLineBackground = Platform.isMac() ? new Color(Launcher.display, 170, 170, 170) : new Color(Launcher.display, 220, 220, 220);
-	public static Color sashBackground = Platform.isMac()  ? new Color(Launcher.display, 200, 200, 200) : new Color(Launcher.display, 230, 230, 230);
+	public static Color sashBackground = Platform.isMac()  ? new Color(Launcher.display, 200, 200, 200) : new Color(Launcher.display, 200, 200, 200);
 
 	private HashMap<ToolItem, SelectionListener> listeners = new HashMap<ToolItem, SelectionListener>();
 
@@ -140,7 +140,7 @@ public class ToolBarFolder {
 
 		if (toolbar == null) {
 
-			toolbar = new ToolBar(into, SWT.SMOOTH | SWT.NO_FOCUS);
+			toolbar = new ToolBar(into, SWT.NO_BACKGROUND | SWT.NO_FOCUS | SWT.FLAT);
 			{
 				GridData data = new GridData();
 				data.heightHint = Platform.isMac() ? 23 : 33;
@@ -151,9 +151,8 @@ public class ToolBarFolder {
 			}
 
 			toolbar.setBackground(background);
-			
 		}
-		container = new Composite(into, (Platform.isMac() ? SWT.NO_BACKGROUND : 0) | SWT.NO_FOCUS);
+		container = new Composite(into, (Platform.isMac() ? SWT.NO_BACKGROUND : 0) | SWT.NO_FOCUS | SWT.FLAT);
 		{
 			GridData data = new GridData();
 			data.grabExcessVerticalSpace = true;
