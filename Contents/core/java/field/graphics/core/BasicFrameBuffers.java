@@ -148,7 +148,7 @@ import field.util.TaskQueue;
 public class BasicFrameBuffers {
 
 	static public boolean use32 = false;
-	
+
 	static public class Any implements iMatchRule {
 		public boolean match(Object o) {
 			return true;
@@ -162,7 +162,7 @@ public class BasicFrameBuffers {
 	static public interface iHasFBO {
 		public int getFBO();
 	}
-	
+
 	static public interface iHasRB {
 		public int getRB();
 	}
@@ -171,9 +171,8 @@ public class BasicFrameBuffers {
 		public iProvider<Integer> getOutput();
 	}
 
-	
-
-	static public class BaseFrameBufferObjectTexture extends BasicTextures.BaseTexture implements iDisplayable {
+	static public class BaseFrameBufferObjectTexture extends
+			BasicTextures.BaseTexture implements iDisplayable {
 		private final int width;
 
 		private final int height;
@@ -214,7 +213,8 @@ public class BasicFrameBuffers {
 
 		boolean isFloat = false;
 
-		public BaseFrameBufferObjectTexture(int width, int height, boolean useRect) {
+		public BaseFrameBufferObjectTexture(int width, int height,
+				boolean useRect) {
 			this.width = width;
 			this.height = height;
 			this.useRect = useRect;
@@ -227,9 +227,12 @@ public class BasicFrameBuffers {
 			// camera.getFar());
 
 			r = (float) SystemProperties.getDoubleProperty("background.red", 0);
-			g = (float) SystemProperties.getDoubleProperty("background.green", 0);
-			b = (float) SystemProperties.getDoubleProperty("background.blue", 0);
-			a = (float) SystemProperties.getDoubleProperty("background.alpha", 1);
+			g = (float) SystemProperties.getDoubleProperty("background.green",
+					0);
+			b = (float) SystemProperties
+					.getDoubleProperty("background.blue", 0);
+			a = (float) SystemProperties.getDoubleProperty("background.alpha",
+					1);
 
 			doClear = SystemProperties.getIntProperty("background.clear", 1) == 1;
 			createInitialLists();
@@ -315,7 +318,8 @@ public class BasicFrameBuffers {
 			int[] a = new int[1];
 			a[0] = glGetInteger(GL_FRAMEBUFFER_BINDING);
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo[0]);
-			glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, storage);
+			glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE,
+					storage);
 			glBindFramebuffer(GL_FRAMEBUFFER, a[0]);
 
 			return storage;
@@ -336,7 +340,8 @@ public class BasicFrameBuffers {
 			return width;
 		}
 
-		public BaseFrameBufferObjectTexture setBackground(float r, float g, float b, float a, boolean doClear) {
+		public BaseFrameBufferObjectTexture setBackground(float r, float g,
+				float b, float a, boolean doClear) {
 			this.r = r;
 			this.g = g;
 			this.b = b;
@@ -365,7 +370,8 @@ public class BasicFrameBuffers {
 				// Vector3(0,0,0),
 				// (float) 1);
 				if (!isFloat) {
-					BasicUtilities.Clear clear = new BasicUtilities.Clear(new Vector3(r, g, b), a);
+					BasicUtilities.Clear clear = new BasicUtilities.Clear(
+							new Vector3(r, g, b), a);
 					rootSceneList.addChild(clear);
 				}
 
@@ -375,7 +381,8 @@ public class BasicFrameBuffers {
 
 			} else {
 				if (!isFloat) {
-					rootSceneList.addChild(new BasicUtilities.ClearOnce(new Vector3(0, 0, 0), 1));
+					rootSceneList.addChild(new BasicUtilities.ClearOnce(
+							new Vector3(0, 0, 0), 1));
 				}
 			}
 			// rootSceneList.addChild(camera);
@@ -417,26 +424,33 @@ public class BasicFrameBuffers {
 
 			glBindTexture(target, tex[0]);
 			assert glGetError() == 0;
-			glTexImage2D(target, 0, internalFormat, width, height, 0, format, type, (ByteBuffer) null);
+			glTexImage2D(target, 0, internalFormat, width, height, 0, format,
+					type, (ByteBuffer) null);
 			assert glGetError() == 0;
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, target, tex[0], 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					target, tex[0], 0);
 			if (!isFloat) {
 				assert glGetError() == 0;
 				glTexParameteri(target, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
 				assert glGetError() == 0;
 				glTexParameteri(target, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
 				assert glGetError() == 0;
-				glTexParameteri(target, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+				glTexParameteri(target, GL_TEXTURE_MAG_FILTER,
+						gl_texture_mag_filter);
 				assert glGetError() == 0;
-				glTexParameteri(target, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+				glTexParameteri(target, GL_TEXTURE_MIN_FILTER,
+						gl_texture_min_filter);
 				assert glGetError() == 0;
 
 				glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
-				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
-				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24,
+						width, height);
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+						GL_RENDERBUFFER, rb[0]);
 			}
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-			assert status == GL_FRAMEBUFFER_COMPLETE : "status is <" + status + ">";
+			assert status == GL_FRAMEBUFFER_COMPLETE : "status is <" + status
+					+ ">";
 			assert glGetError() == 0;
 			BasicContextManager.putId(this, fbo[0]);
 
@@ -447,7 +461,8 @@ public class BasicFrameBuffers {
 		}
 	}
 
-	static public class BiMultipasser extends MultiPasser implements iDisplayable {
+	static public class BiMultipasser extends MultiPasser implements
+			iDisplayable {
 
 		private final boolean useFloat;
 
@@ -455,13 +470,15 @@ public class BasicFrameBuffers {
 
 		protected final int secondUnit;
 
-		public BiMultipasser(int width, int height, boolean useRect, int secondUnit) {
+		public BiMultipasser(int width, int height, boolean useRect,
+				int secondUnit) {
 			super(width, height, useRect);
 			this.secondUnit = secondUnit;
 			this.useFloat = false;
 		}
 
-		public BiMultipasser(int width, int height, boolean useRect, int secondUnit, boolean useFloat) {
+		public BiMultipasser(int width, int height, boolean useRect,
+				int secondUnit, boolean useFloat) {
 			super(width, height, useRect);
 			this.secondUnit = secondUnit;
 			this.useFloat = useFloat;
@@ -476,7 +493,8 @@ public class BasicFrameBuffers {
 
 			glActiveTexture(GL_TEXTURE0 + secondUnit);
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, flip ? secondTex[1] : secondTex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					flip ? secondTex[1] : secondTex[0]);
 			glActiveTexture(acitve[0]);
 		}
 
@@ -492,7 +510,8 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
 			assert glGetError() == 0;
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			assert glGetError() == 0;
 			glActiveTexture(acitve[0]);
 
@@ -520,11 +539,15 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 
 			if (flip) {
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[0]);
-				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						secondTex[0]);
+				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE
+						: GL_TEXTURE_2D);
 			} else {
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[1]);
-				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						secondTex[1]);
+				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE
+						: GL_TEXTURE_2D);
 			}
 
 			glActiveTexture(acitve[0]);
@@ -535,7 +558,9 @@ public class BasicFrameBuffers {
 		@Override
 		protected void preDisplay() {
 			super.preDisplay();
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, flip ? secondTex[0] : secondTex[1], 0);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					flip ? secondTex[0] : secondTex[1], 0);
 			// TODO lwjgl momentum
 			// glDrawBuffers(2, new int[] { GL_COLOR_ATTACHMENT0,
 			// GL_COLOR_ATTACHMENT1 }, 0);
@@ -566,28 +591,53 @@ public class BasicFrameBuffers {
 			gl_texture_min_filter = GL_LINEAR;
 			gl_texture_mag_filter = GL_LINEAR;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[0]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					secondTex[0]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					secondTex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 			glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width,
+					height);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+					GL_RENDERBUFFER, rb[0]);
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
-			;//System.out.println(" status <" + status + "> <" + GL_FRAMEBUFFER_COMPLETE + ">");
+			;// System.out.println(" status <" + status + "> <" +
+				// GL_FRAMEBUFFER_COMPLETE + ">");
 			BasicContextManager.putId(this, fbo[0]);
 			glClearColor(0, 0, 0, 0);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -595,29 +645,50 @@ public class BasicFrameBuffers {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			assert glGetError() == 0;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			assert glGetError() == 0;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[1]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					secondTex[1]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			assert glGetError() == 0;
 
-			;//System.out.println(" inside setup for bimulti <" + glGetError() + ">");
+			;// System.out.println(" inside setup for bimulti <" + glGetError()
+				// + ">");
 
 		}
 
 	}
 
-	static public class DepthMultipasser extends MultiPasser implements iDisplayable {
+	static public class DepthMultipasser extends MultiPasser implements
+			iDisplayable {
 
 		protected int[] depthTex = new int[2];
 
@@ -625,7 +696,8 @@ public class BasicFrameBuffers {
 
 		protected final int depthUnit;
 
-		public DepthMultipasser(int width, int height, boolean useRect, int depthUnit) {
+		public DepthMultipasser(int width, int height, boolean useRect,
+				int depthUnit) {
 			super(width, height, useRect);
 			fbo = new int[] { -1, -1 };
 			depthTex = new int[] { -1, -1 };
@@ -650,7 +722,8 @@ public class BasicFrameBuffers {
 
 			glActiveTexture(GL_TEXTURE0 + depthUnit);
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, flip ? depthTex[1] : depthTex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					flip ? depthTex[1] : depthTex[0]);
 			glActiveTexture(acitve[0]);
 		}
 
@@ -707,7 +780,8 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
 			assert glGetError() == 0;
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			assert glGetError() == 0;
 			glActiveTexture(acitve[0]);
 		}
@@ -727,8 +801,10 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, depthTex[0]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					depthTex[0]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 
 			glActiveTexture(acitve[0]);
 			assert glGetError() == 0;
@@ -756,28 +832,47 @@ public class BasicFrameBuffers {
 
 				// texture 0
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[0]);
 				// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,
 				// 0);
 
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+						GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+						(ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0],
+						0);
 
 				// and now the
 				// depth texture
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, depthTex[0]);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, (use32 ? GL_FLOAT : GL_HALF_FLOAT), (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, depthTex[0], 0);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						depthTex[0]);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+						GL_DEPTH_COMPONENT, width, height, 0,
+						GL_DEPTH_COMPONENT, (use32 ? GL_FLOAT : GL_HALF_FLOAT),
+						(ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						depthTex[0], 0);
 
 				assert glGetError() == 0;
 
@@ -801,28 +896,47 @@ public class BasicFrameBuffers {
 
 				// texture 0
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[1]);
 				// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,
 				// 0);
 
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
+				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+						GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+						(ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1],
+						0);
 
 				// and now the
 				// depth texture
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, depthTex[1]);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, (use32 ? GL_FLOAT : GL_HALF_FLOAT), (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, depthTex[1], 0);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						depthTex[1]);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameterf(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+						GL_DEPTH_COMPONENT, width, height, 0,
+						GL_DEPTH_COMPONENT, (use32 ? GL_FLOAT : GL_HALF_FLOAT),
+						(ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						depthTex[1], 0);
 
 				assert glGetError() == 0;
 
@@ -844,7 +958,8 @@ public class BasicFrameBuffers {
 
 	}
 
-	static public class DoubleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable {
+	static public class DoubleFrameBuffer extends BasicTextures.BaseTexture
+			implements iDisplayable {
 		private final int width;
 
 		private int status;
@@ -883,7 +998,8 @@ public class BasicFrameBuffers {
 			createInitialLists();
 		}
 
-		public DoubleFrameBuffer(int depthWidth, int depthHeight, boolean useFloat) {
+		public DoubleFrameBuffer(int depthWidth, int depthHeight,
+				boolean useFloat) {
 			this.width = depthWidth;
 			this.height = depthHeight;
 			this.useFloat = useFloat;
@@ -891,7 +1007,8 @@ public class BasicFrameBuffers {
 			createInitialLists();
 		}
 
-		public DoubleFrameBuffer(int depthWidth, int depthHeight, boolean useRect, boolean useFloat) {
+		public DoubleFrameBuffer(int depthWidth, int depthHeight,
+				boolean useRect, boolean useFloat) {
 			this.width = depthWidth;
 			this.height = depthHeight;
 			this.useRect = useRect;
@@ -919,26 +1036,44 @@ public class BasicFrameBuffers {
 			};
 		}
 
-		public iAcceptor<Number> addFadePlane(final Vector4 color1, final Vector4 color2) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.render);
+		public iAcceptor<Number> addFadePlane(final Vector4 color1,
+				final Vector4 color2) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					Base.StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f).put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.addChild(new BasicGLSLangProgram("content/shaders/NDC2ColorVertex.glslang", "content/shaders/VertexColor2Fragment.glslang"));
-			mesh.addChild(new BasicUtilities.DepthMask(Base.StandardPass.transform, Base.StandardPass.postRender));
+			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f)
+					.put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.addChild(new BasicGLSLangProgram(
+					"content/shaders/NDC2ColorVertex.glslang",
+					"content/shaders/VertexColor2Fragment.glslang"));
+			mesh.addChild(new BasicUtilities.DepthMask(
+					Base.StandardPass.transform, Base.StandardPass.postRender));
 
 			float colorAlpha = 0.1f;
 			float alphaAlpha = 0.5f;
-			mesh.aux(Base.color0_id, 4).put(new float[] { color1.x, color1.y, color1.z, color1.w, color1.x, color1.y, color1.z, color1.w, color1.x, color1.y, color1.z, color1.w, color1.x, color1.y, color1.z, color1.w, });
-			mesh.aux(Base.color0_id + 1, 4).put(new float[] { color2.x, color2.y, color2.z, color2.w, color2.x, color2.y, color2.z, color2.w, color2.x, color2.y, color2.z, color2.w, color2.x, color2.y, color2.z, color2.w, });
+			mesh.aux(Base.color0_id, 4).put(
+					new float[] { color1.x, color1.y, color1.z, color1.w,
+							color1.x, color1.y, color1.z, color1.w, color1.x,
+							color1.y, color1.z, color1.w, color1.x, color1.y,
+							color1.z, color1.w, });
+			mesh.aux(Base.color0_id + 1, 4).put(
+					new float[] { color2.x, color2.y, color2.z, color2.w,
+							color2.x, color2.y, color2.z, color2.w, color2.x,
+							color2.y, color2.z, color2.w, color2.x, color2.y,
+							color2.z, color2.w, });
 
-			final FloatBuffer root = ByteBuffer.allocate(mesh.vertex().limit() * 4).asFloatBuffer().put(mesh.vertex());
+			final FloatBuffer root = ByteBuffer
+					.allocate(mesh.vertex().limit() * 4).asFloatBuffer()
+					.put(mesh.vertex());
 
 			// driver bug. Horrible seam
 			// down middle of trianglulation
-			mesh.addChild(new BasicUtilities.OnePassElement(StandardPass.preRender) {
+			mesh.addChild(new BasicUtilities.OnePassElement(
+					StandardPass.preRender) {
 				boolean first = true;
 
 				@Override
@@ -967,8 +1102,20 @@ public class BasicFrameBuffers {
 				@Override
 				public iAcceptor<Number> set(Number to) {
 					if (to.floatValue() != last) {
-						mesh.aux(Base.color0_id, 4).put(new float[] { color1.x, color1.y, color1.z, to.floatValue(), color1.x, color1.y, color1.z, to.floatValue(), color1.x, color1.y, color1.z, to.floatValue(), color1.x, color1.y, color1.z, to.floatValue(), });
-						mesh.aux(Base.color0_id + 1, 4).put(new float[] { color2.x, color2.y, color2.z, to.floatValue(), color2.x, color2.y, color2.z, to.floatValue(), color2.x, color2.y, color2.z, to.floatValue(), color2.x, color2.y, color2.z, to.floatValue(), });
+						mesh.aux(Base.color0_id, 4).put(
+								new float[] { color1.x, color1.y, color1.z,
+										to.floatValue(), color1.x, color1.y,
+										color1.z, to.floatValue(), color1.x,
+										color1.y, color1.z, to.floatValue(),
+										color1.x, color1.y, color1.z,
+										to.floatValue(), });
+						mesh.aux(Base.color0_id + 1, 4).put(
+								new float[] { color2.x, color2.y, color2.z,
+										to.floatValue(), color2.x, color2.y,
+										color2.z, to.floatValue(), color2.x,
+										color2.y, color2.z, to.floatValue(),
+										color2.x, color2.y, color2.z,
+										to.floatValue(), });
 					}
 					last = to.floatValue();
 					return this;
@@ -976,26 +1123,41 @@ public class BasicFrameBuffers {
 			};
 		}
 
-		public void addFadePlane(iFloatProvider amount1, Vector4 color1, iFloatProvider amount2, Vector4 color2) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.render);
+		public void addFadePlane(iFloatProvider amount1, Vector4 color1,
+				iFloatProvider amount2, Vector4 color2) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					Base.StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f).put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.addChild(new BasicGLSLangProgram("content/shaders/NDC2ColorVertex.glslang", "content/shaders/VertexColor2Fragment.glslang"));
-			mesh.addChild(new BasicUtilities.DepthMask(Base.StandardPass.transform, Base.StandardPass.postRender));
+			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f)
+					.put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.addChild(new BasicGLSLangProgram(
+					"content/shaders/NDC2ColorVertex.glslang",
+					"content/shaders/VertexColor2Fragment.glslang"));
+			mesh.addChild(new BasicUtilities.DepthMask(
+					Base.StandardPass.transform, Base.StandardPass.postRender));
 
 			float colorAlpha = 0.1f;
 			float alphaAlpha = 0.5f;
-			mesh.aux(Base.color0_id, 4).put(new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha });
-			mesh.aux(Base.color0_id + 1, 4).put(new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha });
+			mesh.aux(Base.color0_id, 4).put(
+					new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0,
+							0, 0, colorAlpha, 0, 0, 0, colorAlpha });
+			mesh.aux(Base.color0_id + 1, 4).put(
+					new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f,
+							0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha,
+							0.5f, 0.5f, 0.5f, alphaAlpha });
 
-			final FloatBuffer root = ByteBuffer.allocate(mesh.vertex().limit() * 4).asFloatBuffer().put(mesh.vertex());
+			final FloatBuffer root = ByteBuffer
+					.allocate(mesh.vertex().limit() * 4).asFloatBuffer()
+					.put(mesh.vertex());
 
 			// driver bug. Horrible seam
 			// down middle of trianglulation
-			mesh.addChild(new BasicUtilities.OnePassElement(StandardPass.preRender) {
+			mesh.addChild(new BasicUtilities.OnePassElement(
+					StandardPass.preRender) {
 				boolean first = true;
 
 				@Override
@@ -1050,11 +1212,12 @@ public class BasicFrameBuffers {
 			rootSceneList.addChild(mesh);
 		}
 
-		IntBuffer buffers = ByteBuffer.allocateDirect(4 * 2).order(ByteOrder.nativeOrder()).asIntBuffer();
+		IntBuffer buffers = ByteBuffer.allocateDirect(4 * 2)
+				.order(ByteOrder.nativeOrder()).asIntBuffer();
 		boolean disable2 = false;
 
 		public void display() {
-			;//System.out.println(" --> ");
+			;// System.out.println(" --> ");
 			currentFBOContext.push(this);
 			BasicGeometry.insideDoubleFloatFrameBuffer = false;
 			if (FullScreenCanvasSWT.dropFrame > 0)
@@ -1098,7 +1261,8 @@ public class BasicFrameBuffers {
 				if (disable2) {
 					glDrawBuffer(GL_COLOR_ATTACHMENT0);
 				} else {
-					buffers.put(GL_COLOR_ATTACHMENT0).put(GL_COLOR_ATTACHMENT1).rewind();
+					buffers.put(GL_COLOR_ATTACHMENT0).put(GL_COLOR_ATTACHMENT1)
+							.rewind();
 					glDrawBuffers(buffers);
 				}
 				glClear(GL_DEPTH_BUFFER_BIT);
@@ -1119,44 +1283,47 @@ public class BasicFrameBuffers {
 				BasicGeometry.insideDoubleFloatFrameBuffer = false;
 
 				assert popped == this : popped;
-				;//System.out.println(" <-- ");
+				;// System.out.println(" <-- ");
 
 			}
 		}
 
-		public void copyToVBO(final TriangleMesh mesh, final int aux, final boolean first) {
-			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux+" "+first, new iUpdateable() {
-				@Override
-				public void update() {
-					;//System.out.println(" copying to aux buffer ");
-					copyToVBONow(mesh, aux, first);
-				}
-			});
+		public void copyToVBO(final TriangleMesh mesh, final int aux,
+				final boolean first) {
+			sceneList.add(StandardPass.preDisplay).register(
+					"__copyToVbo__" + System.identityHashCode(mesh) + " " + aux
+							+ " " + first, new iUpdateable() {
+						@Override
+						public void update() {
+							;// System.out.println(" copying to aux buffer ");
+							copyToVBONow(mesh, aux, first);
+						}
+					});
 		}
 
-		protected void copyToVBONow(TriangleMesh mesh, int aux, boolean first) {			
+		protected void copyToVBONow(TriangleMesh mesh, int aux, boolean first) {
 			int target = mesh.getOpenGLBufferName(aux);
-			
-			if (target==-1)
+
+			if (target == -1)
 				return;
-			
-//			glFinish();
+
+			// glFinish();
 			int e = glGetError();
-			;//System.out.println(" error1 : "+e);
+			;// System.out.println(" error1 : "+e);
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, target);
 			e = glGetError();
-			;//System.out.println(" error2 : "+e);
-			GL11.glReadBuffer(first ? GL_COLOR_ATTACHMENT0 : GL_COLOR_ATTACHMENT1);
+			;// System.out.println(" error2 : "+e);
+			GL11.glReadBuffer(first ? GL_COLOR_ATTACHMENT0
+					: GL_COLOR_ATTACHMENT1);
 			e = glGetError();
-			;//System.out.println(" error3 : "+e);
+			;// System.out.println(" error3 : "+e);
 			glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
 			e = glGetError();
-			;//System.out.println(" error4 : "+e);
+			;// System.out.println(" error4 : "+e);
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, 0);
-//			glFinish();
+			// glFinish();
 		}
 
-		
 		public Vector4[] getClearColors() {
 			return new Vector4[] { c1, c2 };
 		}
@@ -1198,10 +1365,12 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE0);
 		}
 
@@ -1209,11 +1378,15 @@ public class BasicFrameBuffers {
 		protected void pre() {
 
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[0]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[1]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE0);
 		}
 
@@ -1232,32 +1405,62 @@ public class BasicFrameBuffers {
 			gl_texture_min_filter = GL_LINEAR;
 			gl_texture_mag_filter = GL_LINEAR;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
 
 			if (lumenOnly) {
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? GL_RG16F : GL_RG8, width, height, 0, GL_RG, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
+				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+						useFloat ? GL_RG16F : GL_RG8, width, height, 0, GL_RG,
+						useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT)
+								: GL_UNSIGNED_BYTE, (ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1],
+						0);
 			} else {
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
+				glTexImage2D(
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						0,
+						useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+						width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+								: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+						(ByteBuffer) null);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1],
+						0);
 			}
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 			glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width,
+					height);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+					GL_RENDERBUFFER, rb[0]);
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
 			BasicContextManager.putId(this, fbo[0]);
@@ -1270,23 +1473,35 @@ public class BasicFrameBuffers {
 		}
 
 		public iSceneListElement placeOnscreen(final Rect r, int output) {
-			return getOnscreenList(output, r, new Vector4(0, 0, 0, 0), new Vector4(1, 1, 1, 1), false);
+			return getOnscreenList(output, r, new Vector4(0, 0, 0, 0),
+					new Vector4(1, 1, 1, 1), false);
 		}
 
-		public iSceneListElement getOnscreenList(final Rect r, Vector4 offset, Vector4 mul, final boolean genMip, int output) {
+		public iSceneListElement getOnscreenList(final Rect r, Vector4 offset,
+				Vector4 mul, final boolean genMip, int output) {
 			return getOnscreenList(output, r, offset, mul, genMip);
 		}
 
 		@HiddenInAutocomplete
-		public iSceneListElement getOnscreenList(int output, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+		public iSceneListElement getOnscreenList(int output, final Rect r,
+				Vector4 offset, Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.aux(Base.texture0_id, 2).put(useRect ? width : 1).put(0).put(useRect ? width : 1).put(useRect ? height : 1).put(0).put(useRect ? height : 1).put(0).put(0);
-			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f)
+					.put((float) (r.x + r.w)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(useRect ? width : 1).put(0)
+					.put(useRect ? width : 1).put(useRect ? height : 1).put(0)
+					.put(useRect ? height : 1).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1);
 
 			// onscreen program
 			// BasicGLSLangProgram onscreenProgram = (!useRect ? new
@@ -1295,19 +1510,26 @@ public class BasicFrameBuffers {
 			// : new
 			// BasicGLSLangProgram("content/shaders/NDCvertex.glslang",
 			// "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
-			BasicGLSLangProgram onscreenProgram = (!useRect ? new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang") : new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			BasicGLSLangProgram onscreenProgram = (!useRect ? new BasicGLSLangProgram(
+					"content/shaders/NDCvertex.glslang",
+					"content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang")
+					: new BasicGLSLangProgram(
+							"content/shaders/NDCvertex.glslang",
+							"content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
 			onscreenProgram.new SetIntegerUniform("depthTexture", 0);
 			onscreenProgram.new SetUniform("offset", offset);
 			onscreenProgram.new SetUniform("mul", mul);
 			onscreenProgram.addChild(mesh);
-			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, this.getOutput(output), 0));
+			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, this
+					.getOutput(output), 0));
 			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
 
 			return onscreenProgram;
 		}
 	}
 
-	static public class TripleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable {
+	static public class TripleFrameBuffer extends BasicTextures.BaseTexture
+			implements iDisplayable {
 		private final int width;
 
 		private int status;
@@ -1342,33 +1564,49 @@ public class BasicFrameBuffers {
 			createInitialLists();
 		}
 
-		public TripleFrameBuffer(int depthWidth, int depthHeight, boolean useFloat) {
+		public TripleFrameBuffer(int depthWidth, int depthHeight,
+				boolean useFloat) {
 			this.width = depthWidth;
 			this.height = depthHeight;
 			this.useFloat = useFloat;
 			createInitialLists();
 		}
 
-		public void addFadePlane(iFloatProvider amount1, Vector4 color1, iFloatProvider amount2, Vector4 color2) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.render);
+		public void addFadePlane(iFloatProvider amount1, Vector4 color1,
+				iFloatProvider amount2, Vector4 color2) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					Base.StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f).put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.addChild(new BasicGLSLangProgram("content/shaders/NDC2ColorVertex.glslang", "content/shaders/VertexColor2Fragment.glslang"));
-			mesh.addChild(new BasicUtilities.DepthMask(Base.StandardPass.transform, Base.StandardPass.postRender));
+			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f)
+					.put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.addChild(new BasicGLSLangProgram(
+					"content/shaders/NDC2ColorVertex.glslang",
+					"content/shaders/VertexColor2Fragment.glslang"));
+			mesh.addChild(new BasicUtilities.DepthMask(
+					Base.StandardPass.transform, Base.StandardPass.postRender));
 
 			float colorAlpha = 0.1f;
 			float alphaAlpha = 0.95f;
-			mesh.aux(Base.color0_id, 4).put(new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha });
-			mesh.aux(Base.color0_id + 1, 4).put(new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha });
+			mesh.aux(Base.color0_id, 4).put(
+					new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0,
+							0, 0, colorAlpha, 0, 0, 0, colorAlpha });
+			mesh.aux(Base.color0_id + 1, 4).put(
+					new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f,
+							0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha,
+							0.5f, 0.5f, 0.5f, alphaAlpha });
 
-			final FloatBuffer root = ByteBuffer.allocate(mesh.vertex().limit() * 4).asFloatBuffer().put(mesh.vertex());
+			final FloatBuffer root = ByteBuffer
+					.allocate(mesh.vertex().limit() * 4).asFloatBuffer()
+					.put(mesh.vertex());
 
 			// driver bug. Horrible seam
 			// down middle of trianglulation
-			mesh.addChild(new BasicUtilities.OnePassElement(StandardPass.preRender) {
+			mesh.addChild(new BasicUtilities.OnePassElement(
+					StandardPass.preRender) {
 				@Override
 				public void performPass() {
 					glColorMask(false, false, false, true);
@@ -1540,29 +1778,38 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 		}
 
 		@Override
 		public void pre() {
 
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[0]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[1]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[2]);
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[2]);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			glActiveTexture(GL_TEXTURE0);
 		}
 
@@ -1582,40 +1829,72 @@ public class BasicFrameBuffers {
 			gl_texture_min_filter = GL_LINEAR;
 			gl_texture_mag_filter = GL_LINEAR;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[2]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[2]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[2], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[2], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 			glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width,
+					height);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+					GL_RENDERBUFFER, rb[0]);
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
 
-			;//System.out.println(" status is <" + status + ">");
+			;// System.out.println(" status is <" + status + ">");
 
 			glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
@@ -1635,29 +1914,46 @@ public class BasicFrameBuffers {
 
 		}
 
-		public iReposition placeOnscreen(final BasicSceneList into, final int layer, int output, final Rect r, float width, float height, Vector4 offset, Vector4 mul, final boolean genMip) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+		public iReposition placeOnscreen(final BasicSceneList into,
+				final int layer, int output, final Rect r, float width,
+				float height, Vector4 offset, Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.aux(Base.texture0_id, 2).put(width).put(0).put(width).put(height).put(0).put(height).put(0).put(0);
-			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f)
+					.put((float) (r.x + r.w)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(width).put(0).put(width)
+					.put(height).put(0).put(height).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1);
 
 			final boolean useRect = !(width == 1 && height == 1);
 			// onscreen program
-			final BasicGLSLangProgram onscreenProgram = (width == 1 && height == 1 ? new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang") : new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			final BasicGLSLangProgram onscreenProgram = (width == 1
+					&& height == 1 ? new BasicGLSLangProgram(
+					"content/shaders/NDCvertex.glslang",
+					"content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang")
+					: new BasicGLSLangProgram(
+							"content/shaders/NDCvertex.glslang",
+							"content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
 			onscreenProgram.new SetIntegerUniform("depthTexture", 0);
 			onscreenProgram.new SetUniform("offset", offset);
 			onscreenProgram.new SetUniform("mul", mul);
 			onscreenProgram.addChild(mesh);
-			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, new iProvider<Integer>() {
+			onscreenProgram.addChild(new TextureWrapper(genMip, useRect,
+					new iProvider<Integer>() {
 
-				public Integer get() {
-					return tex[layer];
-				}
-			}, 0));
+						public Integer get() {
+							return tex[layer];
+						}
+					}, 0));
 			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
 			into.addChild(onscreenProgram);
 
@@ -1671,12 +1967,22 @@ public class BasicFrameBuffers {
 
 				public void setRect(Rect r) {
 					current.setValue(r);
-					mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+					mesh.vertex().put((float) (r.x + r.w)).put((float) r.y)
+							.put(0.5f).put((float) (r.x + r.w))
+							.put((float) (r.y + r.h)).put(0.5f)
+							.put((float) (r.x)).put((float) (r.y + r.h))
+							.put(0.5f).put((float) (r.x)).put((float) (r.y))
+							.put(0.5f);
 				}
 
 				public void setRectRotated(Rect r) {
 					current.setValue(r);
-					mesh.vertex().put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f).put((float) (r.x + r.w)).put((float) r.y).put(0.5f);
+					mesh.vertex().put((float) (r.x + r.w))
+							.put((float) (r.y + r.h)).put(0.5f)
+							.put((float) (r.x)).put((float) (r.y + r.h))
+							.put(0.5f).put((float) (r.x)).put((float) (r.y))
+							.put(0.5f).put((float) (r.x + r.w))
+							.put((float) r.y).put(0.5f);
 
 				}
 
@@ -1714,8 +2020,12 @@ public class BasicFrameBuffers {
 			CoreHelpers.glLoadIdentity();
 
 			// moved aspect
-			float oright = (float) (rootCamera.near * Math.tan((Math.PI * rootCamera.fov / 180f) / 2) * rootCamera.aspect) * rootCamera.frustrumMul;
-			float otop = (float) (rootCamera.near * Math.tan((Math.PI * rootCamera.fov / 180f) / 2)) * rootCamera.frustrumMul;
+			float oright = (float) (rootCamera.near
+					* Math.tan((Math.PI * rootCamera.fov / 180f) / 2) * rootCamera.aspect)
+					* rootCamera.frustrumMul;
+			float otop = (float) (rootCamera.near * Math.tan((Math.PI
+					* rootCamera.fov / 180f) / 2))
+					* rootCamera.frustrumMul;
 
 			// the above correspond to the
 			// camea calculation.
@@ -1727,27 +2037,48 @@ public class BasicFrameBuffers {
 			float right = oright + oright * rootCamera.rshift;
 			float top = otop + otop * rootCamera.tshift;
 
-			float nleft = (float) (left + (right - left) * (ndcSubsetRect.x + 1) / 2);
-			float nright = (float) (left + (right - left) * (ndcSubsetRect.x + 1 + ndcSubsetRect.w) / 2);
-			float ntop = (float) (bottom + (top - bottom) * (ndcSubsetRect.y + 1 + ndcSubsetRect.h) / 2);
-			float nbottom = (float) (bottom + (top - bottom) * (ndcSubsetRect.y + 1) / 2);
+			float nleft = (float) (left + (right - left)
+					* (ndcSubsetRect.x + 1) / 2);
+			float nright = (float) (left + (right - left)
+					* (ndcSubsetRect.x + 1 + ndcSubsetRect.w) / 2);
+			float ntop = (float) (bottom + (top - bottom)
+					* (ndcSubsetRect.y + 1 + ndcSubsetRect.h) / 2);
+			float nbottom = (float) (bottom + (top - bottom)
+					* (ndcSubsetRect.y + 1) / 2);
 
-			float io_frustra = rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_frustra : 0;
+			float io_frustra = rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_frustra
+					: 0;
 			float x = io_frustra * FullScreenCanvasSWT.getSide().x;
 
 			// inverted top and botom ?
 
-			CoreHelpers.glFrustum(nleft + right * x, nright + right * x, nbottom, ntop, rootCamera.near, rootCamera.far);
+			CoreHelpers.glFrustum(nleft + right * x, nright + right * x,
+					nbottom, ntop, rootCamera.near, rootCamera.far);
 
 			CoreHelpers.glMatrixMode(GL_MODELVIEW);
 			CoreHelpers.glLoadIdentity();
 
-			Vector3 leftOffset = new Vector3().cross(rootCamera.getViewRay(null), rootCamera.getUp(null)).normalize();
-			leftOffset.x = leftOffset.x * (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.x * FullScreenCanvasSWT.getSide().x : 0);
-			leftOffset.y = leftOffset.y * (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.y * FullScreenCanvasSWT.getSide().x : 0);
-			leftOffset.z = leftOffset.z * (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.z * FullScreenCanvasSWT.getSide().x : 0);
+			Vector3 leftOffset = new Vector3().cross(
+					rootCamera.getViewRay(null), rootCamera.getUp(null))
+					.normalize();
+			leftOffset.x = leftOffset.x
+					* (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.x
+							* FullScreenCanvasSWT.getSide().x
+							: 0);
+			leftOffset.y = leftOffset.y
+					* (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.y
+							* FullScreenCanvasSWT.getSide().x
+							: 0);
+			leftOffset.z = leftOffset.z
+					* (rootCamera instanceof StereoCamera ? ((StereoCamera) rootCamera).io_position.z
+							* FullScreenCanvasSWT.getSide().x
+							: 0);
 
-			CoreHelpers.gluLookAt(rootCamera.position.x + leftOffset.x, rootCamera.position.y + leftOffset.y, rootCamera.position.z + leftOffset.z, rootCamera.lookAt.x, rootCamera.lookAt.y, rootCamera.lookAt.z, rootCamera.up.x, rootCamera.up.y, rootCamera.up.z);
+			CoreHelpers.gluLookAt(rootCamera.position.x + leftOffset.x,
+					rootCamera.position.y + leftOffset.y, rootCamera.position.z
+							+ leftOffset.z, rootCamera.lookAt.x,
+					rootCamera.lookAt.y, rootCamera.lookAt.z, rootCamera.up.x,
+					rootCamera.up.y, rootCamera.up.z);
 			assert glGetError() == 0;
 		}
 
@@ -1786,9 +2117,11 @@ public class BasicFrameBuffers {
 	}
 
 	@Woven
-	static public class MultiPasser extends BasicTextures.BaseTexture implements iDisplayable {
+	static public class MultiPasser extends BasicTextures.BaseTexture implements
+			iDisplayable {
 
-		static public final Method method_display = ReflectionTools.methodOf("display", MultiPasser.class);
+		static public final Method method_display = ReflectionTools.methodOf(
+				"display", MultiPasser.class);
 
 		private float r;
 
@@ -1843,9 +2176,12 @@ public class BasicFrameBuffers {
 			// camera.getFar());
 
 			r = (float) SystemProperties.getDoubleProperty("background.red", 0);
-			g = (float) SystemProperties.getDoubleProperty("background.green", 0);
-			b = (float) SystemProperties.getDoubleProperty("background.blue", 0);
-			a = (float) SystemProperties.getDoubleProperty("background.alpha", 1);
+			g = (float) SystemProperties.getDoubleProperty("background.green",
+					0);
+			b = (float) SystemProperties
+					.getDoubleProperty("background.blue", 0);
+			a = (float) SystemProperties.getDoubleProperty("background.alpha",
+					1);
 
 			doClear = SystemProperties.getIntProperty("background.clear", 1) == 1;
 		}
@@ -1860,8 +2196,10 @@ public class BasicFrameBuffers {
 				}
 
 				@Override
-				public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
-					glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
+				public ReturnCode tail(Object calledOn, Object[] args,
+						Object returnWas) {
+					glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+							: GL_TEXTURE_2D, 0);
 					return super.tail(calledOn, args, returnWas);
 				}
 			});
@@ -1876,9 +2214,11 @@ public class BasicFrameBuffers {
 				}
 
 				@Override
-				public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
+				public ReturnCode tail(Object calledOn, Object[] args,
+						Object returnWas) {
 					assert !deallocated;
-					glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
+					glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+							: GL_TEXTURE_2D, 0);
 					return super.tail(calledOn, args, returnWas);
 				}
 			});
@@ -1886,7 +2226,8 @@ public class BasicFrameBuffers {
 
 		public void bindOtherTexture() {
 			assert !deallocated;
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, flip ? tex[1] : tex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					flip ? tex[1] : tex[0]);
 			// glBindTexture(useRect ?
 			// GL_TEXTURE_RECTANGLE :
 			// GL_TEXTURE_2D, tex[0]);
@@ -1897,16 +2238,21 @@ public class BasicFrameBuffers {
 		 */
 		public Base.iGeometry constructDefaultDrawingPlane() {
 			assert !deallocated;
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.preRender);
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					Base.StandardPass.preRender);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put(-1).put(-1).put(0.5f).put(-1).put(1).put(0.5f).put(1).put(1).put(0.5f).put(1).put(-1).put(0.5f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
+			mesh.vertex().put(-1).put(-1).put(0.5f).put(-1).put(1).put(0.5f)
+					.put(1).put(1).put(0.5f).put(1).put(-1).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
 			if (useRect)
-				mesh.aux(Base.texture0_id, 2).put(0).put(0).put(0).put(height).put(width).put(height).put(width).put(0);
+				mesh.aux(Base.texture0_id, 2).put(0).put(0).put(0).put(height)
+						.put(width).put(height).put(width).put(0);
 			else
-				mesh.aux(Base.texture0_id, 2).put(0).put(0).put(0).put(1).put(1).put(1).put(1).put(0);
+				mesh.aux(Base.texture0_id, 2).put(0).put(0).put(0).put(1)
+						.put(1).put(1).put(1).put(0);
 
 			addOtherTexture(mesh);
 
@@ -1921,11 +2267,9 @@ public class BasicFrameBuffers {
 			deallocated = true;
 
 			/*
-			 * glGenFramebuffers(1, fbo, 0); assert glGetError() ==
-			 * 0;
+			 * glGenFramebuffers(1, fbo, 0); assert glGetError() == 0;
 			 * 
-			 * glGenRenderbuffers(1, rb, 0); assert glGetError() ==
-			 * 0;
+			 * glGenRenderbuffers(1, rb, 0); assert glGetError() == 0;
 			 * 
 			 * glGenTextures(2, tex, 0);
 			 */
@@ -1944,7 +2288,7 @@ public class BasicFrameBuffers {
 			if (FullScreenCanvasSWT.dropFrame > 0)
 				return;
 
-			;//System.out.println(" inside multipasser display ");
+			;// System.out.println(" inside multipasser display ");
 
 			gl = BasicContextManager.getGl();
 			glu = BasicContextManager.getGlu();
@@ -2033,8 +2377,11 @@ public class BasicFrameBuffers {
 			int[] a = new int[1];
 			a[0] = glGetInteger(GL_FRAMEBUFFER_BINDING);
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo[0]);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, flip ? tex[0] : tex[1], 0);
-			glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, storage);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					flip ? tex[0] : tex[1], 0);
+			glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE,
+					storage);
 			glBindFramebuffer(GL_FRAMEBUFFER, a[0]);
 
 			return storage;
@@ -2050,29 +2397,35 @@ public class BasicFrameBuffers {
 
 		public void saveImageToNullTexture(final NullTexture nt) {
 
-			assert nt.width == this.width : "dimension mismatch " + nt.width + " " + this.width;
-			assert nt.height == this.height : "dimension mismatch " + nt.height + " " + this.height;
+			assert nt.width == this.width : "dimension mismatch " + nt.width
+					+ " " + this.width;
+			assert nt.height == this.height : "dimension mismatch " + nt.height
+					+ " " + this.height;
 
 			queue.new Task() {
 				@Override
 				protected void run() {
 					nt.pre();
 					assert glGetError() == 0;
-					glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, width, height);
+					glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0,
+							width, height);
 					assert glGetError() == 0;
 					nt.post();
 				}
 			};
 		}
 
-		public void savePNG(final FullScreenCanvasSWT canvas, final String filename, final ByteBuffer s) {
+		public void savePNG(final FullScreenCanvasSWT canvas,
+				final String filename, final ByteBuffer s) {
 			Cont.linkWith(canvas, canvas.method_beforeFlush, new Cont.aRun() {
 				@Override
-				public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
+				public ReturnCode tail(Object calledOn, Object[] args,
+						Object returnWas) {
 
 					ByteBuffer storage = getImage(s);
 
-					BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+					BufferedImage bi = new BufferedImage(width, height,
+							BufferedImage.TYPE_INT_RGB);
 
 					WritableRaster tile = bi.getWritableTile(0, 0);
 					DataBuffer buffer = tile.getDataBuffer();
@@ -2094,7 +2447,8 @@ public class BasicFrameBuffers {
 					}
 
 					FileOutputStream fos;
-					RenderedOp op = JAI.create("filestore", bi, filename, "PNG");
+					RenderedOp op = JAI
+							.create("filestore", bi, filename, "PNG");
 
 					Cont.unlinkWith(canvas, canvas.method_beforeFlush, this);
 
@@ -2103,7 +2457,8 @@ public class BasicFrameBuffers {
 			});
 		}
 
-		public MultiPasser setBackground(float r, float g, float b, float a, boolean doClear) {
+		public MultiPasser setBackground(float r, float g, float b, float a,
+				boolean doClear) {
 			this.r = r;
 			this.g = g;
 			this.b = b;
@@ -2128,10 +2483,12 @@ public class BasicFrameBuffers {
 			// rootSceneList.addChild(new
 			// BasicUtilities.Standard());
 			if (doClear) {
-				BasicUtilities.Clear clear = new BasicUtilities.Clear(new Vector3(r, g, b), a);
+				BasicUtilities.Clear clear = new BasicUtilities.Clear(
+						new Vector3(r, g, b), a);
 				rootSceneList.addChild(clear);
 			} else {
-				rootSceneList.addChild(new BasicUtilities.ClearOnce(new Vector3(0, 0, 0), 1));
+				rootSceneList.addChild(new BasicUtilities.ClearOnce(
+						new Vector3(0, 0, 0), 1));
 			}
 			// rootSceneList.addChild(camera);
 			if (sceneList == null)
@@ -2144,7 +2501,8 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
 			assert glGetError() == 0;
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			assert glGetError() == 0;
 		}
 
@@ -2157,14 +2515,18 @@ public class BasicFrameBuffers {
 			assert glGetError() == 0;
 
 			if (flip) {
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[0]);
 				// glGenerateMipmap(GL_TEXTURE_2D);
 
-				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE
+						: GL_TEXTURE_2D);
 			} else {
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[1]);
 				// glGenerateMipmap(GL_TEXTURE_2D);
-				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+				CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE
+						: GL_TEXTURE_2D);
 			}
 
 			assert glGetError() == 0;
@@ -2204,7 +2566,9 @@ public class BasicFrameBuffers {
 				gl_texture_min_filter = GL_LINEAR;
 				gl_texture_mag_filter = GL_LINEAR;
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+						: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[0]);
 				// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,
 				// 0);
 
@@ -2213,9 +2577,17 @@ public class BasicFrameBuffers {
 				// GL_TEXTURE_2D, 0, GL_RGBA8, width,
 				// height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 				// null);
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
+				glTexImage2D(
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						0,
+						useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+						width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+								: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+						(ByteBuffer) null);
 
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0],
+						0);
 				// glTexParameteri(useRect ?
 				// GL_TEXTURE_RECTANGLE :
 				// GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
@@ -2224,8 +2596,10 @@ public class BasicFrameBuffers {
 				// GL_TEXTURE_RECTANGLE :
 				// GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 				// gl_texture_wrap_t);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 				// glBindRenderbuffer(GL_RENDERBUFFER,
 				// rb[0]);
@@ -2252,17 +2626,27 @@ public class BasicFrameBuffers {
 				gl_texture_min_filter = GL_LINEAR;
 				gl_texture_mag_filter = GL_LINEAR;
 
-				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+				glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+						: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						tex[1]);
 				// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,
 				// 0);
-				glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
+				glTexImage2D(
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						0,
+						useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
+						width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+								: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+						(ByteBuffer) null);
 
 				// glTexImage2D(useRect ?
 				// GL_TEXTURE_RECTANGLE :
 				// GL_TEXTURE_2D, 0, GL_RGBA8, width,
 				// height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 				// null);
-				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1], 0);
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+						useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1],
+						0);
 				// glTexParameteri(useRect ?
 				// GL_TEXTURE_RECTANGLE :
 				// GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
@@ -2271,8 +2655,10 @@ public class BasicFrameBuffers {
 				// GL_TEXTURE_RECTANGLE :
 				// GL_TEXTURE_2D, GL_TEXTURE_WRAP_T,
 				// gl_texture_wrap_t);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+				glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+						GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 				// glBindRenderbuffer(GL_RENDERBUFFER,
 				// rb[1]);
@@ -2294,19 +2680,35 @@ public class BasicFrameBuffers {
 			}
 		}
 
-		public iReposition placeOnscreen(final BasicSceneList into, final Rect r, float width, float height, Vector4 offset, Vector4 mul, final boolean genMip) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+		public iReposition placeOnscreen(final BasicSceneList into,
+				final Rect r, float width, float height, Vector4 offset,
+				Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.aux(Base.texture0_id, 2).put(width).put(0).put(width).put(height).put(0).put(height).put(0).put(0);
-			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f)
+					.put((float) (r.x + r.w)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(width).put(0).put(width)
+					.put(height).put(0).put(height).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1);
 
 			final boolean useRect = !(width == 1 && height == 1);
 			// onscreen program
-			final BasicGLSLangProgram onscreenProgram = (width == 1 && height == 1 ? new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang") : new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			final BasicGLSLangProgram onscreenProgram = (width == 1
+					&& height == 1 ? new BasicGLSLangProgram(
+					"content/shaders/NDCvertex.glslang",
+					"content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang")
+					: new BasicGLSLangProgram(
+							"content/shaders/NDCvertex.glslang",
+							"content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
 			// BasicGLSLangProgram onscreenProgram = (width == 1 &&
 			// height == 1 ? new
 			// BasicGLSLangProgram("content/shaders/NDCvertex.glslang",
@@ -2317,14 +2719,15 @@ public class BasicFrameBuffers {
 			onscreenProgram.new SetUniform("offset", offset);
 			onscreenProgram.new SetUniform("mul", mul);
 			onscreenProgram.addChild(mesh);
-			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, new iProvider<Integer>() {
+			onscreenProgram.addChild(new TextureWrapper(genMip, useRect,
+					new iProvider<Integer>() {
 
-				public Integer get() {
-					int ff = flip ? tex[1] : tex[0];
-					;//System.out.println(" texturing <" + ff + ">");
-					return ff;
-				}
-			}, 0));
+						public Integer get() {
+							int ff = flip ? tex[1] : tex[0];
+							;// System.out.println(" texturing <" + ff + ">");
+							return ff;
+						}
+					}, 0));
 			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
 			into.addChild(onscreenProgram);
 
@@ -2338,12 +2741,22 @@ public class BasicFrameBuffers {
 
 				public void setRect(Rect r) {
 					current.setValue(r);
-					mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+					mesh.vertex().put((float) (r.x + r.w)).put((float) r.y)
+							.put(0.5f).put((float) (r.x + r.w))
+							.put((float) (r.y + r.h)).put(0.5f)
+							.put((float) (r.x)).put((float) (r.y + r.h))
+							.put(0.5f).put((float) (r.x)).put((float) (r.y))
+							.put(0.5f);
 				}
 
 				public void setRectRotated(Rect r) {
 					current.setValue(r);
-					mesh.vertex().put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f).put((float) (r.x + r.w)).put((float) r.y).put(0.5f);
+					mesh.vertex().put((float) (r.x + r.w))
+							.put((float) (r.y + r.h)).put(0.5f)
+							.put((float) (r.x)).put((float) (r.y + r.h))
+							.put(0.5f).put((float) (r.x)).put((float) (r.y))
+							.put(0.5f).put((float) (r.x + r.w))
+							.put((float) r.y).put(0.5f);
 
 				}
 
@@ -2363,7 +2776,8 @@ public class BasicFrameBuffers {
 	}
 
 	// untested (but likely to work, needs a driver)
-	static public class NTextureCrossfader extends BasicUtilities.TwoPassElement {
+	static public class NTextureCrossfader extends
+			BasicUtilities.TwoPassElement {
 		private final MultiPasser source;
 
 		private final OnePassElement bug;
@@ -2404,7 +2818,9 @@ public class BasicFrameBuffers {
 							textureAWrapped[i].pre();
 							textureAWrapped[i].in(gl);
 							assert glGetError() == 0;
-							glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, NTextureCrossfader.this.source.width, NTextureCrossfader.this.source.height);
+							glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0,
+									0, 0, NTextureCrossfader.this.source.width,
+									NTextureCrossfader.this.source.height);
 							assert glGetError() == 0;
 							textureAWrapped[i].out(gl);
 							textureAWrapped[i].post();
@@ -2470,7 +2886,7 @@ public class BasicFrameBuffers {
 		}
 	}
 
-	static public class NullTexture extends BaseTexture implements iHasTexture{
+	static public class NullTexture extends BaseTexture implements iHasTexture {
 		private final int width;
 
 		private final int height;
@@ -2505,8 +2921,7 @@ public class BasicFrameBuffers {
 			assert !deallocated;
 			CoreHelpers.glDisable(GL_TEXTURE_2D);
 		}
-		
-		
+
 		@Override
 		public void pre() {
 			assert !deallocated;
@@ -2518,7 +2933,8 @@ public class BasicFrameBuffers {
 			}
 			assert (glGetError() == 0) : this.getClass().getName();
 			glBindTexture(GL_TEXTURE_2D, textureId);
-			assert (glGetError() == 0) : this.getClass().getName() + " " + BasicContextManager.getCurrentContext();
+			assert (glGetError() == 0) : this.getClass().getName() + " "
+					+ BasicContextManager.getCurrentContext();
 			CoreHelpers.glEnable(GL_TEXTURE_2D);
 			assert (glGetError() == 0) : this.getClass().getName();
 		}
@@ -2544,10 +2960,13 @@ public class BasicFrameBuffers {
 			// GL_STORAGE_CACHED_APPLE);
 
 			if (!doGenMip) {
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+						GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+						GL_NEAREST);
 			} else {
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+						GL_LINEAR_MIPMAP_LINEAR);
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			}
@@ -2557,29 +2976,30 @@ public class BasicFrameBuffers {
 			// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
 			// width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 			// fakeStorage);
-			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F), width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
-			
-			if (doGenMip)
-			{
+			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F),
+					width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
+
+			if (doGenMip) {
 				glGenerateMipmap(GL_TEXTURE_2D);
 			}
 			assert (glGetError() == 0);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
 		}
 
-
 		@Override
 		public iProvider<Integer> getOutput() {
-			return new iProvider<Integer>(){
+			return new iProvider<Integer>() {
 
 				@Override
 				public Integer get() {
 					return textureId;
-				}};
+				}
+			};
 		}
 	}
 
-	static public class SingleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable, iHasFBO, iHasTexture{
+	static public class SingleFrameBuffer extends BasicTextures.BaseTexture
+			implements iDisplayable, iHasFBO, iHasTexture {
 		private final int width;
 
 		private final int height;
@@ -2612,7 +3032,8 @@ public class BasicFrameBuffers {
 			createInitialLists();
 		}
 
-		public SingleFrameBuffer(int width, int height, boolean useRect, boolean useFloat, boolean genMip) {
+		public SingleFrameBuffer(int width, int height, boolean useRect,
+				boolean useFloat, boolean genMip) {
 			this.width = width;
 			this.height = height;
 			this.useFloat = useFloat;
@@ -2625,9 +3046,8 @@ public class BasicFrameBuffers {
 		public void setClearColor(Vector4 c1) {
 			this.c1 = c1;
 		}
-		
-		boolean[] clearMask = {true, true, true, true};
-		
+
+		boolean[] clearMask = { true, true, true, true };
 
 		public void display() {
 			if (deleted)
@@ -2655,12 +3075,13 @@ public class BasicFrameBuffers {
 				rootSceneList.update();
 				if (c1 != null) {
 
-					glColorMask(clearMask[0], clearMask[1], clearMask[2], clearMask[3]);
+					glColorMask(clearMask[0], clearMask[1], clearMask[2],
+							clearMask[3]);
 
 					glClearColor(c1.x, c1.y, c1.z, c1.w);
 					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-					glColorMask(true,true,true,true);
+					glColorMask(true, true, true, true);
 
 				} else {
 					glClear(GL_DEPTH_BUFFER_BIT);
@@ -2679,21 +3100,36 @@ public class BasicFrameBuffers {
 		}
 
 		public iAcceptor<Number> addFadePlane() {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.transform);
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					Base.StandardPass.transform);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f).put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.addChild(new BasicGLSLangProgram("content/shaders/NDC2ColorVertex.glslang", "content/shaders/VertexColor2Fragment.glslang", Base.StandardPass.preTransform));
-			mesh.addChild(new BasicUtilities.DepthMask(Base.StandardPass.preTransform, Base.StandardPass.postRender));
+			mesh.vertex().put(-1f).put(-1f).put(0f).put(-1f).put(1f).put(0f)
+					.put(1f).put(1f).put(0f).put(1f).put(-1f).put(0f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.addChild(new BasicGLSLangProgram(
+					"content/shaders/NDC2ColorVertex.glslang",
+					"content/shaders/VertexColor2Fragment.glslang",
+					Base.StandardPass.preTransform));
+			mesh.addChild(new BasicUtilities.DepthMask(
+					Base.StandardPass.preTransform,
+					Base.StandardPass.postRender));
 
 			float colorAlpha = 0.1f;
 			float alphaAlpha = 0.5f;
-			mesh.aux(Base.color0_id, 4).put(new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha });
-			mesh.aux(Base.color0_id + 1, 4).put(new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha });
+			mesh.aux(Base.color0_id, 4).put(
+					new float[] { 0, 0, 0, colorAlpha, 0, 0, 0, colorAlpha, 0,
+							0, 0, colorAlpha, 0, 0, 0, colorAlpha });
+			mesh.aux(Base.color0_id + 1, 4).put(
+					new float[] { 0.5f, 0.5f, 0.5f, alphaAlpha, 0.5f, 0.5f,
+							0.5f, alphaAlpha, 0.5f, 0.5f, 0.5f, alphaAlpha,
+							0.5f, 0.5f, 0.5f, alphaAlpha });
 
-			final FloatBuffer root = ByteBuffer.allocate(mesh.vertex().limit() * 4).asFloatBuffer().put(mesh.vertex());
+			final FloatBuffer root = ByteBuffer
+					.allocate(mesh.vertex().limit() * 4).asFloatBuffer()
+					.put(mesh.vertex());
 
 			rootSceneList.addChild(mesh);
 
@@ -2702,11 +3138,15 @@ public class BasicFrameBuffers {
 				float last = -1;
 
 				TriangleMesh geometry = mesh;
-				
+
 				@Override
 				public iAcceptor<Number> set(Number to) {
 					if (to.floatValue() != last)
-						mesh.aux(Base.color0_id, 4).put(new float[] { 0, 0, 0, to.floatValue(), 0, 0, 0, to.floatValue(), 0, 0, 0, to.floatValue(), 0, 0, 0, to.floatValue() });
+						mesh.aux(Base.color0_id, 4).put(
+								new float[] { 0, 0, 0, to.floatValue(), 0, 0,
+										0, to.floatValue(), 0, 0, 0,
+										to.floatValue(), 0, 0, 0,
+										to.floatValue() });
 					last = to.floatValue();
 					return this;
 				}
@@ -2714,21 +3154,24 @@ public class BasicFrameBuffers {
 		}
 
 		public void copyToVBO(final TriangleMesh mesh, final int aux) {
-			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux, new iUpdateable() {
-				@Override
-				public void update() {
-					;//System.out.println(" copying to aux buffer ");
-					copyToVBONow(mesh, aux);
-				}
-			});
+			sceneList.add(StandardPass.preDisplay)
+					.register(
+							"__copyToVbo__" + System.identityHashCode(mesh)
+									+ " " + aux, new iUpdateable() {
+								@Override
+								public void update() {
+									;// System.out.println(" copying to aux buffer ");
+									copyToVBONow(mesh, aux);
+								}
+							});
 		}
 
 		protected void copyToVBONow(TriangleMesh mesh, int aux) {
 			int target = mesh.getOpenGLBufferName(aux);
 
-			if (target==-1)
+			if (target == -1)
 				return;
-			
+
 			glFinish();
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, target);
 			glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
@@ -2738,28 +3181,34 @@ public class BasicFrameBuffers {
 
 		public void copyToNullTexture(final NullTexture nt) {
 
-			sceneList.add(StandardPass.preDisplay).register("__copyToNullTexture__" + System.identityHashCode(nt), new iUpdateable() {
-				@Override
-				public void update() {
-					nt.pre();
-					glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
-					nt.post();
-				}
-			});
+			sceneList.add(StandardPass.preDisplay).register(
+					"__copyToNullTexture__" + System.identityHashCode(nt),
+					new iUpdateable() {
+						@Override
+						public void update() {
+							nt.pre();
+							glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
+									width, height);
+							nt.post();
+						}
+					});
 		}
 
 		public void copyToNullTextureOnce(final NullTexture nt) {
 
-			final String name = "__copyToNullTexture__" + System.identityHashCode(nt);
-			sceneList.add(StandardPass.preDisplay).register(name, new iUpdateable() {
-				@Override
-				public void update() {
-					nt.pre();
-					glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, width, height);
-					nt.post();
-					sceneList.add(StandardPass.preDisplay).remove(name);
-				}
-			});
+			final String name = "__copyToNullTexture__"
+					+ System.identityHashCode(nt);
+			sceneList.add(StandardPass.preDisplay).register(name,
+					new iUpdateable() {
+						@Override
+						public void update() {
+							nt.pre();
+							glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
+									width, height);
+							nt.post();
+							sceneList.add(StandardPass.preDisplay).remove(name);
+						}
+					});
 		}
 
 		// advanced use
@@ -2847,16 +3296,16 @@ public class BasicFrameBuffers {
 			if (deleted)
 				return;
 
-			if (tex[0]==-1)
-			{
-				;//System.out.println(" attempt to bind texture before it has been updated ");
+			if (tex[0] == -1) {
+				;// System.out.println(" attempt to bind texture before it has been updated ");
 				return;
 			}
 
 			assert glGetError() == 0;
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
 			assert glGetError() == 0;
-			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
+					: GL_TEXTURE_2D);
 			assert glGetError() == 0;
 			// ;//System.out.println(" <<< unbinding texture " + this);
 		}
@@ -2866,18 +3315,19 @@ public class BasicFrameBuffers {
 			if (deleted)
 				return;
 
-//			;//System.out.println(" >>> binding texture " + tex[0]);
+			// ;//System.out.println(" >>> binding texture " + tex[0]);
 
-			if (tex[0]==-1)
-			{
-				;//System.out.println(" attempt to bind texture before it has been updated ");
+			if (tex[0] == -1) {
+				;// System.out.println(" attempt to bind texture before it has been updated ");
 				return;
 			}
-			
+
 			assert glGetError() == 0;
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					tex[0]);
 			assert glGetError() == 0;
-			CoreHelpers.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			CoreHelpers
+					.glEnable(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
 			assert glGetError() == 0;
 			if (genMip) {
 				glGenerateMipmap(GL_TEXTURE_2D);
@@ -2904,14 +3354,24 @@ public class BasicFrameBuffers {
 				gl_texture_mag_filter = GL_LINEAR;
 			}
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
+					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ?  GL_RGBA32F : GL_RGBA16F) : GL_RGBA, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
+					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA,
+					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
+							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
+					(ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
+					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
+					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 			if (genMip) {
 				// glTexParameterf(useRect ?
@@ -2938,23 +3398,35 @@ public class BasicFrameBuffers {
 		}
 
 		public iSceneListElement placeOnscreen(final Rect r) {
-			return getOnscreenList(0, r, new Vector4(0, 0, 0, 0), new Vector4(1, 1, 1, 1), false);
+			return getOnscreenList(0, r, new Vector4(0, 0, 0, 0), new Vector4(
+					1, 1, 1, 1), false);
 		}
 
-		public iSceneListElement getOnscreenList(final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
+		public iSceneListElement getOnscreenList(final Rect r, Vector4 offset,
+				Vector4 mul, final boolean genMip) {
 			return getOnscreenList(0, r, offset, mul, genMip);
 		}
 
 		@HiddenInAutocomplete
-		public iSceneListElement getOnscreenList(int output, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
-			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+		public iSceneListElement getOnscreenList(int output, final Rect r,
+				Vector4 offset, Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(
+					StandardPass.render);
 			mesh.rebuildTriangle(2);
 			mesh.rebuildVertex(4);
 
-			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
-			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
-			mesh.aux(Base.texture0_id, 2).put(useRect ? width : 1).put(0).put(useRect ? width : 1).put(useRect ? height : 1).put(0).put(useRect ? height : 1).put(0).put(0);
-			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f)
+					.put((float) (r.x + r.w)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y + r.h))
+					.put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2)
+					.put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(useRect ? width : 1).put(0)
+					.put(useRect ? width : 1).put(useRect ? height : 1).put(0)
+					.put(useRect ? height : 1).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1)
+					.put(1).put(1).put(1);
 
 			// onscreen program
 			// BasicGLSLangProgram onscreenProgram = (!useRect ? new
@@ -2963,12 +3435,18 @@ public class BasicFrameBuffers {
 			// : new
 			// BasicGLSLangProgram("content/shaders/NDCvertex.glslang",
 			// "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
-			BasicGLSLangProgram onscreenProgram = (!useRect ? new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang") : new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			BasicGLSLangProgram onscreenProgram = (!useRect ? new BasicGLSLangProgram(
+					"content/shaders/NDCvertex.glslang",
+					"content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang")
+					: new BasicGLSLangProgram(
+							"content/shaders/NDCvertex.glslang",
+							"content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
 			onscreenProgram.new SetIntegerUniform("depthTexture", 0);
 			onscreenProgram.new SetUniform("offset", offset);
 			onscreenProgram.new SetUniform("mul", mul);
 			onscreenProgram.addChild(mesh);
-			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, this.getOutput(), 0));
+			onscreenProgram.addChild(new TextureWrapper(genMip, useRect, this
+					.getOutput(), 0));
 			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
 
 			return onscreenProgram;
@@ -2996,9 +3474,11 @@ public class BasicFrameBuffers {
 
 	}
 
-	static public class Switcher extends BasicSceneList implements iSceneListElement {
+	static public class Switcher extends BasicSceneList implements
+			iSceneListElement {
 
-		static public final Method method_performPass = ReflectionTools.methodOf("performPass", OnePassListElement.class);
+		static public final Method method_performPass = ReflectionTools
+				.methodOf("performPass", OnePassListElement.class);
 
 		private final StandardPass ourPass;
 
@@ -3051,7 +3531,8 @@ public class BasicFrameBuffers {
 		@Override
 		public void notifyAddParent(iMutable<iSceneListElement> newParent) {
 			super.notifyAddParent(newParent);
-			renderPass.add(((iSceneListElement) newParent).requestPass(requestPass));
+			renderPass.add(((iSceneListElement) newParent)
+					.requestPass(requestPass));
 		}
 
 		public void performPass() {
@@ -3070,9 +3551,11 @@ public class BasicFrameBuffers {
 
 				running.clear();
 
-				Object key = currentFBOContext.size() == 0 ? null : currentFBOContext.peek();
+				Object key = currentFBOContext.size() == 0 ? null
+						: currentFBOContext.peek();
 
-				for (Entry<iMatchRule, Collection<OnePassListElement>> e : known.entrySet()) {
+				for (Entry<iMatchRule, Collection<OnePassListElement>> e : known
+						.entrySet()) {
 					if (e.getKey().match(key))
 						running.addAll(e.getValue());
 				}
@@ -3137,46 +3620,54 @@ public class BasicFrameBuffers {
 			textureB = new NullTexture(source.width, source.height);
 			textureBWrapped = new TextureUnit(unitB, textureB);
 
-			source.getSceneList().addChild(new BasicUtilities.OnePassElement(StandardPass.preDisplay) {
-				@Override
-				public void performPass() {
-					if (!hasSetup)
-						return;
+			source.getSceneList().addChild(
+					new BasicUtilities.OnePassElement(StandardPass.preDisplay) {
+						@Override
+						public void performPass() {
+							if (!hasSetup)
+								return;
 
-					if (copyToA) {
-						assert glGetError() == 0;
-						long a = System.currentTimeMillis();
-						textureAWrapped.pre();
-						textureAWrapped.in(gl);
-						assert glGetError() == 0;
-						long b = System.currentTimeMillis();
-						glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, TextureCrossfader.this.source.width, TextureCrossfader.this.source.height);
-						long c = System.currentTimeMillis();
-						assert glGetError() == 0;
-						textureAWrapped.out(gl);
-						textureAWrapped.post();
-						assert glGetError() == 0;
-						long d = System.currentTimeMillis();
+							if (copyToA) {
+								assert glGetError() == 0;
+								long a = System.currentTimeMillis();
+								textureAWrapped.pre();
+								textureAWrapped.in(gl);
+								assert glGetError() == 0;
+								long b = System.currentTimeMillis();
+								glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0,
+										0, 0, 0,
+										TextureCrossfader.this.source.width,
+										TextureCrossfader.this.source.height);
+								long c = System.currentTimeMillis();
+								assert glGetError() == 0;
+								textureAWrapped.out(gl);
+								textureAWrapped.post();
+								assert glGetError() == 0;
+								long d = System.currentTimeMillis();
 
-						;//System.out.println(" timing information <" + (d - a) + " " + (c - b) + ">");
-					}
-					if (copyToB) {
-						assert glGetError() == 0;
-						textureBWrapped.pre();
-						textureBWrapped.in(gl);
-						assert glGetError() == 0;
-						glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, TextureCrossfader.this.source.width, TextureCrossfader.this.source.height);
-						assert glGetError() == 0;
-						assert glGetError() == 0;
-						textureBWrapped.out(gl);
-						textureBWrapped.post();
-						assert glGetError() == 0;
-					}
-					copyToA = false;
-					copyToB = false;
-					hasData = true;
-				}
-			});
+								;// System.out.println(" timing information <" +
+									// (d - a) + " " + (c - b) + ">");
+							}
+							if (copyToB) {
+								assert glGetError() == 0;
+								textureBWrapped.pre();
+								textureBWrapped.in(gl);
+								assert glGetError() == 0;
+								glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0,
+										0, 0, 0,
+										TextureCrossfader.this.source.width,
+										TextureCrossfader.this.source.height);
+								assert glGetError() == 0;
+								assert glGetError() == 0;
+								textureBWrapped.out(gl);
+								textureBWrapped.post();
+								assert glGetError() == 0;
+							}
+							copyToA = false;
+							copyToB = false;
+							hasData = true;
+						}
+					});
 		}
 
 		public void doCopyToA() {
@@ -3231,7 +3722,8 @@ public class BasicFrameBuffers {
 		}
 	}
 
-	static public class TextureCrossfader2 extends BasicUtilities.TwoPassElement {
+	static public class TextureCrossfader2 extends
+			BasicUtilities.TwoPassElement {
 		private final iAcceptsSceneListElement source;
 
 		NullTexture textureA;
@@ -3255,7 +3747,8 @@ public class BasicFrameBuffers {
 
 		private int height;
 
-		public TextureCrossfader2(iAcceptsSceneListElement source, int unitA, int unitB, int width, int height) {
+		public TextureCrossfader2(iAcceptsSceneListElement source, int unitA,
+				int unitB, int width, int height) {
 			super("", Base.StandardPass.preRender, Base.StandardPass.postRender);
 			this.source = source;
 
@@ -3267,42 +3760,47 @@ public class BasicFrameBuffers {
 			textureB = new NullTexture(width, height);
 			textureBWrapped = new TextureUnit(unitB, textureB);
 
-			source.addChild(new BasicUtilities.OnePassElement(StandardPass.preDisplay) {
+			source.addChild(new BasicUtilities.OnePassElement(
+					StandardPass.preDisplay) {
 				@Override
 				public void performPass() {
 					if (!hasSetup)
 						return;
 
 					if (copyToA || !hasDataA) {
-						;//System.out.println(" copy to A ");
+						;// System.out.println(" copy to A ");
 						assert glGetError() == 0;
 						textureAWrapped.pre();
 						textureAWrapped.in(gl);
 						assert glGetError() == 0;
-						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, TextureCrossfader2.this.width, TextureCrossfader2.this.height);
+						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
+								TextureCrossfader2.this.width,
+								TextureCrossfader2.this.height);
 						assert glGetError() == 0;
 						textureAWrapped.out(gl);
 						textureAWrapped.post();
 						assert glGetError() == 0;
 
-						;//System.out.println(" copy to a ");
+						;// System.out.println(" copy to a ");
 						hasDataA = true;
 
 					}
 					if (copyToB || !hasDataB) {
-						;//System.out.println(" copy to B ");
+						;// System.out.println(" copy to B ");
 						assert glGetError() == 0;
 						textureBWrapped.pre();
 						textureBWrapped.in(gl);
 						assert glGetError() == 0;
-						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, TextureCrossfader2.this.width, TextureCrossfader2.this.height);
+						glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0,
+								TextureCrossfader2.this.width,
+								TextureCrossfader2.this.height);
 						assert glGetError() == 0;
 						assert glGetError() == 0;
 						textureBWrapped.out(gl);
 						textureBWrapped.post();
 						assert glGetError() == 0;
 
-						;//System.out.println(" copy to b ");
+						;// System.out.println(" copy to b ");
 						hasDataB = true;
 
 					}
@@ -3377,15 +3875,18 @@ public class BasicFrameBuffers {
 		public Wrap(iGeometry geometry) {
 			super(StandardPass.render);
 			this.geometry = geometry;
-			doPerformPass = ReflectionTools.findFirstMethodCalled(geometry.getClass(), "doPerformPass");
-			doSetup = ReflectionTools.findFirstMethodCalled(geometry.getClass(), "doSetup");
+			doPerformPass = ReflectionTools.findFirstMethodCalled(
+					geometry.getClass(), "doPerformPass");
+			doSetup = ReflectionTools.findFirstMethodCalled(
+					geometry.getClass(), "doSetup");
 		}
 
 		CoordinateFrame frame = new CoordinateFrame();
 		private float matrix[] = null;
 		private Matrix4 tmpStorage = new Matrix4();
 
-		FloatBuffer mm = ByteBuffer.allocateDirect(4 * 4 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		FloatBuffer mm = ByteBuffer.allocateDirect(4 * 4 * 4)
+				.order(ByteOrder.nativeOrder()).asFloatBuffer();
 
 		@Override
 		public void performPass() {
@@ -3444,21 +3945,24 @@ public class BasicFrameBuffers {
 		public WrapInstance(Instance geometry) {
 			super(StandardPass.render);
 			this.geometry = geometry;
-			doPerformPass = ReflectionTools.findFirstMethodCalled(geometry.getClass(), "performPass");
+			doPerformPass = ReflectionTools.findFirstMethodCalled(
+					geometry.getClass(), "performPass");
 		}
 
 		CoordinateFrame frame = new CoordinateFrame();
 		private float matrix[] = null;
 		private Matrix4 tmpStorage = new Matrix4();
 
-		FloatBuffer mm = ByteBuffer.allocateDirect(4 * 4 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
+		FloatBuffer mm = ByteBuffer.allocateDirect(4 * 4 * 4)
+				.order(ByteOrder.nativeOrder()).asFloatBuffer();
 
 		@Override
 		public void performPass() {
 
 			try {
 
-				CoordinateFrame frame = new CoordinateFrame().setValue(geometry.getFrame());
+				CoordinateFrame frame = new CoordinateFrame().setValue(geometry
+						.getFrame());
 
 				matrix = frame.getMatrix(tmpStorage).getColumnMajor(matrix);
 

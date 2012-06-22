@@ -16,9 +16,11 @@ public class LinuxCanvasInterface implements iCanvasInterface {
 		c.setCurrent();
 	}
 
+	long last = 0;
 	@Override
 	public void swapBuffers() {
 		c.swapBuffers();
+
 	}
 
 }

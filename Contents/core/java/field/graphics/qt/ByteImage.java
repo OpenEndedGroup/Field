@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 import javax.imageio.ImageIO;
 
@@ -42,12 +43,15 @@ public class ByteImage {
 
 		try {
 			BufferedImage read = ImageIO.read(new URL(filename));
-			int[] pixels = new int[read.getWidth()*read.getHeight()];
-			new PixelGrabber(read, 0, 0, read.getWidth(), read.getHeight(), pixels, 0, read.getWidth()).grabPixels();
+			int w = read.getWidth();
+			int h = read.getHeight();
+			int[] pixels = new int[w*h];
+			new PixelGrabber(read, 0, 0, w, h, pixels, 0, w).grabPixels();
 			byteBuffer = ByteBuffer.allocateDirect(4*pixels.length);
-			byteBuffer.asIntBuffer().put(pixels);
-			width = read.getWidth();
-			height = read.getHeight();
+			IntBuffer a = byteBuffer.asIntBuffer();
+				a.put(pixels);		
+			width = w;
+			height = h;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -27,10 +27,10 @@ import org.eclipse.swt.widgets.ToolBar;
 import org.python.core.Py;
 import org.python.core.PyFunction;
 import org.python.core.PyObject;
-import org.python.util.PythonInterpreter;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.NextUpdate;
+import field.core.Platform;
 import field.core.StandardFluidSheet;
 import field.core.dispatch.VisualElement;
 import field.core.dispatch.iVisualElement;
@@ -869,7 +869,7 @@ public class PythonPluginEditor extends PythonPlugin {
             
 			@Override
 			protected boolean globalShortcutHook(VerifyEvent e) {
-				if (e.keyCode == '=' && (e.stateMask == (SWT.COMMAND | SWT.SHIFT))) {
+				if (e.keyCode == '=' && (e.stateMask == (Platform.getCommandModifier() | SWT.SHIFT))) {
 					;//System.out.println(" -- next tab --");
 					nextTab();
 					return true;

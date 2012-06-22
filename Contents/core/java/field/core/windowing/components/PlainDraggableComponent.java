@@ -274,7 +274,7 @@ public class PlainDraggableComponent implements iComponent, iDraggableComponent 
 			if ((arg0.stateMask & SWT.ALT) != 0 && arg0.button == 1) {
 				if (!decoration.isExecuting())
 					overridingInterface.beginExecution(getVisualElement());
-			} else if ((arg0.stateMask & SWT.COMMAND) != 0) {
+			} else if ((arg0.stateMask & Platform.getCommandModifier()) != 0) {
 //				this.setMarked(!this.isMarked());
 				if (isMarked()) {
 //					for (SelectionGroup<iComponent> d : getMarkingGroups())
@@ -377,7 +377,7 @@ public class PlainDraggableComponent implements iComponent, iDraggableComponent 
 			inside.requestRedisplay();
 		if ((arg0.stateMask & SWT.ALT)!=0)
 			return;
-		if ((arg0.stateMask & SWT.COMMAND)!=0)
+		if ((arg0.stateMask & Platform.getCommandModifier())!=0)
 			return;
 
 		arg0.doit=false;

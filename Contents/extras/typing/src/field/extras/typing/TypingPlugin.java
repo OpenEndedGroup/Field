@@ -5,6 +5,7 @@ import java.util.Set;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Event;
 
+import field.core.Platform;
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.Rect;
 import field.core.plugins.BaseSimplePlugin;
@@ -84,7 +85,7 @@ public class TypingPlugin extends BaseSimplePlugin {
 				if (arg0 == null)
 					return;
 
-				if (arg0.keyCode == '.' && (arg0.stateMask & SWT.COMMAND) != 0) {
+				if (arg0.keyCode == '.' && (arg0.stateMask & Platform.getCommandModifier()) != 0) {
 					arg0.doit = false;
 					;//;//System.out.println(" completion hook ? ");
 

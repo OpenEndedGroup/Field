@@ -55,6 +55,9 @@ public class VersionMenu {
 		box.setRightJustified(true);
 		box.setNoDrag(true);
 		box.setFixedText(true);
+		
+		box.combo.setBackground(box.combo.getParent().getBackground());
+
 	}
 
 	public void swapIn(final iVisualElement element, VisualElementProperty<String> prop) {
