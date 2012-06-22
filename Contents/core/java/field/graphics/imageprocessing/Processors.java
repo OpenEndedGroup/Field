@@ -127,6 +127,17 @@ public class Processors {
 			saltOneDTextureBuffer.rewind();
 				saltColorRemap.dirty();
 
+		}public void update() {
+
+			for (int i = 0; i < saltSize; i++) {
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+			}
+			saltOneDTextureBuffer.rewind();
+				saltColorRemap.dirty();
+
 		}
 	}
 

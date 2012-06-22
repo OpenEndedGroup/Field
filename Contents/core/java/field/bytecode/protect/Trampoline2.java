@@ -804,7 +804,7 @@ public class Trampoline2 implements iLaunchable {
 		trampoline = this;
 
 		String exceptions = SystemProperties.getProperty("trampolineExceptions", null);
-		ignored = new String[] { "apple.","java.", "javax.", "sun.", "com.apple", "app	le.", "field.namespace", "field.math", "field.launch.", "org.objectweb", "com.sun", "org.xml", "org.w3c", "$Prox", "org.eclipse", "main", "field.util.BetterWeak", "field.misc.ANSIColorUtils", "ch.rand", "org.python", "org.apache.batik", "org.antlr", "field.util.TaskQueue", "com.lowagie", "net.sf.cglib.proxy", "com.seaglasslookandfeel", "org.pushingpixels", "net.sourceforge.napkinlaf.", "prosilica"/*
+		ignored = new String[] { "apple.","java.", "javax.", "sun.", "com.apple", "app	le.", "field.namespace", "field.math", "field.launch.", "org.objectweb", "com.sun", "org.xml", "org.w3c", "$Prox", "org.eclipse", "main", "field.util.BetterWeak", "field.misc.ANSIColorUtils", "ch.rand", "org.python", "org.apache.batik", "org.antlr", "field.util.TaskQueue", "com.lowagie", "net.sf.cglib.proxy", "com.seaglasslookandfeel", "org.pushingpixels", "net.sourceforge.napkinlaf."/*
 																																																												 * ,
 																																																												 * "com.sun.jna"
 																																																												 */, "com.kenai.jaffl"};
