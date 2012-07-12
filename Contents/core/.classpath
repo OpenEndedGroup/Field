@@ -20,7 +20,7 @@
 	<classpathentry kind="lib" path="pegdown-0.8.5.4.jar"/>
 	<classpathentry kind="lib" path="qdox-2.0-20100906.201255-1.jar"/>
 	<classpathentry kind="lib" path="serializer.jar"/>
-	<classpathentry kind="lib" path="swt.jar"/>
+	<classpathentry kind="lib" path="swt.jar" sourcepath="/home/marc/fieldwork/field/Contents/lib/linux64/swt_src.zip"/>
 	<classpathentry kind="lib" path="WebSocket.jar"/>
 	<classpathentry kind="lib" path="writeMethodAPT.jar"/>
 	<classpathentry kind="lib" path="xalan.jar"/>
