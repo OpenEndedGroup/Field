@@ -29,8 +29,6 @@ public final class DeferedCached extends BasicInstrumentation2.DeferCallingFast 
 
 	List<Field> implicatedFields = null;
 
-	int maxSize = 100;
-
 	java.lang.reflect.Method original = null;
 
 	public DeferedCached(String name, int access, Method method, ClassVisitor delegate, MethodVisitor to, String signature, HashMap<String, Object> parameters) {
@@ -53,6 +51,7 @@ public final class DeferedCached extends BasicInstrumentation2.DeferCallingFast 
 
 	@Override
 	public Object handle(int fromName, Object fromThis, String originalMethod, Object[] argArray) {
+		
 		if (original == null) {
 			java.lang.reflect.Method[] all = StandardTrampoline.getAllMethods(fromThis.getClass());
 			for (java.lang.reflect.Method m : all) {

@@ -171,8 +171,7 @@ public class BasicFrameBuffers {
 		public iProvider<Integer> getOutput();
 	}
 
-	static public class BaseFrameBufferObjectTexture extends
-			BasicTextures.BaseTexture implements iDisplayable {
+	static public class BaseFrameBufferObjectTexture extends BasicTextures.BaseTexture implements iDisplayable {
 		private final int width;
 
 		private final int height;
@@ -645,43 +644,21 @@ public class BasicFrameBuffers {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			assert glGetError() == 0;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
-					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
-					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
-					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
-							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
-					(ByteBuffer) null);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[1]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			assert glGetError() == 0;
 
-			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
-					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					secondTex[1]);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
-					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8,
-					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
-							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
-					(ByteBuffer) null);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE : useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, secondTex[1]);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA8, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 			assert glGetError() == 0;
-
-			;// System.out.println(" inside setup for bimulti <" + glGetError()
-				// + ">");
 
 		}
 
@@ -1288,17 +1265,14 @@ public class BasicFrameBuffers {
 			}
 		}
 
-		public void copyToVBO(final TriangleMesh mesh, final int aux,
-				final boolean first) {
-			sceneList.add(StandardPass.preDisplay).register(
-					"__copyToVbo__" + System.identityHashCode(mesh) + " " + aux
-							+ " " + first, new iUpdateable() {
-						@Override
-						public void update() {
-							;// System.out.println(" copying to aux buffer ");
-							copyToVBONow(mesh, aux, first);
-						}
-					});
+		public void copyToVBO(final TriangleMesh mesh, final int aux, final boolean first) {
+			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux + " " + first, new iUpdateable() {
+				@Override
+				public void update() {
+					;// System.out.println(" copying to aux buffer ");
+					copyToVBONow(mesh, aux, first);
+				}
+			});
 		}
 
 		protected void copyToVBONow(TriangleMesh mesh, int aux, boolean first) {
@@ -1313,8 +1287,7 @@ public class BasicFrameBuffers {
 			glBindBuffer(GL_PIXEL_PACK_BUFFER_ARB, target);
 			e = glGetError();
 			;// System.out.println(" error2 : "+e);
-			GL11.glReadBuffer(first ? GL_COLOR_ATTACHMENT0
-					: GL_COLOR_ATTACHMENT1);
+			GL11.glReadBuffer(first ? GL_COLOR_ATTACHMENT0 : GL_COLOR_ATTACHMENT1);
 			e = glGetError();
 			;// System.out.println(" error3 : "+e);
 			glReadPixels(0, 0, width, height, GL_RGBA, GL_FLOAT, 0);
@@ -2722,12 +2695,13 @@ public class BasicFrameBuffers {
 			onscreenProgram.addChild(new TextureWrapper(genMip, useRect,
 					new iProvider<Integer>() {
 
-						public Integer get() {
-							int ff = flip ? tex[1] : tex[0];
-							;// System.out.println(" texturing <" + ff + ">");
-							return ff;
-						}
-					}, 0));
+				public Integer get() {
+					int ff = flip ? tex[1] : tex[0];
+					;// System.out.println(" texturing <" +
+						// ff + ">");
+					return ff;
+				}
+			}, 0));
 			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
 			into.addChild(onscreenProgram);
 
@@ -2976,8 +2950,7 @@ public class BasicFrameBuffers {
 			// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
 			// width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 			// fakeStorage);
-			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F),
-					width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
+			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F), width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
 
 			if (doGenMip) {
 				glGenerateMipmap(GL_TEXTURE_2D);
@@ -2998,8 +2971,7 @@ public class BasicFrameBuffers {
 		}
 	}
 
-	static public class SingleFrameBuffer extends BasicTextures.BaseTexture
-			implements iDisplayable, iHasFBO, iHasTexture {
+	static public class SingleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable, iHasFBO, iHasTexture {
 		private final int width;
 
 		private final int height;
@@ -3154,16 +3126,13 @@ public class BasicFrameBuffers {
 		}
 
 		public void copyToVBO(final TriangleMesh mesh, final int aux) {
-			sceneList.add(StandardPass.preDisplay)
-					.register(
-							"__copyToVbo__" + System.identityHashCode(mesh)
-									+ " " + aux, new iUpdateable() {
-								@Override
-								public void update() {
-									;// System.out.println(" copying to aux buffer ");
-									copyToVBONow(mesh, aux);
-								}
-							});
+			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux, new iUpdateable() {
+				@Override
+				public void update() {
+					;// System.out.println(" copying to aux buffer ");
+					copyToVBONow(mesh, aux);
+				}
+			});
 		}
 
 		protected void copyToVBONow(TriangleMesh mesh, int aux) {
@@ -3307,7 +3276,8 @@ public class BasicFrameBuffers {
 			CoreHelpers.glDisable(useRect ? GL_TEXTURE_RECTANGLE
 					: GL_TEXTURE_2D);
 			assert glGetError() == 0;
-			// ;//System.out.println(" <<< unbinding texture " + this);
+			// ;//System.out.println(" <<< unbinding texture " +
+			// this);
 		}
 
 		@Override
@@ -3315,7 +3285,6 @@ public class BasicFrameBuffers {
 			if (deleted)
 				return;
 
-			// ;//System.out.println(" >>> binding texture " + tex[0]);
 
 			if (tex[0] == -1) {
 				;// System.out.println(" attempt to bind texture before it has been updated ");
@@ -3334,6 +3303,8 @@ public class BasicFrameBuffers {
 			}
 		}
 
+		public boolean doDepth = false;
+		
 		@Override
 		protected void setup() {
 
@@ -3357,21 +3328,12 @@ public class BasicFrameBuffers {
 			glBindTexture(useRect ? GL_TEXTURE_RECTANGLE
 					: useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0]);
 			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
-			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0,
-					useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA,
-					width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT
-							: GL_HALF_FLOAT) : GL_UNSIGNED_BYTE,
-					(ByteBuffer) null);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
-					useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
-			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D,
-					GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
+			glTexImage2D(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0, useFloat ? (use32 ? GL_RGBA32F : GL_RGBA16F) : GL_RGBA, width, height, 0, GL_RGBA, useFloat ? (use32 ? GL_FLOAT : GL_HALF_FLOAT) : GL_UNSIGNED_BYTE, (ByteBuffer) null);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, tex[0], 0);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gl_texture_wrap_s);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gl_texture_wrap_t);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, gl_texture_mag_filter);
+			glTexParameteri(useRect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, gl_texture_min_filter);
 
 			if (genMip) {
 				// glTexParameterf(useRect ?
@@ -3380,11 +3342,11 @@ public class BasicFrameBuffers {
 				// 16.0f);
 			}
 
-			// glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
-			// glRenderbufferStorage(GL_RENDERBUFFER,
-			// GL_DEPTH_COMPONENT24, width, height);
-			// glFramebufferRenderbuffer(GL_FRAMEBUFFER,
-			// GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+			if (doDepth) {
+				glBindRenderbuffer(GL_RENDERBUFFER, rb[0]);
+				glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
+				glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rb[0]);
+			}
 
 			status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 			assert status == GL_FRAMEBUFFER_COMPLETE : status;
@@ -3620,54 +3582,48 @@ public class BasicFrameBuffers {
 			textureB = new NullTexture(source.width, source.height);
 			textureBWrapped = new TextureUnit(unitB, textureB);
 
-			source.getSceneList().addChild(
-					new BasicUtilities.OnePassElement(StandardPass.preDisplay) {
-						@Override
-						public void performPass() {
-							if (!hasSetup)
-								return;
+			source.getSceneList().addChild(new BasicUtilities.OnePassElement(StandardPass.preDisplay) {
+				@Override
+				public void performPass() {
+					if (!hasSetup)
+						return;
 
-							if (copyToA) {
-								assert glGetError() == 0;
-								long a = System.currentTimeMillis();
-								textureAWrapped.pre();
-								textureAWrapped.in(gl);
-								assert glGetError() == 0;
-								long b = System.currentTimeMillis();
-								glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0,
-										0, 0, 0,
-										TextureCrossfader.this.source.width,
-										TextureCrossfader.this.source.height);
-								long c = System.currentTimeMillis();
-								assert glGetError() == 0;
-								textureAWrapped.out(gl);
-								textureAWrapped.post();
-								assert glGetError() == 0;
-								long d = System.currentTimeMillis();
+					if (copyToA) {
+						assert glGetError() == 0;
+						long a = System.currentTimeMillis();
+						textureAWrapped.pre();
+						textureAWrapped.in(gl);
+						assert glGetError() == 0;
+						long b = System.currentTimeMillis();
+						glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, TextureCrossfader.this.source.width, TextureCrossfader.this.source.height);
+						long c = System.currentTimeMillis();
+						assert glGetError() == 0;
+						textureAWrapped.out(gl);
+						textureAWrapped.post();
+						assert glGetError() == 0;
+						long d = System.currentTimeMillis();
 
-								;// System.out.println(" timing information <" +
-									// (d - a) + " " + (c - b) + ">");
-							}
-							if (copyToB) {
-								assert glGetError() == 0;
-								textureBWrapped.pre();
-								textureBWrapped.in(gl);
-								assert glGetError() == 0;
-								glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0,
-										0, 0, 0,
-										TextureCrossfader.this.source.width,
-										TextureCrossfader.this.source.height);
-								assert glGetError() == 0;
-								assert glGetError() == 0;
-								textureBWrapped.out(gl);
-								textureBWrapped.post();
-								assert glGetError() == 0;
-							}
-							copyToA = false;
-							copyToB = false;
-							hasData = true;
-						}
-					});
+						;// System.out.println(" timing information <"
+							// + (d - a) + " " + (c
+							// - b) + ">");
+					}
+					if (copyToB) {
+						assert glGetError() == 0;
+						textureBWrapped.pre();
+						textureBWrapped.in(gl);
+						assert glGetError() == 0;
+						glCopyTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, 0, 0, TextureCrossfader.this.source.width, TextureCrossfader.this.source.height);
+						assert glGetError() == 0;
+						assert glGetError() == 0;
+						textureBWrapped.out(gl);
+						textureBWrapped.post();
+						assert glGetError() == 0;
+					}
+					copyToA = false;
+					copyToB = false;
+					hasData = true;
+				}
+			});
 		}
 
 		public void doCopyToA() {

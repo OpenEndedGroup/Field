@@ -280,8 +280,8 @@ public class Launcher {
 		this.continuation = continuation;
 	}
 
+	double interval = SystemProperties.getDoubleProperty("timer.interval", 0.01f);
 	protected void constructMainTimer() {
-		final double interval = SystemProperties.getDoubleProperty("timer.interval", 0.01f);
 
 		timer = new Runnable() {
 
