@@ -130,7 +130,7 @@ public class AdvancedTextures extends BasicTextures {
 
 		@Override
 		protected void post() {
-			glDisable(GL_TEXTURE_RECTANGLE);
+			glDisable(textureTarget);
 		}
 
 		@Override
@@ -142,9 +142,9 @@ public class AdvancedTextures extends BasicTextures {
 				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
 			}
 			assert (glGetError() == 0) : this.getClass().getName();
-			glBindTexture(GL_TEXTURE_RECTANGLE, textureId);
+			glBindTexture(textureTarget, textureId);
 			assert (glGetError() == 0) : this.getClass().getName() + " " + BasicContextManager.getCurrentContext();
-			glEnable(GL_TEXTURE_RECTANGLE);
+			glEnable(textureTarget);
 			assert (glGetError() == 0) : this.getClass().getName();
 			if (in != null)
 				in.declareNow(gl);
@@ -157,10 +157,7 @@ public class AdvancedTextures extends BasicTextures {
 			if (dirty) {
 				;//System.out.println(" pixel buffer is <" + pixelBuffer + ">");
 				pixelBuffer.rewind();
-				glTexSubImage2D(GL_TEXTURE_RECTANGLE, 0, 0, 0, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
-				// glTexSubImage2D(GL_TEXTURE_RECTANGLE,
-				// 0, 0, 0, width, height, GL_BGRA,
-				// GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+				glTexSubImage2D(textureTarget, 0, 0, 0, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
 			}
 			dirty = false;
 		}
@@ -171,7 +168,7 @@ public class AdvancedTextures extends BasicTextures {
 			textures[0] = glGenTextures();
 			textureId = textures[0];
 			BasicContextManager.putId(this, textureId);
-			glBindTexture(GL_TEXTURE_RECTANGLE, textureId);
+			glBindTexture(textureTarget, textureId);
 
 			if (in != null)
 				in.declareNow(gl);
@@ -185,11 +182,11 @@ public class AdvancedTextures extends BasicTextures {
 			// GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			// glTexParameteri(GL_TEXTURE_RECTANGLE,
 			// GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_RECTANGLE, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(GL_TEXTURE_RECTANGLE, 0, GL_LUMINANCE8, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
+			glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexImage2D(textureTarget, 0, GL_LUMINANCE8, width, height, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
 			// glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
 			// glTexImage2D(GL_TEXTURE_RECTANGLE, 0,

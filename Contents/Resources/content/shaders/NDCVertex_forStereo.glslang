@@ -1,0 +1,27 @@
+varying vec4 vertexColor;
+varying vec4 vertexTexture;
+varying vec4 vertexTexture1;
+varying vec4 vertexNormal;
+
+attribute vec4 s_Color;
+attribute vec4 s_Texture;
+attribute vec4 s_Texture1;
+attribute vec4 s_Normal;
+attribute vec4 s_Last;
+
+uniform vec4 side;
+uniform vec4 offset;
+
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = gl_Vertex;
+	gl_Position.x += side.x*offset.x;
+	gl_Position.w = 1.0;
+
+	vertexColor = s_Color;
+	vertexTexture = s_Texture;
+	vertexTexture1 = s_Texture1;
+	vertexNormal= s_Normal;
+}
