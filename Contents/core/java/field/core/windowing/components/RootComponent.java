@@ -465,7 +465,7 @@ public class RootComponent implements iComponent {
 			GLComponentWindow.getCurrentWindow(this).setXTranslation(GLComponentWindow.getCurrentWindow(this).getXTranslation() - dx * GLComponentWindow.getCurrentWindow(this).getXScale());
 			GLComponentWindow.getCurrentWindow(this).setYTranslation(GLComponentWindow.getCurrentWindow(this).getYTranslation() - dy * GLComponentWindow.getCurrentWindow(this).getYScale());
 
-			;//System.out.println(" requesting redisplay ");
+			;// System.out.println(" requesting redisplay ");
 
 			inside.requestRedisplay();
 		}
@@ -574,7 +574,9 @@ public class RootComponent implements iComponent {
 		if (!arg0.doit)
 			return;
 		GLComponentWindow.getCurrentWindow(this).untransformMouseEvent(arg0);
-		if (arg0.count==2 && mousePeers.size()==1) // just the hierarchy plugin
+		if (arg0.count == 2 && mousePeers.size() == 1) // just the
+								// hierarchy
+								// plugin
 			GLComponentWindow.getCurrentWindow(this).togglePanelVisiblity();
 	}
 
@@ -655,39 +657,27 @@ public class RootComponent implements iComponent {
 
 		if (!arg0.doit)
 			return;
+
 		GLComponentWindow.getCurrentWindow(this).untransformMouseEvent(arg0);
 		try {
 
 			if (Platform.isPopupTrigger(arg0)) {
 
-				;//System.out.println(" attempting to show root menu");
+				;// System.out.println(" attempting to show root menu");
 
 				if (GLComponentWindow.getCurrentWindow(this).present)
 					return;
 
-				// assemble and
-				// present menu
-
 				LinkedHashMap<String, iUpdateable> items = new LinkedHashMap<String, iUpdateable>();
 
-				;//System.out.println(" -- menu items for ");
 				overrides.menuItemsFor(null, items);
 
 				BetterPopup menu = new SmallMenu().createMenu(items, GLComponentWindow.getCurrentWindow(this).getCanvas().getShell(), null);
 
-				//
 				Ref<GLComponentWindow> ref = new Ref<GLComponentWindow>(null);
 				overrides.getProperty(null, iVisualElement.enclosingFrame, ref);
-				if (ref.get() != null) {
 
-					// menu.show(ref.get().getCanvas(),
-					// (int)
-					// ref.get().getCurrentMouseInWindowCoordinates().x,
-					// (int)
-					// ref.get().getCurrentMouseInWindowCoordinates().y);
-
-					;//System.out.println(" here we go .... ");
-
+				if (ref.get() != null && hasFocus) {
 					menu.show(Launcher.display.map(GLComponentWindow.getCurrentWindow(this).getCanvas(), GLComponentWindow.getCurrentWindow(this).getCanvas().getShell(), new Point(arg0.x, arg0.y)));
 
 				} else {
@@ -695,7 +685,7 @@ public class RootComponent implements iComponent {
 
 			} else if (arg0.button == 1 && (arg0.stateMask & SWT.ALT) != 0) {
 
-				;//System.out.println(" beginning execution gesture ");
+				;// System.out.println(" beginning execution gesture ");
 
 				executionGesture.begin(arg0);
 			} else {

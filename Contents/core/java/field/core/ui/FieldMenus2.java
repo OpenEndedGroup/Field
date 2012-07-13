@@ -195,6 +195,9 @@ public class FieldMenus2 {
 
 		;//System.out.println(" setting menu bar");
 
+		if (Platform.isLinux()) return;
+		
+		
 		Menu bar = s.setup.getMenuBar();
 		if (bar == null) {
 			bar = new Menu(s.setup, SWT.BAR);

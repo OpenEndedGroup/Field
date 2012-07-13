@@ -1026,9 +1026,9 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		data.depthSize = 24;
 		// data.stencilSize = 8;
 
-		if (doMultisampling) {
+		if (doMultisampling || Platform.isLinux()) {
 			data.samples = 2;
-			data.sampleBuffers = 2;
+//			data.sampleBuffers = 2;
 		}
 		// data.stereo = fieldStereo;
 
@@ -1913,9 +1913,13 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 			
 			GL11.glHint(GL11.GL_LINE_SMOOTH_HINT, GL11.GL_NICEST);
 			GL11.glEnable(GL11.GL_LINE_SMOOTH);
-//			GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
-//			GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
 
+			GL11.glHint(GL11.GL_POLYGON_SMOOTH_HINT, GL11.GL_NICEST);
+			if (!Platform.isLinux())
+				GL11.glEnable(GL11.GL_POLYGON_SMOOTH);
+			else
+				GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
+				
 			// iVisualElementOverrides.MakeDispatchProxy.
 			// dispatchForwardCount
 			// = 0;

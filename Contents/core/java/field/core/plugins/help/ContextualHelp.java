@@ -103,7 +103,7 @@ public class ContextualHelp {
 					}
 					return s.toString();
 				} catch (IOException e) {
-					System.err.println(" exception thrown while trying to load markdown documentation '" + name + " "+m.getAbsolutePath());
+//					System.err.println(" exception thrown while trying to load markdown documentation '" + name + " "+m.getAbsolutePath());
 //					e.printStackTrace();
 					return null;
 				}

@@ -217,7 +217,7 @@ public class Globals {
 					// )
 					// ;
 
-					PythonInterface.getPythonInterface().print("Automatically executing " + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'");
+					PythonInterface.getPythonInterface().print("Automatically executing " + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'\n");
 
 					;//System.out.println("auto executing '" + known.getProperty(iVisualElement.name) + "' to resolve '" + name + "'");
 					// OutputInserts.printFoldStart("auto executing '"

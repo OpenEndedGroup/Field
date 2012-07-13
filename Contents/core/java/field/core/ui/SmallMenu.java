@@ -40,69 +40,6 @@ import field.launch.iUpdateable;
 
 public class SmallMenu {
 
-	// TODO swt
-	// public final class TextAreaShimItem extends JMenuItem {
-	// private final JTextComponent area;
-	//
-	// private TextAreaShimItem(String text, JTextComponent area) {
-	// super(text);
-	// this.area = area;
-	// }
-	//
-	// int inset = 40;
-	//
-	// @Override
-	// public void paint(Graphics g) {
-	// area.setBounds(inset, 0, this.getWidth() - inset, this.getHeight());
-	// this.setBackground(new Color(0.5f, 0.5f, 0.5f, 1));
-	// this.setForeground(new Color(0, 0, 0, 1f));
-	//
-	// this.setOpaque(true);
-	// super.paint(g);
-	// // paintComponents(g);
-	//
-	// }
-	//
-	// public JTextComponent getArea() {
-	// return area;
-	// }
-	//
-	// int first = 2;
-	//
-	// @Override
-	// public void setBounds(int x, int y, int width, int height) {
-	// super.setBounds(x, y, width, height);
-	// }
-	//
-	// public int getPreferedSizeAtWidth(int width) {
-	//
-	// ;//System.out.println(" size at original width <" + area.getWidth()
-	// + "> is <" + area.getPreferredSize().height + ">");
-	//
-	// area.setMaximumSize(new Dimension(width - inset, 5000));
-	// area.setSize(new Dimension(width - inset, 5000));
-	// area.invalidate();
-	// area.validate();
-	//
-	// int h = area.getPreferredSize().height;
-	// ;//System.out.println(" size at new width <" + area.getWidth()
-	// + "> is <" + area.getMinimumSize() + ", "
-	// + area.getPreferredSize() + ", " + area.getMaximumSize());
-	// return h;
-	// }
-	//
-	// @Override
-	// public boolean isArmed() {
-	// return false;
-	// }
-	//
-	// @Override
-	// public boolean isEnabled() {
-	// return false;
-	// }
-	//
-	// }
-
 	@Woven
 	public class BetterPopup {
 		public Shell shell;
@@ -490,6 +427,10 @@ public class SmallMenu {
 
 			}
 			openNext(s);
+			
+			
+			System.out.println(" ---------- OPEN ----------");
+			new Exception().printStackTrace();
 
 			// should we wait for disposition here?
 			// while (!menu.isDisposed() && menu.isVisible()) {
