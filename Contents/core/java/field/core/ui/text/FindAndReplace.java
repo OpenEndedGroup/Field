@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Text;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.NextUpdate;
+import field.core.Platform;
 import field.core.StandardFluidSheet;
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
@@ -148,7 +149,8 @@ public class FindAndReplace extends Composite {
 			}
 		});
 
-//		setBackgroundRecursively(this);
+		if (Platform.isLinux())
+			setBackgroundRecursively(this);
 		
 	}
 
