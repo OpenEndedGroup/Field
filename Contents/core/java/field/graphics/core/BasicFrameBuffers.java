@@ -100,6 +100,8 @@ import javax.media.jai.JAI;
 import javax.media.jai.RenderedOp;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.NVPathRendering;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.DispatchOverTopology;
@@ -2951,6 +2953,114 @@ public class BasicFrameBuffers {
 			// width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 			// fakeStorage);
 			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F), width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
+
+			if (doGenMip) {
+				glGenerateMipmap(GL_TEXTURE_2D);
+			}
+			assert (glGetError() == 0);
+			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
+		}
+
+		@Override
+		public iProvider<Integer> getOutput() {
+			return new iProvider<Integer>() {
+
+				@Override
+				public Integer get() {
+					return textureId;
+				}
+			};
+		}
+	}
+	
+	static public class NullTextureInt extends BaseTexture implements iHasTexture {
+		private final int width;
+
+		private final int height;
+
+		private ByteBuffer fakeStorage;
+
+		int textureId = 0;
+
+		boolean deallocated = false;
+
+		boolean dirty = false;
+
+		public NullTextureInt(int width, int height) {
+			this.width = width;
+			this.height = height;
+		}
+
+		public void delete() {
+			glDeleteTextures(textureId);
+			deallocated = true;
+		}
+
+		public void dirty() {
+			dirty = true;
+		}
+
+		@Override
+		public void post() {
+			assert !deallocated;
+			CoreHelpers.glDisable(GL_TEXTURE_2D);
+		}
+
+		@Override
+		public void pre() {
+			assert !deallocated;
+			int textureId = BasicContextManager.getId(this);
+			if (textureId == BasicContextManager.ID_NOT_FOUND) {
+				setup();
+				textureId = BasicContextManager.getId(this);
+				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
+			}
+			assert (glGetError() == 0) : this.getClass().getName();
+			glBindTexture(GL_TEXTURE_2D, textureId);
+			assert (glGetError() == 0) : this.getClass().getName() + " "
+					+ BasicContextManager.getCurrentContext();
+			CoreHelpers.glEnable(GL_TEXTURE_2D);
+			assert (glGetError() == 0) : this.getClass().getName();
+		}
+
+		@Override
+		protected void setup() {
+			assert !deallocated;
+			int[] textures = new int[1];
+			textures[0] = glGenTextures();
+			textureId = textures[0];
+			BasicContextManager.putId(this, textureId);
+
+			int[] a = new int[1];
+			a[0] = glGetInteger(GL_ACTIVE_TEXTURE);
+
+			glBindTexture(GL_TEXTURE_2D, textureId);
+			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 0);
+
+			// new
+			// Exception().printStackTrace();
+			// glTexParameteri(GL_TEXTURE_2D,
+			// GL_TEXTURE_STORAGE_HINT_APPLE,
+			// GL_STORAGE_CACHED_APPLE);
+
+			if (!doGenMip) {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+						GL_NEAREST);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+						GL_NEAREST);
+			} else {
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+						GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			}
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			assert (glGetError() == 0);
+			// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
+			// width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+			// fakeStorage);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL30.GL_R32UI, width, height, 0, GL30.GL_R32UI, GL11.GL_UNSIGNED_INT, fakeStorage);
 
 			if (doGenMip) {
 				glGenerateMipmap(GL_TEXTURE_2D);

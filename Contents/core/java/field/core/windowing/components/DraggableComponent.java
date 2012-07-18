@@ -752,7 +752,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, element.getProperty(iVisualElement.name));
 				text.getProperties().put(iLinearGraphicsContext.containsText, true);
 				text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
-				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.PLAIN, 14));// (float)
+				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.PLAIN, 12));// (float)
 																			// (previousViewParameters.z
 																			// *
 																			// Math.min(bounds.h
@@ -773,7 +773,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, "\"" + b + "\"");
 				text.getProperties().put(iLinearGraphicsContext.containsText, true);
 				text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
-				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.BOLD, 10));// (float)
+				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.BOLD, 9));// (float)
 																			// (previousViewParameters.z
 																			// *
 																			// Math.min(bounds.h

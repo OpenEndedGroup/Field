@@ -800,7 +800,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 			GLComponentWindow frame = iVisualElement.enclosingFrame.get(getRoot());
 
-			Rect bounds = new Rect(30, 30, 50, 50);
+			Rect bounds = new Rect(30, 30, 60, 60);
 			if (frame != null) {
 				Vector2 cmp = frame.getCurrentMouseInWindowCoordinates();
 				bounds.x = cmp.x - 25;

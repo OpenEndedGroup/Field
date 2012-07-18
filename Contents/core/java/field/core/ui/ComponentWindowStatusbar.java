@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 
+import org.lwjgl.opengl.GL11;
+
 import field.core.Constants;
 import field.core.Platform;
 import field.core.windowing.GLComponentWindow;
@@ -166,6 +168,7 @@ public class ComponentWindowStatusbar {
 			
 		}
 		
+		GL11.glDisable(GL11.GL_POLYGON_SMOOTH);
 		component.drawIntoMesh(labelTriangle, 1, 1, 1, 1, inset, (Platform.isMac() ? 0 : -30)+h - inset - height);
 		//		component.drawIntoMesh(labelTriangle, 1, 1, 1, 1, 50, 50);
 		
