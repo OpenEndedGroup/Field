@@ -14,6 +14,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -29,6 +30,7 @@ import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
 import field.core.plugins.selection.ToolBarFolder;
 import field.core.ui.text.FindAndReplace.FindAll.Found;
+import field.launch.Launcher;
 
 @Woven
 public class FindAndReplace extends Composite {
@@ -60,7 +62,7 @@ public class FindAndReplace extends Composite {
 		lblNewLabel.setText("Find");
 
 		text = new Text(this, SWT.BORDER);
-		text.setBounds(50, 10, 231, 25);
+		text.setBounds(50, 12, 231, 20);
 
 		text.addModifyListener(new ModifyListener() {
 			
@@ -71,26 +73,26 @@ public class FindAndReplace extends Composite {
 		});
 		
 		text_1 = new Text(this, SWT.BORDER);
-		text_1.setBounds(342, 10, 231, 25);
+		text_1.setBounds(342, 12, 231, 20);
 
 		Label lblReplace = new Label(this, SWT.NONE);
 		lblReplace.setBounds(281, 14, 55, 15);
 		lblReplace.setText("Replace");
 		lblReplace.setAlignment(SWT.RIGHT);
 
-		btnFindNext = new Button(this, SWT.NONE);
+		btnFindNext = new Button(this, SWT.FLAT);
 		btnFindNext.setBounds(50, 41, 73, 25);
 		btnFindNext.setText("Find Next");
 
-		btnReplaceFind = new Button(this, SWT.NONE);
+		btnReplaceFind = new Button(this, SWT.FLAT);
 		btnReplaceFind.setBounds(129, 41, 73, 25);
 		btnReplaceFind.setText("Replace");
 
-		btnReplaceAll = new Button(this, SWT.NONE);
+		btnReplaceAll = new Button(this, SWT.FLAT);
 		btnReplaceAll.setBounds(208, 41, 73, 25);
 		btnReplaceAll.setText("Replace all");
 
-		Button btnNewButton = new Button(this, SWT.ARROW);
+		final Button btnNewButton = new Button(this, SWT.ARROW);
 		btnNewButton.setBounds(548, 42, 25, 25);
 		btnNewButton.setText("Options ...");
 
@@ -101,7 +103,8 @@ public class FindAndReplace extends Composite {
 			
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				menu.setLocation(e.x, e.y);
+				Point pp = Launcher.getLauncher().display.map(btnNewButton, null, new Point(e.x, e.y));
+				menu.setLocation(pp.x, pp.y);
 				menu.setVisible(true);
 			}
 			
@@ -145,7 +148,7 @@ public class FindAndReplace extends Composite {
 			}
 		});
 
-		setBackgroundRecursively(this);
+//		setBackgroundRecursively(this);
 		
 	}
 
