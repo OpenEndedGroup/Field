@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Canvas;
 import org.python.core.Py;
@@ -85,24 +86,27 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 					if (com == null)
 						return super.getRealWidth();
 					int p2 = com.getPositionFor(false);
-					
+
 					return 500;
-//
-//					if (insertRenderingContext!=null)
-//					{
-//						Rect boundrect = boundsOfRange(insertRenderingContext, p1, p2);
-//						return (int) Math.max(130, boundrect.w + 20);
-//					}
-//					else
-//					{
-//						return 300;
-//					}
+					//
+					// if (insertRenderingContext!=null)
+					// {
+					// Rect boundrect =
+					// boundsOfRange(insertRenderingContext,
+					// p1, p2);
+					// return (int) Math.max(130,
+					// boundrect.w + 20);
+					// }
+					// else
+					// {
+					// return 300;
+					// }
 				}
 
 				@Override
 				public int getPositionFor(boolean starting) {
-					if (insertRenderingContext!=null)
-					
+					if (insertRenderingContext != null)
+
 						return Component_transformBlockEnd.this.getPositionFor(insertRenderingContext, starting);
 					else
 						return -1;
@@ -140,7 +144,7 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 				if (!Character.isJavaIdentifierPart(m.charAt(i)) && m.charAt(i) != '(' && m.charAt(i) != ')') {
 					cm.setCharAt(i, '_');
 				}
-				if (m.charAt(i)=='(')
+				if (m.charAt(i) == '(')
 					break;
 			}
 			return cm.toString();
@@ -207,21 +211,24 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 					int p2 = com.getPositionFor(true);
 
 					return 500;
-					
-//					if (insertRenderingContext!=null)
-//					{
-//						Rect boundrect = boundsOfRange(insertRenderingContext, p1, p2);
-//						return (int) Math.max(130, boundrect.w + 20);
-//					}
-//					else
-//					{
-//						return 300;
-//					}
+
+					// if (insertRenderingContext!=null)
+					// {
+					// Rect boundrect =
+					// boundsOfRange(insertRenderingContext,
+					// p1, p2);
+					// return (int) Math.max(130,
+					// boundrect.w + 20);
+					// }
+					// else
+					// {
+					// return 300;
+					// }
 				}
 
 				@Override
 				public int getPositionFor(boolean starting) {
-					if (insertRenderingContext!=null)
+					if (insertRenderingContext != null)
 						return Component_transformBlockStart.this.getPositionFor(insertRenderingContext, starting);
 					else
 						return -1;
@@ -308,7 +315,7 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 			if (!Character.isJavaIdentifierPart(m.charAt(i)) && m.charAt(i) != '(' && m.charAt(i) != ')') {
 				cm.setCharAt(i, '_');
 			}
-			if (m.charAt(i)=='(')
+			if (m.charAt(i) == '(')
 				break;
 		}
 		return cm.toString();
@@ -334,7 +341,6 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 	int isExecuting = 0;
 
 	float progress = 1;
-
 
 	public void begin() {
 		isExecuting++;
@@ -493,7 +499,7 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 		g3.fillOval((int) (loc.x + loc.w - 15 - r), (int) (loc.y - r), r * 2, r * 2);
 		g3.fillOval((int) (loc.x + loc.w - 15 - r), (int) (lower.y + lower.h - 1 - r), r * 2, r * 2);
 
-		if (isExecuting>0)
+		if (isExecuting > 0)
 			paintProgress(g2, progress, loc, lower);
 
 		try {
@@ -524,30 +530,27 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
 		super.processMouseEvent(e);
-		
-		if (e.getClickCount()==1 && !Platform.isPopupTrigger(e))
-		{
+
+		if (e.getClickCount() == 1 && !Platform.isPopupTrigger(e)) {
 			Point loc = Launcher.display.getCursorLocation();
-			
-			
+
 			final Nub inside = CustomInsertDrawing.currentNub;
 			new PopupTextBox.Modal().getString(new java.awt.Point(loc.x, loc.y), "label: ", getText(), new iAcceptor<String>() {
 
 				@Override
 				public iAcceptor<String> set(String to) {
-				
+
 					MinimalTextField_blockMenu.this.setText(to);
-					if (inside!=null)
-					{
+					if (inside != null) {
 						inside.canvas.redraw();
 					}
-					
+
 					return this;
 				}
 			});
-			
+
 		}
-		
+
 		if (Platform.isPopupTrigger(e)) {
 
 			Map<String, iUpdateable> additional = null;
@@ -590,12 +593,11 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 
 			items.put("Available transforms, from TextTransforms.*", null);
 
-			
 			List l = (List) q.__dir__();
 			for (int i = 0; i < l.size(); i++) {
 				final String name = (String) l.get(i);
-				;//System.out.println(" :: "+q.__getattr__(name)+" "+q.__getattr__(name).getClass());
-				if (!name.startsWith("__") && name.length()>3 && q.__getattr__(name).getClass().isAssignableFrom(PyFunction.class)) {
+				;// System.out.println(" :: "+q.__getattr__(name)+" "+q.__getattr__(name).getClass());
+				if (!name.startsWith("__") && name.length() > 3 && q.__getattr__(name).getClass().isAssignableFrom(PyFunction.class)) {
 
 					try {
 						PyObject doc = (PyObject) PythonInterface.getPythonInterface().eval("TextTransforms." + name);
@@ -604,9 +606,8 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 						if (d.length() > 0)
 							d = "" + PythonTextEditor.limitDocumentation(d);
 
-						;//System.out.println(name+" <"+d+">");
-						
-						
+						;// System.out.println(name+" <"+d+">");
+
 						items.put(" \u223d  <b>" + name + "</b> \u2014 <i>" + d.replace("\n", " ").trim() + "</i>", new iUpdateable() {
 
 							public void update() {
@@ -659,6 +660,5 @@ public class MinimalTextField_blockMenu extends MinimalTextField implements iPha
 
 		}
 	}
-
 
 }

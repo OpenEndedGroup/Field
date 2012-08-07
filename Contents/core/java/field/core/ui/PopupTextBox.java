@@ -3,6 +3,7 @@ package field.core.ui;
 import java.awt.Point;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -119,7 +120,13 @@ public class PopupTextBox {
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				changed(textBox.getText());
+				try{
+					changed(textBox.getText());
+				}
+				catch(SWTException ee)
+				{
+					ee.printStackTrace();
+				}
 				shell.dispose();
 			}
 		});
@@ -238,6 +245,10 @@ public class PopupTextBox {
 
 		}
 
+	}
+
+	public void closeNow() {
+		this.shell.setVisible(false);
 	}
 
 }
