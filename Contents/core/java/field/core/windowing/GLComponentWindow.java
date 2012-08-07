@@ -812,6 +812,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 	protected ComponentContainer root = new ComponentContainer(null);
 
 	protected WindowSpaceBox windowSpaceHelper = new WindowSpaceBox(this);
+	protected EditorSpaceBox editorSpaceHelper;
 
 	boolean alwaysVisible = true;
 
@@ -1412,6 +1413,24 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 	public float getYTranslation() {
 		return ty;
 	}
+	
+	float dsx, dsy, dtx, dty;
+	
+	public float getDXScale() {
+		return dsx;
+	}
+
+	public float getDXTranslation() {
+		return dtx;
+	}
+
+	public float getDYScale() {
+		return dsy;
+	}
+
+	public float getDYTranslation() {
+		return dty;
+	}
 
 	@InQueue
 	public void keyPressed(Event arg0) {
@@ -1724,7 +1743,9 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 			return t;
 
 		windowSpaceHelper.freeze();
+		editorSpaceHelper.freeze();
 		tx = t;
+		editorSpaceHelper.thaw();
 		windowSpaceHelper.thaw();
 
 		return tx;
@@ -1740,7 +1761,9 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 			return t;
 
 		windowSpaceHelper.freeze();
+		editorSpaceHelper.freeze();
 		ty = t;
+		editorSpaceHelper.thaw();
 		windowSpaceHelper.thaw();
 		return ty;
 	}
@@ -1874,6 +1897,13 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 	@DispatchOverTopology(topology = Cont.class)
 	protected void display() {
 
+		dtx = tx;
+		dty = ty;
+		dsx = sx;
+		dsy = sy;
+		if (editorSpaceHelper!=null)
+			editorSpaceHelper.thaw();
+		
 		// ThreadedLauncher.lock2.lock();
 		try {
 
@@ -2199,4 +2229,14 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		rBetterSash.toggle();
 	}
 
+	public void setEditorSpaceHelper(iVisualElement root) {
+		editorSpaceHelper = new EditorSpaceBox(this, root);
+		Launcher.getLauncher().addPostUpdateable(new iUpdateable() {
+			@Override
+			public void update() {
+				editorSpaceHelper.freeze();
+			}
+		});
+	}
+	
 }

@@ -157,6 +157,7 @@ public abstract class iLinearGraphicsContext {
 
 	public static Prop<Integer> forceNew = new Prop<Integer>("forceNew");
 	protected static Prop<CoordinateFrame> transform = new Prop<CoordinateFrame>("transform");
+	public static Prop<Number> bleedsOntoTextEditor = new Prop<Number>("bleedsOntoTextEditor");
 
 	abstract public Dict getGlobalProperties();
 

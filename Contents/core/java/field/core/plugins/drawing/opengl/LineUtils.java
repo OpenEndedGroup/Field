@@ -382,18 +382,24 @@ public class LineUtils {
 				} else {
 					if (cc.nextLinearFrame(a, b)) {
 
-						;//System.out.println(" linear frame is <" + a + " " + b + "> looking for <" + point + ">");
+						;// System.out.println(" linear frame is <"
+							// + a + " " + b +
+							// "> looking for <" +
+							// point + ">");
 
 						double d = Line2D.ptSegDistSq(a.x, a.y, b.x, b.y, point.x, point.y);
 						if (d < min) {
 
-							;//System.out.println(" distance is <" + d + ">");
+							;// System.out.println(" distance is <"
+								// + d + ">");
 
 							min = (float) d;
 							minAtIndex = cc.getCurrentIndex();
 							minT = (float) ptSegDistSqT(a.x, a.y, b.x, b.y, point.x, point.y);
 
-							;//System.out.println(" minT is <" + minT + ">");
+							;// System.out.println(" minT is <"
+								// + minT +
+								// ">");
 
 						}
 					}
@@ -810,7 +816,7 @@ public class LineUtils {
 	public static Vector2[] fastBoundsMoveTos(CachedLine c) {
 		Vector2[] minMax = new Vector2[] { new Vector2(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY), new Vector2(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY) };
 		if (c == null) {
-			;//System.out.println(" null c ? ");
+			;// System.out.println(" null c ? ");
 			return new Vector2[] { new Vector2(), new Vector2() };
 		}
 
@@ -1319,10 +1325,10 @@ public class LineUtils {
 	public CachedLine lineAsStroked(CachedLine line, BasicStroke stroke, boolean fixProperties) {
 		GeneralPath path = lineToGeneralPath(line);
 		Shape shape = stroke.createStrokedShape(path);
-		
+
 		PathIterator pi = new Area(shape).getPathIterator(null);
-		
-//		PathIterator pi = shape.getPathIterator(null);
+
+		// PathIterator pi = shape.getPathIterator(null);
 
 		CachedLine ret = piToCachedLine(pi);
 
@@ -2110,14 +2116,16 @@ public class LineUtils {
 			if (e.method.equals(iLine_m.moveTo_m)) {
 				Vector3 b = getDestination3(e);
 				Vector3 pixel = projector.toPixel(b, width, height);
-				;//System.out.println(" transformed <" + b + " -> " + pixel + ">");
-				// if (pixel.z>0.99f) return null;
+				;// System.out.println(" transformed <" + b +
+					// " -> " + pixel + ">");
+					// if (pixel.z>0.99f) return null;
 				path.moveTo(pixel.x, height - pixel.y);
 			} else if (e.method.equals(iLine_m.lineTo_m)) {
 				Vector3 b = getDestination3(e);
 				Vector3 pixel = projector.toPixel(b, width, height);
-				;//System.out.println(" transformed <" + b + " -> " + pixel + ">");
-				// if (pixel.z>0.99f) return null;
+				;// System.out.println(" transformed <" + b +
+					// " -> " + pixel + ">");
+					// if (pixel.z>0.99f) return null;
 				path.lineTo(pixel.x, height - pixel.y);
 			} else if (e.method.equals(iLine_m.close_m))
 				path.closePath();
@@ -2143,4 +2151,46 @@ public class LineUtils {
 
 	}
 
+	/*
+	 * static public Vector2 evaluateCubicFrame(Vector2 a, Vector2 c1,
+	 * Vector2 c2, Vector2 b, float alpha, Vector2 out) { float oma = 1 -
+	 * alpha; float oma2 = oma * oma; float oma3 = oma2 * oma; float alpha2
+	 * = alpha * alpha; float alpha3 = alpha2 * alpha;
+	 * 
+	 * 
+	 * return out; }
+
+		out.x = a.x * oma3 + 3 * c1.x * alpha * oma2 + 3 * c2.x * alpha2 * oma + b.x * alpha3;
+		out.y = a.y * oma3 + 3 * c1.y * alpha * oma2 + 3 * c2.y * alpha2 * oma + b.y * alpha3;
+
+	 *
+	 *
+	 */
+	public Pair<Vector2, Vector2> controlPointsFor(Vector2 a, Vector2 b, Vector2 c, Vector2 d, Number t1, Number t2) {
+		t1 = t1==null ? b.distanceFrom(a) / (b.distanceFrom(a) + c.distanceFrom(b) + d.distanceFrom(c)) : t1.floatValue();
+		t2 = t2==null ? 1-(c.distanceFrom(d) / (b.distanceFrom(a) + c.distanceFrom(b) + d.distanceFrom(c))) : t2.floatValue();
+
+		System.out.println(" t1 :"+t1+" "+t2);
+
+		float q0 = (1-t1.floatValue())*(1-t1.floatValue())*(1-t1.floatValue());
+		float q1 = 3*(1-t1.floatValue())*(1-t1.floatValue())*t1.floatValue();
+		float q2 = 3*(1-t1.floatValue())*t1.floatValue()*t1.floatValue();
+		float q3 = t1.floatValue()*t1.floatValue()*t1.floatValue();
+
+		float k0 = (1-t2.floatValue())*(1-t2.floatValue())*(1-t2.floatValue());
+		float k1 = 3*(1-t2.floatValue())*(1-t2.floatValue())*t2.floatValue();
+		float k2 = 3*(1-t2.floatValue())*t2.floatValue()*t2.floatValue();
+		float k3 = t2.floatValue()*t2.floatValue()*t2.floatValue();
+
+		// b = q0*a+q1*c1+q2*c2+q3*d
+		// c = k0*a+k1*c1+k2*c2+k3*d
+		
+		float c1x = ((b.x-q0*a.x-q3*d.x)*k2-(c.x-k0*a.x-k3*d.x)*q2)/(q1*k2-k1*q2);
+		float c1y = ((b.y-q0*a.y-q3*d.y)*k2-(c.y-k0*a.y-k3*d.y)*q2)/(q1*k2-k1*q2);
+		
+		float c2x = (b.x-q0*a.x-q1*c1x-q3*d.x)/q2;
+		float c2y = (b.y-q0*a.y-q1*c1y-q3*d.y)/q2;
+		
+		return new Pair<Vector2, Vector2>(new Vector2(c1x, c1y), new Vector2(c2x, c2y));
+	}
 }

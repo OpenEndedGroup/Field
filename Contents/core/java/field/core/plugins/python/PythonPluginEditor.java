@@ -43,6 +43,7 @@ import field.core.execution.PythonInterface;
 import field.core.execution.PythonScriptingSystem.DerivativePromise;
 import field.core.execution.PythonScriptingSystem.Promise;
 import field.core.execution.TimeMarker;
+import field.core.plugins.drawing.OverDrawing;
 import field.core.plugins.drawing.opengl.CachedLine;
 import field.core.plugins.drawing.opengl.iLinearGraphicsContext;
 import field.core.plugins.help.ContextualHelp;
@@ -717,7 +718,7 @@ public class PythonPluginEditor extends PythonPlugin {
 	}
 
 	static public final VisualElementProperty<List<Pair<String, iUpdateable>>> python_customToolbar = new VisualElementProperty<List<Pair<String, iUpdateable>>>("python_customToolbar_");
-	static public final VisualElementProperty<StyledTextUndo.Memo> python_undoStack = new VisualElementProperty<StyledTextUndo.Memo>("python_undoStack_");
+	static public final VisualElementProperty<StyledTextUndo.Memo> python_undoStack = new VisualElementProperty<StyledTextUndo.Memo>("python_undoStack");
 
 	static public final VisualElementProperty<Object> python_customInsertPersistanceInfo = new VisualElementProperty<Object>("python_customInsertPersistanceInfo");
 
@@ -1405,11 +1406,11 @@ public class PythonPluginEditor extends PythonPlugin {
 				}
 			}
 
-			protected iVisualElement getThisBox() {
+			public iVisualElement getThisBox() {
 				return currentlyEditing;
 			}
 
-			protected VisualElementProperty getThisProperty() {
+			public VisualElementProperty getThisProperty() {
 				return currentlyEditingProperty;
 			}
 
@@ -1417,13 +1418,16 @@ public class PythonPluginEditor extends PythonPlugin {
 				return root;
 			}
 
+			@Override
+			protected void globalEditorPaintHook(org.eclipse.swt.events.PaintEvent e, Control ed) {
+				OverDrawing od = OverDrawing.overdraw.get(currentlyEditing == null ? root : currentlyEditing);
+				if (od!=null)
+					od.draw(e, ed);
+			};
+			
 			protected void navigateTo(iVisualElement box, VisualElementProperty prop, int start, int end) {
 				if (box != currentlyEditing) {
 					changeSelection(Collections.singleton(iVisualElement.localView.get(box)), prop, false);
-
-//					iVisualElement.localView.get(currentlyEditing).setSelected(false);
-//					iVisualElement.localView.get(box).setSelected(true);
-//					iVisualElement.dirty.set(box, box, true);
 				}
 
 				ed.setSelection(start, end);

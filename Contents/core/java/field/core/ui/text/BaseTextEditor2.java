@@ -214,8 +214,8 @@ public class BaseTextEditor2 {
 		// ;//System.out.println(" window is <"+GLComponentWindow.lastCreatedWindow);
 
 		// todo ÔøΩ pass in parent
-
-		Composite target = GLComponentWindow.lastCreatedWindow.rightComp;
+		final GLComponentWindow lcw = GLComponentWindow.lastCreatedWindow;
+		final Composite target = GLComponentWindow.lastCreatedWindow.rightComp;
 		final Composite targetWindow = GLComponentWindow.lastCreatedWindow.getFrame();
 		frame = GLComponentWindow.lastCreatedWindow.getFrame();
 
@@ -347,6 +347,23 @@ public class BaseTextEditor2 {
 
 		ed = new StyledText(vsplit, SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL) {
 
+			public void scroll(int destX, int destY, int x, int y, int width, int height, boolean all) {
+				// super.scroll(destX, destY, x, y, width,
+				// height, false);
+				// if (all) {
+				// int deltaX = destX - x, deltaY = destY - y;
+				// Control[] children = getChildren();
+				// for (int i=0; i<children.length; i++) {
+				// Control child = children[i];
+				// Rectangle rect = child.getBounds();
+				// child.setLocation(rect.x + deltaX, rect.y +
+				// deltaY);
+				// }
+				// }
+
+				redraw();
+			}
+
 			String clipAtCopy = null;
 			String localCopyRewritten = null;
 
@@ -431,7 +448,6 @@ public class BaseTextEditor2 {
 				BaseTextEditor2.this.navigateTo(thisBox, p, ff.get(0).start, ff.get(0).end);
 			}
 
-			
 			@Override
 			protected void replaceInCurrent(int start, int end, String with) {
 				ed.replaceTextRange(start, end - start, with);
@@ -454,10 +470,17 @@ public class BaseTextEditor2 {
 		ed.addListener(SWT.Paint, new Listener() {
 
 			int tick = 0;
-
+			String prevText = "";
+			int lastS = 0;
+			
 			@Override
 			public void handleEvent(Event event) {
 
+				// should be if different !!
+				if (!ed.getText().equals(prevText) && ed.getVerticalBar().getSelection()!=lastS)
+					lcw.requestRepaint();
+				lastS = ed.getVerticalBar().getSelection();
+				prevText = ed.getText();
 				fandr.setLocation(5, ed.getSize().y - 5 - 74);
 				fandr.setSize(Math.min(583, ed.getSize().x - 10), 74);
 
@@ -508,6 +531,7 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void verifyKey(VerifyEvent event) {
+				lcw.requestRepaint();
 
 				System.out.println(" event.stateMask :" + event.stateMask + " " + Platform.getCommandModifier2() + " " + event.keyCode);
 
@@ -567,7 +591,7 @@ public class BaseTextEditor2 {
 					event.doit = false;
 				} else if ((event.keyCode == 'f') && (event.stateMask & Platform.getCommandModifier()) != 0) {
 					fandr.setVisible(!fandr.getVisible());
-					System.out.println(" now <"+fandr.getVisible()+">");
+					System.out.println(" now <" + fandr.getVisible() + ">");
 					String m = ed.getSelectionText();
 					if (m != null && m.length() != 0) {
 						fandr.setFind(m);
@@ -639,8 +663,25 @@ public class BaseTextEditor2 {
 				if (!b1.equals(b2)) {
 					edOut.setBackground(b2);
 				}
+
+				globalEditorPaintHook(e, ed);
+
 			}
 		});
+		
+		edOut.addPaintListener(new PaintListener() {
+			@Override
+				public void paintControl(PaintEvent e) {
+					globalEditorPaintHook(e, edOut);
+				}	
+			});
+		
+		rulerCanvas.addPaintListener(new PaintListener() {
+			@Override
+				public void paintControl(PaintEvent e) {
+					globalEditorPaintHook(e, rulerCanvas);
+				}	
+			});
 
 		ed.addListener(SWT.KeyDown, new Listener() {
 
@@ -846,6 +887,10 @@ public class BaseTextEditor2 {
 
 	}
 
+	protected void globalEditorPaintHook(PaintEvent e, Control ed) {
+
+	}
+
 	protected void navigateTo(iVisualElement box, VisualElementProperty prop, int start, int end) {
 
 	}
@@ -855,13 +900,12 @@ public class BaseTextEditor2 {
 		return null;
 	}
 
-	protected VisualElementProperty getThisProperty() {
+	public VisualElementProperty getThisProperty() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected iVisualElement getThisBox() {
-		// TODO Auto-generated method stub
+	public iVisualElement getThisBox() {
 		return null;
 	}
 
@@ -1081,11 +1125,13 @@ public class BaseTextEditor2 {
 	public void addPositionAnnotation(iPositionAnnotation annotation) {
 		positionAnnotations.add(annotation);
 		this.frame.redraw();
+		this.ed.redraw();
 	}
 
 	public void clearPositionAnnotations() {
 		positionAnnotations.clear();
 		this.frame.redraw();
+		this.ed.redraw();
 	}
 
 	public void completionHandle(final boolean publicOnly) {
@@ -1256,7 +1302,10 @@ public class BaseTextEditor2 {
 
 	public void removePositionAnnotation(iPositionAnnotation annotation) {
 		if (positionAnnotations.remove(annotation))
+		{
 			this.frame.redraw();
+			this.ed.redraw();
+		}
 	}
 
 	// @NextUpdate(delay=4)

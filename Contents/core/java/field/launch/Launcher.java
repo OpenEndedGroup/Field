@@ -495,4 +495,5 @@ public class Launcher {
 	public void removeShutdownHook(iUpdateable shutdownhook) {
 		shutdown.remove(shutdownhook);
 	}
+
 }

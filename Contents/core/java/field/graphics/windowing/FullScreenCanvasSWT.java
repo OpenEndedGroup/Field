@@ -237,11 +237,13 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		GLData data = new GLData();
 		data.doubleBuffer = true;
 		data.depthSize = 24;
-//		data.stencilSize = 8;
+
+		data.stencilSize = 8;
+		
 		data.stereo = stereo;
 		if (doMultisampling) {
 			data.samples = 2;
-			data.sampleBuffers = 2;
+//			data.sampleBuffers = 2;
 		}
 
 		if (Platform.isMac()) {
@@ -272,6 +274,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		} catch (LWJGLException e1) {
 			e1.printStackTrace();
 		}
+		
+		
 
 //		glClearColor(0, 0, 0, 1);
 //		glClear(GL_COLOR_BUFFER_BIT);
@@ -295,7 +299,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 			}
 		});
-
+		
 		createInitialLists();
 
 		if (SystemProperties.getIntProperty("	", 0) == 1)

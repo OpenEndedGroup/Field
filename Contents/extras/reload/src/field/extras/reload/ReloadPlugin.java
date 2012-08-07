@@ -27,6 +27,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.sun.tools.doclets.formats.html.AllClassesFrameWriter;
+
 import field.bytecode.protect.ReloadingSupport.ReloadingDomain;
 import field.bytecode.protect.Trampoline2;
 import field.bytecode.protect.Trampoline2.MyClassLoader;
@@ -164,6 +166,8 @@ public class ReloadPlugin extends BaseSimplePlugin {
 
 	int hashWas = 0;
 
+
+	
 	private void populateTree() {
 
 		TreeItem[] items = tree.getItems();
@@ -217,7 +221,11 @@ public class ReloadPlugin extends BaseSimplePlugin {
 				continue;
 			if (c.getName().startsWith("org.lwjgl"))
 				continue;
-
+			if (c.getName().startsWith("org.parboiled"))
+				continue;
+			if (c.getName().startsWith("org.pegdown"))
+				continue;
+			
 			String name = c.getName();
 			String[] parts = name.split("\\.");
 			// ;//;//System.out.println("          class :" + c.getName()
@@ -232,6 +240,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 			if (p != null) {
 				p.classesHere.add(name);
 			}
+			
 		}
 
 		Set<Entry<String, Node>> pp = packageList.entrySet();
@@ -245,7 +254,6 @@ public class ReloadPlugin extends BaseSimplePlugin {
 				// e.getValue().name);
 				TreeItem i;
 				if (e.getValue().name.startsWith("field"))
-
 				{
 					i = new TreeItem(internalClasses, 0);
 				} else {
@@ -324,9 +332,11 @@ public class ReloadPlugin extends BaseSimplePlugin {
 			}
 			populateTree();
 		} else if (d instanceof String) {
-			Trampoline2.reloadingSupport.addDomain(((String) d) + ".*");
-			reloadDomains.add(((String) d) + ".*");
-			populateTree();
+			
+//			Trampoline2.reloadingSupport.addDomain(((String) d) + ".*");
+//			reloadDomains.add(((String) d) + ".*");
+//			populateTree();
+			hotswapNow(d);
 		}
 
 	}
@@ -339,7 +349,13 @@ public class ReloadPlugin extends BaseSimplePlugin {
 
 		if (d instanceof String) {
 			up.put("Java package or class", null);
-			up.put("<b>Make reloadable</b> <i>(restart required)</i>", new iUpdateable() {
+			up.put("<b>Hotswap now</b> <i>(experimental)</i> double-click", new iUpdateable() {
+
+				@Override
+				public void update() {
+					hotswapNow(d);
+				}
+			});up.put("<b>Make reloadable</b> <i>(restart required)</i>", new iUpdateable() {
 
 				@Override
 				public void update() {
@@ -349,6 +365,7 @@ public class ReloadPlugin extends BaseSimplePlugin {
 					populateTree();
 				}
 			});
+			
 		} else if (d instanceof ReloadingDomain) {
 			up.put("Reloadable domain", null);
 			up.put("<b>Reload</b> now", new iUpdateable() {
@@ -478,6 +495,28 @@ public class ReloadPlugin extends BaseSimplePlugin {
 	@Override
 	protected String getPluginNameImpl() {
 		return "reload";
+	}
+
+	private void hotswapNow(final Object d) {
+		ArrayList<Class> a = new ArrayList();
+
+		Set<Class> allClasses = ((MyClassLoader) Trampoline2.trampoline.getClassLoader()).getAllLoadedClasses();
+		String sd = ""+d;
+		for(Class cc : allClasses)
+		{
+			if (cc.getName().startsWith(sd))
+			{
+				a.add(cc);
+			}
+		}
+		if (Hotswapper.swapClass(a.toArray(new Class[a.size()])))
+		{
+			OverlayAnimationManager.notifyAsText(root, "Hotswapped classes", null);
+		}
+		else
+		{
+			OverlayAnimationManager.notifyAsText(root, "Hotswap failed", null);			
+		}
 	}
 
 }

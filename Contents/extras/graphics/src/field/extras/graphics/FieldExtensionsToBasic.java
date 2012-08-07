@@ -97,7 +97,6 @@ import field.util.TaskQueue;
 import field.util.TaskQueue.Task;
 
 public class FieldExtensionsToBasic {
-
 	static final public int _vertex = 0;
 	static final public int _normal = 2;
 	static final public int _color = 3;

@@ -440,6 +440,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		r1.addToSelectionGroup(group);
 
 		rootSheetElement = new RootSheetElement();
+		window.setEditorSpaceHelper(this.rootSheetElement);
+
 		r1.setOverrides(new Dispatch<iVisualElement, iVisualElementOverrides>(iVisualElementOverrides.topology).getOverrideProxyFor(rootSheetElement, iVisualElementOverrides.class));
 
 		rootSheetElement.setProperty(iVisualElement.enclosingFrame, window);
