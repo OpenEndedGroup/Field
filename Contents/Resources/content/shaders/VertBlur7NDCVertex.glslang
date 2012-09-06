@@ -1,0 +1,37 @@
+attribute vec2 s_Texture;
+attribute vec2 s_Texture1;
+attribute vec3 offset0;
+attribute vec3 offset1;
+attribute vec3 offset2;
+attribute vec3 offset3;
+attribute vec3 offset4;
+attribute vec3 offset5;
+
+
+varying vec3 foffset0;
+varying vec3 foffset1;
+varying vec3 foffset2;
+varying vec3 foffset3;
+varying vec3 foffset4;
+varying vec3 foffset5;
+varying vec2 ftexture;
+varying vec2 ftexture1;
+
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = gl_Vertex;
+	gl_Position.w = 1.0;
+
+	foffset0 = offset0;
+	foffset1 = offset1;
+	foffset2 = offset2;
+	foffset3 = offset3;
+	foffset4 = offset4;
+	foffset5 = offset5;
+	ftexture = s_Texture;
+	ftexture1 = s_Texture1;
+
+
+}

@@ -1,0 +1,38 @@
+#version 150
+
+in vec3 position;
+
+attribute vec2 s_Texture;
+attribute vec2 s_Texture1;
+attribute vec3 offset0;
+attribute vec3 offset1;
+attribute vec3 offset2;
+attribute vec3 offset3;
+attribute vec3 offset4;
+attribute vec3 offset5;
+
+
+out vec3 foffset0;
+out vec3 foffset1;
+out vec3 foffset2;
+out vec3 foffset3;
+out vec3 foffset4;
+out vec3 foffset5;
+out vec2 ftexture;
+out vec2 ftexture1;
+
+
+void main()
+{
+	// Transforming The Vertex
+	gl_Position = vec4(position, 1);
+
+	foffset0 = offset0;
+	foffset1 = offset1;
+	foffset2 = offset2;
+	foffset3 = offset3;
+	foffset4 = offset4;
+	foffset5 = offset5;
+	ftexture = s_Texture;
+	ftexture1 = s_Texture1;
+}

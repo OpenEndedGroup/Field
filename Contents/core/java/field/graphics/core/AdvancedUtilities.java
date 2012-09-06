@@ -20,9 +20,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+import org.lwjgl.opengl.NVTextureBarrier;
 import org.lwjgl.util.glu.GLU;
 
 import field.graphics.core.Base.StandardPass;
+import field.graphics.core.Base.iPass;
+import field.graphics.core.BasicUtilities.OnePassElement;
 import field.math.linalg.Vector3;
 
 
@@ -310,4 +313,18 @@ public class AdvancedUtilities {
 		return src[i] * src2[j] + src[i + 1] * src2[j + 1] + src[i + 2] * src2[j + 2];
 	}
 
+	static public class TextureBarrier extends OnePassElement
+	{
+
+		public TextureBarrier() {
+			super(StandardPass.preRender);
+		}
+
+		@Override
+		public void performPass() {
+			NVTextureBarrier.glTextureBarrierNV();
+		}
+		
+	}
+	
 }

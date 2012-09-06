@@ -78,6 +78,7 @@ import field.graphics.core.BasicSceneList;
 import field.graphics.core.BasicTextures;
 import field.graphics.core.BasicTextures.TextureUnit;
 import field.graphics.core.BasicUtilities;
+import field.graphics.core.BasicUtilities.TwoPassElement;
 import field.graphics.core.CoreHelpers;
 import field.graphics.windowing.FullScreenCanvasSWT;
 import field.graphics.windowing.FullScreenCanvasSWT.StereoSide;
@@ -140,6 +141,7 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 		}
 	}
 
+	
 	public static class TextureWrapper extends BasicUtilities.TwoPassElement {
 		private final boolean mip;
 
@@ -1020,12 +1022,12 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 
 	protected void initializeMesh() {
 		// geometry ------------------------------------
-		mesh = new BasicGeometry.QuadMesh(Base.StandardPass.preRender);
-		mesh.rebuildTriangle(1);
+		mesh = new BasicGeometry.TriangleMesh(Base.StandardPass.preRender);
+		mesh.rebuildTriangle(2);
 		mesh.rebuildVertex(4);
 
 		mesh.vertex().put(-1).put(-1).put(0.5f).put(-1).put(1).put(0.5f).put(1).put(1).put(0.5f).put(1).put(-1).put(0.5f);
-		mesh.triangle().put((short) 3).put((short) 2).put((short) 1).put((short) 0);
+		mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
 		if (useRect)
 			mesh.aux(Base.texture0_id, 2).put(0).put(0).put(0).put(height).put(width).put(height).put(width).put(0);
 		else

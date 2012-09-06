@@ -203,10 +203,10 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 				}
 				else
 				{
-					Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/lib/core.jar").getAbsolutePath());
+					Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/core/library/core.jar").getAbsolutePath());
 					try {
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/opengl/library/").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/bin/").getAbsolutePath());
+//						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/opengl/library/").getAbsolutePath());
+						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/").getAbsolutePath());
 					} catch (MalformedURLException e1) {
 						e1.printStackTrace();
 					}
