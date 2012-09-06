@@ -1,0 +1,35 @@
+#version 150
+
+in vec3 foffset0;
+in vec3 foffset1;
+in vec3 foffset2;
+in vec3 foffset3;
+in vec3 foffset4;
+in vec3 foffset5;
+in vec2 ftexture;
+
+uniform vec4 alphaParameters;
+uniform float centerWeight;
+
+uniform sampler2D center;
+
+out vec4 _output;
+
+void main()
+{
+	vec2 off = vec2(0.5/1919.0, 0.5/1200.0);
+
+	vec4 m = texture(center, ftexture.xy+off);
+	vec4 s0 = texture(center, ftexture.xy+off+foffset0.xy)*foffset0.z;
+	vec4 s1 = texture(center, ftexture.xy+off+foffset1.xy)*foffset1.z;
+	vec4 s2 = texture(center, ftexture.xy+off+foffset2.xy)*foffset2.z;
+	vec4 s3 = texture(center, ftexture.xy+off+foffset3.xy)*foffset3.z;
+	vec4 s4 = texture(center, ftexture.xy+off+foffset4.xy)*foffset4.z;
+	vec4 s5 = texture(center, ftexture.xy+off+foffset5.xy)*foffset5.z;
+	
+	vec4 all = s0+s1+s2+s3+s4+s5+m*centerWeight;
+
+	_output = all;
+//	_output.w = max(min(_output.w*alphaParameters.x+alphaParameters.y, alphaParameters.z), alphaParameters.w);	
+//	_output.w = 1.0;	
+}

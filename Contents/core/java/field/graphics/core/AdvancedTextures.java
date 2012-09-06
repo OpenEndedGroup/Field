@@ -55,9 +55,6 @@ import static org.lwjgl.opengl.GL30.GL_RGBA32F;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.opengl.GL31.GL_TEXTURE_RECTANGLE;
 
-
-import static org.lwjgl.opengl.EXTTextureFilterAnisotropic.*;
-
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -68,7 +65,6 @@ import java.util.LinkedHashMap;
 import org.lwjgl.opengl.APPLEYcbcr422;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.OpenGLException;
 
@@ -77,6 +73,7 @@ import field.core.Platform.OS;
 import field.graphics.core.Base.StandardPass;
 import field.graphics.core.Base.iPass;
 import field.graphics.qt.QTImage;
+import field.math.linalg.Vector4;
 import field.util.TaskQueue;
 
 /**
@@ -1789,6 +1786,80 @@ public class AdvancedTextures extends BasicTextures {
 		}
 
 	}
+
+	static public class FloatCube extends BasicUtilities.TwoPassElement {
+		private final int width;
+
+		private final ByteBuffer buffer;
+
+		int[] tex = { -1 };
+
+		public FloatCube(Vector4[][][] data) {
+			super("", StandardPass.preRender, StandardPass.postRender);
+			
+			width = data.length;
+
+			buffer = ByteBuffer.allocateDirect(4*4*width*width*width);
+			buffer.order(ByteOrder.nativeOrder());
+			update(data);
+			
+		}
+
+		private void update(Vector4[][][] data) {
+			FloatBuffer f = buffer.asFloatBuffer();
+			for(int z=0;z<width;z++)
+			{
+				for(int y=0;y<width;y++)
+				{
+					for(int x=0;x<width;x++)
+					{
+						f.put(data[x][y][z].x);
+						f.put(data[x][y][z].y);
+						f.put(data[x][y][z].z);
+						f.put(data[x][y][z].w);
+					}
+				}
+				
+			}
+		}
+
+		@Override
+		protected void post() {
+			glBindTexture(GL_TEXTURE_3D, 0);
+			glDisable(GL_TEXTURE_3D);
+		}
+
+		@Override
+		protected void pre() {
+			glBindTexture(GL_TEXTURE_3D, tex[0]);
+			glEnable(GL_TEXTURE_3D);
+		}
+
+		@Override
+		protected void setup() {
+			assert (glGetError() == 0) : this.getClass().getName();
+
+			tex[0] = glGenTextures();
+			BasicContextManager.putId(this, tex[0]);
+			assert (glGetError() == 0) : this.getClass().getName();
+
+			glBindTexture(GL_TEXTURE_3D, tex[0]);
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA32F, width, width, width, 0, GL_RGBA, GL11.GL_FLOAT, buffer);
+			assert (glGetError() == 0) : this.getClass().getName();
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			assert (glGetError() == 0) : this.getClass().getName();
+			glBindTexture(GL_TEXTURE_3D, 0);
+			assert (glGetError() == 0) : this.getClass().getName();
+		}
+
+	}
+
+	
 
 	// VERTEX_PROGRAM_POINT_SIZE_ARB
 

@@ -276,12 +276,12 @@ public class TwoPassImageProcessing implements iImageProcessor {
 	}
 
 	public iSceneListElement getOnscreenList(int output, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
-		final TriangleMesh mesh = new BasicGeometry.QuadMesh(StandardPass.render);
-		mesh.rebuildTriangle(1);
+		final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+		mesh.rebuildTriangle(2);
 		mesh.rebuildVertex(4);
 
 		mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
-		mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 3);
+		mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
 		mesh.aux(Base.texture0_id, 2).put(useRect ? left.width : 1).put(0).put(useRect ? left.width : 1).put(useRect ? left.height : 1).put(0).put(useRect ? left.height : 1).put(0).put(0);
 		mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
 

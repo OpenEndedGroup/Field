@@ -595,11 +595,13 @@ public class ElementFileSystemTree {
 				if (n1 == null)
 					return 0;
 
-				return ((String) n0).compareTo(((String) n1));
+				return ((String) n0+arg0).compareTo(((String) n1+arg1));
 			}
 		});
 		properties.putAll(pmap);
 
+		System.out.println(" final map "+properties.keySet());
+		
 		Launcher.getLauncher().registerUpdateable(new iUpdateable() {
 
 			@Override

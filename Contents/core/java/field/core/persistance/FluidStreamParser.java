@@ -9,6 +9,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -114,7 +116,7 @@ public class FluidStreamParser {
 			if (id != null) {
 				String idIs = id.getTextContent();
 				;//System.out.println(" node <" + idIs + "> is <" + document);
-				nodeMap.put(idIs, document);
+				nodeMap.put(document.getNodeName()+"::"+idIs, document);
 			}
 		}
 		NodeList d = document.getChildNodes();
@@ -130,9 +132,11 @@ public class FluidStreamParser {
 	private void parseElements(Node node) {
 
 		if (debug)
-			;//System.out.println(" inside parse elements for <" + file + ">");
+			System.out.println(" inside parse elements for <" + file + ">");
 
+//		System.out.println(node.getNodeName());
 		if (node.getNodeName().equals("field.core.dispatch.VisualElement")) {
+			System.out.println(" looking at visual element ");
 			NodeList nl = node.getChildNodes();
 
 			String uid = null;
@@ -145,7 +149,7 @@ public class FluidStreamParser {
 				if (ii.getNodeName().equals("uid")) {
 					uid = ii.getTextContent().trim();
 
-					;//System.out.println(" got <" + uid + ">");
+					System.out.println(" got <" + uid + ">");
 
 				}
 				if (ii.getNodeName().equals("properties")) {
@@ -155,7 +159,11 @@ public class FluidStreamParser {
 					if (props != null) {
 						properties.put(uid, props);
 
-						;//System.out.println(" we now have <" + properties.keySet() + ">");
+						System.out.println(" we now have <" + properties.keySet() + "> for UID :"+uid);
+						Set<Entry<String, HashMap<String, Object>>> es = properties.entrySet();
+						for (Entry<String, HashMap<String, Object>> e : es) {
+							System.out.println("       "+e.getKey()+" "+e.getValue().get("name"));
+						}
 					}
 				}
 			}
@@ -174,7 +182,10 @@ public class FluidStreamParser {
 		if (reference == null)
 			return ii;
 		String t = reference.getTextContent();
-		Node n = nodeMap.get(t);
+		
+		
+		Node n = nodeMap.get(ii.getNodeName()+"::"+t);
+		System.out.println(" looking up reference <"+t+"> to find <"+n+">");
 		if (n == null)
 			return ii;
 		return n;
@@ -189,18 +200,21 @@ public class FluidStreamParser {
 
 			ii = resolve(ii);
 
-			;//System.out.println(" entry, name <" + ii.getNodeName() + ">");
+			System.out.println(" entry, name <" + ii.getNodeName() + ">");
 
-			if (ii.getNodeName().equals("field.core.dispatch.iVisualElement_-VisualElementProperty")) {
+			if (ii.getNodeName().equals("field.core.dispatch.iVisualElement_-VisualElementProperty")) 
+			{
+				
 				NodeList childNodes = ii.getChildNodes();
 				for (int j = 0; j < childNodes.getLength(); j++) {
 
 					Node cn = childNodes.item(j);
 					cn = resolve(cn);
 
-					;//System.out.println(" property <" + cn.getNodeName() + ">");
+					System.out.println(" property <" + cn.getNodeName() + ">");
 					if (cn.getNodeName().equals("name")) {
 						name = cn.getTextContent();
+						System.out.println(" name is <"+name+">");
 					}
 				}
 			} else if (ii.getNodeName().equals("string")) {
@@ -220,6 +234,8 @@ public class FluidStreamParser {
 							continue;
 						if (xml.contains("reference="))
 							continue;
+						if (xml.contains("id="))
+							continue;
 
 						;//System.out.println(" xml is <" + xml + ">");
 						xml = "<object-stream>" + xml + "</object-stream>";
@@ -233,13 +249,13 @@ public class FluidStreamParser {
 						value = o;
 						;//System.out.println(" -- loaded <" + value + ">");
 					} catch (Throwable t) {
-						t.printStackTrace();
+						System.out.println(" trouble loading contents of <"+ii.getNodeName()+"> continuing on");
 					}
 				}
 			}
 		}
 
-		;//System.out.println(" got <" + name + " = " + value + ">");
+//		System.out.println(" got <" + name + " = " + value + ">");
 
 		if (name == null)
 			return null;

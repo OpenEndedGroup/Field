@@ -292,6 +292,12 @@ public class DynamicLine_long extends DynamicMesh_long implements iLineOutput {
 		return triangleCursor++;
 	}
 
+	public int nextFace_adjacency(int v1, int v2, int v3, int v4) {
+		nextFace(v1,v2);
+		nextFace(v3,v4);
+		return triangleCursor;
+	}
+
 	public int nextFace(int v1, int v2) {
 		checkTriangleStorage(triangleCursor, 1);
 		int triangleCursor2 = 2 * triangleCursor;
