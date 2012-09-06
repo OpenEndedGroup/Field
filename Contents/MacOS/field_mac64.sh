@@ -4,13 +4,13 @@ echo $fieldhome
 cd $fieldhome/Resources/
 
 
-if [[ `defaults read com.openendedgroup.Field use16 | grep -c YES` == "0" ]]
+if [[ `defaults read com.openendedgroup.Field use16 | grep -c NO` == "0" ]]
 then
-    echo "using built-in 1.7"
-    jdk=$fieldhome/Plugins/1.7.0.jdk/
-else
     echo "using 1.6"
     jdk=/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/
+else
+    echo "using built-in 1.7"
+    jdk=$fieldhome/Plugins/1.7.0.jdk/
 fi
 
 if [[ ! -e $jdk ]]
