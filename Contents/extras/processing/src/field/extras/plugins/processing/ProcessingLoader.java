@@ -157,7 +157,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				}
 			});
 		} else {
-			frame = new Frame("Processing (Fullscreen)") {
+			frame = new Frame("Processing") {
 				@Override
 				public void resize(int width, int height) {
 					super.resize(width, height);
@@ -506,15 +506,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 					// iheight);
 					// }
 				}
-			}
-
-			protected void checkKeyEvent(KeyEvent e) {
-
-				enqueueKeyEvent(e);
-			};
-
-			protected void checkMouseEvent(java.awt.event.MouseEvent e) {
-				enqueueMouseEvent(e);
 			}
 
 			public void die(String what) {

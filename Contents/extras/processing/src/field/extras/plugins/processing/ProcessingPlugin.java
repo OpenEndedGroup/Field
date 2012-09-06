@@ -191,10 +191,12 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 		} else {
 				if (Platform.isMac())
 				{
-					Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/Contents/Resources/Java/core.jar").getAbsolutePath());
 					try {
+						Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/Contents/Resources/Java/core.jar").getAbsolutePath());
+						Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/Contents/Resources/Java/core/library/core.jar").getAbsolutePath());
 						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/modes/java/libraries/opengl/library/").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/modes/java/libraries/bin/").getAbsolutePath());
+						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/core/library/").getAbsolutePath());
+						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/modes/java/libraries/").getAbsolutePath());
 					} catch (MalformedURLException e1) {
 						e1.printStackTrace();
 					}
@@ -303,10 +305,6 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 			gl.marginWidth = 0;
 			Link label = new Link(status, SWT.MULTI | SWT.NO_BACKGROUND | SWT.CENTER);
 			label.setText("Processing bridge didn't initialize");
-			if (Platform.is17() && Platform.isMac())
-			{
-				label.setText("Processing bridge didn't initialize � please deselect \"Use Open JFK 1.7\" from the app menu and restart Field");
-			}
 			label.setFont(new Font(Launcher.display, label.getFont().getFontData()[0].getName(), GraphNodeToTreeFancy.baseFontHeight(label) + 2, SWT.NORMAL));
 			label.setBackground(ToolBarFolder.firstLineBackground);
 

@@ -451,6 +451,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void addJar(String n) {
+		System.out.println(" add jar :"+n);
 		try {
 			loader.addURL(new URL("file://" + n));
 		} catch (MalformedURLException e) {
