@@ -8,7 +8,7 @@ Field is an open-source software project initiated by OpenEndedGroup, for the cr
 
 To build Field:
 
-	git clone git@github.com:OpenEndedGroup/Field.git
+	git clone git://github.com/OpenEndedGroup/Field.git
 	cd Field/Contents
 	ant
 
