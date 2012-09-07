@@ -13,7 +13,11 @@ To build Field:
 	ant
 
 
-That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0x installed) then `ant extras_all`
+That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then `ant extras_all`
+
+### The workspace
+
+On first launch Field will ask where you want to store your Field files (it will suggest ~/Documents/FieldWorkspace). It will also check to see if you have Mercurial installed. To start with the [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
 
 ### Running --- Mac OS X
 
@@ -23,9 +27,9 @@ If you are on OS X you probably want to set this:
 
 	defaults write com.openendedgroup.Field use16 YES
 
-This tells Field to launch using an OS installed 1.6 VM. If you want to use an OpenJDK 1.7 VM place the .jdk bundle inside Contents/Plugins and:
+This tells Field to launch using an OS installed 1.6 VM. If you want to use an OpenJDK 1.7 VM place the .jdk bundle, named 1.7.0.jdk, inside Contents/Plugins and:
 	
-	defaults delete com.openendedgroup.Field use16 
+	defaults write com.openendedgroup.Field use16 NO
 
 Finally, to run from the command line, run 
 
