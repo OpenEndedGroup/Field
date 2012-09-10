@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.swing.text.PlainDocument;
 
+import org.eclipse.swt.SWTError;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 import org.jruby.compiler.ir.instructions.THROW_EXCEPTION_Instr;
@@ -65,20 +66,24 @@ public class EditorSpaceBox {
 	}
 
 	private ArrayList<Vector2> buildLineMap() {
-		PythonPluginEditor p = (PythonPluginEditor) PythonPluginEditor.python_plugin.get(root);
-		StyledText t = p.getEditor().getInputEditor();
-		ArrayList<Vector2> r = new ArrayList<Vector2>();
-		for (int i = 0; i < t.getLineCount() + 1; i++) {
+		try {
+			PythonPluginEditor p = (PythonPluginEditor) PythonPluginEditor.python_plugin.get(root);
+			StyledText t = p.getEditor().getInputEditor();
+			ArrayList<Vector2> r = new ArrayList<Vector2>();
+			for (int i = 0; i < t.getLineCount() + 1; i++) {
 
-			Point ll = new Point(0, t.getLinePixel(i));
-			ll = Launcher.getLauncher().display.map(t, window.getFrame(), ll);
+				Point ll = new Point(0, t.getLinePixel(i));
+				ll = Launcher.getLauncher().display.map(t, window.getFrame(), ll);
 
-			r.add(new Vector2(ll.x, ll.y));
+				r.add(new Vector2(ll.x, ll.y));
+			}
+
+			// System.out.println(" line map <"+r+">");
+
+			return r;
+		} catch (SWTError e) {
+			return new ArrayList<Vector2>();
 		}
-
-		// System.out.println(" line map <"+r+">");
-
-		return r;
 	}
 
 	int tc = 0;
