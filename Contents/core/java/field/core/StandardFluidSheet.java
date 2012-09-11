@@ -628,60 +628,76 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		new iVisualElementOverrides.MakeDispatchProxy().getOverrideProxyFor(newSource).added(newSource);
 	}
 
+	ThreadLocal<LinkedHashSet<iVisualElement>> inprogress = new ThreadLocal<LinkedHashSet<iVisualElement>>() {
+		@Override
+		public LinkedHashSet<iVisualElement> get() {
+			return new LinkedHashSet<iVisualElement>();
+		}
+	};
+
 	public VisitCode beginExecution(final iVisualElement source) {
-		// should be
-		// lookup to
-		// support
 
-		;// System.out.println(" begin exec <" + source + ">");
+		if (inprogress.get().contains(source))
+			return VisitCode.stop;
+		inprogress.get().add(source);
+		try {
 
-		PythonPlugin p = PythonPlugin.python_plugin.get(source);
-		if (p instanceof PythonPluginEditor)
-			try {
-				((PythonPluginEditor) p).getEditor().getInput().append("Running '" + source.getProperty(iVisualElement.name) + "'");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// should be
+			// lookup to
+			// support
 
-		PythonScriptingSystem pss = PythonScriptingSystem.pythonScriptingSystem.get(source);
-		iExecutesPromise runner = iExecutesPromise.promiseExecution.get(source);
+			;// System.out.println(" begin exec <" + source + ">");
 
-		Promise promise = pss.promiseForKey(source);
-
-		Vector2 currentMousePosition = GLComponentWindow.getCurrentWindow(null).getCurrentMousePosition();
-		PythonInterface.getPythonInterface().setVariable("_y", new Float(currentMousePosition.y));
-
-		// todo: execute
-		// in correct
-		// context (this
-		// is handled
-		// for us
-		// automatically,
-		// if we are
-		// using the
-		// main runner
-		// (which we
-		// probably
-		// aren't)
-
-		if (promise != null) {
-			runner.addActive(new iFloatProvider() {
-
-				public float evaluate() {
-					Vector2 v = window.getCurrentMouseInWindowCoordinates();
-
-					Rect o = new Rect(0, 0, 0, 0);
-					source.getFrame(o);
-
-					return v.x;
+			PythonPlugin p = PythonPlugin.python_plugin.get(source);
+			if (p instanceof PythonPluginEditor)
+				try {
+					((PythonPluginEditor) p).getEditor().getInput().append("Running '" + source.getProperty(iVisualElement.name) + "'");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
-			}, promise);
+			PythonScriptingSystem pss = PythonScriptingSystem.pythonScriptingSystem.get(source);
+			iExecutesPromise runner = iExecutesPromise.promiseExecution.get(source);
+
+			Promise promise = pss.promiseForKey(source);
+
+			Vector2 currentMousePosition = GLComponentWindow.getCurrentWindow(null).getCurrentMousePosition();
+			PythonInterface.getPythonInterface().setVariable("_y", new Float(currentMousePosition.y));
+
+			// todo: execute
+			// in correct
+			// context (this
+			// is handled
+			// for us
+			// automatically,
+			// if we are
+			// using the
+			// main runner
+			// (which we
+			// probably
+			// aren't)
+
+			if (promise != null) {
+				runner.addActive(new iFloatProvider() {
+
+					public float evaluate() {
+						Vector2 v = window.getCurrentMouseInWindowCoordinates();
+
+						Rect o = new Rect(0, 0, 0, 0);
+						source.getFrame(o);
+
+						return v.x;
+					}
+
+				}, promise);
+			}
+
+			SnippetsPlugin.addText(source, "_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].begin()\n_self.begin()\n_self.end()\n_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].end()", "element started", new String[] { "start running an element", "start running </i>this<i> element", "stop running </i>this<i> element'", "stop running an element" }, "alternative form");
+
+			return VisitCode.cont;
+		} finally {
+			inprogress.get().remove(source);
 		}
-
-		SnippetsPlugin.addText(source, "_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].begin()\n_self.begin()\n_self.end()\n_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].end()", "element started", new String[] { "start running an element", "start running </i>this<i> element", "stop running </i>this<i> element'", "stop running an element" }, "alternative form");
-
-		return VisitCode.cont;
 	}
 
 	public void close() {
