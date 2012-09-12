@@ -639,7 +639,10 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 		if (inprogress.get().contains(source))
 			return VisitCode.stop;
+		
+		System.out.println(" inprogress <"+inprogress.get()+">");
 		inprogress.get().add(source);
+		
 		try {
 
 			// should be

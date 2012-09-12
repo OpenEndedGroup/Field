@@ -46,10 +46,12 @@ import field.core.execution.TemporalSliderOverrides;
 import field.core.execution.TimeSystem;
 import field.core.execution.iExecutesPromise;
 import field.core.plugins.pseudo.PseudoPropertiesPlugin;
+import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
 import field.core.util.LocalFuture;
 import field.core.util.PythonCallableMap;
+import field.core.windowing.GLComponentWindow;
 import field.launch.Launcher;
 import field.launch.SystemProperties;
 import field.launch.iUpdateable;
@@ -409,21 +411,13 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				super.keyPressed(e);
-				// GLComponentWindow frame =
-				// iVisualElement.enclosingFrame.get(root);
-				// if (frame != null) {
-				// frame.keyPressed(e);
-				// }
+				GlobalKeyboardShortcuts gks = GlobalKeyboardShortcuts.shortcuts.get(root);
+				gks.fire(e);
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
 				super.keyReleased(e);
-				// GLComponentWindow frame =
-				// iVisualElement.enclosingFrame.get(root);
-				// if (frame != null) {
-				// frame.keyReleased(e);
-				// }
 			}
 
 			private int firstRun = 0;
@@ -561,7 +555,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		// SavedFramePositions.deferVisibilityChange(frame, true);
 
 		deferSetVisible(true);
-		
+
 		// if (appletShouldBeFullscreen==0)
 		// frame.setBounds(50, 50, 500, 500);
 		// frame.setVisible(true);
@@ -602,7 +596,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 	}
 
-	@NextUpdate(delay=15)
+	@NextUpdate(delay = 15)
 	public void deferSetVisible(boolean b) {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -704,8 +698,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		applet.stop();
 
 		// actually disposing of the applet causes JOGL to deadlock us
-//		frame.dispose();
-//		applet.destroy();
+		// frame.dispose();
+		// applet.destroy();
 	}
 
 	public EditorExecutionInterface getEditorExecutionInterface(final EditorExecutionInterface delegateTo) {
@@ -746,7 +740,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 						applet.size(500, 500, indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
 					else
 						applet.size(frame.getWidth(), frame.getHeight(), indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
-					
+
 				}
 
 			}
