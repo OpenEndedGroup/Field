@@ -720,7 +720,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 		paintQueue.update();
 		if (isHidden()) {
 
-			;//System.out.println(" component is hidden");
+			;// System.out.println(" component is hidden");
 
 			if (overridingInterface != null) {
 				overridingInterface.paintNow(element, this.getBounds(), visible);
@@ -752,7 +752,13 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, element.getProperty(iVisualElement.name));
 				text.getProperties().put(iLinearGraphicsContext.containsText, true);
 				text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
-				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.PLAIN, 14));//(float) (previousViewParameters.z * Math.min(bounds.h - 2, 14))));
+				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.PLAIN, 12));// (float)
+																			// (previousViewParameters.z
+																			// *
+																			// Math.min(bounds.h
+																			// -
+																			// 2,
+																			// 14))));
 				text.getInput().setPointAttribute(iLinearGraphicsContext.alignment_v, 0f);
 
 				GLComponentWindow.currentContext.submitLine(text, text.getProperties());
@@ -763,11 +769,17 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 			if (b != null && b.trim().length() > 0) {
 				CachedLine text = new CachedLine();
 
-				text.getInput().moveTo((float) (bounds.x + bounds.w / 2), (float) (bounds.y + bounds.h / 2+14));
-				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, "\""+b+"\"");
+				text.getInput().moveTo((float) (bounds.x + bounds.w / 2), (float) (bounds.y + bounds.h / 2 + 14));
+				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, "\"" + b + "\"");
 				text.getProperties().put(iLinearGraphicsContext.containsText, true);
 				text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
-				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.BOLD, 10));//(float) (previousViewParameters.z * Math.min(bounds.h - 2, 10))));
+				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.BOLD, 9));// (float)
+																			// (previousViewParameters.z
+																			// *
+																			// Math.min(bounds.h
+																			// -
+																			// 2,
+																			// 10))));
 				text.getInput().setPointAttribute(iLinearGraphicsContext.alignment_v, 0f);
 
 				GLComponentWindow.currentContext.submitLine(text, text.getProperties());
@@ -874,7 +886,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 			triangles.performPass(null);
 			lines.setWidth(2.5f);
 			lines.performPass(null);
-			if (!GLComponentWindow.doMultisampling)
+			if (!GLComponentWindow.doMultisampling && !CoreHelpers.isCore)
 				points.performPass(null);
 
 			/*

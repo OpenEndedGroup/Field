@@ -1,0 +1,31 @@
+varying vec3 foffset0;
+varying vec3 foffset1;
+varying vec3 foffset2;
+varying vec3 foffset3;
+varying vec3 foffset4;
+varying vec3 foffset5;
+varying vec2 ftexture;
+
+uniform vec4 alphaParameters;
+uniform float centerWeight;
+
+uniform sampler2D center;
+
+void main()
+{
+	vec2 off = vec2(0.5/1919.0, 0.5/1200.0);
+
+	vec4 m = texture2D(center, ftexture.xy+off);
+	vec4 s0 = texture2D(center, ftexture.xy+off+foffset0.xy)*foffset0.z;
+	vec4 s1 = texture2D(center, ftexture.xy+off+foffset1.xy)*foffset1.z;
+	vec4 s2 = texture2D(center, ftexture.xy+off+foffset2.xy)*foffset2.z;
+	vec4 s3 = texture2D(center, ftexture.xy+off+foffset3.xy)*foffset3.z;
+	vec4 s4 = texture2D(center, ftexture.xy+off+foffset4.xy)*foffset4.z;
+	vec4 s5 = texture2D(center, ftexture.xy+off+foffset5.xy)*foffset5.z;
+	
+	vec4 all = s0+s1+s2+s3+s4+s5+m*centerWeight;
+
+	gl_FragColor = all;
+//	gl_FragColor.w = max(min(gl_FragColor.w*alphaParameters.x+alphaParameters.y, alphaParameters.z), alphaParameters.w);	
+//	gl_FragColor.w = 1.0;	
+}

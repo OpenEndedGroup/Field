@@ -36,5 +36,6 @@
 	<classpathentry kind="lib" path="/Applications/Max6/Cycling &apos;74/java/lib/max.jar"/>
 	<classpathentry kind="lib" path="gstreamer/lib/gstreamer-java.jar"/>
 	<classpathentry kind="lib" path="/field/jruby-complete-1.6.7.2.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/jvm/jdk1.7.0/lib/tools.jar"/>
 	<classpathentry kind="output" path="topology/bin"/>
 </classpath>

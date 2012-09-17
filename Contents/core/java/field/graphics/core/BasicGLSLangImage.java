@@ -25,7 +25,4 @@ public class BasicGLSLangImage extends OnePassElement{
 	public void performPass() {
 		GL42.glBindImageTexture(unit, from.getOutput().get(), 0, false, 0, GL15.GL_READ_WRITE, format);
 	}
-	
-	
-	
 }

@@ -32,7 +32,6 @@ public class Launcher {
 
 	static List<iOpenFileHandler> openFileHandlers = new ArrayList<iOpenFileHandler>();
 
-	
 	public static String[] args = {};
 
 	static public final Object lock = new Object();
@@ -280,8 +279,8 @@ public class Launcher {
 		this.continuation = continuation;
 	}
 
+	double interval = SystemProperties.getDoubleProperty("timer.interval", 0.01f);
 	protected void constructMainTimer() {
-		final double interval = SystemProperties.getDoubleProperty("timer.interval", 0.01f);
 
 		timer = new Runnable() {
 
@@ -495,4 +494,5 @@ public class Launcher {
 	public void removeShutdownHook(iUpdateable shutdownhook) {
 		shutdown.remove(shutdownhook);
 	}
+
 }

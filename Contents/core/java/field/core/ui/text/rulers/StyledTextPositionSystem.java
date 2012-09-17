@@ -23,6 +23,7 @@ public class StyledTextPositionSystem {
 
 	static public class Position {
 		public int at;
+		public int was;
 		boolean valid = true;
 	}
 

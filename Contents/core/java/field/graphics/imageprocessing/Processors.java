@@ -127,6 +127,17 @@ public class Processors {
 			saltOneDTextureBuffer.rewind();
 				saltColorRemap.dirty();
 
+		}public void update() {
+
+			for (int i = 0; i < saltSize; i++) {
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+				saltOneDTextureBuffer.put((byte) (255 * StereoCamera.getRandomNumber()));
+			}
+			saltOneDTextureBuffer.rewind();
+				saltColorRemap.dirty();
+
 		}
 	}
 
@@ -139,7 +150,7 @@ public class Processors {
 
 		private float cw;
 		public Simple7Kernel(iFloatProvider scale, Vector3[] offsets, final float centerWeight) {
-			super(scale, offsets, "content/shaders/VertBlur7NDCvertex.glslang", "content/shaders/processors/VertBlur7Fragment.glslang");
+			super(scale, offsets, "content/shaders/VertBlur7NDCVertex.glslang", "content/shaders/VertBlur7Fragment.glslang");
 			this.cw = centerWeight;
 			new SetUniform("centerWeight", new iToFloatArray(){
 				public float[] get() {
@@ -316,7 +327,7 @@ public class Processors {
 		int c = 0;
 
 		public SimpleKernel(iFloatProvider scale, Vector3[] offsets) {
-			super("content/shaders/VertBlurNDCvertex.glslang", "content/shaders/processors/VertBlurFragment.glslang");
+			super("content/shaders/VertBlurNDCVertex.glslang", "content/shaders/processors/VertBlurFragment.glslang");
 			this.scale = scale;
 			this.offsets = offsets;
 			new SetIntegerUniform("center", 0);

@@ -159,7 +159,7 @@ public class NewInspector2 {
 	}
 
 	static int rowHeight = 28;
-	static int labelWidth = 100;
+	static int labelWidth = 100+(Platform.isLinux() ? 50 : 0);
 
 	public abstract class BaseControl<T> extends Inspected<T> {
 
@@ -307,7 +307,7 @@ public class NewInspector2 {
 
 			Point m = event.gc.textExtent(name);
 			int a = event.gc.getFontMetrics().getAscent();
-			event.gc.drawText(name, Math.max(10, labelWidth - m.x - 10), a - (Platform.isMac() ? 8 : 13), true);
+			event.gc.drawText(name, Math.max(10, labelWidth - m.x - 10), a - 8, true);
 
 			if (editor != contents.getChildren()[0]) {
 				event.gc.setForeground(new Color(Launcher.display, 220, 220, 220));

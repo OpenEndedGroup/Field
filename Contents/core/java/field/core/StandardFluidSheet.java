@@ -327,7 +327,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 			@Override
 			public void update() {
-				;//System.out.println(" inside shutdown hook ");
+				;// System.out.println(" inside shutdown hook ");
 
 				singleThreadedSave(sheet);
 			}
@@ -353,24 +353,28 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	private static void registerExtendedPlugins(final StandardFluidSheet sheet) {
 		HashSet<String> p = Trampoline2.plugins;
-		;//System.out.println(" extended plugins are <" + p + ">");
+		;// System.out.println(" extended plugins are <" + p + ">");
 		for (String s : p) {
-			;//System.out.println("   loading plugin <" + s + ">");
+			;// System.out.println("   loading plugin <" + s + ">");
 			try {
 				Class<?> loaded = sheet.getClass().getClassLoader().loadClass(s);
 				iPlugin instance = (iPlugin) loaded.newInstance();
 				sheet.registerPlugin(instance);
 			} catch (ClassNotFoundException e) {
-				;//System.out.println("   error loading plugin <" + s + ">, continuing");
+				;// System.out.println("   error loading plugin <"
+					// + s + ">, continuing");
 				e.printStackTrace();
 			} catch (InstantiationException e) {
-				;//System.out.println("   error loading plugin <" + s + ">, continuing");
+				;// System.out.println("   error loading plugin <"
+					// + s + ">, continuing");
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
-				;//System.out.println("   error loading plugin <" + s + ">, continuing");
+				;// System.out.println("   error loading plugin <"
+					// + s + ">, continuing");
 				e.printStackTrace();
 			} catch (Throwable t) {
-				;//System.out.println("   error loading plugin <" + s + ">, continuing");
+				;// System.out.println("   error loading plugin <"
+					// + s + ">, continuing");
 				t.printStackTrace();
 			}
 		}
@@ -440,6 +444,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		r1.addToSelectionGroup(group);
 
 		rootSheetElement = new RootSheetElement();
+		window.setEditorSpaceHelper(this.rootSheetElement);
+
 		r1.setOverrides(new Dispatch<iVisualElement, iVisualElementOverrides>(iVisualElementOverrides.topology).getOverrideProxyFor(rootSheetElement, iVisualElementOverrides.class));
 
 		rootSheetElement.setProperty(iVisualElement.enclosingFrame, window);
@@ -504,13 +510,15 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 						return ve;
 					}
 				}
-				;//System.out.println(" WARNING: not well known in copySource <" + uid + ">");
+				;// System.out.println(" WARNING: not well known in copySource <"
+					// + uid + ">");
 				return null;
 			}
 		}, new iNotifyDuplication() {
 			public String beginNewUID(String uidToCopy) {
 				String target = "__" + new UID().toString();
-				;//System.out.println(" copied uid <" + uidToCopy + "> to <" + target + ">");
+				;// System.out.println(" copied uid <" +
+					// uidToCopy + "> to <" + target + ">");
 				return target;
 			}
 
@@ -525,13 +533,11 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			@Override
 			protected void filterIntersections(LinkedHashSet ret) {
 				Iterator n = ret.iterator();
-				while(n.hasNext())
-				{
+				while (n.hasNext()) {
 					Promise nn = (Promise) n.next();
 					iVisualElement elem = (iVisualElement) pss.keyForPromise(nn);
 					Boolean m = elem.getProperty(WindowSpaceBox.isWindowSpace);
-					if (m!=null && m)
-					{
+					if (m != null && m) {
 						n.remove();
 					}
 				}
@@ -622,60 +628,79 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		new iVisualElementOverrides.MakeDispatchProxy().getOverrideProxyFor(newSource).added(newSource);
 	}
 
+	ThreadLocal<LinkedHashSet<iVisualElement>> inprogress = new ThreadLocal<LinkedHashSet<iVisualElement>>() {
+		@Override
+		public LinkedHashSet<iVisualElement> get() {
+			return new LinkedHashSet<iVisualElement>();
+		}
+	};
+
 	public VisitCode beginExecution(final iVisualElement source) {
-		// should be
-		// lookup to
-		// support
 
-		;//System.out.println(" begin exec <" + source + ">");
+		if (inprogress.get().contains(source))
+			return VisitCode.stop;
+		
+		System.out.println(" inprogress <"+inprogress.get()+">");
+		inprogress.get().add(source);
+		
+		try {
 
-		PythonPlugin p = PythonPlugin.python_plugin.get(source);
-		if (p instanceof PythonPluginEditor)
-			try {
-				((PythonPluginEditor) p).getEditor().getInput().append("Running '" + source.getProperty(iVisualElement.name) + "'");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			// should be
+			// lookup to
+			// support
 
-		PythonScriptingSystem pss = PythonScriptingSystem.pythonScriptingSystem.get(source);
-		iExecutesPromise runner = iExecutesPromise.promiseExecution.get(source);
+			;// System.out.println(" begin exec <" + source + ">");
 
-		Promise promise = pss.promiseForKey(source);
-
-		Vector2 currentMousePosition = GLComponentWindow.getCurrentWindow(null).getCurrentMousePosition();
-		PythonInterface.getPythonInterface().setVariable("_y", new Float(currentMousePosition.y));
-
-		// todo: execute
-		// in correct
-		// context (this
-		// is handled
-		// for us
-		// automatically,
-		// if we are
-		// using the
-		// main runner
-		// (which we
-		// probably
-		// aren't)
-
-		if (promise != null) {
-			runner.addActive(new iFloatProvider() {
-
-				public float evaluate() {
-					Vector2 v = window.getCurrentMouseInWindowCoordinates();
-
-					Rect o = new Rect(0, 0, 0, 0);
-					source.getFrame(o);
-
-					return v.x;
+			PythonPlugin p = PythonPlugin.python_plugin.get(source);
+			if (p instanceof PythonPluginEditor)
+				try {
+					((PythonPluginEditor) p).getEditor().getInput().append("Running '" + source.getProperty(iVisualElement.name) + "'");
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
-			}, promise);
+			PythonScriptingSystem pss = PythonScriptingSystem.pythonScriptingSystem.get(source);
+			iExecutesPromise runner = iExecutesPromise.promiseExecution.get(source);
+
+			Promise promise = pss.promiseForKey(source);
+
+			Vector2 currentMousePosition = GLComponentWindow.getCurrentWindow(null).getCurrentMousePosition();
+			PythonInterface.getPythonInterface().setVariable("_y", new Float(currentMousePosition.y));
+
+			// todo: execute
+			// in correct
+			// context (this
+			// is handled
+			// for us
+			// automatically,
+			// if we are
+			// using the
+			// main runner
+			// (which we
+			// probably
+			// aren't)
+
+			if (promise != null) {
+				runner.addActive(new iFloatProvider() {
+
+					public float evaluate() {
+						Vector2 v = window.getCurrentMouseInWindowCoordinates();
+
+						Rect o = new Rect(0, 0, 0, 0);
+						source.getFrame(o);
+
+						return v.x;
+					}
+
+				}, promise);
+			}
+
+			SnippetsPlugin.addText(source, "_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].begin()\n_self.begin()\n_self.end()\n_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].end()", "element started", new String[] { "start running an element", "start running </i>this<i> element", "stop running </i>this<i> element'", "stop running an element" }, "alternative form");
+
+			return VisitCode.cont;
+		} finally {
+			inprogress.get().remove(source);
 		}
-
-		SnippetsPlugin.addText(source, "_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].begin()\n_self.begin()\n_self.end()\n_self.find[\"" + source.getProperty(iVisualElement.name) + "\"].end()", "element started", new String[] { "start running an element", "start running </i>this<i> element", "stop running </i>this<i> element'", "stop running an element" }, "alternative form");
-
-		return VisitCode.cont;
 	}
 
 	public void close() {
@@ -800,7 +825,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 			GLComponentWindow frame = iVisualElement.enclosingFrame.get(getRoot());
 
-			Rect bounds = new Rect(30, 30, 50, 50);
+			Rect bounds = new Rect(30, 30, 60, 60);
 			if (frame != null) {
 				Vector2 cmp = frame.getCurrentMouseInWindowCoordinates();
 				bounds.x = cmp.x - 25;
@@ -818,7 +843,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			tick = false;
 
 			boolean success = ((PythonPluginEditor) PythonPluginEditor.python_plugin.get(rootSheetElement)).getEditor().getInputEditor().forceFocus();
-			;//System.out.println(" forcing focus " + success);
+			;// System.out.println(" forcing focus " + success);
 
 		} else if (tick && event.type == SWT.KeyDown && event.character == 'p') {
 			tick = false;
@@ -852,7 +877,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		} else
 
 		if (tick && event.type == SWT.KeyDown && event.keyCode == 'c' && (event.stateMask & Platform.getCommandModifier()) != 0) {
-			;//System.out.println(" copying file reference to clipboard ");
+			;// System.out.println(" copying file reference to clipboard ");
 			tick = false;
 			File tmp = new PackageTools().newTempFileWithSelected(rootSheetElement, "copied");
 			new PackageTools().copyFileReferenceToClipboard(tmp.getAbsolutePath());
@@ -899,7 +924,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			}
 		} else if (event.type == SWT.KeyDown && event.character == ' ' && tick) {
 
-			;//System.out.println(" opening space menu ...");
+			;// System.out.println(" opening space menu ...");
 
 			HashSet<iVisualElement> sel = selectionOrOver();
 
@@ -911,12 +936,12 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			// iComponent c = window.getRoot().hit(window, new
 			// Vector2(locationInScreenp.x, locationInScreenp.y));
 
-			;//System.out.println(" comp is <" + c + ">");
+			;// System.out.println(" comp is <" + c + ">");
 
 			if (c != null) {
 				final iVisualElement v = c.getVisualElement();
 
-				;//System.out.println(" v is <" + v + ">");
+				;// System.out.println(" v is <" + v + ">");
 				if (newSource == v) {
 					tick = false;
 					// todo, should auto select
@@ -926,7 +951,9 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 						public MarkingMenuBuilder bind(MarkingMenuBuilder t, MarkingMenuBuilder u) {
 
-							;//System.out.println("t : " + t + " " + u);
+							;// System.out.println("t : "
+								// + t + " " +
+								// u);
 
 							if (t == null)
 								return u;
@@ -940,7 +967,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 						}
 					});
 
-					// ;//System.out.println(" marker is <" +
+					// ;//System.out.println(" marker is <"
+					// +
 					// marker + "> at <" + locationInScreeno
 					// + ">");
 
@@ -977,7 +1005,9 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 						// window.getFrame(),
 						// locationInScreenp);
 
-						;//System.out.println(" location on screen mapped is <" + locationInScreenp + ">");
+						;// System.out.println(" location on screen mapped is <"
+							// + locationInScreenp +
+							// ">");
 
 						marker.getMenu(window.getCanvas(), locationInScreenp);
 
@@ -991,7 +1021,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			tick = false;
 			HashSet<iVisualElement> s = selectionOrOver();
 
-			;//System.out.println(" selection or over is <" + s + ">");
+			;// System.out.println(" selection or over is <" + s +
+				// ">");
 
 			if (s.size() > 0) {
 				for (iVisualElement ss : s) {
@@ -1003,7 +1034,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			tick = false;
 			HashSet<iVisualElement> s = selectionOrOver();
 
-			;//System.out.println(" selection or over is <" + s + ">");
+			;// System.out.println(" selection or over is <" + s +
+				// ">");
 
 			if (s.size() > 0) {
 				for (iVisualElement ss : s) {
@@ -1032,7 +1064,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		else if (tick) {
 
 			String m = "";
-			String c = (""+event.character).toLowerCase();
+			String c = ("" + event.character).toLowerCase();
 
 			String match = (m + c).trim().toLowerCase();
 
@@ -1040,7 +1072,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			if (s != null) {
 				if (s.equals(match)) {
 					tick = false;
-					if ((event.stateMask & SWT.SHIFT)!=0)
+					if ((event.stateMask & SWT.SHIFT) != 0)
 						endExecution(newSource);
 					else
 						beginExecution(newSource);
@@ -1053,30 +1085,33 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	private HashSet<iVisualElement> selectionOrOver() {
 
-		;//System.out.println(" inside selection or over ");
+		;// System.out.println(" inside selection or over ");
 
 		HashSet<iVisualElement> sel = new HashSet<iVisualElement>();
 
 		Point locationInScreenp = Launcher.display.getCursorLocation();
 
-		;//System.out.println(" cursor location on the screen is <" + locationInScreenp + ">");
+		;// System.out.println(" cursor location on the screen is <" +
+			// locationInScreenp + ">");
 
 		locationInScreenp = Launcher.display.map(null, window.getCanvas(), locationInScreenp);
 		// locationInScreenp.x -=
 		// window.getCanvas().getParent().getLocation().x;
 
-		;//System.out.println(" cursor location in canvas is <" + locationInScreenp + ">");
+		;// System.out.println(" cursor location in canvas is <" +
+			// locationInScreenp + ">");
 
 		Vector2 t = new Vector2(locationInScreenp.x, locationInScreenp.y);
 		window.transformWindowToDrawing(t);
 
 		t.y += 25;
 
-		;//System.out.println(" cursor location in drawing coords <" + t + ">");
+		;// System.out.println(" cursor location in drawing coords <" +
+			// t + ">");
 
 		iComponent cc = window.getRoot().hit(window, t);
 
-		;//System.out.println(" hit :" + cc);
+		;// System.out.println(" hit :" + cc);
 
 		if (cc != null) {
 			iVisualElement v = cc.getVisualElement();
@@ -1128,79 +1163,82 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	public void load(Reader reader) {
 		LinkedHashSet<iVisualElement> created = new LinkedHashSet<iVisualElement>();
+		synchronized (Launcher.lock) {
 
-		try {
-			reader.mark(500);
-			int defaultVersion = 1;
-			ObjectInputStream objectInputStream = getPersistence(defaultVersion).getObjectInputStream(reader, created);
-			String version = (String) objectInputStream.readObject();
-			int versionToLoad = 0;
-			if (version.equals("version_1")) {
-				versionToLoad = 0;
-			} else if (version.equals("version_2")) {
-				versionToLoad = 1;
-			} else
-				assert false : version;
+			try {
+				reader.mark(500);
+				int defaultVersion = 1;
+				ObjectInputStream objectInputStream = getPersistence(defaultVersion).getObjectInputStream(reader, created);
+				String version = (String) objectInputStream.readObject();
+				int versionToLoad = 0;
+				if (version.equals("version_1")) {
+					versionToLoad = 0;
+				} else if (version.equals("version_2")) {
+					versionToLoad = 1;
+				} else
+					assert false : version;
 
-			if (versionToLoad != defaultVersion) {
-				reader.reset();
-				objectInputStream = getPersistence(versionToLoad).getObjectInputStream(reader, created);
-				objectInputStream.readObject();
-			}
-
-			iVisualElement oldRoot = (iVisualElement) objectInputStream.readObject();
-
-			VersioningSystem system = vs;
-			if (system != null) {
-				for (iVisualElement ve : created) {
-					if (SystemProperties.getIntProperty("noCommit", 0) == 0)
-						system.synchronizeElementWithFileStructure(ve);
+				if (versionToLoad != defaultVersion) {
+					reader.reset();
+					objectInputStream = getPersistence(versionToLoad).getObjectInputStream(reader, created);
+					objectInputStream.readObject();
 				}
-			}
 
-			assert oldRoot == rootSheetElement : oldRoot;
+				iVisualElement oldRoot = (iVisualElement) objectInputStream.readObject();
 
-			;//System.out.println(" -- reading persistance information for plugins --");
-
-			while (true) {
-				;//System.out.println(" -- reading --");
-				try {
-					Object persistanceInformation = objectInputStream.readObject();
-					;//System.out.println(" -- read :" + persistanceInformation);
-					for (iPlugin p : plugins) {
-						p.setPersistanceInformation(persistanceInformation);
+				VersioningSystem system = vs;
+				if (system != null) {
+					for (iVisualElement ve : created) {
+						if (SystemProperties.getIntProperty("noCommit", 0) == 0)
+							system.synchronizeElementWithFileStructure(ve);
 					}
-				} catch (com.thoughtworks.xstream.converters.ConversionException conv) {
-					;//System.out.println(" got a conversion exception on reading persistance information for plugin. This is probably caused by the plugin storing something that we can't find unless we load the plugin. This is usually recoverable");
 				}
+
+				assert oldRoot == rootSheetElement : oldRoot;
+
+				;// System.out.println(" -- reading persistance information for plugins --");
+
+				while (true) {
+					;// System.out.println(" -- reading --");
+					try {
+						Object persistanceInformation = objectInputStream.readObject();
+						;// System.out.println(" -- read :"
+							// +
+							// persistanceInformation);
+						for (iPlugin p : plugins) {
+							p.setPersistanceInformation(persistanceInformation);
+						}
+					} catch (com.thoughtworks.xstream.converters.ConversionException conv) {
+						;// System.out.println(" got a conversion exception on reading persistance information for plugin. This is probably caused by the plugin storing something that we can't find unless we load the plugin. This is usually recoverable");
+					}
+				}
+
+			} catch (StreamException e) {
+				if (e.getMessage().endsWith("input contained no data")) {
+				} else
+					e.printStackTrace();
+			} catch (EOFException e) {
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
 			}
 
-		} catch (StreamException e) {
-			if (e.getMessage().endsWith("input contained no data")) {
-			} else
-				e.printStackTrace();
-		} catch (EOFException e) {
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			// was:
+			// for
+			// (iVisualElement
+			// ve : created)
+			// {
+			// this.added(ve);
+			// }
+
+			for (iVisualElement ve : created) {
+				iVisualElementOverrides.topology.begin(ve);
+				iVisualElementOverrides.backward.added.f(ve);
+				iVisualElementOverrides.forward.added.f(ve);
+				iVisualElementOverrides.topology.end(ve);
+			}
 		}
-
-		// was:
-		// for
-		// (iVisualElement
-		// ve : created)
-		// {
-		// this.added(ve);
-		// }
-
-		for (iVisualElement ve : created) {
-			iVisualElementOverrides.topology.begin(ve);
-			iVisualElementOverrides.backward.added.f(ve);
-			iVisualElementOverrides.forward.added.f(ve);
-			iVisualElementOverrides.topology.end(ve);
-		}
-
 	}
 
 	static public boolean canPaste() {
@@ -1230,7 +1268,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		final HashSet<iVisualElement> o = selectionOrOver();
 		if (o.size() > 0) {
 			items.put("Templating", null);
-			;//System.out.println(" selection or over is <" + o + ">");
+			;// System.out.println(" selection or over is <" + o +
+				// ">");
 			items.put("\u1d40 <b>Make element" + (o.size() > 1 ? "s" : "") + " into template</b>", new iUpdateable() {
 
 				public void update() {
@@ -1249,11 +1288,23 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 							PopupTextBox.Modal.getStringOrCancel(new java.awt.Point((int) x.x, (int) x.y), "Template description", "", new iAcceptor<String>() {
 								public iAcceptor<String> set(String to2) {
 
-									;//System.out.println(" here is the make <" + to + "> <" + to2 + ">");
+									;// System.out.println(" here is the make <"
+										// +
+										// to
+										// +
+										// "> <"
+										// +
+										// to2
+										// +
+										// ">");
 
 									File tmp = new PackageTools().newTempFileWithSet(to2, copyPastePersisence, o);
 									String ff = templates.templateFolder + to + templates.suffix;
-									;//System.out.println(" renaming file to <" + ff + ">");
+									;// System.out.println(" renaming file to <"
+										// +
+										// ff
+										// +
+										// ">");
 									tmp.renameTo(new File(ff));
 
 									OverlayAnimationManager.notifyAsText(getRoot(), "Element" + (o.size() > 1 ? "s are" : " is") + " now '" + to + "'", null);
@@ -1317,7 +1368,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			items.put(" \u2397 <b>Copy</b> elements ///meta C///", new iUpdateable() {
 
 				public void update() {
-					;//System.out.println(" copying file reference to clipboard ");
+					;// System.out.println(" copying file reference to clipboard ");
 					File tmp = new PackageTools().newTempFileWithSelected(rootSheetElement, "copied");
 					new PackageTools().copyFileReferenceToClipboard(tmp.getAbsolutePath());
 					OverlayAnimationManager.notifyTextOnWindow(iVisualElement.enclosingFrame.get(rootSheetElement), "Copied to clipboard", null, 1, new Vector4(1, 1, 1, 0.15f));
@@ -1336,7 +1387,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 				public void update() {
 					try {
-						;//System.out.println(" pasting ");
+						;// System.out.println(" pasting ");
 						Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 						Transferable t = c.getContents(null);
 						Object data = c.getData(DataFlavor.javaFileListFlavor);
@@ -1364,8 +1415,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 				CachedLine text = new CachedLine();
 				Vector2 upper = window.transformWindowToCanvas(new Vector2(0.5f, 0.5f));
 
-				;//System.out.println(" transform window to canvas got <"+upper+">");
-				
+				;// System.out.println(" transform window to canvas got <"+upper+">");
+
 				text.getInput().moveTo(upper.x, upper.y);
 
 				text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, "right-click, or type N to create a new element");
@@ -1413,39 +1464,42 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 		new Exception().printStackTrace();
 
-		;//System.out.println(" a ");
+		;// System.out.println(" a ");
 
 		window.hasReset = false;
 		window.resetViewParameters();
 
-		;//System.out.println(" b ");
+		;// System.out.println(" b ");
 
 		iVisualElementOverrides.topology.begin(rootSheetElement);
 		iVisualElementOverrides.forward.prepareForSave.update();
 		iVisualElementOverrides.backward.prepareForSave.update();
 		iVisualElementOverrides.topology.end(rootSheetElement);
 
-		;//System.out.println(" c ");
+		;// System.out.println(" c ");
 
 		try {
 			Set<iVisualElement> saved = new HashSet<iVisualElement>();
 			FluidPersistence pp = getPersistence(1);
-			;//System.out.println(" -- e");
+			;// System.out.println(" -- e");
 			ObjectOutputStream objectOutputStream = pp.getObjectOutputStream(writer, saved);
-			;//System.out.println(" d ");
+			;// System.out.println(" d ");
 
 			try {
 				objectOutputStream.writeObject("version_2");
-				;//System.out.println(" writing root -------");
-				;//System.out.println(" total is <" + allVisualElements(rootSheetElement) + ">");
+				;// System.out.println(" writing root -------");
+				;// System.out.println(" total is <" +
+					// allVisualElements(rootSheetElement) +
+					// ">");
 				objectOutputStream.writeObject(rootSheetElement);
 				for (iPlugin p : plugins) {
-					;//System.out.println(" writing plugin <" + p + ">");
+					;// System.out.println(" writing plugin <"
+						// + p + ">");
 					Object persistanceInformation = p.getPersistanceInformation();
 					objectOutputStream.writeObject(persistanceInformation);
 				}
 
-				;//System.out.println(" save finished ");
+				;// System.out.println(" save finished ");
 				objectOutputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -1476,47 +1530,50 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	public List<String> saveTwoPart(String filename) {
 
-		;//System.out.println(" a ");
+		;// System.out.println(" a ");
 
 		window.hasReset = false;
 		window.resetViewParameters();
 
-		;//System.out.println(" b ");
+		;// System.out.println(" b ");
 
 		iVisualElementOverrides.topology.begin(rootSheetElement);
 		iVisualElementOverrides.forward.prepareForSave.update();
 		iVisualElementOverrides.backward.prepareForSave.update();
 		iVisualElementOverrides.topology.end(rootSheetElement);
 
-		;//System.out.println(" c ");
+		;// System.out.println(" c ");
 
 		try {
 			Set<iVisualElement> saved = new HashSet<iVisualElement>();
 			FluidPersistence pp = getPersistence(1);
-			;//System.out.println(" -- e");
+			;// System.out.println(" -- e");
 			ObjectOutputStream objectOutputStream = pp.getObjectOutputStream(new BufferedWriter(new FileWriter(filename + "_next"), 1024 * 1024 * 4), saved);
-			;//System.out.println(" d ");
+			;// System.out.println(" d ");
 
 			try {
 				objectOutputStream.writeObject("version_2");
-				;//System.out.println(" writing root -------");
-				;//System.out.println(" total is <" + allVisualElements(rootSheetElement) + ">");
+				;// System.out.println(" writing root -------");
+				;// System.out.println(" total is <" +
+					// allVisualElements(rootSheetElement) +
+					// ">");
 				objectOutputStream.writeObject(rootSheetElement);
 				for (iPlugin p : plugins) {
-					;//System.out.println(" writing plugin <" + p + ">");
+					;// System.out.println(" writing plugin <"
+						// + p + ">");
 					Object persistanceInformation = p.getPersistanceInformation();
 					objectOutputStream.writeObject(persistanceInformation);
 				}
 
-				;//System.out.println(" save finished ");
+				;// System.out.println(" save finished ");
 				objectOutputStream.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
-			;//System.out.println(" renaming ");
+			;// System.out.println(" renaming ");
 			new File(filename + "_next").renameTo(new File(filename));
-			;//System.out.println(" renaming complete ");
+			;// System.out.println(" renaming complete ");
 			VersioningSystem system = vs;
 			if (system != null) {
 				if (SystemProperties.getIntProperty("noCommit", 0) == 0) {
@@ -1615,13 +1672,14 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 	}
 
 	static public void _debugPrintGraph(iVisualElement newCopy, String indent, HashSet<iVisualElement> seen) {
-		;//System.out.println(indent + "<" + newCopy + " / " + newCopy.hashCode() + ">");
+		;// System.out.println(indent + "<" + newCopy + " / " +
+			// newCopy.hashCode() + ">");
 		if (seen.contains(newCopy))
 			return;
 		seen.add(newCopy);
 		List<iVisualElement> cc = newCopy.getChildren();
 		if (cc.size() > 0) {
-			;//System.out.println(indent + "  children:");
+			;// System.out.println(indent + "  children:");
 			for (iVisualElement c : cc) {
 				_debugPrintGraph(c, indent + "     ", seen);
 			}
@@ -1629,7 +1687,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 		List<iVisualElement> pp = (List<iVisualElement>) newCopy.getParents();
 		if (pp.size() > 0) {
-			;//System.out.println(indent + "  parents:");
+			;// System.out.println(indent + "  parents:");
 			for (iVisualElement c : pp) {
 				_debugPrintGraph(c, indent + "     ", seen);
 			}
@@ -1718,7 +1776,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		}
 
 		if (vs == null) {
-			;//System.out.println(" warning: no versioning system for copy <" + newCopy + " <- " + old + ">");
+			;// System.out.println(" warning: no versioning system for copy <"
+				// + newCopy + " <- " + old + ">");
 			return;
 		}
 
@@ -1747,15 +1806,17 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		x.x -= window.getFrame().getLocation().x;
 		x.y -= window.getFrame().getLocation().y + 20;
 
-		
-		;//System.out.println(" about to go templates !");
-		
+		;// System.out.println(" about to go templates !");
+
 		templates.getTemplateName(new Point((int) x.x, (int) x.y), new iAcceptor<String>() {
 
 			public iAcceptor<String> set(String to) {
-				;//System.out.println(" importing <" + to + ">");
-				// x.x += window.getFrame().getLocation().x;
-				// x.y += window.getFrame().getLocation().y;
+				;// System.out.println(" importing <" + to +
+					// ">");
+					// x.x +=
+					// window.getFrame().getLocation().x;
+					// x.y +=
+					// window.getFrame().getLocation().y;
 
 				new PackageTools().importFieldPackage(rootSheetElement, templates.templateFolder + to + templates.suffix, x2);
 
@@ -1768,14 +1829,14 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	static synchronized protected void singleThreadedSave(final StandardFluidSheet sheet) {
 
-		;//System.out.println(" inside shutdown save ");
+		;// System.out.println(" inside shutdown save ");
 
 		synchronized (Launcher.lock) {
-			;//System.out.println(" got lock");
+			;// System.out.println(" got lock");
 
 			// ThreadedLauncher.lock2.lock();
 			try {
-				;//System.out.println(" got lock2");
+				;// System.out.println(" got lock2");
 
 				if (!(SystemProperties.getIntProperty("noSave", 0) == 1))
 					try {
@@ -1788,9 +1849,13 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 							}
 							new File(file).renameTo(new File(file + n));
 						}
-						;//System.out.println(" saving to <" + sheet.getFilename() + ">");
+						;// System.out.println(" saving to <"
+							// + sheet.getFilename()
+							// + ">");
 						sheet.saveTwoPart(file);
-						;//System.out.println(" saving to <" + sheet.getFilename() + "> complete");
+						;// System.out.println(" saving to <"
+							// + sheet.getFilename()
+							// + "> complete");
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1802,7 +1867,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 	@NextUpdate(delay = 200)
 	public void quitLater() {
-		;//System.out.println(" attempting to exit in thread <" + Thread.currentThread() + ">");
+		;// System.out.println(" attempting to exit in thread <" +
+			// Thread.currentThread() + ">");
 		Runtime.getRuntime().halt(0);
 		// System.exit(0);
 	}

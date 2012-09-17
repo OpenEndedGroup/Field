@@ -11,7 +11,6 @@ import java.lang.ref.Reference;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,16 +22,20 @@ import java.util.regex.Pattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
+import org.eclipse.swt.browser.OpenWindowListener;
+import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Shell;
 import org.pegdown.PegDownProcessor;
 import org.python.core.PyObject;
 
@@ -110,7 +113,9 @@ public class HelpBrowser extends BaseSimplePlugin {
 			server = new NanoHTTPD(10010) {
 				public Response serve(String uri, String method, java.util.Properties header, java.util.Properties parms) {
 
-					;//System.out.println(" -- " + uri + " -- with params <" + parms + ">");
+					;// System.out.println(" -- " + uri +
+						// " -- with params <" + parms +
+						// ">");
 					try {
 						if (uri.startsWith("/field/attachment/")) {
 							try {
@@ -118,7 +123,8 @@ public class HelpBrowser extends BaseSimplePlugin {
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
-						} if (uri.contains("images/")) {
+						}
+						if (uri.contains("images/")) {
 							try {
 								return rewriteOnlineResource(uri);
 							} catch (IOException e) {
@@ -128,9 +134,13 @@ public class HelpBrowser extends BaseSimplePlugin {
 
 							Reference ref = otmd.forward.get(uri.substring("/otmd/".length()));
 
-							;//System.out.println(" ref :" + ref + " " + (ref == null ? null : ref.get()));
+							;// System.out.println(" ref :"
+								// + ref + " " +
+								// (ref == null
+								// ? null :
+								// ref.get()));
 
-							;//System.out.println(otmd.forward);
+							;// System.out.println(otmd.forward);
 
 							String t = otmd.convert(ref.get());
 							return new Response(HTTP_OK, "text/html", textFromMarkdown(t));
@@ -140,7 +150,13 @@ public class HelpBrowser extends BaseSimplePlugin {
 							String s = uri.substring("/browsed/".length());
 							String ref = otmd.browsed.get(s);
 
-							;//System.out.println(" looking up <" + s + "> got <" + ref + "> from <" + otmd.browsed + ">");
+							;// System.out.println(" looking up <"
+								// + s +
+								// "> got <" +
+								// ref +
+								// "> from <" +
+								// otmd.browsed
+								// + ">");
 
 							return new Response(HTTP_OK, "text/html", ref);
 
@@ -153,7 +169,19 @@ public class HelpBrowser extends BaseSimplePlugin {
 						} else if (uri.startsWith("/documentation")) {
 							try {
 
-								;//System.out.println(" loading docs <" + new File("../" + uri).exists() + " (" + new File("../" + uri).getAbsolutePath() + ")>");
+								;// System.out.println(" loading docs <"
+									// + new
+									// File("../"
+									// +
+									// uri).exists()
+									// +
+									// " ("
+									// + new
+									// File("../"
+									// +
+									// uri).getAbsolutePath()
+									// +
+									// ")>");
 
 								FileInputStream fis = new FileInputStream(new File("../" + uri));
 								return new Response(HTTP_OK, uri.endsWith(".js") ? "application/javascript" : "text/html", fis);
@@ -168,7 +196,7 @@ public class HelpBrowser extends BaseSimplePlugin {
 							return new Response(HTTP_OK, null, ans);
 						} else if (uri.startsWith("/field/invoke/")) {
 
-							;//System.out.println(" found it");
+							;// System.out.println(" found it");
 
 							String name = uri.replace("/field/invoke/", "");
 							InputStream ans = findAndInvoke(name, parms);
@@ -320,6 +348,17 @@ public class HelpBrowser extends BaseSimplePlugin {
 
 		goHome();
 
+		browser.addOpenWindowListener(new OpenWindowListener() {
+			public void open(WindowEvent event) {
+				Shell shell = new Shell(Launcher.getLauncher().display);
+				shell.setText("Field Help");
+				shell.setLayout(new FillLayout());
+				Browser browser = new Browser(shell, SWT.NONE);
+				event.browser = browser;
+				shell.setVisible(true);
+				System.out.println(" opened a browser on <"+event+">");
+			}
+		});
 	}
 
 	public String HOME = "http://localhost:10010/field_2/StandardLibrary.html";
@@ -330,7 +369,8 @@ public class HelpBrowser extends BaseSimplePlugin {
 			@Override
 			public Object function(Object[] arguments) {
 
-				;//System.out.println(" -- woo hoo --" + Arrays.asList(arguments));
+				;// System.out.println(" -- woo hoo --" +
+					// Arrays.asList(arguments));
 
 				return super.function(arguments);
 			}
@@ -407,9 +447,9 @@ public class HelpBrowser extends BaseSimplePlugin {
 			sub += r.readLine() + "\n";
 		}
 
-		;//System.out.println(" ------- \n");
-		;//System.out.println(sub);
-		;//System.out.println(" ------- \n");
+		;// System.out.println(" ------- \n");
+		;// System.out.println(sub);
+		;// System.out.println(" ------- \n");
 
 		String startMarker = "<div id=\"middle\" class=\"middle\">";
 		int start = sub.indexOf(startMarker);
@@ -423,14 +463,14 @@ public class HelpBrowser extends BaseSimplePlugin {
 
 		sub = Pattern.compile("<div style=\"height(.*?)</div>", Pattern.DOTALL).matcher(sub).replaceAll("");
 
-		;//System.out.println(" ------- replaced \n");
-		;//System.out.println(sub);
-		;//System.out.println(" ------- \n");
+		;// System.out.println(" ------- replaced \n");
+		;// System.out.println(sub);
+		;// System.out.println(" ------- \n");
 
 		all = all + sub;
 
-		;//System.out.println(" subsection <" + start + " -> " + end);
-		;//System.out.println(" rewrote wiki page to <" + all + ">");
+		;// System.out.println(" subsection <" + start + " -> " + end);
+		;// System.out.println(" rewrote wiki page to <" + all + ">");
 
 		return server.new Response(NanoHTTPD.HTTP_OK, "text/html;charset=utf-8", all);
 	}
@@ -439,7 +479,8 @@ public class HelpBrowser extends BaseSimplePlugin {
 
 		URL u = new URL("http://openendedgroup.com/" + uri);
 		URLConnection connect = u.openConnection();
-		;//System.out.println(" headers for resource :" + connect.getHeaderFields());
+		;// System.out.println(" headers for resource :" +
+			// connect.getHeaderFields());
 		InputStream s = connect.getInputStream();
 
 		return server.new Response(NanoHTTPD.HTTP_OK, "image/png", s);
@@ -480,7 +521,7 @@ public class HelpBrowser extends BaseSimplePlugin {
 	public void loadFromElement(iVisualElement e) {
 		try {
 			Object xx = browser.evaluate("return pythonSource");
-			;//System.out.println(" eval got :" + xx);
+			;// System.out.println(" eval got :" + xx);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -508,7 +549,7 @@ public class HelpBrowser extends BaseSimplePlugin {
 
 		String tfe = preamble + x + postamble;
 
-		;//System.out.println(" text form element <\n" + tfe + "\n>");
+		;// System.out.println(" text form element <\n" + tfe + "\n>");
 
 		return tfe;
 	}
@@ -519,7 +560,7 @@ public class HelpBrowser extends BaseSimplePlugin {
 		if (x.trim().equals("<p>null</p>"))
 			return;
 
-		;//System.out.println(" SETTING << " + x + " >>");
+		;// System.out.println(" SETTING << " + x + " >>");
 
 		MacScrollbarHack.skipAFrame(iVisualElement.enclosingFrame.get(root).getFrame());
 		browser.setText(preamble + x + postamble);

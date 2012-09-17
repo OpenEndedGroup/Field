@@ -31,6 +31,7 @@ import field.math.linalg.Vector3;
 public class CoreHelpers {
 
 	static public boolean isCore = SystemProperties.getIntProperty("opengl32", 0) == 1;
+	static public boolean isCoreCompat = SystemProperties.getIntProperty("opengl32_compat", 0) == 1;
 
 	static public class GLMatrix {
 		float[] head = new float[16];
@@ -92,14 +93,6 @@ public class CoreHelpers {
 		}
 
 		public void pop() {
-			// CoreHelpers.modelview = modelview;
-			// CoreHelpers.projection = projection;
-			// CoreHelpers.texture0 = texture0;
-			// CoreHelpers.texture1 = texture1;
-			// CoreHelpers.texture2 = texture2;
-			// CoreHelpers.texture3 = texture3;
-			// CoreHelpers.texture4 = texture4;
-			// CoreHelpers.texture5 = texture5;
 			CoreHelpers.texture = texture;
 			CoreHelpers.mode = mode;
 
@@ -111,7 +104,7 @@ public class CoreHelpers {
 
 	static public void glMatrixMode(int mode) {
 		CoreHelpers.mode = mode;
-		if (!isCore)
+		if (!isCore || isCoreCompat)
 			GL11.glMatrixMode(mode);
 	}
 
@@ -141,12 +134,12 @@ public class CoreHelpers {
 	}
 
 	static public void glLoadIdentity() {
-		if (!isCore)
+		if (!isCore || isCoreCompat)
 			GL11.glLoadIdentity();
 
 		switch (mode) {
 		case GL11.GL_PROJECTION:
-			loadIdentity(projection.head);
+			loadIdentity(projection.head);			
 			break;
 		case GL11.GL_TEXTURE:
 			loadIdentity(texture.head);
@@ -171,7 +164,7 @@ public class CoreHelpers {
 	static public void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
 		// ;//System.out.println(" ortho :" + left + " " + right + " " +
 		// bottom + " " + top + " " + zNear + " " + zFar);
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glOrtho(left, right, bottom, top, zNear, zFar);
 
 		float tx = (float) (-(right + left) / (right - left));
@@ -260,7 +253,7 @@ public class CoreHelpers {
 	}
 
 	public static void glBindVertexArrayAPPLE(int i) {
-		if (!isCore) {
+		if (!isCore  || isCoreCompat) {
 			if (field.core.Platform.getOS() == OS.mac)
 				APPLEVertexArrayObject.glBindVertexArrayAPPLE(i);
 			else
@@ -272,7 +265,7 @@ public class CoreHelpers {
 	}
 
 	public static int glGenVertexArraysApple() {
-		if (!isCore) {
+		if (!isCore  || isCoreCompat) {
 			if (field.core.Platform.getOS() == OS.mac)
 				return glGenVertexArraysAPPLE();
 			else
@@ -285,7 +278,7 @@ public class CoreHelpers {
 
 	public static void glPushMatrix() {
 
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glPushMatrix();
 
 		switch (mode) {
@@ -316,7 +309,7 @@ public class CoreHelpers {
 	static float[] tmp = new float[16];
 
 	public static void glMultMatrix(FloatBuffer matrixm) {
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glMultMatrix(matrixm);
 
 		matrixm.rewind();
@@ -329,7 +322,7 @@ public class CoreHelpers {
 	}
 
 	public static void glPopMatrix() {
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glPopMatrix();
 
 		switch (mode) {
@@ -403,7 +396,7 @@ public class CoreHelpers {
 	}
 
 	public static void glLineWidth(float f) {
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glLineWidth(f);
 		else {
 
@@ -411,7 +404,7 @@ public class CoreHelpers {
 	}
 
 	public static void glFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GL11.glFrustum(left, right, bottom, top, zNear, zFar);
 		float A = (right + left) / (right - left);
 		float B = (top + bottom) / (top - bottom);
@@ -433,7 +426,7 @@ public class CoreHelpers {
 
 	public static void gluLookAt(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz) {
 
-		if (!isCore)
+		if (!isCore  || isCoreCompat)
 			GLU.gluLookAt(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
 
 		Vector3 forward = new Vector3(centerx - eyex, centery - eyey, centerz - eyez);

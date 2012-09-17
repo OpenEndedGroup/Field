@@ -212,6 +212,7 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 		FieldPyObjectAdaptor2.injectedSelfMethods.put("optimizeLines", PythonInterface.getPythonInterface().executeStringReturnPyObject("def __optimize(self, exclude=None):\n" + "\tOptimizeCachedLineSet().doOptimization(_self.lines,exclude)\n", "__optimize"));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public DefaultOverride setVisualElement(iVisualElement ve) {
 		DefaultOverride r = super.setVisualElement(ve);
@@ -224,7 +225,7 @@ public class SplineComputingOverride extends DefaultOverride implements iVisualE
 		} else if (!(ve.getProperty(computed_linesToDraw) instanceof PLineList)) {
 			PLineList ll = new PLineList();
 			ll.addAll(ve.getProperty(computed_linesToDraw));
-			ve.setProperty(computed_linesToDraw, ll);
+			ve.setProperty( ((VisualElementProperty)computed_linesToDraw), ll);
 		}
 
 		return r;

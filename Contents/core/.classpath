@@ -33,5 +33,7 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="swt-grouplayout.jar" sourcepath="swt-grouplayout.zip"/>
+	<classpathentry kind="lib" path="swt.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

@@ -35,7 +35,7 @@ public class StyledTextUndo {
 	List<Change> changes = new ArrayList<Change>();
 	List<Change> redo = new ArrayList<Change>();
 
-	int limit = 300;
+	int limit = 1000;
 
 	boolean ignore = false;
 	boolean isRedoing = false;
