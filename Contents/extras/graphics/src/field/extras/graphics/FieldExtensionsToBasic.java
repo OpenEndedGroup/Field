@@ -29,6 +29,7 @@ import org.python.core.Py;
 import org.python.core.PyBuiltinMethodNarrow;
 import org.python.core.PyDictionary;
 import org.python.core.PyException;
+import org.python.core.PyFunction;
 import org.python.core.PyInteger;
 import org.python.core.PyList;
 import org.python.core.PyObject;
@@ -226,6 +227,17 @@ public class FieldExtensionsToBasic {
 							public ReturnCode head(Object calledOn, Object[] args) {
 
 								((iDisplayable) o).display();
+								return super.head(calledOn, args);
+							}
+						};
+						Cont.linkWith(c, c.getCurrentFlushMethod(), arun);
+					} 
+					else if (o instanceof iUpdateable) {
+						aRun arun = new Cont.aRun() {
+							@Override
+							public ReturnCode head(Object calledOn, Object[] args) {
+
+								((iUpdateable) o).update();
 								return super.head(calledOn, args);
 							}
 						};
@@ -1242,23 +1254,6 @@ public class FieldExtensionsToBasic {
 								for (Map.Entry<String, Object> e : m.entrySet()) {
 									int id = BasicGLSLangProgram.currentProgram.getUniformCache().find(BasicGLSLangProgram.currentProgram.gl, BasicGLSLangProgram.currentProgram.getProgram(), e.getKey());
 									if (id > -1) {
-
-										// if
-										// (underlyingGeometry
-										// instanceof
-										// Instance)
-										// ;//;//System.out.println(" setting "
-										// +
-										// id
-										// +
-										// " "
-										// +
-										// e.getKey()
-										// +
-										// " "
-										// +
-										// e.getValue());
-
 										was.put(e.getKey(), BasicGLSLangProgram.currentProgram.getUniformCache().get(e.getKey()));
 										setUniformNow(BasicGLSLangProgram.currentProgram.gl, id, e.getValue());
 									}
@@ -1285,23 +1280,6 @@ public class FieldExtensionsToBasic {
 									if (id > -1) {
 										Object x = was.get(e.getKey());
 										if (x != null) {
-
-											// if
-											// (underlyingGeometry
-											// instanceof
-											// Instance)
-											// ;//;//System.out.println(" unsetting "
-											// +
-											// id
-											// +
-											// " "
-											// +
-											// e.getKey()
-											// +
-											// " "
-											// +
-											// x);
-
 											setUniformNow(BasicGLSLangProgram.currentProgram.gl, id, x);
 											BasicGLSLangProgram.currentProgram.getUniformCache().set(e.getKey(), x);
 										}
@@ -1328,6 +1306,12 @@ public class FieldExtensionsToBasic {
 	
 	static public void setUniformNow(Object gl, int id, Object value) {
 
+		if (value instanceof PyFunction)
+		{
+			setUniformNow(gl, id, ((PyFunction)value).__call__());
+			return;
+		}
+		
 		if (value instanceof Vector4) {
 			glUniform4f(id, ((Vector4) value).x, ((Vector4) value).y, ((Vector4) value).z, ((Vector4) value).w);
 			// ;//;//System.out.println(" set uniform right now <" + id +
@@ -1431,6 +1415,13 @@ public class FieldExtensionsToBasic {
 			} else if (o instanceof Matrix4) {
 				rt = program.new SetMatrixUniform(k, new iProvider.Constant<Matrix4>().set((Matrix4) o));
 			}
+		}
+		
+		if (program.currentProgram == program)
+		{
+			int ff = program.getUniformCache().find(null, program.getProgram(), k);
+			if (ff!=-1)
+				setUniformNow(null,  ff, o);
 		}
 
 		// if (program.currentProgram == program) {
@@ -1748,6 +1739,7 @@ public class FieldExtensionsToBasic {
 	}
 
 	static public final VisualElementProperty<String> vertexShader = new VisualElementProperty<String>("vertexShader_v");
+	static public final VisualElementProperty<String> computeShader = new VisualElementProperty<String>("computeShader_v");
 	static public final VisualElementProperty<String> fragmentShader = new VisualElementProperty<String>("fragmentShader_v");
 	static public final VisualElementProperty<String> geometryShader = new VisualElementProperty<String>("geometryShader_v");
 	static public final VisualElementProperty<String> tessEvalShader = new VisualElementProperty<String>("tessEvalShader_v");
@@ -1758,11 +1750,84 @@ public class FieldExtensionsToBasic {
 		if (CoreHelpers.isCore) {
 			PythonPluginEditor.knownPythonProperties.put("<b>Tessellation Control Shader</b> - <font size=-2>tessControlShader_v</font>", tessControlShader);
 			PythonPluginEditor.knownPythonProperties.put("<b>Tessellation Evaluation Shader</b> - <font size=-2>tessEvalShader_v</font>", tessEvalShader);
+			PythonPluginEditor.knownPythonProperties.put("<b>Compute Shader</b> - <font size=-2>computeShader_v</font>", computeShader);
 		}
 		PythonPluginEditor.knownPythonProperties.put("<b>Geometry Shader</b> - <font size=-2>geometryShader_v</font>", geometryShader);
 		PythonPluginEditor.knownPythonProperties.put("<b>Fragment Shader</b> - <font size=-2>fragmentShader_v</font>", fragmentShader);
 	}
 
+	@SuppressWarnings("unchecked")
+	static public BasicGLSLangProgram makeComputeShaderFromElement(final iVisualElement element) {
+		final BasicGLSLangProgram program = new BasicGLSLangProgram();
+
+		String vs = computeShader.get(element);
+		if (vs == null || vs.trim().length() == 0) {
+			
+			vs = "#version 430\nlayout(local_size_x=256) in;\n\nvoid main(){\n}\n";
+			computeShader.set(element, element, vs);
+		}
+		
+		final Stack<Writer> redir = new Stack<Writer>();
+		redir.addAll(PythonInterface.getPythonInterface().getErrorRedirects());
+		final Stack<Writer> reodir = new Stack<Writer>();
+		reodir.addAll(PythonInterface.getPythonInterface().getOutputRedirects());
+		final BasicGLSLangElement e1 = program.new BasicGLSLangElement(computeShader.get(element), BasicGLSLangProgram.ElementType.compute);
+
+		PythonPluginEditor.python_customToolbar.addToList(ArrayList.class, element, new Pair<String, iUpdateable>("Refresh shader", new iUpdateable() {
+			public void update() {
+				program.deferReload();
+				e1.reload(computeShader.get(element), new BasicGLSLangProgram.iErrorHandler() {
+
+					public void beginError() {
+						if (redir.size() > 0) {
+							Writer e = redir.peek();
+							try {
+								e.write(" Errors occured on compute shader reload \n");
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							System.err.println(" errors on compute shader reload ");
+						}
+					}
+
+					public void endError() {
+					}
+
+					public void errorOnLine(int line, String error) {
+						Writer e = redir.peek();
+						try {
+							e.write("on line " + line + " '" + error + "\n");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+
+					}
+
+					public void noError() {
+						if (reodir.size() > 0) {
+							Writer e = reodir.peek();
+							try {
+								e.write(" Reloaded compute shader successfully \n");
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+						} else {
+							System.err.println(" Reloaded compute shader successfully \n");
+						}
+					}
+
+				});
+				
+
+				iVisualElement.dirty.set(element, element, true);
+			}
+		}));
+
+		return program;
+
+	}
+	
 	@SuppressWarnings("unchecked")
 	static public BasicGLSLangProgram makeShaderFromElement(final iVisualElement element) {
 
