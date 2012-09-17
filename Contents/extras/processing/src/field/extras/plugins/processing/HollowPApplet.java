@@ -100,10 +100,10 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 	public int pmouseY;
 	public int mouseButton;
 	public boolean mousePressed;
-	public MouseEvent mouseEvent;
+	public processing.event.MouseEvent mouseEvent;
 	public char key;
 	public int keyCode;
-	public KeyEvent keyEvent;
+	public processing.event.KeyEvent keyEvent;
 	public boolean focused;
 
 	public boolean action(Event evt, Object what) {
@@ -162,8 +162,8 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 		delegateTo.addKeyListener(l);
 	}
 
-	public void addListeners() {
-		delegateTo.addListeners();
+	public void addListeners(Component comp) {
+		delegateTo.addListeners(comp);
 	}
 
 	public void addMouseListener(MouseListener l) {
@@ -352,10 +352,6 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 
 	public void box(float size) {
 		delegateTo.box(size);
-	}
-
-	public void breakShape() {
-		delegateTo.breakShape();
 	}
 
 	public final float brightness(int what) {
@@ -1931,30 +1927,6 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 		return delegateTo.screenZ(x, y, z);
 	}
 
-	public String selectFolder() {
-		return delegateTo.selectFolder();
-	}
-
-	public String selectFolder(String prompt) {
-		return delegateTo.selectFolder(prompt);
-	}
-
-	public String selectInput() {
-		return delegateTo.selectInput();
-	}
-
-	public String selectInput(String prompt) {
-		return delegateTo.selectInput(prompt);
-	}
-
-	public String selectOutput() {
-		return delegateTo.selectOutput();
-	}
-
-	public String selectOutput(String prompt) {
-		return delegateTo.selectOutput(prompt);
-	}
-
 	public void set(int x, int y, int c) {
 		delegateTo.set(x, y, c);
 	}
@@ -2251,10 +2223,7 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 		delegateTo.text(c, x, y);
 	}
 
-	public void text(char c) {
-		delegateTo.text(c);
-	}
-
+	
 	public void text(float num, float x, float y, float z) {
 		delegateTo.text(num, x, y, z);
 	}
@@ -2271,10 +2240,6 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 		delegateTo.text(num, x, y);
 	}
 
-	public void text(String s, float x1, float y1, float x2, float y2, float z) {
-		delegateTo.text(s, x1, y1, x2, y2, z);
-	}
-
 	public void text(String str, float x1, float y1, float x2, float y2) {
 		delegateTo.text(str, x1, y1, x2, y2);
 	}
@@ -2285,10 +2250,6 @@ public class HollowPApplet implements PConstants, iProvidesWrapping {
 
 	public void text(String str, float x, float y) {
 		delegateTo.text(str, x, y);
-	}
-
-	public void text(String str) {
-		delegateTo.text(str);
 	}
 
 	public void textAlign(int alignX, int alignY) {

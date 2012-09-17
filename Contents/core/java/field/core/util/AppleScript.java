@@ -37,12 +37,28 @@ public class AppleScript {
 
 	public String getOutput() {
 		cc.waitFor(true);
-		return cc.getOutput();
+		String o = cc.getOutput();
+		
+		
+		return scrub(o);
+	}
+
+	private String scrub(String o) {
+		StringBuffer b = new StringBuffer(o.length());
+		for(int i=0;i<o.length();i++)
+		{
+			char c = o.charAt(i);
+			if ((int)c<128)
+			{
+				b.append(c);
+			}
+		}
+		return b.toString();
 	}
 
 	public String getError() {
 		cc.waitFor(true);
-		return cc.getOutput();
+		return scrub(cc.getOutput());
 	}
 
 }

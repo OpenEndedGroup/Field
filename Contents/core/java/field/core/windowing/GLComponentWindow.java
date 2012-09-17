@@ -2234,7 +2234,10 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		Launcher.getLauncher().addPostUpdateable(new iUpdateable() {
 			@Override
 			public void update() {
-				editorSpaceHelper.freeze();
+				if (canvas.isDisposed())
+					Launcher.getLauncher().deregisterUpdateable(this);
+				else
+					editorSpaceHelper.freeze();
 			}
 		});
 	}

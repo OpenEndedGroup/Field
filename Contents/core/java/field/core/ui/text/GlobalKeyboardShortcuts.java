@@ -1,11 +1,15 @@
 package field.core.ui.text;
 
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.widgets.Event;
 
+import field.bytecode.protect.Woven;
+import field.bytecode.protect.annotations.NextUpdate;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
 import field.launch.iUpdateable;
 
@@ -15,6 +19,7 @@ import field.launch.iUpdateable;
  * @author marc
  * 
  */
+@Woven
 public class GlobalKeyboardShortcuts {
 
 	static public VisualElementProperty<GlobalKeyboardShortcuts> shortcuts = new VisualElementProperty<GlobalKeyboardShortcuts>("keyboardShortcuts_");
@@ -57,6 +62,17 @@ public class GlobalKeyboardShortcuts {
 	public boolean fire(Event e) {
 		for (Map.Entry<Shortcut, iUpdateable> c : cuts.entrySet()) {
 			if (c.getKey().matches(e.character, e.keyCode, e.stateMask)) {
+				c.getValue().update();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@NextUpdate
+	public boolean fire(KeyEvent e) {
+		for (Map.Entry<Shortcut, iUpdateable> c : cuts.entrySet()) {
+			if (c.getKey().matches(e.getKeyChar(), -1, (e.isShiftDown() ? SWT.SHIFT : 0) | (e.isMetaDown() ? SWT.COMMAND : 0))) {
 				c.getValue().update();
 				return true;
 			}

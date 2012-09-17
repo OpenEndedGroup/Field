@@ -2792,6 +2792,7 @@ public class BasicFrameBuffers {
 
 				glBindFramebuffer(GL_FRAMEBUFFER, multisample ? fbo_multisample : fbo[0]);
 
+				glViewport(0, 0, width, height);
 				rootSceneList.update();
 				if (c1 != null) {
 
@@ -2805,7 +2806,6 @@ public class BasicFrameBuffers {
 				} else {
 					glClear(GL_DEPTH_BUFFER_BIT);
 				}
-				glViewport(0, 0, width, height);
 				sceneList.update();
 
 				assert glGetError() == 0;

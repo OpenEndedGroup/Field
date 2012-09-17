@@ -323,7 +323,15 @@ public class PseudoPropertiesPlugin extends BaseSimplePlugin {
 					public int compare(iMutable<iVisualElement> o1, iMutable<iVisualElement> o2) {
 						if (o1==null || ((iVisualElement)o1).getFrame(null)==null) return -1;
 						if (o2==null || ((iVisualElement)o2).getFrame(null)==null) return 1;
-						return Double.compare(((iVisualElement) o1).getFrame(null).y, ((iVisualElement) o2).getFrame(null).y);
+						
+						
+						float dy = (float) Math.abs(((iVisualElement) o1).getFrame(null).y-((iVisualElement) o2).getFrame(null).y);
+						float dx = (float) Math.abs(((iVisualElement) o1).getFrame(null).x-((iVisualElement) o2).getFrame(null).x);
+						
+						if (dy>dx)
+							return Double.compare(((iVisualElement) o1).getFrame(null).y, ((iVisualElement) o2).getFrame(null).y);
+						else
+							return Double.compare(((iVisualElement) o1).getFrame(null).x, ((iVisualElement) o2).getFrame(null).x);
 					}
 				});
 				return (Collection	) a;
