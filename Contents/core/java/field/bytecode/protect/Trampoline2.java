@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -86,13 +87,22 @@ public class Trampoline2 implements iLaunchable {
 		}
 
 		public Set<Class> getAllLoadedClasses() {
-			HashSet<Class> al = new HashSet<Class>();
-			al.addAll(previous.values());
-			al.addAll(already.values());
+			try {
+				HashSet<Class> al = new HashSet<Class>();
+				al.addAll(previous.values());
+				al.addAll(already.values());
 
-			Vector vThere = (Vector) ReflectionTools.illegalGetObject(deferTo, "classes");
-			al.addAll(vThere);
-			return al;
+				Vector vThere = (Vector) ReflectionTools.illegalGetObject(deferTo, "classes");
+				al.addAll(vThere);
+				return al;
+			} catch (ConcurrentModificationException e) {
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e1) {
+					e1.printStackTrace();
+				}
+				return getAllLoadedClasses();
+			}
 		}
 
 		@Override
@@ -164,7 +174,7 @@ public class Trampoline2 implements iLaunchable {
 		@Override
 		protected String findLibrary(String rawName) {
 
-			System.out.println("####\n\n looking for <"+rawName+"> \n\n #############");
+			System.out.println("####\n\n looking for <" + rawName + "> \n\n #############");
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 

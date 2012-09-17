@@ -120,7 +120,14 @@ public class Vector4 extends Tuple4 implements java.io.Serializable, iToFloatArr
 	}
 
 	public Vector4(FloatBuffer peek) {
-		super(peek.get(),peek.get(),peek.get(),peek.get());
+		super(peek.get(), peek.get(), peek.get(), peek.get());
+	}
+
+	public Vector4(String[] p, int offset) {
+		this.x = Float.parseFloat(p[offset]);
+		this.y = Float.parseFloat(p[offset + 1]);
+		this.z = Float.parseFloat(p[offset + 2]);
+		this.w = Float.parseFloat(p[offset + 3]);
 	}
 
 	public PyObject __finditem__(int key) {
@@ -574,7 +581,7 @@ public class Vector4 extends Tuple4 implements java.io.Serializable, iToFloatArr
 	}
 
 	public boolean isNaN() {
-		return Float.isNaN(x) ||Float.isInfinite(x) ||Float.isNaN(y) ||Float.isInfinite(y) ||Float.isNaN(z) ||Float.isInfinite(z) ||Float.isNaN(w) ||Float.isInfinite(w);
+		return Float.isNaN(x) || Float.isInfinite(x) || Float.isNaN(y) || Float.isInfinite(y) || Float.isNaN(z) || Float.isInfinite(z) || Float.isNaN(w) || Float.isInfinite(w);
 	}
 
 }

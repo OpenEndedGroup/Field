@@ -309,8 +309,8 @@ public class PseudoPropertiesPlugin extends BaseSimplePlugin {
 			return "\u2014\u2014 Doesn't return the property, returns the visual element that actually has the property stored.  for example: <b>_self.where.someProperty_</b> \u2014\u2014";
 		}
 	}
-
-	public class Collector implements iHandlesAttributes {
+	
+	static public class Collector implements iHandlesAttributes {
 
 		private final iVisualElement from;
 		FastVisualElementOverridesPropertyCombiner<Object, List<Object>> combine = new FastVisualElementOverridesPropertyCombiner<Object, List<Object>>(false) {
@@ -697,7 +697,7 @@ public class PseudoPropertiesPlugin extends BaseSimplePlugin {
 		return VisitCode.stop;
 	}
 
-	public VisitCode getCollector(iVisualElement source, Ref t) {
+	static public VisitCode getCollector(iVisualElement source, Ref t) {
 		t.set(new Collector(source));
 		return VisitCode.stop;
 	}

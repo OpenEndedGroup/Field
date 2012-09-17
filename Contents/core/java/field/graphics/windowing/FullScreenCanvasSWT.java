@@ -19,6 +19,9 @@ import static org.lwjgl.opengl.GL11.glReadPixels;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
 import static org.lwjgl.opengl.GL30.glBindFramebuffer;
+import static org.lwjgl.opengl.KHRDebug.GL_DEBUG_OUTPUT_SYNCHRONOUS;
+import static org.lwjgl.opengl.KHRDebug.glDebugMessageCallback;
+import static org.lwjgl.opengl.KHRDebug.glDebugMessageControl;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -51,9 +54,10 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.LWJGLUtil;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
+import org.lwjgl.opengl.KHRDebugCallback;
+import org.lwjgl.opengl.KHRDebugCallback.Handler;
 import org.lwjgl.opengl.OpenGLException;
 
 import field.bytecode.protect.Woven;
@@ -67,11 +71,8 @@ import field.core.Platform;
 import field.core.plugins.drawing.opengl.OnCanvasLines;
 import field.core.plugins.drawing.threed.ThreedContext.iThreedDrawingSurface;
 import field.core.util.PythonCallableMap;
-import field.core.windowing.GLCanvas_field;
-import field.core.windowing.GLComponentWindow;
 import field.core.windowing.LinuxCanvasInterface;
 import field.core.windowing.iCanvasInterface;
-import field.core.windowing.components.DraggableComponent;
 import field.graphics.core.Base;
 import field.graphics.core.Base.iAcceptsSceneListElement;
 import field.graphics.core.Base.iSceneListElement;
@@ -79,8 +80,8 @@ import field.graphics.core.BasicCamera;
 import field.graphics.core.BasicContextManager;
 import field.graphics.core.BasicSceneList;
 import field.graphics.core.BasicUtilities;
-import field.graphics.core.CoreHelpers;
 import field.graphics.core.BasicUtilities.Clear;
+import field.graphics.core.CoreHelpers;
 import field.graphics.core.DynamicFrameRateCuller;
 import field.graphics.core.ResourceMonitor;
 import field.graphics.core.StereoCamera;
@@ -223,12 +224,13 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		}
 
-		;//System.out.println(" dev is <" + dev.getClass() + "> ");
+		;// System.out.println(" dev is <" + dev.getClass() + "> ");
 
-		;//System.out.println(" rect is <" + frame.getBounds() + ">");
+		;// System.out.println(" rect is <" + frame.getBounds() + ">");
 		boolean z = dev.isFullScreenSupported();
 
-		;//System.out.println(" full screen is supported <" + z + "> : stereo ? " + stereo);
+		;// System.out.println(" full screen is supported <" + z +
+			// "> : stereo ? " + stereo);
 
 		final Composite comp = new Composite(frame, SWT.NONE);
 		comp.setLayout(new FillLayout());
@@ -239,11 +241,11 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		data.depthSize = 24;
 
 		data.stencilSize = 8;
-		
+
 		data.stereo = stereo;
 		if (doMultisampling) {
 			data.samples = 2;
-//			data.sampleBuffers = 2;
+			// data.sampleBuffers = 2;
 		}
 
 		if (Platform.isMac()) {
@@ -274,16 +276,15 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		} catch (LWJGLException e1) {
 			e1.printStackTrace();
 		}
-		
-		
 
-//		glClearColor(0, 0, 0, 1);
-//		glClear(GL_COLOR_BUFFER_BIT);
+		// glClearColor(0, 0, 0, 1);
+		// glClear(GL_COLOR_BUFFER_BIT);
 		frame.addListener(SWT.Resize, new Listener() {
 
 			@Override
 			public void handleEvent(Event event) {
-				;//System.out.println(" client area of frame is <" + frame.getClientArea() + ">");
+				;// System.out.println(" client area of frame is <"
+					// + frame.getClientArea() + ">");
 				comp.setSize(frame.getClientArea().width, frame.getClientArea().height);
 				canvas.setSize(frame.getClientArea().width, frame.getClientArea().height);
 
@@ -299,7 +300,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 			}
 		});
-		
+
 		createInitialLists();
 
 		if (SystemProperties.getIntProperty("	", 0) == 1)
@@ -369,10 +370,10 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	@HiddenInAutocomplete
 	boolean neverDisplay = false;
 
-	
 	int flushStrobe = 1;
-	
-	
+
+	boolean first = true;
+
 	@DispatchOverTopology(topology = Cont.class)
 	@HiddenInAutocomplete
 	public void display() {
@@ -382,6 +383,20 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		vertexCount = 0;
 		triangleCount = 0;
+
+		if (first) {
+			System.out.println(" Setting up debug stream ");
+			first = false;
+			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+			glDebugMessageCallback(new KHRDebugCallback(new Handler() {
+
+				@Override
+				public void handleMessage(int arg0, int arg1, int arg2, int arg3, String arg4) {
+					System.out.println(" handle message :" + arg0 + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
+				}
+			}));
+			glDebugMessageControl(GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, null, true);
+		}
 
 		if (doMultisampling) {
 			glEnable(GL_MULTISAMPLE);
@@ -417,20 +432,21 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						side++;
 
 						// arg0.getGL().
-						try{
-						if (!leftOnly)
-							glEnable(GL11.GL_STEREO);
-						else
-							glDisable(GL11.GL_STEREO);
-						}catch(OpenGLException e){}
-						
+						try {
+							if (!leftOnly)
+								glEnable(GL11.GL_STEREO);
+							else
+								glDisable(GL11.GL_STEREO);
+						} catch (OpenGLException e) {
+						}
+
 						if (side % 2 == 0)
 							glDrawBuffer((totalFlip | totalFlip_instance) ? GL_BACK_RIGHT : GL_BACK_LEFT);
 						else
 							glDrawBuffer((totalFlip | totalFlip_instance) ? GL_BACK_LEFT : GL_BACK_RIGHT);
 
 						if (leftOnly)
-						glDrawBuffer(GL_BACK);
+							glDrawBuffer(GL_BACK);
 
 						BasicContextManager.setCurrentContextFor(this, new Object(), new Object());
 
@@ -546,7 +562,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					// arg0.getGL().glGetBooleanv(GL.GL_STEREO,
 					// bb,
 					// 0);
-					// ;//System.out.println(" ?? stereo ? :" +
+					// ;//System.out.println(" ?? stereo ? :"
+					// +
 					// bb[0]);
 
 					if (side % 2 == 0)
@@ -580,7 +597,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	}
 
 	public Vector2 cameraTileShift = new Vector2();
-	
+
 	/**
 	 * returns the stereo side that we're currently rendering (or
 	 * StereoSide.middle if we aren't rendering stereo).
@@ -738,11 +755,9 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	
-	
 	@HiddenInAutocomplete
 	protected boolean doFlush() {
-		return frameNumber%flushStrobe==0;
+		return frameNumber % flushStrobe == 0;
 	}
 
 	@HiddenInAutocomplete
@@ -991,7 +1006,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						n++;
 						filename = directory + "save" + pad(n) + ".png";
 					}
-					;//System.out.println(" filename is <" + filename + ">");
+					;// System.out.println(" filename is <"
+						// + filename + ">");
 					saveAsPNG(filename);
 				}
 			}
@@ -1016,7 +1032,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 			@Override
 			public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
 
-				;//System.out.println(" saving to <" + filename + ">");
+				;// System.out.println(" saving to <" + filename
+					// + ">");
 				try {
 
 					glBindFramebuffer(GL_FRAMEBUFFER, 0);

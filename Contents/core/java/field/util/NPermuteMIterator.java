@@ -10,7 +10,7 @@ public class NPermuteMIterator
 	Object[] objects;
 	int choosem;
 	
-	int[] counters;
+	public int[] counters;
 	
 	public NPermuteMIterator(Object[] objects, int choosem)
 	{	this.objects = objects;
