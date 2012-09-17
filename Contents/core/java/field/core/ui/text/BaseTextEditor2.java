@@ -497,6 +497,8 @@ public class BaseTextEditor2 {
 						JComponent comp = ((Nub) data).getComponent();
 						if (comp instanceof iOutOfBandDrawing)
 							((iOutOfBandDrawing) comp).expandDamage(r);
+						
+						((Nub)data).getControl()
 					}
 				}
 

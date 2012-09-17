@@ -74,6 +74,9 @@ public class CustomInsertDrawing {
 
 		boolean disposed = false;
 
+		
+		public float lx,ly;
+			
 		public Nub(final JComponent component, StyledText target, int width, int height) {
 			this.component = component;
 			this.target = target;
@@ -96,18 +99,21 @@ public class CustomInsertDrawing {
 
 				@Override
 				public void paintControl(PaintEvent e) {
-//					;//System.out.println("        drawing background for sub canvas <" + Nub.this + ">");
 					if (output != null)
 						output.dispose();
 					output = updageAndMakeImage(e.gc.getDevice(), Math.max(Nub.this.width, e.width), Math.max(Nub.this.height,e.height));
 
-					;//System.out.println("        image is <" + output + ">");
-
 					if (output != null)
 					{
-						Rectangle mapped = Launcher.getLauncher().display.map(canvas, canvas.getShell(), new Rectangle(0, 0, Math.max(Nub.this.width, e.width), Math.max(Nub.this.height,e.height)));
-						;//System.out.println(" drawing image at origin <"+output+"> <"+e.gc+"> <"+e.x+" "+e.y+"> <"+canvas.getBounds()+"> <"+mapped+">");
-						e.gc.drawImage(output, 0, 0);
+						Rectangle mapped = Launcher.getLauncher().display.map(canvas, Nub.this.target, new Rectangle(0, 0, Math.max(Nub.this.width, e.width), Math.max(Nub.this.height,e.height)));
+						
+//						System.out.println("CA : "+Nub.this.target.getTopPixel());
+						
+						
+						if (ly==Nub.this.target.getTopPixel())
+							e.gc.drawImage(output, 0, 0);
+						else
+							System.out.println(" hidden control <"+ly+" "+Nub.this.target.getTopPixel());
 					}
 				}
 			});
@@ -299,18 +305,12 @@ public class CustomInsertDrawing {
 		target.addPaintObjectListener(new PaintObjectListener() {
 			public void paintObject(PaintObjectEvent event) {
 
-				;//System.out.println(" paint object event at <"+event.x+", "+event.y+">");
-//				new Exception().printStackTrace();
-				
 				if (event.style.data != null) {
-//					;//System.out.println(" picked up an component embedded here <" + event.style.data + "> <" + event.x + " " + event.y + " " + event.ascent + " " + event.descent + " @ " + event.style + ">");
-
 					int width = event.style.length * event.style.metrics.width;
 
 					int height = event.ascent + event.descent;
 
 					if (((JComponent) event.style.data).getClientProperty("dead") != null) {
-//						;//System.out.println(" trying to draw dead component ");
 						event.style.data = null;
 						return;
 					}
@@ -322,17 +322,13 @@ public class CustomInsertDrawing {
 					boolean found = false;
 					if (nub != null) {
 						
-//						;//System.out.println(" control has <"+target.getChildren().length+"> children");
-						
 						for (Control cc : target.getChildren()) {
-//							;//System.out.println(" checking :"+cc+" / "+nub.canvas);
 							
 							if (cc == nub.canvas)
 								found = true;
 						}
 					}
 					if (nub == null || !found) {
-//						;//System.out.println(" :: needs a new nub ");
 						nub = new Nub(((JComponent) event.style.data), target, width, height);
 						nub.canvas.setBounds(event.x, event.y, width, height);
 
@@ -349,49 +345,11 @@ public class CustomInsertDrawing {
 
 					nub.start = event.style.start;
 					nub.length = event.style.length;
-
-//					;//System.out.println(" nub starts at <" + event.style.start + " " + event.style.length + ">");
-
-					// BufferedImage image =
-					// GraphicsEnvironment
-					// .getLocalGraphicsEnvironment()
-					// .getDefaultScreenDevice()
-					// .getDefaultConfiguration()
-					// .createCompatibleImage(width, height,
-					// Transparency.TRANSLUCENT);
-					//
-					// Method pc =
-					// ReflectionTools.findFirstMethodCalled(
-					// ((JComponent)
-					// event.style.data).getClass(),
-					// "paintComponent");
-					// try {
-					// pc.invoke((JComponent)
-					// event.style.data,
-					// image.getGraphics());
-					//
-					// Image image2 = new
-					// Image(event.gc.getDevice(),
-					// convertToSWT(image));
-					//
-					// event.gc.drawImage(image2, event.x,
-					// event.y);
-					//
-					// } catch (IllegalArgumentException e)
-					// {
-					// e.printStackTrace();
-					// } catch (IllegalAccessException e) {
-					// e.printStackTrace();
-					// } catch (InvocationTargetException e)
-					// {
-					// e.printStackTrace();
-					// }
+					nub.ly = nub.target.getTopPixel();
+					
+//					System.out.println(" PO : "+nub.canvas.getLocation()+" "+nub.canvas.getSize());
+					
 				}
-				// Control control = (Control)event.style.data;
-				// Point pt = control.getSize();
-				// int x = event.x + MARGIN;
-				// int y = event.y + event.ascent - 2*pt.y/3;
-				// control.setLocation(x, y);
 			}
 		});
 
