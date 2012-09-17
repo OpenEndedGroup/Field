@@ -498,7 +498,7 @@ public class BaseTextEditor2 {
 						if (comp instanceof iOutOfBandDrawing)
 							((iOutOfBandDrawing) comp).expandDamage(r);
 						
-						((Nub)data).getControl()
+//						((Nub)data).getControl()
 					}
 				}
 
