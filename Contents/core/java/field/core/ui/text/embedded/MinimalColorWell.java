@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
@@ -17,25 +16,38 @@ import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.swt.widgets.Canvas;
 
 import field.bytecode.protect.Woven;
 import field.core.Platform;
 import field.core.dispatch.iVisualElement;
+import field.core.ui.SmallMenu;
+import field.core.ui.text.embedded.CustomInsertDrawing.iAcceptsInsertRenderingContext;
+import field.core.ui.text.embedded.CustomInsertDrawing.iInsertRenderingContext;
 import field.core.ui.text.embedded.CustomInsertSystem.ExecutesWhat;
 import field.core.ui.text.embedded.CustomInsertSystem.ExecutesWhen;
 import field.core.ui.text.embedded.CustomInsertSystem.ProvidedComponent;
+import field.launch.Launcher;
 import field.launch.iUpdateable;
 import field.math.linalg.Vector4;
 
 @Woven
-public class MinimalColorWell extends JComponent {
+public class MinimalColorWell extends JComponent implements iAcceptsInsertRenderingContext {
 
 	public ExecutesWhen when;
 
 	public ExecutesWhat what;
+	protected iInsertRenderingContext irc;
+
+	@Override
+	public void setInsertRenderingContext(iInsertRenderingContext context) {
+		this.irc = context;
+	}
 
 	static public class Component extends ProvidedComponent {
+
 		protected Vector4 value = new Vector4(0, 0, 0, 01.0f);
 		public transient iUpdateable notify;
 
@@ -59,10 +71,10 @@ public class MinimalColorWell extends JComponent {
 					Component.this.updateValue();
 				};
 
-				// @Override
-				// protected void execute() {
-				// executeThisLine(what);
-				// }
+				@Override
+				protected void execute() {
+					executeThisLine(irc, what);
+				}
 			};
 
 			((MinimalColorWell) component).setValue(value);
@@ -261,8 +273,6 @@ public class MinimalColorWell extends JComponent {
 	@Override
 	protected void processMouseEvent(MouseEvent e) {
 
-		;//System.out.println(" change color mouse event <" + e + ">");
-
 		if (Platform.isPopupTrigger(e)) {
 
 			LinkedHashMap<String, iUpdateable> menu = new LinkedHashMap<String, iUpdateable>();
@@ -300,32 +310,18 @@ public class MinimalColorWell extends JComponent {
 				}
 			});
 
-			// new SmallMenu().createMenu(menu).show(this, e.getX(),
-			// e.getY());
+			Canvas canvas = irc.getControl();
+			Point p = Launcher.display.map(canvas, irc.getControl().getShell(), new Point(e.getX(), e.getY()));
+			new SmallMenu().createMenu(menu, irc.getControl().getShell(), null).show(p);
 
 		} else if (e.getID() == e.MOUSE_PRESSED) {
 			// if (d == null)
 			{
 
-				Point x = new Point(20, 20);
-				SwingUtilities.convertPointToScreen(x, this);
 				Vector4 color = this.color;
 				if (color == null)
 					color = new Vector4(0.5, 0.5, 0.5, 0);
 
-				// new ColorDialog(new Color(color.x, color.y,
-				// color.z, color.w), (Frame)
-				// SwingUtilities.getWindowAncestor(this), x) {
-				// public void setColor(Color color) {
-				// super.setColor(color);
-				// MinimalColorWell.this.setValue(new
-				// Vector4(color.getRed() / 255f,
-				// color.getGreen() / 255f, color.getBlue() /
-				// 255f, color.getAlpha() / 255f));
-				// };
-				// };
-
-				;//System.out.println(" changing color");
 				changeColor();
 
 			}
