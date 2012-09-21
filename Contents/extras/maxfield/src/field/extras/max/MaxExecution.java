@@ -13,6 +13,7 @@ import field.core.execution.TimeSystem;
 import field.core.execution.iExecutesPromise;
 import field.core.network.OSCInput.DispatchableHandler;
 import field.core.plugins.python.PythonPlugin.LocalPromise;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.PythonTextEditor.PickledCompletionInformation;
 import field.core.util.LocalFuture;
@@ -108,6 +109,12 @@ public class MaxExecution implements iUpdateable {
 				MaxExecution.this.executeReturningValue(e, string, delegateTo, lf);
 				return lf;
 			}
+
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+				return false;
+			}
+
 
 		};
 	}

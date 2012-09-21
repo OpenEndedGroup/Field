@@ -54,10 +54,7 @@ public class EditorSpaceBox {
 			frozen = new HashMap<iVisualElement, Pair<Rect, StyledTextPositionSystem.Position>>();
 			frozenAt = new Vector4(window.getXScale(), window.getYScale(), window.getXTranslation(), window.getYTranslation());
 			frozenAtLineMap = buildLineMap();
-
 			doFreeze(root);
-
-			// System.out.println(" frozen has <"+frozenAtLineMap.size()+"> lines <"+frozenAt+">");
 
 		} catch (Throwable e) {
 			e.printStackTrace();

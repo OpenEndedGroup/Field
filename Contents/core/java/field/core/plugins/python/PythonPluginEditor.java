@@ -59,6 +59,7 @@ import field.core.ui.GraphNodeToTreeFancy;
 import field.core.ui.NewTemplates;
 import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.StyledTextUndo;
 import field.core.ui.text.StyledTextUndo.Memo;
@@ -577,6 +578,11 @@ public class PythonPluginEditor extends PythonPlugin {
 
 			}
 
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+				return false;
+			}
+
 			public void executeFragment(String fragment) {
 				try {
 					editor.getInput().append(filterFragment(fragment));
@@ -675,6 +681,11 @@ public class PythonPluginEditor extends PythonPlugin {
 
 		protected DefaultEditorExecutionInterface(iVisualElement root) {
 			this.root = root;
+		}
+
+		@Override
+		public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+			return false;
 		}
 
 		public void executeFragment(String fragment) {
