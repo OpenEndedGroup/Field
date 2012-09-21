@@ -3,14 +3,17 @@ package field.extras.jsrscripting;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
+import org.jruby.compiler.ScriptCompiler;
 import org.python.core.Py;
 import org.python.core.PyBuiltinMethodNarrow;
 import org.python.core.PyObject;
@@ -32,7 +35,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 	@Override
 	protected ScriptEngine makeEngine() {
 
-		;//;//System.out.println(" making engine ");
+		System.out.println(" making engine ");
 
 		try {
 
@@ -48,7 +51,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 			errMethod = err.getClass().getMethod("bindRoot", Object.class);
 
 			new ClojureDelegate(this);
-			
+
 			// register some adaptors for jython
 
 			PyBuiltinMethodNarrow meth = new PyBuiltinMethodNarrow("__call__") {
@@ -89,6 +92,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 					//
 					"\n" + "	def __setattr__(self, name, val):\n" + "		return RT.var(self.nsName, name).bindRoot(name, val)\n" + "\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n");
 
+			System.out.println(" finished making engine ");
 			return new ClojureScriptEngine();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -125,99 +129,52 @@ public class ClojureScriptingInterface extends JSRInterface {
 		return "unspecified error";
 	}
 
+	boolean first = true;
+
 	@Override
 	public Object eval(String eval) {
-		;//;//System.out.println(" -- eval in >>>>>>>>>");
 
-		final PrintStream oldOut = System.out;
-		final PrintStream oldErr = System.err;
+		if (eval.startsWith("\n"))
+			eval = eval.substring(1);
 
-		;//;//System.out.println(" outputstack error peek <" + outputStack.peek() + ">");
+		if (eval.trim().startsWith("print"))
+			eval = "(" + eval + ")";
 
-		System.setOut(new PrintStream(new OutputStream() {
-
-			@Override
-			public void write(int b) throws IOException {
-				// oldOut.println(" writing to <"+outputStack.peek().right+">");
-				context.getWriter().append((char) b);
-				outputStack.peek().left.write(b);
-			}
-
-			@Override
-			public void flush() throws IOException {
-				outputStack.peek().left.flush();
-			}
-		}));
-
-		System.setErr(new PrintStream(new OutputStream() {
-
-			@Override
-			public void write(int b) throws IOException {
-				// oldErr.write((char)b);
-				context.getErrorWriter().append((char) b);
-				outputStack.peek().right.write(b);
-
-			}
-
-			@Override
-			public void flush() throws IOException {
-				outputStack.peek().right.flush();
-				// context.getErrorWriter().flush();
-			}
-
-		}));
-
-		try {
-			outMethod.invoke(out, outputStack.peek().left);
-			errMethod.invoke(err, outputStack.peek().right);
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		if (first) {
+			first = false;
+			((ClojureScriptEngine) engine).pushTopLevelThreadBindings(context);
 		}
 
-		try {
+		try 
+		{ 
 
 			ns_enter();
 
+			context.setErrorWriter(PythonInterface.getPythonInterface().errOut);
 			Object e = super.eval(eval);
+			System.out.println(" out :" + e);
 
-			if (e != null)
-			{
-				;//;//System.out.println(e+" "+e.getClass());
-				
-				if (e instanceof Var)
-				{
-					Object name = ((Var)e).getTag();
-					e = ((Var)e).get();
-					if (e != null)
-					{
-						if (e instanceof AFunction)
-						{
+			if (e != null) {
+				System.out.println(e + " " + e.getClass());
+
+				if (e instanceof Var) {
+					Object name = ((Var) e).getTag();
+					e = ((Var) e).get();
+					if (e != null) {
+						if (e instanceof AFunction) {
 							PythonInterface.getPythonInterface().setVariable("_r", e);
 						}
-						
+
 					}
 				}
 			}
 
-			
-			
-			
 			return e;
-			// return null;
 		} finally {
 
 			ns_exit();
 			System.out.flush();
 			System.err.flush();
-			//
-			System.setOut(oldOut);
-			System.setErr(oldErr);
-
-			;//;//System.out.println(" -- eval out <<<<<<<<<<<<<<");
 
 		}
 	}

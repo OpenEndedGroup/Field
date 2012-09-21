@@ -21,6 +21,7 @@ import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.ui.SmallMenu;
 import field.core.ui.text.PythonTextEditor;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
 import field.launch.Launcher;
@@ -186,6 +187,12 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 
 				return delegateTo2.executeReturningValue(fragment);
 			}
+			
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+				return false;
+			}
+
 		};
 	}
 

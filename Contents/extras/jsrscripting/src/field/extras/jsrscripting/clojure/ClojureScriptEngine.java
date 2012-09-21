@@ -35,6 +35,7 @@ import clojure.lang.Compiler;
 import clojure.lang.LineNumberingPushbackReader;
 import clojure.lang.Namespace;
 import clojure.lang.RT;
+import clojure.lang.Repl;
 import clojure.lang.Symbol;
 import clojure.lang.Var;
 
@@ -133,6 +134,19 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 		return eval(new StringReader(script), context);
 	}
 
+	public void pushTopLevelThreadBindings(ScriptContext c)
+	{
+		Bindings engineScope = context.getBindings(ScriptContext.ENGINE_SCOPE);
+		if (engineScope != null)
+			applyBindings(engineScope);
+
+		Bindings globalScope = context.getBindings(ScriptContext.GLOBAL_SCOPE);
+		if (globalScope != null)
+			applyBindings(globalScope);
+
+		Var.pushThreadBindings(RT.map(RT.CURRENT_NS, RT.CURRENT_NS.deref(), RT.IN, new LineNumberingPushbackReader(context.getReader()), RT.OUT, context.getWriter(), RT.ERR, context.getErrorWriter()));
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -172,8 +186,10 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 
 			Var.pushThreadBindings(RT.map(RT.CURRENT_NS, RT.CURRENT_NS.deref(), RT.IN, new LineNumberingPushbackReader(context.getReader()), RT.OUT, context.getWriter(), RT.ERR, context.getErrorWriter()));
 			IN_NS.invoke(USER_SYM);
+			
 			result = Compiler.load(reader);
 		} catch (Exception e) {
+
 			throw new ScriptException(e);
 		} finally {
 			Var.popThreadBindings();
