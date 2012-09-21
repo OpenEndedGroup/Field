@@ -229,6 +229,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			@Override
 			public void draw() {
+				System.out.println(" draw_impl for <"+System.identityHashCode(this)+"> <"+drawQueue.getNumTasks()+">");
 				theApplet = this;
 
 				if (Platform.isMac())
@@ -241,6 +242,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			private void draw_impl() {
 
+				
 				frameNumber++;
 				if (g != null && g.getClass().getName().toLowerCase().contains("opengl") && ProcessingLoader.this.frame != null && frameNumber == 4) {
 					if (ProcessingLoader.this.frame.isResizable())
@@ -281,27 +283,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 							t = TemporalSliderOverrides.currentTimeSystem.get(ProcessingLoader.this.root);
 						runner.update(t == null ? 0 : (float) t.evaluate());
 					} catch (Throwable e) {
-						;// ;//System.out.println(" throwable <"
-							// + e + "> ");
 						e.printStackTrace();
 					}
 				} finally {
 
-					// if (g instanceof PGraphics3D) {
-					// try {
-					// int d2 = (Integer) ReflectionTools
-					// .illegalGetObject(((PGraphics3D) g),
-					// "matrixStackDepth");
-					// while (d2 > d1) {
-					// ((PGraphics3D) g).popMatrix();
-					// d2 = (Integer) ReflectionTools
-					// .illegalGetObject(((PGraphics3D) g),
-					// "matrixStackDepth");
-					// }
-					// } catch (Throwable t) {
-					//
-					// }
-					// }
+				
 				}
 
 			}
@@ -457,25 +443,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				}
 				synchronized (Launcher.lock) {
 
-					ProcessingLoader.this.frame.setSize(iwidth, iheight + 16);
+					ProcessingLoader.this.frame.setSize(iwidth, iheight + 22);
 
 					super.size(iwidth, iheight, irenderer, ipath);
 
 					resizeRenderer(iwidth, iheight);
-
-					// if (g instanceof PGraphics3D) {
-					// ((PGraphics3D) g).width = iwidth;
-					// ((PGraphics3D) g).height = iheight;
-					// ((PGraphics3D) g).cameraAspect =
-					// iheight
-					// / (float) iwidth;
-					// // ((PGraphics3D)
-					// // g).cameraAspect = iwidth/
-					// // (float) iheight;
-					//
-					// tellOpenGlAboutThatSetSize(iwidth,
-					// iheight);
-					// }
 				}
 			}
 
@@ -565,6 +537,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 				applet.init();
 				applet.noLoop();
+				applet.setLocation(0, 22);
 				Launcher.getLauncher().deregisterUpdateable(this);
 			}
 		});
@@ -602,6 +575,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			@Override
 			public void run() {
 				frame.setVisible(true);
+//				frame.pack();
+				applet.setLocation(0, 22);
 			}
 		});
 	}

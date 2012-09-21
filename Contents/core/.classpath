@@ -33,6 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="swt-grouplayout.jar" sourcepath="swt-grouplayout.zip"/>
-	<classpathentry kind="lib" path="swt.jar"/>
+	<classpathentry kind="lib" path="swt.jar" sourcepath="/Users/marc/Downloads/swt-3.8M5-cocoa-macosx-x86_64/src.zip"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
