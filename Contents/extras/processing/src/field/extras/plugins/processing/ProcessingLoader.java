@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -47,6 +48,7 @@ import field.core.execution.TimeSystem;
 import field.core.execution.iExecutesPromise;
 import field.core.plugins.pseudo.PseudoPropertiesPlugin;
 import field.core.ui.text.GlobalKeyboardShortcuts;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
 import field.core.util.LocalFuture;
@@ -691,6 +693,11 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				ProcessingLoader.this.executeReturningValue(string, delegateTo, lf);
 
 				return lf;
+			}
+			
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+				return false;
 			}
 		};
 	}
