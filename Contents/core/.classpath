@@ -20,7 +20,6 @@
 	<classpathentry kind="lib" path="pegdown-0.8.5.4.jar"/>
 	<classpathentry kind="lib" path="qdox-2.0-20100906.201255-1.jar"/>
 	<classpathentry kind="lib" path="serializer.jar"/>
-	<classpathentry kind="lib" path="swt.jar" sourcepath="/home/marc/fieldwork/field/Contents/lib/linux64/swt_src.zip"/>
 	<classpathentry kind="lib" path="WebSocket.jar"/>
 	<classpathentry kind="lib" path="writeMethodAPT.jar"/>
 	<classpathentry kind="lib" path="xalan.jar"/>
@@ -34,6 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="swt-grouplayout.jar" sourcepath="swt-grouplayout.zip"/>
-	<classpathentry kind="lib" path="swt.jar"/>
+	<classpathentry kind="lib" path="swt.jar" sourcepath="/Users/marc/Downloads/swt-3.8M5-cocoa-macosx-x86_64/src.zip"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
