@@ -181,7 +181,8 @@ public class SmallMenu {
 						menu.deselectAll();
 					e.doit = false;
 
-					;//System.out.println(" SELECTION :" + e);
+					;// System.out.println(" SELECTION :" +
+						// e);
 
 					if (hu != null) {
 						hu.update(menu.getSelectionIndex());
@@ -275,7 +276,8 @@ public class SmallMenu {
 						TableItem m = (TableItem) (ss == null || ss.length == 0 ? null : ss[0]);
 						shell.setVisible(false);
 						Object d = m == null ? null : m.getData();
-						// ;//System.out.println(" d = <" +
+						// ;//System.out.println(" d = <"
+						// +
 						// d + ">");
 						done();
 						if (d instanceof iUpdateable) {
@@ -396,7 +398,6 @@ public class SmallMenu {
 				}
 			});
 
-			
 			// Listener focusOutListener = new Listener() {
 			// public void handleEvent(Event event) {
 			// /*
@@ -427,8 +428,7 @@ public class SmallMenu {
 
 			}
 			openNext(s);
-			
-			
+
 			System.out.println(" ---------- OPEN ----------");
 			new Exception().printStackTrace();
 
@@ -462,7 +462,7 @@ public class SmallMenu {
 			// ;//System.out.println(" forced ? <" + forced + ">");
 
 			down = System.currentTimeMillis();
-			
+
 			Listener f = new Listener() {
 
 				@Override
@@ -480,12 +480,16 @@ public class SmallMenu {
 						Launcher.display.removeFilter(SWT.MouseMove, this);
 						Launcher.display.removeFilter(SWT.MouseUp, this);
 
-						;//System.out.println(" menu is at <" + (System.currentTimeMillis() - down) + "> ms <"+menu.getSelectionCount()+">");
+						;// System.out.println(" menu is at <"
+							// +
+							// (System.currentTimeMillis()
+							// - down) +
+							// "> ms <"+menu.getSelectionCount()+">");
 
-						if ((down >0 && System.currentTimeMillis() - down > 1000) || menu.getSelectionCount() > 0) {
+						if ((down > 0 && System.currentTimeMillis() - down > 1000) || menu.getSelectionCount() > 0) {
 
-							;//System.out.println(" selection is :"+Arrays.asList(menu.getSelection()));
-							
+							;// System.out.println(" selection is :"+Arrays.asList(menu.getSelection()));
+
 							if (event.widget != menu) {
 								// ;//System.out.println(" event not going to widget, would redispatch the up event");
 
@@ -509,7 +513,9 @@ public class SmallMenu {
 							// ;//System.out.println(" event not going to widget, would redispatch");
 
 							Listener[] movers = menu.getListeners(SWT.MouseMove);
-							;//System.out.println(" movers :" + Arrays.asList(movers));
+							;// System.out.println(" movers :"
+								// +
+								// Arrays.asList(movers));
 
 							Point c = Launcher.display.map((Control) event.widget, menu, new Point(event.x, event.y));
 							int ox = event.x;
@@ -562,374 +568,6 @@ public class SmallMenu {
 			return this;
 		}
 	}
-
-	// public final class BetterPopup extends JPopupMenu {
-	// private final iKeystrokeUpdate update;
-	//
-	// private final BetterPopup parent;
-	//
-	// private final KeyboardNavigationOfMenu key;
-	//
-	// protected boolean hasInteracted;
-	//
-	// JPopupMenu ongoingSubmenu = null;
-	//
-	// boolean ignoreSetVisible = false;
-	//
-	// private JButton actions;
-	//
-	// private Window previousWindow;
-	//
-	// private Component previousOwner;
-	//
-	// public BetterPopup(iKeystrokeUpdate update, BetterPopup parent) {
-	// setLightWeightPopupEnabled(false);
-	// this.update = update;
-	// this.parent = parent;
-	//
-	// this.setFocusable(true);
-	// setFocusTraversalKeysEnabled(true);
-	//
-	// key = new KeyboardNavigationOfMenu(this);
-	// enableEvents(AWTEvent.KEY_EVENT_MASK |
-	// AWTEvent.MOUSE_MOTION_EVENT_MASK |
-	// AWTEvent.MOUSE_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
-	//
-	// getInputMap().clear();
-	//
-	// }
-	//
-	// public void addActions() {
-	// // this.add(getActions());
-	// }
-	//
-	// public KeyboardNavigationOfMenu getKey() {
-	// return key;
-	// }
-	//
-	// boolean firstPaint = true;
-	//
-	// @Override
-	// public void paint(Graphics g) {
-	//
-	// super.paint(g);
-	//
-	// // paintComponents(g);
-	//
-	// new MiscNative().enableScreenUpdates();
-	// if (firstPaint) {
-	// attachKeyboard();
-	// firstPaint = false;
-	// }
-	// }
-	//
-	// private void attachKeyboard() {
-	// getPopupWindow().addKeyListener(new KeyListener() {
-	//
-	// public void keyTyped(KeyEvent e) {
-	// processKeyEvent(e, null, null);
-	// }
-	//
-	// public void keyReleased(KeyEvent e) {
-	// }
-	//
-	// public void keyPressed(KeyEvent e) {
-	// processKeyEvent(e, null, null);
-	// }
-	// });
-	// }
-	//
-	// boolean isKeyboardShy = false;
-	//
-	// public void setKeyboardShy(boolean isKeyboardShy) {
-	// if (isKeyboardShy) {
-	// this.setFocusable(false);
-	// setFocusTraversalKeysEnabled(false);
-	// }
-	// }
-	//
-	// @Override
-	// public void processMouseEvent(MouseEvent event, MenuElement[] path,
-	// MenuSelectionManager manager) {
-	// super.processMouseEvent(event, path, manager);
-	// ;//System.out.println(" special mouse event process <" + event + ">");
-	// }
-	//
-	// @Override
-	// public void processKeyEvent(KeyEvent arg0, MenuElement[] arg1,
-	// MenuSelectionManager arg2) {
-	//
-	// ;//System.out.println(" process key event <" + arg0 + "> (handled)");
-	//
-	// if (arg0.getKeyCode() == KeyEvent.VK_DOWN && arg0.getID() ==
-	// KeyEvent.KEY_PRESSED) {
-	// key.down();
-	// } else if (arg0.getKeyCode() == KeyEvent.VK_UP && arg0.getID() ==
-	// KeyEvent.KEY_PRESSED) {
-	// key.up();
-	// } else if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE && arg0.getID() ==
-	// KeyEvent.KEY_PRESSED) {
-	// key.escape();
-	// forceFocus();
-	// } else if (arg0.isActionKey()) {// super.processKeyEvent(arg0,
-	// // arg1, arg2);
-	// } else {
-	// if (arg0.getID() == KeyEvent.KEY_TYPED) {
-	// if (arg0.getKeyChar() == '\n') {
-	// key.enter();
-	//
-	// ;//System.out.println(" attempting to force focus <" + previousWindow +
-	// " / " + previousOwner + ">");
-	// // previousWindow.requestFocus();
-	// forceFocus();
-	//
-	// } else if (update != null)
-	// update.update(arg0);
-	// } else if (arg0.getKeyChar() == '\b' && update != null)
-	// update.update(arg0);
-	// else if (arg0.getID() == KeyEvent.KEY_PRESSED && update != null &&
-	// arg0.getKeyChar() != '\n' && arg0.getKeyChar() != '\b') {
-	// update.update(arg0);
-	// } else if (isKeyboardShy && arg0.getID() == KeyEvent.KEY_RELEASED) {
-	// // key.enter();
-	// // setVisible(false);
-	// // return;
-	// }
-	// // super.processKeyEvent(arg0, arg1, arg2);
-	// }
-	// }
-	//
-	// private void forceFocus() {
-	// ;//System.out.println(" forcing focus to <" + previousOwner + ">");
-	//
-	// if (!previousWindow.isVisible()) {
-	// ;//System.out.println(" window is not valid ");
-	// return;
-	// }
-	// if (!previousOwner.isValid()) {
-	// ;//System.out.println(" owner is not valid ");
-	// return;
-	// }
-	// previousWindow.requestFocus();
-	// previousOwner.requestFocus();
-	// Launcher.getLauncher().registerUpdateable(new iUpdateable() {
-	// int n = 0;
-	//
-	// @Override
-	// public void update() {
-	// previousWindow.requestFocus();
-	// previousOwner.requestFocus();
-	// if (n++ > 3)
-	// Launcher.getLauncher().deregisterUpdateable(this);
-	// }
-	// });
-	// }
-	//
-	// @Override
-	// public void setVisible(boolean b) {
-	// if (b && !isVisible()) {
-	// previousWindow =
-	// FocusManager.getCurrentKeyboardFocusManager().getFocusedWindow();
-	// previousOwner =
-	// FocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
-	// }
-	// // ;//System.out.println(" set
-	// // visible on popup <" + b +
-	// // ">");
-	// // new
-	// // Exception().printStackTrace();
-	//
-	// // if (!b) {
-	// // if (parent != null) {
-	// // parent.ignoreSetVisible =
-	// // false;
-	// // getPopupWindow().setAlwaysOnTop(false);
-	// // }
-	// // }
-	// // if (ignoreSetVisible && !b) {
-	// // getPopupWindow().setAlwaysOnTop(false);
-	// //
-	// // ignoreSetVisible = false;
-	// // } else {
-	//
-	// super.setVisible(b);
-	//
-	// if (b && Platform.getOS() == Platform.OS.mac) {
-	//
-	// getPopupWindow().setAlwaysOnTop(true);
-	//
-	// ;//System.out.println(" attaching event handlers to small menu");
-	//
-	// JWindow window = getPopupWindow();
-	// if (window != null) {
-	// window.addWindowFocusListener(new WindowFocusListener() {
-	//
-	// public void windowGainedFocus(WindowEvent e) {
-	// ;//System.out.println(" gained focus");
-	// }
-	//
-	// public void windowLostFocus(WindowEvent e) {
-	// ;//System.out.println(" lost focus, faking escape");
-	// key.escape();
-	// }
-	// });
-	//
-	// window.addWindowStateListener(new WindowStateListener() {
-	//
-	// public void windowStateChanged(WindowEvent e) {
-	// ;//System.out.println(" state changed <" + e + ">");
-	// }
-	// });
-	//
-	// window.addWindowListener(new WindowAdapter() {
-	//
-	// @Override
-	// public void windowActivated(WindowEvent e) {
-	// ;//System.out.println(" window activated");
-	// }
-	//
-	// @Override
-	// public void windowDeactivated(WindowEvent e) {
-	// ;//System.out.println(" window deactivated");
-	// }
-	// });
-	//
-	// window.addMouseListener(new MouseListener() {
-	//
-	// public void mouseReleased(MouseEvent e) {
-	// ;//System.out.println(" window event for parent of popup <" + e + ">");
-	// }
-	//
-	// public void mousePressed(MouseEvent e) {
-	// ;//System.out.println(" window event for parent of popup <" + e + ">");
-	// }
-	//
-	// public void mouseExited(MouseEvent e) {
-	// ;//System.out.println(" window event for parent of popup <" + e + ">");
-	// }
-	//
-	// public void mouseEntered(MouseEvent e) {
-	// ;//System.out.println(" window event for parent of popup <" + e + ">");
-	// }
-	//
-	// public void mouseClicked(MouseEvent e) {
-	// ;//System.out.println(" window event for parent of popup <" + e + ">");
-	// }
-	// });
-	//
-	// // window.requestFocus();
-	// }
-	// }
-	//
-	// // actions menu not working for
-	// // now
-	//
-	// // if (b)
-	// // {
-	// // getPopupWindow().getLayeredPane().setLayer(getActionMenu(),
-	// // 1000);
-	// // getPopupWindow().getLayeredPane().add(getActions());
-	// // getActions().setBounds(this.getWidth()
-	// // - 30, 5, 30, 30);
-	// // }
-	// // }
-	//
-	// }
-	//
-	// @Override
-	// protected void processFocusEvent(FocusEvent evt) {
-	// super.processFocusEvent(evt);
-	//
-	// ;//System.out.println(" focus event on popup <" + evt + ">");
-	//
-	// if (evt.getID() == FocusEvent.FOCUS_LOST) {
-	// setVisible(false);
-	// // requestFocus();
-	// }
-	//
-	// }
-	//
-	// @Override
-	// protected void processKeyEvent(KeyEvent arg0) {
-	// ;//System.out.println(" process key event on small menu (unhandled) ");
-	// super.processKeyEvent(arg0);
-	// }
-	//
-	// public JWindow getPopupWindow() {
-	// try {
-	// Popup p = (Popup)
-	// ReflectionTools.getFirstFIeldCalled(JPopupMenu.class,
-	// "popup").get(this);
-	// ;//System.out.println(" popup window is <" + p + ">");
-	// JWindow window = (JWindow)
-	// ReflectionTools.getFirstFIeldCalled(p.getClass(),
-	// "component").get(p);
-	//
-	// ;//System.out.println(" popup window is <" + p + "> / <" + window +
-	// ">");
-	//
-	// return window;
-	// } catch (IllegalArgumentException e) {
-	// e.printStackTrace();
-	// } catch (IllegalAccessException e) {
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
-	//
-	// private JButton getActions() {
-	// if (actions == null) {
-	// actions = new JButton();
-	// actions.setPreferredSize(new Dimension(24, 24));
-	// actions.setMaximumSize(new Dimension(24, 24));
-	// actions.setMinimumSize(new Dimension(24, 24));
-	// // actions.setPressedIcon(new
-	// //
-	// ImageIcon(getClass().getResource("/content/icons/Action_Pressed.jpg")));
-	// // actions.setIcon(new
-	// // ImageIcon(getClass().getResource("/content/icons/action.tiff")));
-	// // actions.setIcon(BetterComboBox.getDiscloseIcon());
-	// actions.setIcon(new ImageIcon("content/icons/Gear.png"));
-	// actions.setIconTextGap(0);
-	// actions.putClientProperty("Quaqua.Button.style", "square");
-	// actions.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// JPopupMenu menu = getActionMenu();
-	// ;//System.out.println(" opening action menu");
-	// menu.show(actions, 20, 10);
-	// }
-	//
-	// });
-	//
-	// actions.setOpaque(false);
-	//
-	// }
-	// return actions;
-	// }
-	//
-	// private JPopupMenu getActionMenu() {
-	// LinkedHashMap<String, iUpdateable> someItems = new
-	// LinkedHashMap<String,
-	// iUpdateable>();
-	// someItems.put("here", new iUpdateable() {
-	//
-	// public void update() {
-	// }
-	// });
-	// someItems.put("there", new iUpdateable() {
-	//
-	// public void update() {
-	// }
-	// });
-	// someItems.put("everywhere", new iUpdateable() {
-	//
-	// public void update() {
-	// }
-	// });
-	// JPopupMenu p = new SmallMenu().createMenu(someItems);
-	// return p;
-	// }
-	// }
 
 	public interface iKeystrokeUpdate {
 		// returns should close
@@ -1020,7 +658,7 @@ public class SmallMenu {
 							name = " " + lead + "\t" + name.substring(in).trim();
 							break;
 						} else if (!Character.isWhitespace(name.charAt(in)) && lead != 0) {
-							name = " " + name.trim();
+							name = "\t" + name.trim();
 							break;
 						}
 					}
@@ -1070,36 +708,6 @@ public class SmallMenu {
 
 		return menu;
 	}
-
-	// public boolean runKeyboardShortcut(LinkedHashMap<String, iUpdateable>
-	// into,
-	// KeyEvent event) {
-	//
-	// Set<Entry<String, iUpdateable>> es = into.entrySet();
-	// for (Entry<String, iUpdateable> e : es) {
-	// String name = e.getKey();
-	//
-	// String accelerator = null;
-	// Pattern accPattern = Pattern.compile("///(.*)///");
-	// Matcher m = accPattern.matcher(name);
-	// if (m.find()) {
-	// accelerator = m.group(1);
-	// name = m.replaceAll("");
-	// }
-	// if (accelerator != null) {
-	// KeyStroke stroke = KeyStroke.getKeyStroke(accelerator);
-	// int code = stroke.getKeyCode();
-	// int mod = stroke.getModifiers();
-	//
-	// if (event.getKeyCode() == code
-	// && (event.getModifiers() & 255) == (mod & 255)) {
-	// e.getValue().update();
-	// return true;
-	// }
-	// }
-	// }
-	//
-	// return false;
 
 	static public class Pretty {
 
@@ -1181,7 +789,7 @@ public class SmallMenu {
 
 							event.gc.setForeground(Launcher.display.getSystemColor(SWT.COLOR_BLACK));
 
-							draw(textToDraw, event.gc, event.x + indent, event.y + 2 + vertSpace, null);
+							draw("<b>"+textToDraw+"</b>", event.gc, event.x + indent, event.y + 2 + vertSpace, null);
 						}
 					} else {
 						draw(textToDraw, event.gc, event.x + indent, event.y + 2 + vertSpace);
@@ -1426,9 +1034,6 @@ public class SmallMenu {
 
 					gc.drawText(a.text, cx + x, y + dasc - asc, true);
 
-					// ;//System.out.println(" text <" + a.text
-					// + ">");
-
 					cx += gc.textExtent(a.text).x;
 
 					areaIndex++;
@@ -1444,10 +1049,6 @@ public class SmallMenu {
 						gc.drawText(ttd, cx + x, y, true);
 					}
 
-					// ;//System.out.println(" normal text <" +
-					// textToDraw.substring(start, end) +
-					// ">");
-
 					cx += gc.textExtent(ttd).x;
 
 					index = end;
@@ -1457,6 +1058,4 @@ public class SmallMenu {
 		}
 
 	}
-	// }
-
 }

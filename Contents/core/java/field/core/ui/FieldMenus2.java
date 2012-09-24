@@ -49,7 +49,7 @@ public class FieldMenus2 {
 		Logging.registerCycleUpdateable();
 		hiddenWindow = new Shell(Launcher.display);
 
-		if (Platform.getOS() == OS.mac && false)  {
+		if (Platform.getOS() == OS.mac && false) {
 			CocoaUIEnhancer enhancer = new CocoaUIEnhancer("Field");
 			enhancer.hookApplicationMenu(Launcher.display, new iUpdateable() {
 
@@ -66,7 +66,7 @@ public class FieldMenus2 {
 
 				@Override
 				public void update() {
-					;//System.out.println(" preferences ");
+					;// System.out.println(" preferences ");
 				}
 			});
 		}
@@ -100,12 +100,11 @@ public class FieldMenus2 {
 
 				@Override
 				public void widgetSelected(SelectionEvent arg0) {
-						Platform.willBe17 = !Platform.willBe17;
-						mi.setText("Use OpenJDK 1.7 (restart required)");
-						mi.setSelection(Platform.willBe17);
+					Platform.willBe17 = !Platform.willBe17;
+					mi.setText("Use OpenJDK 1.7 (restart required)");
+					mi.setSelection(Platform.willBe17);
 
-						
-						new ExecuteCommand(".", new String[] { "/usr/bin/defaults", "write", "com.openendedgroup.Field", "use16", Platform.willBe17 ? "NO" : "YES"}, true);
+					new ExecuteCommand(".", new String[] { "/usr/bin/defaults", "write", "com.openendedgroup.Field", "use16", Platform.willBe17 ? "NO" : "YES" }, true);
 
 				}
 
@@ -146,7 +145,7 @@ public class FieldMenus2 {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
 
-					;//System.out.println(" OPEN ");
+					;// System.out.println(" OPEN ");
 
 					doOpenFile(hiddenWindow);
 				}
@@ -178,7 +177,6 @@ public class FieldMenus2 {
 			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				if (!Launcher.shuttingDown) {
-					;//System.out.println(" gone ");
 					doClose(s);
 				}
 			}
@@ -193,11 +191,9 @@ public class FieldMenus2 {
 
 	private void makeMenuForSheet(final Sheet s) {
 
-		;//System.out.println(" setting menu bar");
+		if (Platform.isLinux())
+			return;
 
-		if (Platform.isLinux()) return;
-		
-		
 		Menu bar = s.setup.getMenuBar();
 		if (bar == null) {
 			bar = new Menu(s.setup, SWT.BAR);
@@ -231,7 +227,7 @@ public class FieldMenus2 {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 
-				;//System.out.println(" OPEN ");
+				;// System.out.println(" OPEN ");
 
 				doOpenFile(s.setup);
 			}
@@ -338,7 +334,7 @@ public class FieldMenus2 {
 
 	}
 
-	protected void doSaveAs(Sheet s, Shell setup) {
+	public void doSaveAs(Sheet s, Shell setup) {
 		FileDialog d = new FileDialog(setup, SWT.SAVE | SWT.SHEET);
 		d.setOverwrite(true);
 		d.setFilterPath(WorkspaceDirectory.dir[0]);
@@ -346,7 +342,7 @@ public class FieldMenus2 {
 
 		String fn = d.open();
 
-		;//System.out.println(" -- fn : " + fn);
+		;// System.out.println(" -- fn : " + fn);
 
 		if (fn != null) {
 
@@ -375,15 +371,17 @@ public class FieldMenus2 {
 					}
 
 				} else {
-					;//System.out.println(" no mkdir ");
+					;// System.out.println(" no mkdir ");
 				}
 			} else {
-				;//System.out.println(" no prefix <" + fn + "> <" + getCanonicalVersioningDir() + ">");
+				;// System.out.println(" no prefix <" + fn +
+					// "> <" + getCanonicalVersioningDir() +
+					// ">");
 			}
 		}
 	}
 
-	protected void doNewFile() {
+	public void doNewFile() {
 
 		FileDialog d = new FileDialog(hiddenWindow, SWT.SAVE);
 		d.setOverwrite(false);

@@ -27,7 +27,7 @@ public class GraphNodeToTreeFancy {
 
 	public static int baseFontHeight(Control install) {
 		if (Platform.isMac())
-			return install.getFont().getFontData()[0].getHeight()-1;
+			return install.getFont().getFontData()[0].getHeight() - 1;
 		else
 			return 8;
 	}
@@ -54,7 +54,7 @@ public class GraphNodeToTreeFancy {
 
 		List<iMutable> c = m.getChildren();
 		for (iMutable cc : c) {
-			populate(cc, item);	
+			populate(cc, item);
 		}
 
 	}
@@ -77,7 +77,7 @@ public class GraphNodeToTreeFancy {
 		public Pretty(Tree install, final int fixedWidth) {
 			String name = install.getFont().getFontData()[0].getName();
 
-			name = "Gill Sans";
+			name = Constants.defaultFont;
 
 			smallerFont = new Font(Launcher.display, name, (int) (baseFontHeight(install) * 0.66f), SWT.NORMAL);
 			boldFont = new Font(Launcher.display, name, baseFontHeight(install), SWT.BOLD);
@@ -94,8 +94,7 @@ public class GraphNodeToTreeFancy {
 					Point dim = measure(textToDraw, event.gc);
 					event.width = Math.max(fixedWidth, dim.x + indent);
 					event.height = dim.y + vertSpace * 2;
-					
-				
+
 				}
 			});
 			install.addListener(SWT.PaintItem, new Listener() {

@@ -190,6 +190,9 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 			
 			@Override
 			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+				
+				
+				
 				return false;
 			}
 

@@ -81,6 +81,8 @@ import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.plugins.selection.ToolBarFolder;
 import field.core.plugins.snip.SnippetsPlugin;
+import field.core.ui.FieldMenus2;
+import field.core.ui.FieldMenus2.Sheet;
 import field.core.ui.MarkingMenuBuilder;
 import field.core.ui.NewTemplates;
 import field.core.ui.PopupTextBox;
@@ -639,10 +641,10 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 		if (inprogress.get().contains(source))
 			return VisitCode.stop;
-		
-		System.out.println(" inprogress <"+inprogress.get()+">");
+
+		System.out.println(" inprogress <" + inprogress.get() + ">");
 		inprogress.get().add(source);
-		
+
 		try {
 
 			// should be
@@ -708,6 +710,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		for (iPlugin p : plugins)
 			p.close();
 
+		Launcher.getLauncher().registerUpdateable(this);
 		Launcher.getLauncher().deregisterUpdateable(window);
 		window.getFrame().setVisible(false);
 		window.getFrame().dispose();
@@ -1262,7 +1265,10 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 	}
 
 	public VisitCode menuItemsFor(iVisualElement source, Map<String, iUpdateable> items) {
-
+		
+		if (Platform.isLinux())
+			insertFileMenuItems(rootSheetElement, group, items);
+		
 		insertCopyPasteMenuItems(rootSheetElement, group, items);
 
 		final HashSet<iVisualElement> o = selectionOrOver();
@@ -1319,43 +1325,34 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			});
 		}
 
-		// items.put("    \u1d40   Create from <b>template</b> ///T///",
-		// new iUpdateable() {
-		// public void update() {
-		// createFromTemplate();
-		// }
-		// });
-
-		// // TODO swt - temp menu code here to create something
-		// items.put("   \u21e3  create <b>new</b> visual element here ///N///",
-		// new iUpdateable() {
-		//
-		// public void update() {
-		//
-		// iVisualElement ee = rootSheetElement;
-		//
-		// GLComponentWindow frame = iVisualElement.enclosingFrame
-		// .get(rootSheetElement);
-		//
-		// Rect bounds = new Rect(30, 30, 50, 50);
-		// if (frame != null) {
-		// bounds.x = frame.getCurrentMousePosition().x;
-		// bounds.y = frame.getCurrentMousePosition().y;
-		// }
-		//
-		// Triple<VisualElement, DraggableComponent, DefaultOverride>
-		// created =
-		// VisualElement
-		// .createWithName(bounds, ee,
-		// VisualElement.class,
-		// DraggableComponent.class,
-		// DefaultOverride.class,"untitled");
-		//
-		// }
-		//
-		// });
-
 		return VisitCode.cont;
+	}
+
+	public void insertFileMenuItems(final iVisualElement rootSheetElement, MainSelectionGroup group, Map<String, iUpdateable> items) {
+		items.put("File", null);
+		items.put("\t<b>New File...</b>", new iUpdateable() {
+
+			@Override
+			public void update() {
+				Sheet s = FieldMenus2.fieldMenus.sheetForSheet(StandardFluidSheet.this);
+				FieldMenus2.fieldMenus.doNewFile();
+			}
+		});
+		items.put("\t<b>Save</b>", new iUpdateable() {
+
+			@Override
+			public void update() {
+				saveNow();
+			}
+		});
+		items.put("\t<b>Save As...</b>", new iUpdateable() {
+
+			@Override
+			public void update() {
+				Sheet s = FieldMenus2.fieldMenus.sheetForSheet(StandardFluidSheet.this);
+				FieldMenus2.fieldMenus.doSaveAs(s, window.getFrame());
+			}
+		});
 	}
 
 	static public void insertCopyPasteMenuItems(final iVisualElement rootSheetElement, MainSelectionGroup group, Map<String, iUpdateable> items) {
@@ -1368,7 +1365,6 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 			items.put(" \u2397 <b>Copy</b> elements ///meta C///", new iUpdateable() {
 
 				public void update() {
-					;// System.out.println(" copying file reference to clipboard ");
 					File tmp = new PackageTools().newTempFileWithSelected(rootSheetElement, "copied");
 					new PackageTools().copyFileReferenceToClipboard(tmp.getAbsolutePath());
 					OverlayAnimationManager.notifyTextOnWindow(iVisualElement.enclosingFrame.get(rootSheetElement), "Copied to clipboard", null, 1, new Vector4(1, 1, 1, 0.15f));

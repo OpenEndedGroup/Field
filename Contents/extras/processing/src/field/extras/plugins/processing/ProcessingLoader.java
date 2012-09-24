@@ -231,7 +231,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			@Override
 			public void draw() {
-				System.out.println(" draw_impl for <"+System.identityHashCode(this)+"> <"+drawQueue.getNumTasks()+">");
+				System.out.println(" draw_impl for <" + System.identityHashCode(this) + "> <" + drawQueue.getNumTasks() + ">");
 				theApplet = this;
 
 				if (Platform.isMac())
@@ -244,7 +244,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			private void draw_impl() {
 
-				
 				frameNumber++;
 				if (g != null && g.getClass().getName().toLowerCase().contains("opengl") && ProcessingLoader.this.frame != null && frameNumber == 4) {
 					if (ProcessingLoader.this.frame.isResizable())
@@ -254,33 +253,28 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				int d1 = 0;
 				try {
 
-					// if (g instanceof PGraphics)
-					// d1 = (Integer)
-					// ReflectionTools.illegalGetObject(
-					// ((PGraphics) g), "matrixStackDepth");
-
 				} catch (Throwable t) {
 				}
 
 				try {
 					PythonInterface.getPythonInterface().setVariable("p", applet);
 					try {
-						if (drawQueue.getNumTasks() > 0)
+						System.out.println(" num tasks <" + drawQueue.getNumTasks() + "> in <" + System.identityHashCode(drawQueue) + ">");
 
-							try {
-								inside = true;
+						try {
+							inside = true;
 
-								pmouseX = dmouseX;
-								pmouseY = dmouseY;
-								drawQueue.update();
-								dmouseX = mouseX;
-								dmouseY = mouseY;
+							pmouseX = dmouseX;
+							pmouseY = dmouseY;
+							drawQueue.update();
+							dmouseX = mouseX;
+							dmouseY = mouseY;
 
-							} catch (Exception e) {
-								e.printStackTrace();
-							} finally {
-								inside = false;
-							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						} finally {
+							inside = false;
+						}
 						if (t == null)
 							t = TemporalSliderOverrides.currentTimeSystem.get(ProcessingLoader.this.root);
 						runner.update(t == null ? 0 : (float) t.evaluate());
@@ -289,7 +283,6 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 					}
 				} finally {
 
-				
 				}
 
 			}
@@ -577,7 +570,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			@Override
 			public void run() {
 				frame.setVisible(true);
-//				frame.pack();
+				// frame.pack();
 				applet.setLocation(0, 22);
 			}
 		});
@@ -694,7 +687,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 				return lf;
 			}
-			
+
 			@Override
 			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
 				return false;
@@ -707,6 +700,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 	}
 
 	public iRegistersUpdateable getQueueFor(Method m) {
+
 		return drawQueue;
 	}
 
@@ -808,6 +802,9 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 	@InQueue
 	protected void executeFragment(String fragment, EditorExecutionInterface delegateTo) {
+
+		System.out.println(" -- exec fragment in queue :" + this.getQueueFor(null) + " " + System.identityHashCode(this.getQueueFor(null)));
+
 		PythonInterface.getPythonInterface().setVariable("p", applet);
 		if (delegateTo == null) {
 			PythonInterface.getPythonInterface().execString(fragment);
