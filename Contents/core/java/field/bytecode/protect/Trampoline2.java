@@ -54,7 +54,7 @@ public class Trampoline2 implements iLaunchable {
 
 	static public ReloadingSupport reloadingSupport = new ReloadingSupport();
 
-	public class MyClassLoader extends URLClassLoader {
+	public class MyClassLoader extends FastClassLoader {
 
 		private java.lang.reflect.Method findLoadedClass_method1;
 
@@ -530,16 +530,16 @@ public class Trampoline2 implements iLaunchable {
 						e.printStackTrace();
 					}
 				}
-			System.out.println(" checking <"+path+"> for natives ");
+			System.out.println(" checking <" + path + "> for natives ");
 			File[] natives = path.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-			System.out.println(" found <"+natives.length+">");
+			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <"+n+">");
+					System.out.println(" preemptive load of <" + n + ">");
 					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
@@ -673,17 +673,16 @@ public class Trampoline2 implements iLaunchable {
 				}
 			}
 
-		
-			System.out.println(" checking <"+dir+"> for natives ");
+			System.out.println(" checking <" + dir + "> for natives ");
 			File[] natives = dir.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-			System.out.println(" found <"+natives.length+">");
+			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <"+n+">");
+					System.out.println(" preemptive load of <" + n + ">");
 					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
@@ -818,6 +817,8 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public byte[] bytesForClass(java.lang.ClassLoader deferTo, String class_name) {
+
+		System.out.println(" bytes for class :" + class_name);
 
 		InputStream s = deferTo.getResourceAsStream(resourceNameForClassName(class_name));
 		if (s == null)
@@ -973,17 +974,8 @@ public class Trampoline2 implements iLaunchable {
 			System.setSecurityManager(new NoWriteSecurityManager());
 		else if (SystemProperties.getIntProperty("collectResources", 0) == 1)
 			System.setSecurityManager(new CollectResourcesSecurityManager());
-		else if (SystemProperties.getIntProperty("collectResources", 0) == 1)
+		else
 			System.setSecurityManager(new NoopSecurityManager());
-
-		//
-		// Launcher.getLauncher().registerUpdateable(new iUpdateable(){
-		// public void update() {
-		// ;//System.out.println(" num classes <"+(loader.already.size()+loader.previous.size())+">");
-		// }
-		// });
-		//
-		//
 
 	}
 

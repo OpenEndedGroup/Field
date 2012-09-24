@@ -74,9 +74,6 @@ public class EditorSpaceBox {
 
 				r.add(new Vector2(ll.x, ll.y));
 			}
-
-			// System.out.println(" line map <"+r+">");
-
 			return r;
 		} catch (SWTError e) {
 			return new ArrayList<Vector2>();

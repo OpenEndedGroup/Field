@@ -5,8 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.DirectColorModel;
 import java.awt.image.WritableRaster;
@@ -74,7 +72,6 @@ public class CustomInsertDrawing {
 
 		boolean disposed = false;
 
-		
 		public float lx,ly;
 			
 		public Nub(final JComponent component, StyledText target, int width, int height) {
