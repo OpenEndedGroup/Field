@@ -231,7 +231,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			@Override
 			public void draw() {
-				System.out.println(" draw_impl for <" + System.identityHashCode(this) + "> <" + drawQueue.getNumTasks() + ">");
+//				System.out.println(" draw_impl for <" + System.identityHashCode(this) + "> <" + drawQueue.getNumTasks() + ">");
 				theApplet = this;
 
 				if (Platform.isMac())
@@ -259,7 +259,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				try {
 					PythonInterface.getPythonInterface().setVariable("p", applet);
 					try {
-						System.out.println(" num tasks <" + drawQueue.getNumTasks() + "> in <" + System.identityHashCode(drawQueue) + ">");
+//						System.out.println(" num tasks <" + drawQueue.getNumTasks() + "> in <" + System.identityHashCode(drawQueue) + ">");
 
 						try {
 							inside = true;
@@ -803,7 +803,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 	@InQueue
 	protected void executeFragment(String fragment, EditorExecutionInterface delegateTo) {
 
-		System.out.println(" -- exec fragment in queue :" + this.getQueueFor(null) + " " + System.identityHashCode(this.getQueueFor(null)));
+//		System.out.println(" -- exec fragment in queue :" + this.getQueueFor(null) + " " + System.identityHashCode(this.getQueueFor(null)));
 
 		PythonInterface.getPythonInterface().setVariable("p", applet);
 		if (delegateTo == null) {
