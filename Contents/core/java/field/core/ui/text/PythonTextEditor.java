@@ -145,8 +145,8 @@ public class PythonTextEditor extends BaseTextEditor2 {
 		public void executeFragment(String fragment);
 
 		public Object executeReturningValue(String string);
-		
-		public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp);
+
+		public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside);
 
 	}
 
@@ -261,17 +261,17 @@ public class PythonTextEditor extends BaseTextEditor2 {
 
 					for (Pattern errorLineNoPattern : errorLineNoPatterns) {
 
-						System.out.println(" matcher on :"+error.toString()+" "+errorLineNoPattern);
+						System.out.println(" matcher on :" + error.toString() + " " + errorLineNoPattern);
 						Matcher m = errorLineNoPattern.matcher(error.toString());
 						if (m.find()) {
 							String gg = m.group(1);
-							if (gg == null && m.groupCount()>1)
+							if (gg == null && m.groupCount() > 1)
 								gg = m.group(2);
-							if (gg == null && m.groupCount()>2)
+							if (gg == null && m.groupCount() > 2)
 								gg = m.group(3);
 
-							System.out.println(" gg : "+gg);
-							
+							System.out.println(" gg : " + gg);
+
 							int i = Integer.parseInt(gg);
 
 							int cp = getInputEditor().getSelectionRange().x;
@@ -2265,10 +2265,11 @@ public class PythonTextEditor extends BaseTextEditor2 {
 		if (inter == null)
 			return comp;
 
-		
 		String cc = balanceBack(leftText);
 
-		if (globalCompletionHook(leftText, publicOnly, comp)) return comp;
+		System.out.println(" about to call globalcompletionhook");
+		if (globalCompletionHook(leftText, publicOnly, comp))
+			return comp;
 
 		if (cc.lastIndexOf('.') > 0) {
 
@@ -2318,7 +2319,10 @@ public class PythonTextEditor extends BaseTextEditor2 {
 	}
 
 	protected boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
-		return false;
+
+		System.out.println(" calling into interface <" + getInterface() + ">");
+		return getInterface().globalCompletionHook(leftText, publicOnly, comp, this);
+
 	}
 
 	protected String balanceBack(String leftText) {

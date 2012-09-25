@@ -47,13 +47,13 @@ import field.core.execution.TemporalSliderOverrides;
 import field.core.execution.TimeSystem;
 import field.core.execution.iExecutesPromise;
 import field.core.plugins.pseudo.PseudoPropertiesPlugin;
-import field.core.ui.text.GlobalKeyboardShortcuts;
+import field.core.ui.text.BaseTextEditor2;
 import field.core.ui.text.BaseTextEditor2.Completion;
+import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
 import field.core.util.LocalFuture;
 import field.core.util.PythonCallableMap;
-import field.core.windowing.GLComponentWindow;
 import field.launch.Launcher;
 import field.launch.SystemProperties;
 import field.launch.iUpdateable;
@@ -689,7 +689,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			}
 
 			@Override
-			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp) {
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
 				return false;
 			}
 		};
