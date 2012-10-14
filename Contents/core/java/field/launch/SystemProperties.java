@@ -195,7 +195,6 @@ public class SystemProperties {
 		HashMap<String, Object> a = new HashMap<String, Object>(additionalProperties);
 
 		String k = new MiscNative().getPropertyKeys_safe();
-		System.out.println(" parsing property keys :"+k+">");
 
 		for(String kk : k.split(":"))
 		{

@@ -17,9 +17,11 @@ import field.core.dispatch.iVisualElement.Rect;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
 import field.core.dispatch.iVisualElementOverrides.DefaultOverride;
 import field.core.dispatch.iVisualElementOverrides_m;
+import field.core.plugins.PythonOverridden.Callable;
 import field.core.plugins.python.PythonPlugin.CapturedEnvironment;
 import field.launch.iUpdateable;
 import field.math.graph.GraphNodeSearching.VisitCode;
+import field.namespace.generic.Bind.iFunction;
 import field.util.Dict;
 import field.util.HashMapOfLists;
 
@@ -86,8 +88,9 @@ public class PythonOverridden extends DefaultOverride {
 
 	public void add(String methodname, PyFunction call) {
 		Callable c = callableForFunction(call);
-		;//System.out.println(" adding <" + methodname + "> <" + call + "> <" + c + ">");
-		// methods.addToList(methodname, c);
+		;// System.out.println(" adding <" + methodname + "> <" + call +
+			// "> <" + c + ">");
+			// methods.addToList(methodname, c);
 		Collection<Callable> cc = methods.getCollection(methodname);
 		if (cc != null) {
 			Iterator<Callable> ccc = cc.iterator();
@@ -99,7 +102,7 @@ public class PythonOverridden extends DefaultOverride {
 		}
 		methods.addToList(methodname, c);
 
-		;//System.out.println("  now <" + methods + ">");
+		;// System.out.println("  now <" + methods + ">");
 	}
 
 	@Override
@@ -262,13 +265,13 @@ public class PythonOverridden extends DefaultOverride {
 	}
 
 	static public Callable callableForFunction(final PyObject call, final CapturedEnvironment e) {
-		return new Callable(call, call instanceof PyFunction ? ((PyFunction)call).__name__ : (""+call.hashCode())) {
+		return new Callable(call, call instanceof PyFunction ? ((PyFunction) call).__name__ : ("" + call.hashCode())) {
 			@Override
 			public Object call(Method arg0, Object[] arg1) {
 				if (e != null)
 					e.enter();
 				try {
-					PyObject[] objects = new PyObject[arg1==null ? 0 : arg1.length];
+					PyObject[] objects = new PyObject[arg1 == null ? 0 : arg1.length];
 					for (int i = 0; i < objects.length; i++) {
 						Object a = arg1[i];
 						objects[i] = Py.java2py(a);
@@ -302,6 +305,16 @@ public class PythonOverridden extends DefaultOverride {
 
 	private void notifyFaulted(HashMap<Callable, Throwable> faulted) {
 
+	}
+
+	public static Callable callableForFunction(String name, final iFunction f) {
+		return new Callable(f, name) {
+
+			@Override
+			public Object call(Method m, Object[] args) {
+				return f.f(args[0]);
+			}
+		};
 	}
 
 }
