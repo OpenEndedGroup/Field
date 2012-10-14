@@ -29,15 +29,17 @@ public class MaxExecution implements iUpdateable {
 	private iExecutesPromise ep;
 
 	BasicRunner runner;
-	
+
 	public MaxExecution(MaxPlugin maxPlugin) {
 		this.inside = maxPlugin;
 
 		ep = new iExecutesPromise() {
 			public void addActive(iFloatProvider timeProvider, Promise p) {
-				;//;//System.out.println("add active : " + ((LocalPromise) p).element+"  "+p.getText());
-				
-				executeFragment( ((LocalPromise)p).element, p.getText(), null);
+				;// ;//System.out.println("add active : " +
+					// ((LocalPromise)
+					// p).element+"  "+p.getText());
+
+				executeFragment(((LocalPromise) p).element, p.getText(), null);
 			}
 
 			public void removeActive(Promise p) {
@@ -46,54 +48,58 @@ public class MaxExecution implements iUpdateable {
 			public void stopAll(float t) {
 			}
 		};
-		
+
 		runner = new BasicRunner(PythonScriptingSystem.pythonScriptingSystem.get(maxPlugin.getRoot()), 0) {
 			@Override
 			protected boolean filter(Promise p) {
 				iVisualElement v = (iVisualElement) system.keyForPromise(p);
-				
-				if (v==null) return false;
-				
+
+				if (v == null)
+					return false;
+
 				iExecutesPromise ep = iExecutesPromise.promiseExecution.get(v);
 				return ep == MaxExecution.this.ep;
 			}
-			
+
 			protected Delegate delegateForPromise(float t, Promise p, boolean forwards) {
-				return new Delegate()
-				{
+				return new Delegate() {
 
 					@Override
 					public void continueToBeActive(float t, Promise p, boolean forwards) {
-						// TODO Auto-generated method stub
-						
+						// TODO Auto-generated method
+						// stub
+
 					}
 
 					@Override
 					public void jumpStop(float t, Promise p, boolean forwards) {
-						// TODO Auto-generated method stub
-						
+						// TODO Auto-generated method
+						// stub
+
 					}
 
 					@Override
 					public void start(float t, Promise p, boolean forwards) {
-						executeFragment( ((LocalPromise)p).element, p.getText(), null);
+						executeFragment(((LocalPromise) p).element, p.getText(), null);
 					}
 
 					@Override
 					public void startAndStop(float t, Promise p, boolean forwards) {
-						// TODO Auto-generated method stub
-						
+						// TODO Auto-generated method
+						// stub
+
 					}
 
 					@Override
 					public void stop(float t, Promise p, boolean forwards) {
-						// TODO Auto-generated method stub
-						
+						// TODO Auto-generated method
+						// stub
+
 					}
-					
+
 				};
 			};
-			
+
 		};
 
 	}
@@ -116,15 +122,12 @@ public class MaxExecution implements iUpdateable {
 				return false;
 			}
 
-
 		};
 	}
 
 	int talkback = 0;
 
 	protected void executeReturningValue(iVisualElement e, String fragment, EditorExecutionInterface delegateTo, final LocalFuture lf) {
-
-		;//;//System.out.println(" execute returning value <" + fragment + "> <" + delegateTo + "> ");
 
 		String command = "evalxvalue(_, r\"\"\"" + fragment + "\"\"\", \"/return/" + (talkback) + "\")";
 
@@ -136,11 +139,10 @@ public class MaxExecution implements iUpdateable {
 
 				String ss = (String) args[0];
 
-				;//;//System.out.println(" prepickled <" + ss + "> len <" + ss.length() + "> <" + args.length + ">");
 
 				Object r = field.core.execution.PythonInterface.getPythonInterface().eval("cPickle.loads(r\"\"\"" + ss + "\"\"\")");
 
-				;//;//System.out.println(" unpickled and got <" + r + ">");
+				System.out.println(" unpickled and got <" + r+ ">");
 
 				lf.set(new PickledCompletionInformation((List) r));
 			}
@@ -153,12 +155,13 @@ public class MaxExecution implements iUpdateable {
 
 	protected void executeFragment(iVisualElement e, String fragment, EditorExecutionInterface delegateTo) {
 
-		;//;//System.out.println(" execute fragment <" + fragment + ">");
+		;// ;//System.out.println(" execute fragment <" + fragment +
+			// ">");
 
 		// todo
 		List<String> target = targetsFor(e);
 		if (target.size() == 0) {
-//			PythonInterface.getPythonInterface().printError("Warning: python exected nowhere --- set the 'maxBox' property to be the name of the box in Max that you want to send code to for execution");
+			// PythonInterface.getPythonInterface().printError("Warning: python exected nowhere --- set the 'maxBox' property to be the name of the box in Max that you want to send code to for execution");
 			target.add(iVisualElement.name.get(e));
 		}
 		for (String t : target)
@@ -183,7 +186,7 @@ public class MaxExecution implements iUpdateable {
 	}
 
 	public void update() {
-		
+
 		TimeSystem t = TemporalSliderOverrides.currentTimeSystem.get(inside.getRoot());
 		runner.update(t == null ? 0 : (float) t.evaluate());
 

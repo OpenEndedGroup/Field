@@ -14,6 +14,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLStreamHandlerFactory;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class FastClassLoader extends URLClassLoader {
 		super(urls);
 	}
 
-	Map<String, String> a = new LinkedHashMap<String, String>();
+	volatile Map<String, String> a = new LinkedHashMap<String, String>();
 	long maphash = -1;
 	long loadedmaphash = -1;
 
@@ -56,6 +57,10 @@ public class FastClassLoader extends URLClassLoader {
 			public void run() {
 
 				try {
+
+					Map<String, String> a = FastClassLoader.this.a;
+					FastClassLoader.this.a = new HashMap<String, String>();
+
 					a.put("__maphash__", "" + maphash);
 
 					ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))));

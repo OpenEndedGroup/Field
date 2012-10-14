@@ -247,118 +247,122 @@ public class HelpBrowser extends BaseSimplePlugin {
 		Color backgroundColor = ToolBarFolder.helpFolder.background;
 		toolbar.setBackground(backgroundColor);
 
-		browser = new Browser(container, 0);
+		try {
+			browser = new Browser(container, 0);
 
-		// browser.setBackground(Launcher.display.getSystemColor(SWT.COLOR_RED));
-		browser.setBackgroundMode(SWT.INHERIT_FORCE);
+			// browser.setBackground(Launcher.display.getSystemColor(SWT.COLOR_RED));
+			browser.setBackgroundMode(SWT.INHERIT_FORCE);
 
-		// browser.setBackground(ToolBarFolder.firstLineBackground);
-		// browser.setText("<html><body>Welcome to Field</body><html>");
-		setText(preamble);
-		proc = new PegDownProcessor();
+			// browser.setBackground(ToolBarFolder.firstLineBackground);
+			// browser.setText("<html><body>Welcome to Field</body><html>");
+			setText(preamble);
+			proc = new PegDownProcessor();
 
-		configureBridge(browser);
+			configureBridge(browser);
 
-		GridLayout gl = new GridLayout(1, false);
-		gl.marginHeight = 0;
-		gl.marginWidth = 0;
+			GridLayout gl = new GridLayout(1, false);
+			gl.marginHeight = 0;
+			gl.marginWidth = 0;
 
-		if (Platform.getOS() == OS.linux) {
-			gl.verticalSpacing = 0;
-			gl.horizontalSpacing = 0;
-		}
-
-		container.setLayout(gl);
-		{
-			GridData data = new GridData();
-			data.heightHint = 28;
 			if (Platform.getOS() == OS.linux) {
-				data.heightHint = 38;
+				gl.verticalSpacing = 0;
+				gl.horizontalSpacing = 0;
 			}
-			data.widthHint = 1000;
-			data.horizontalAlignment = SWT.FILL;
-			data.grabExcessHorizontalSpace = true;
-			toolbar.setLayoutData(data);
+
+			container.setLayout(gl);
+			{
+				GridData data = new GridData();
+				data.heightHint = 28;
+				if (Platform.getOS() == OS.linux) {
+					data.heightHint = 38;
+				}
+				data.widthHint = 1000;
+				data.horizontalAlignment = SWT.FILL;
+				data.grabExcessHorizontalSpace = true;
+				toolbar.setLayoutData(data);
+			}
+			{
+				GridData data = new GridData();
+				data.grabExcessVerticalSpace = true;
+				data.grabExcessHorizontalSpace = true;
+				data.verticalAlignment = SWT.FILL;
+				data.horizontalAlignment = SWT.FILL;
+				browser.setLayoutData(data);
+			}
+
+			toolbar.setLayout(new RowLayout(SWT.HORIZONTAL));
+
+			back = new Button(toolbar, SWT.FLAT);
+			back.setImage(new Image(Launcher.display, "icons/grey/arrow_left_16x16.png"));
+
+			back.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					browser.back();
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+
+			forward = new Button(toolbar, SWT.FLAT);
+			forward.setImage(new Image(Launcher.display, "icons/grey/arrow_right_16x16.png"));
+
+			forward.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					browser.forward();
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+
+			Button home = new Button(toolbar, SWT.FLAT);
+			home.setImage(new Image(Launcher.display, "icons/grey/home_16x16.png"));
+
+			home.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					goHome();
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+				}
+			});
+
+			pin = new Button(toolbar, SWT.TOGGLE | SWT.FLAT);
+			pin.setImage(new Image(Launcher.display, "icons/grey/pin_16x16.png"));
+
+			back.setBackground(back.getParent().getBackground());
+			forward.setBackground(back.getParent().getBackground());
+			home.setBackground(back.getParent().getBackground());
+			pin.setBackground(back.getParent().getBackground());
+
+			new MacScrollbarHack(browser);
+
+			goHome();
+
+			browser.addOpenWindowListener(new OpenWindowListener() {
+				public void open(WindowEvent event) {
+					Shell shell = new Shell(Launcher.getLauncher().display);
+					shell.setText("Field Help");
+					shell.setLayout(new FillLayout());
+					Browser browser = new Browser(shell, SWT.NONE);
+					event.browser = browser;
+					shell.setVisible(true);
+					System.out.println(" opened a browser on <" + event + ">");
+				}
+			});
+		} catch (NoSuchMethodError e) {
+			System.out.println(" webkit integration busted in 32bit mode");
 		}
-		{
-			GridData data = new GridData();
-			data.grabExcessVerticalSpace = true;
-			data.grabExcessHorizontalSpace = true;
-			data.verticalAlignment = SWT.FILL;
-			data.horizontalAlignment = SWT.FILL;
-			browser.setLayoutData(data);
-		}
-
-		toolbar.setLayout(new RowLayout(SWT.HORIZONTAL));
-
-		back = new Button(toolbar, SWT.FLAT);
-		back.setImage(new Image(Launcher.display, "icons/grey/arrow_left_16x16.png"));
-
-		back.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				browser.back();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-
-		forward = new Button(toolbar, SWT.FLAT);
-		forward.setImage(new Image(Launcher.display, "icons/grey/arrow_right_16x16.png"));
-
-		forward.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				browser.forward();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-
-		Button home = new Button(toolbar, SWT.FLAT);
-		home.setImage(new Image(Launcher.display, "icons/grey/home_16x16.png"));
-
-		home.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				goHome();
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-			}
-		});
-
-		pin = new Button(toolbar, SWT.TOGGLE | SWT.FLAT);
-		pin.setImage(new Image(Launcher.display, "icons/grey/pin_16x16.png"));
-
-		back.setBackground(back.getParent().getBackground());
-		forward.setBackground(back.getParent().getBackground());
-		home.setBackground(back.getParent().getBackground());
-		pin.setBackground(back.getParent().getBackground());
-
-		new MacScrollbarHack(browser);
-
-		goHome();
-
-		browser.addOpenWindowListener(new OpenWindowListener() {
-			public void open(WindowEvent event) {
-				Shell shell = new Shell(Launcher.getLauncher().display);
-				shell.setText("Field Help");
-				shell.setLayout(new FillLayout());
-				Browser browser = new Browser(shell, SWT.NONE);
-				event.browser = browser;
-				shell.setVisible(true);
-				System.out.println(" opened a browser on <"+event+">");
-			}
-		});
 	}
 
 	public String HOME = "http://localhost:10010/field_2/StandardLibrary.html";

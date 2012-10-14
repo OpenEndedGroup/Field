@@ -22,6 +22,9 @@ public class GitVersioningSystem extends VersioningSystem {
 		if (!new File(gitCommand).exists())
 			gitCommand = System.getProperty("user.home") + "/bin/git";
 		if (!new File(gitCommand).exists())
+			gitCommand = "/Applications/Xcode.app/Contents/Developer/usr/bin/git";
+					
+		if (!new File(gitCommand).exists())
 			System.err.println("ERROR: cant find a git installation anywhere");
 	}
 
@@ -37,6 +40,7 @@ public class GitVersioningSystem extends VersioningSystem {
 	protected String executeCommand(String dir, String... command) {
 		;//System.out.println(":: " + dir + " @ " + Arrays.asList(command));
 		ExecuteCommand c = new ExecuteCommand(dir, command, true);
+		c.echo = false;
 		c.waitFor(true);
 		String output = c.getOutput();
 		return output;

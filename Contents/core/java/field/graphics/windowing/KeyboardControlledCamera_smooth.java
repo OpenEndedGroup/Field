@@ -120,6 +120,12 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 			System.err.println(" not flipped!");
 		}
 
+		if (e.getKeyChar() == ';') {
+			FullScreenCanvasSWT.totalFlip = true;
+		} else if (e.getKeyChar() == 'l') {
+			FullScreenCanvasSWT.totalFlip = false;
+		}
+
 		if (!charactersDown.containsKey(d))
 			charactersDown.put(d, 1f);
 	}
@@ -345,6 +351,14 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 			}
 			System.err.println(" not flipped!");
 		}
+		
+		if (e.character == ';') {
+			FullScreenCanvasSWT.totalFlip = true;
+		} else if (e.character == 'l') {
+			FullScreenCanvasSWT.totalFlip = false;
+		}
+
+
 
 		if (!charactersDown.containsKey(d))
 			charactersDown.put(d, 1f);
@@ -371,7 +385,7 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 			gestureIsDown = true;
 		}
 
-		;//System.out.println(e);
+		;// System.out.println(e);
 
 		if (e.detail == SWT.GESTURE_ROTATE) {
 
@@ -384,7 +398,7 @@ public class KeyboardControlledCamera_smooth extends CoordinateFrameCamera imple
 				charactersDown.remove(d2);
 				charactersDownBuffer.remove(d2);
 			}
-			if (e.rotation< 0) {
+			if (e.rotation < 0) {
 				CharacterIsDown d = new CharacterIsDown((char) SWT.KEYPAD_9, true, (int) SWT.KEYPAD_9).setDoFade(true);
 				charactersDown.put(d, (float) Math.abs(e.rotation));
 				// charactersDownBuffer.put(d, new

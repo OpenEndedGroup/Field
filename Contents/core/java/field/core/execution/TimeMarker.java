@@ -1,29 +1,35 @@
 package field.core.execution;
 
+import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
+import static org.lwjgl.opengl.GL11.GL_SRC_COLOR;
+import static org.lwjgl.opengl.GL11.GL_ZERO;
+import static org.lwjgl.opengl.GL11.glBlendFunc;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE1;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Event;
-import org.python.constantine.Platform;
 
 import field.core.Constants;
 import field.core.Platform.OS;
 import field.core.dispatch.iVisualElement;
-import field.core.dispatch.iVisualElementOverrides;
 import field.core.dispatch.iVisualElement.Rect;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
+import field.core.dispatch.iVisualElementOverrides;
 import field.core.plugins.drawing.opengl.CachedLine;
 import field.core.plugins.drawing.opengl.iLinearGraphicsContext;
 import field.core.windowing.GLComponentWindow;
-import field.graphics.core.BasicContextManager;
 import field.graphics.core.BasicGeometry;
-import field.graphics.core.TextSystem;
 import field.graphics.core.BasicGeometry.TriangleMesh;
+import field.graphics.core.TextSystem;
 import field.graphics.core.TextSystem.RectangularLabel;
 import field.graphics.dynamic.DynamicMesh;
 import field.graphics.dynamic.iDynamicMesh;
@@ -34,22 +40,6 @@ import field.math.linalg.CoordinateFrame;
 import field.math.linalg.Vector2;
 import field.math.linalg.Vector4;
 import field.math.linalg.iCoordinateFrame.iMutable;
-
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL14.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL21.*;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL31.*;
-import static org.lwjgl.opengl.GL32.*;
-import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.opengl.GL40.*;
-import static org.lwjgl.opengl.GL41.*;
-import static org.lwjgl.opengl.ARBShaderObjects.*;
 
 
 /**

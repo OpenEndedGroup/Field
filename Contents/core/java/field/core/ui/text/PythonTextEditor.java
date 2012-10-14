@@ -93,7 +93,7 @@ import field.util.PythonUtils;
 public class PythonTextEditor extends BaseTextEditor2 {
 
 	static public class PickledCompletionInformation {
-		List info;
+		public List info;
 
 		public PickledCompletionInformation(List info) {
 			super();
@@ -1033,16 +1033,12 @@ public class PythonTextEditor extends BaseTextEditor2 {
 	}
 
 	private Completion completionForPyMethod(final String leftText, final PyMethod f, boolean pythonOnly) {
-		;// System.out.println(" py mthod :" + f + " " +
-			// f.im_func.getClass());
-		if (f.im_func instanceof PyFunction) {
-			Completion c = completionForPyFunction(leftText, (PyFunction) f.im_func, true);
+		if (f.getFunc() instanceof PyFunction) {
+			Completion c = completionForPyFunction(leftText, (PyFunction) f.getFunc(), true);
 			return c;
-		} else if (!pythonOnly && f.im_func instanceof PyReflectedFunction) {
-			PyReflectedFunction ff = ((PyReflectedFunction) f.im_func);
+		} else if (!pythonOnly && f.getFunc() instanceof PyReflectedFunction) {
+			PyReflectedFunction ff = ((PyReflectedFunction) f.getFunc());
 			Method m = (Method) ReflectionTools.illegalGetObject(ff.argslist[0], "data");
-			;// System.out.println(" method is <" + m + "> <" +
-				// m.getDeclaringClass() + ">");
 
 			if (m.getDeclaringClass() == Object.class)
 				return null;
@@ -2387,7 +2383,7 @@ public class PythonTextEditor extends BaseTextEditor2 {
 			if (type.equals("field")) {
 
 				final String name = (String) i.get(2);
-				if (name.startsWith(right) && (!publicOnly || !name.startsWith("_"))) {
+				if (name.startsWith(right) && (!publicOnly || !name.startsWith("__"))) {
 					Completion cc = new Completion() {
 
 						@Override
@@ -2411,7 +2407,7 @@ public class PythonTextEditor extends BaseTextEditor2 {
 
 			} else if (type.equals("javamethod")) {
 				final String name = (String) i.get(1);
-				if (name.startsWith(right) && (!publicOnly || !name.startsWith("_"))) {
+				if (name.startsWith(right) && (!publicOnly || !name.startsWith("__"))) {
 					Completion cc = new Completion() {
 
 						@Override

@@ -81,8 +81,11 @@ import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.plugins.selection.ToolBarFolder;
 import field.core.plugins.snip.SnippetsPlugin;
+import field.core.plugins.snip.TreeBrowserPlugin;
+
 import field.core.ui.FieldMenus2;
 import field.core.ui.FieldMenus2.Sheet;
+
 import field.core.ui.MarkingMenuBuilder;
 import field.core.ui.NewTemplates;
 import field.core.ui.PopupTextBox;
@@ -297,6 +300,8 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 
 		sheet.registerPlugin(new HelpBrowser());
 		ToolBarFolder.helpFolder.select(0);
+
+		sheet.registerPlugin(new TreeBrowserPlugin());
 
 		sheet.rootSheetElement.setProperty(iVisualElement.toolPalette2, new ToolPalette2());
 		registerExtendedPlugins(sheet);
@@ -1017,7 +1022,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 					}
 				}
 			}
-		} else if (event.type == SWT.KeyDown && event.character == 'T' && tick) {
+		} else if (event.type == SWT.KeyDown && event.character == 'y' && tick) {
 			tick = false;
 			createFromTemplate();
 		} else if (event.type == SWT.KeyDown && event.keyCode == SWT.PAGE_UP && tick) {

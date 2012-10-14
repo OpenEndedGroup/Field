@@ -1,30 +1,26 @@
 package field.extras.jsrscripting;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptException;
 
-import org.jruby.compiler.ScriptCompiler;
 import org.python.core.Py;
 import org.python.core.PyBuiltinMethodNarrow;
 import org.python.core.PyObject;
 import org.python.core.PyType;
-import org.python.util.PythonInterpreter;
 
 import clojure.lang.AFunction;
 import clojure.lang.Var;
+import field.bytecode.protect.Woven;
+import field.bytecode.protect.annotations.NextUpdate;
 import field.core.execution.PythonInterface;
 import field.extras.jsrscripting.clojure.ClojureScriptEngine;
 
+@Woven
 public class ClojureScriptingInterface extends JSRInterface {
 	static public final HashSet<String> forbiddenNames = new HashSet<String>(Arrays.asList(new String[] { "flatten", "name", "alias", "Math", "Double", "System", "first", "load", "cons", "_ex", "_clojure", "Runtime", "_now", "trans" }));
 	private Object out;
@@ -92,7 +88,10 @@ public class ClojureScriptingInterface extends JSRInterface {
 					//
 					"\n" + "	def __setattr__(self, name, val):\n" + "		return RT.var(self.nsName, name).bindRoot(name, val)\n" + "\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n");
 
+
+			lateInitCompletionHook();
 			System.out.println(" finished making engine ");
+
 			return new ClojureScriptEngine();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -110,6 +109,12 @@ public class ClojureScriptingInterface extends JSRInterface {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	@NextUpdate
+	public void lateInitCompletionHook() {
+		PythonInterface.getPythonInterface().execString("from java.lang import Character\n" + "\n" + "def completions(a):\n" + "\n" + "	for n in range(len(a)-1, -1, -1):\n" + "		if ( Character.isJavaIdentifierPart(a[n]) or a[n]==\"-\"):\n" + "			pass\n" + "		else:\n" + "			a = a[n+1:]\n" + "			break\n" +"\n" + "	stem = [x for x in _clojure.__field__possibleFor.invoke(\"^\"+a)]\n" + "	rr = []\n" + "	for n in stem:\n" +  "		dd = _clojure.__field__docstringfor.invoke(n)\n" +"		if (dd):\n" + "			rr += [\"\\n\"+dd+\"\\n\", n]\n" + "		else:\n" + "			rr += [n]\n" + "	return rr\n" + "\n" + "Clojure.completions = completions\n");
+		eval("(use `clojure.repl)\n" + "\n" + "(defn __field__docstringfor [a]\n" + "	(:doc (meta (.get (.getMappings (find-ns 'user)) (symbol a)))))\n" + "\n" + "(defn __field__possibleFor [a]\n" + "	(apropos (re-pattern a)))\n" + "");
 	}
 
 	static public String installed(JSRPlugin plugin) {
@@ -145,8 +150,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 			((ClojureScriptEngine) engine).pushTopLevelThreadBindings(context);
 		}
 
-		try 
-		{ 
+		try {
 
 			ns_enter();
 

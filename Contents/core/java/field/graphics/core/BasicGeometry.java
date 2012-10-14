@@ -450,7 +450,7 @@ public class BasicGeometry {
 				Vector3 at = new Vector3(vv);
 
 				if (z >= vertexLimit || z < 0) {
-					;//System.out.println(z + " " + vertexCount + " " + vertexLimit + " (" + at + ")");
+					System.out.println(z + " " + vertexCount + " " + vertexLimit + " (" + at + ")");
 					System.err.println(" bad line -- element <" + i + "> which is <" + z + "> outside [0, " + vertexLimit + "]");
 					triangleBuffer.iBuffer.put(i, 0);
 					assert false;
@@ -557,7 +557,7 @@ public class BasicGeometry {
 			float cw = clamp(width * globalLineScale);
 			CoreHelpers.glLineWidth(cw);
 
-			// checkLine();
+			 checkLine();
 
 			// glUseProgramObjectARB(0);
 			CoreHelpers.doCameraState();
