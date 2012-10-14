@@ -59,10 +59,12 @@ public class NewTemplates {
 	public String suffix = ".template";
 
 	public List<Pair<String, String>> getAllTemplates() {
-		;//System.out.println(" all templates in <" + templateFolder + ">");
+		;// System.out.println(" all templates in <" + templateFolder +
+			// ">");
 		File[] all = new File(templateFolder).listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				;//System.out.println(" checking <" + name + ">");
+				;// System.out.println(" checking <" + name +
+					// ">");
 				return name.endsWith(suffix);
 			}
 		});
@@ -103,7 +105,7 @@ public class NewTemplates {
 		up.put("Templates", null);
 		List<Pair<String, String>> all = getAllTemplates();
 
-		;//System.out.println(" all templates are <" + all + ">");
+		;// System.out.println(" all templates are <" + all + ">");
 
 		int num = 0;
 		for (final Pair<String, String> a : all) {
@@ -113,9 +115,9 @@ public class NewTemplates {
 		}
 
 		for (final Pair<String, String> a : all) {
-			;//System.out.println(" checking <" + a.left + "> against <" + left + ">");
+			;// System.out.println(" checking <" + a.left +
+				// "> against <" + left + ">");
 			if (a.left.startsWith(left)) {
-
 
 				final String text = "\u1d40 <b>" + a.left + "</b> \u2014 <i>" + trim(a.right) + "</i>";
 				up.put(text, new iUpdateable() {
@@ -159,9 +161,10 @@ public class NewTemplates {
 
 			@Override
 			public boolean update(Event ke) {
-				completions[0].shell.setVisible(false);
 
-				;//System.out.println(" key code is <" + ke.keyCode + ">" + Character.isISOControl(ke.character));
+				;// System.out.println(" key code is <" +
+					// ke.keyCode + ">" +
+					// Character.isISOControl(ke.character));
 
 				if (ke.keyCode == 13) {
 					// result.set(left[0]);
@@ -177,6 +180,7 @@ public class NewTemplates {
 				else {
 					left[0] += ke.character;
 				}
+				completions[0].shell.setVisible(false);
 				completions[0] = completionsFor(left[0], this, result);
 				completions[0].show(new Point(at.x, at.y));
 				// completions[0].requestFocusInWindow();
@@ -187,7 +191,7 @@ public class NewTemplates {
 			}
 		}, result);
 
-		;//System.out.println(" popping open completions menu");
+		;// System.out.println(" popping open completions menu");
 
 		completions[0].show(new Point(at.x, at.y));
 		// completions[0].requestFocusInWindow();

@@ -19,6 +19,7 @@ import field.core.plugins.history.GitVersioningSystem;
 import field.core.plugins.history.HGVersioningSystem;
 import field.core.ui.FieldMenus2;
 import field.core.util.ExecuteCommand;
+import field.launch.Launcher;
 import field.launch.SystemProperties;
 
 public class WorkspaceDirectory {
@@ -78,7 +79,7 @@ public class WorkspaceDirectory {
 
 			if (fn != null) {
 
-				;//System.out.println(" got ok <" + fn + ">");
+				;// System.out.println(" got ok <" + fn + ">");
 
 				File f = new File(fn);
 
@@ -92,7 +93,8 @@ public class WorkspaceDirectory {
 
 						System.exit(1);
 					} else {
-						;//System.out.println(" directory made successfully <" + f.exists() + ">");
+						;// System.out.println(" directory made successfully <"
+							// + f.exists() + ">");
 					}
 				} else {
 					if (!new File(f, ".hg").exists()) {
@@ -105,7 +107,9 @@ public class WorkspaceDirectory {
 
 							System.exit(1);
 						} else {
-							;//System.out.println(" directory made successfully 2 <" + f.exists() + ">");
+							;// System.out.println(" directory made successfully 2 <"
+								// + f.exists()
+								// + ">");
 						}
 					} else {
 						System.err.println(" mercurial repository already there");
@@ -113,13 +117,6 @@ public class WorkspaceDirectory {
 				}
 
 				System.err.println(" directory already exists ");
-
-				// check to see if this is a repository
-				boolean isRep = new File(f, ".hg").exists();
-				if (!isRep) {
-					System.err.println(" making it into a repository ");
-					makeIntoRepository(f);
-				}
 
 				try {
 					dir[0] = f.getCanonicalPath();
@@ -134,6 +131,21 @@ public class WorkspaceDirectory {
 
 		if (dir[0] == null) {
 			System.exit(1);
+		}
+
+		// check to see if this is a repository
+		if (useGit == false) {
+			boolean isRep = new File(dir[0], ".hg").exists();
+			if (!isRep) {
+				System.err.println(" making it into a repository ");
+				makeIntoRepository(new File(dir[0]));
+			}
+		} else {
+			boolean isRep = new File(dir[0], ".git").exists();
+			if (!isRep) {
+				System.err.println(" making it into a repository ");
+				makeIntoRepository(new File(dir[0]));
+			}
 		}
 
 		if (!new File(dir[0]).exists()) {
@@ -153,13 +165,15 @@ public class WorkspaceDirectory {
 		if (useGit) {
 			ExecuteCommand c = new ExecuteCommand(f.getAbsolutePath(), new String[] { GitVersioningSystem.gitCommand, "init" }, true);
 			int w = c.waitFor();
-			;//System.out.println(" return code <" + w + ">");
-			;//System.out.println(" output <" + c.getOutput() + ">");
+			;// System.out.println(" return code <" + w + ">");
+			;// System.out.println(" output <" + c.getOutput() +
+				// ">");
 		} else {
 			ExecuteCommand c = new ExecuteCommand(f.getAbsolutePath(), new String[] { HGVersioningSystem.hgCommand, "init" }, true);
 			int w = c.waitFor();
-			;//System.out.println(" return code <" + w + ">");
-			;//System.out.println(" output <" + c.getOutput() + ">");
+			;// System.out.println(" return code <" + w + ">");
+			;// System.out.println(" output <" + c.getOutput() +
+				// ">");
 		}
 	}
 
@@ -187,7 +201,9 @@ public class WorkspaceDirectory {
 		if (new File(System.getProperty("user.home") + "/bin/hg").exists())
 			return;
 
-		JOptionPane.showMessageDialog(null, "Field can't find a Mercurial installation on this computer, please install one for development purposes");
+		MessageBox mb = new MessageBox(new Shell(), SWT.ABORT | SWT.ICON_ERROR);
+		mb.setMessage("Field can't find a Mercurial installation on this computer, please install one for development purposes");
+		mb.open();
 		System.exit(0);
 
 	}
@@ -199,8 +215,13 @@ public class WorkspaceDirectory {
 				return;
 		}
 
+		gitBinary[0] = GitVersioningSystem.gitCommand;
+
 		if (!new File(GitVersioningSystem.gitCommand).exists()) {
-			JOptionPane.showMessageDialog(null, "Field can't find a Git installation on this computer, please install one for development purposes");
+
+			MessageBox mb = new MessageBox(new Shell(), SWT.ABORT | SWT.ICON_ERROR);
+			mb.setMessage("Field can't find a Git installation on this computer, please install one for development purposes");
+			mb.open();
 			System.exit(0);
 		}
 	}

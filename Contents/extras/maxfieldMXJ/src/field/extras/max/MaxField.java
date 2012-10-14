@@ -10,6 +10,8 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -32,10 +34,16 @@ import com.cycling74.max.MaxClock;
 import com.cycling74.max.MaxObject;
 
 import field.extras.max.FieldMaxPyObjectAdaptor.iHandlesAttributes;
-import field.launch.SystemProperties;
 
 public class MaxField extends MaxObject implements iHandlesAttributes {
-
+	{
+		System.out.println(" working around jffi issues B");
+		try {
+			Method m = MaxField.class.getClassLoader().getClass().getDeclaredMethod("definedPackage", String.class, String.class, String.class, String.class, String.class, String.class, String.class, URL.class);
+			m.invoke("com.kenai.jffi", null, null, null, null, null, null, null);
+		} catch (Exception e) {
+		}
+	}
 	static public MaxFieldRoot thisRoot;
 
 	public PyDictionary globals = new PyDictionary();
@@ -49,9 +57,8 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 	public Set<MaxClock> ongoingClocks = new LinkedHashSet<MaxClock>();
 
 	public MaxField(Atom[] args) {
-		Py.setSystemState(state);
 
-		;//;//System.out.println(" -- hello --");
+		Py.setSystemState(state);
 
 		state.setClassLoader(this.getClass().getClassLoader());
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
@@ -60,7 +67,6 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 
 		lateInit();
 		declareIO(4, 4);
-
 	}
 
 	boolean inited = false;
@@ -70,15 +76,14 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 			return;
 		inited = true;
 		try {
-			FileInputStream fis = new FileInputStream(new File(getBootDir() + "maxfield/__init__.py"));
+			FileInputStream fis = new FileInputStream(new File(getBootDir() + "../python/maxfield/__init__.py"));
 
 			Py.getSystemState().path.add(getBootDir());
-			Py.getSystemState().path.add(getBootDir()+"../../../lib/python");
+			Py.getSystemState().path.add(getBootDir() + "../../../lib/python");
 
 			Py.exec(Py.compile_flags(fis, "__boot__", CompileMode.exec, cflags), globals, globals);
 			fis.close();
 		} catch (Exception e) {
-			;//;//System.out.println(" -- error --" + e.getClass());
 			e.printStackTrace();
 		}
 	}
@@ -88,19 +93,18 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 		String[] mm = m.toString().split(":");
 		for (String mmm : mm) {
 
-			;//;//System.out.println(" checking <" + mmm + ">");
+			;// ;//System.out.println(" checking <" + mmm + ">");
 
 			if (new File(mmm + "/../python/maxfield/__init__.py").exists()) {
 				return mmm + "/";
 			}
 		}
-		
-		;//;//System.out.println(" code source is :"+this.getClass().getProtectionDomain().getCodeSource().getLocation());
-		if (new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"/../python/maxfield/__init__.py").exists())
-		{
-			return this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath()+"/../python/";
+
+		;// ;//System.out.println(" code source is :"+this.getClass().getProtectionDomain().getCodeSource().getLocation());
+		if (new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + "/../python/maxfield/__init__.py").exists()) {
+			return this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + "/../python/";
 		}
-		
+
 		System.err.println(" warning: couldn't find Field python classes");
 		return null;
 	}
@@ -126,7 +130,8 @@ public class MaxField extends MaxObject implements iHandlesAttributes {
 
 				insideUnderscore.put(called, d);
 
-				;//;//System.out.println(" set <" + called + "> to <" + d + ">");
+				;// ;//System.out.println(" set <" + called +
+					// "> to <" + d + ">");
 
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -2,6 +2,8 @@ package field.extras.max;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,7 +19,15 @@ import com.cycling74.max.MaxPatcher;
 import field.extras.max.OSCInput.DispatchableHandler;
 
 public class MaxFieldRoot extends MaxObject {
+	static {
+		System.out.println(" working around jffi issues A");
+		try {
+			Method m = MaxFieldRoot.class.getClassLoader().getClass().getDeclaredMethod("definedPackage", String.class, String.class, String.class, String.class, String.class, String.class, String.class, URL.class);
+			m.invoke("com.kenai.jffi", null, null, null, null, null, null, null);
+		} catch (Exception e) {
+		}
 
+	}
 	public OSCInput in;
 	public OSCOutput out;
 	public OSCOutput toField;
@@ -28,7 +38,7 @@ public class MaxFieldRoot extends MaxObject {
 		public void flush() throws IOException {
 			try {
 				String s = new String(toByteArray());
-				
+
 				if (returnAddress != null)
 					out.simpleSend("/print/" + returnAddress, s);
 				else
@@ -70,7 +80,7 @@ public class MaxFieldRoot extends MaxObject {
 		});
 		clock = new MaxClock(new Executable() {
 			boolean first = true;
-			
+
 			public void execute() {
 				if (first) {
 					first = false;
@@ -81,9 +91,9 @@ public class MaxFieldRoot extends MaxObject {
 			}
 		});
 		clock.delay(50);
-		
+
 	}
-	
+
 	@Override
 	protected void loadbang() {
 		super.loadbang();
@@ -111,7 +121,9 @@ public class MaxFieldRoot extends MaxObject {
 			}
 			String message = (String) args[1];
 
-			;//;//System.out.println(" sending data message called <" + args[0] + "> of length <" + message.length() + "> to <" + address + ">");
+			;// ;//System.out.println(" sending data message called <"
+				// + args[0] + "> of length <" +
+				// message.length() + "> to <" + address + ">");
 			m.send("__data__", new Atom[] { Atom.newAtom((String) args[0]), Atom.newAtom(message) });
 		}
 		if (s.startsWith("/return/")) {

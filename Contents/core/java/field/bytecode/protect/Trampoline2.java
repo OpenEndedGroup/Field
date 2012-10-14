@@ -260,28 +260,16 @@ public class Trampoline2 implements iLaunchable {
 						loaded = checkHasBeenLoaded(class_name);
 					}
 
-					// if (loaded ==
-					// null) if
-					// (class_name.contains("__"))
-					// loaded =
-					// getParent().loadClass(class_name);
 					if (classNotFound == null)
 						if (loaded == null) {
 							deferTo = getParent();
-							// ;//System.out.println(" >> about to instrument <"+class_name+">");
 							byte[] bytes = instrumentClass(this, class_name);
-							// ;//System.out.println(" >> loaded <"+bytes+">");
 
 							if (bytes != null) {
 
 								if (class_name.lastIndexOf(".") != -1) {
 									String packageName = class_name.substring(0, class_name.lastIndexOf("."));
 									if (!knownPackages.contains(packageName)) {
-										;// System.out.println(" defining <"
-											// +
-											// packageName
-											// +
-											// ">");
 										try {
 											definePackage(packageName, null, null, null, null, null, null, null);
 										} catch (IllegalArgumentException e) {
@@ -539,8 +527,8 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <" + n + ">");
-					System.load(n.getAbsolutePath());
+//					System.out.println(" preemptive load of <" + n + ">");
+//					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -682,8 +670,8 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <" + n + ">");
-					System.load(n.getAbsolutePath());
+//					System.out.println(" preemptive load of <" + n + ">");
+//					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}

@@ -16,6 +16,8 @@ public class ExecuteCommand {
 
 	private List<String> command;
 
+	public boolean echo = true;
+	
 	StringBuffer allOut = new StringBuffer();
 
 	boolean finished = false;
@@ -100,7 +102,7 @@ public class ExecuteCommand {
 			try {
 				int i = 0;
 				while ((i = is.read()) != -1) {
-					System.out.print((char) i);
+					if (echo) System.out.print((char) i);
 
 					allOut.append((char) i);
 				}
@@ -118,8 +120,7 @@ public class ExecuteCommand {
 
 	private void go(String directory, boolean redirectError, String[] s) {
 
-		System.out.println(":::::::::::::::::::::::::::::::::::: " + Arrays.asList(s) + " " + redirectError);
-		// new Exception().printStackTrace();
+		if (echo) System.out.println(":::::::::::::::::::::::::::::::::::: " + Arrays.asList(s) + " " + redirectError);
 
 		command = Arrays.asList(s);
 		pb = new ProcessBuilder(s);

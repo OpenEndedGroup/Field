@@ -212,6 +212,7 @@ public class SmallMenu {
 					if (event.item != null)
 						m = (TableItem) event.item;
 
+					System.out.println(" closing it (default selection)");
 					shell.setVisible(false);
 					Object d = m == null ? null : m.getData();
 					// ;//System.out.println(" d = <" + d +
@@ -251,6 +252,7 @@ public class SmallMenu {
 				public void handleEvent(Event event) {
 					// do something
 					TableItem m = menu.getItem(new Point(event.x, event.y));
+					System.out.println(" closing it (mouse down)");
 					shell.setVisible(false);
 					Object d = m == null ? null : m.getData();
 					done();
@@ -263,7 +265,11 @@ public class SmallMenu {
 
 			menu.addListener(SWT.KeyDown, new Listener() {
 				public void handleEvent(Event event) {
+
+					System.out.println(" arrow down ?" + event);
+
 					if (event.keyCode == SWT.ESC) {
+						System.out.println(" closing it (escape)");
 						shell.setVisible(false);
 						if (hu != null)
 							hu.cancel();
@@ -274,6 +280,7 @@ public class SmallMenu {
 
 						TableItem[] ss = menu.getSelection();
 						TableItem m = (TableItem) (ss == null || ss.length == 0 ? null : ss[0]);
+						System.out.println(" closing it (newline)");
 						shell.setVisible(false);
 						Object d = m == null ? null : m.getData();
 						// ;//System.out.println(" d = <"
@@ -288,15 +295,14 @@ public class SmallMenu {
 					} else if (event.keyCode == SWT.ARROW_DOWN) {
 						event.doit = false;
 						int s = menu.getSelectionIndex();
-						// ;//System.out.println(" down <"
-						// + s + ">");
+						System.out.println(" down <" + s + ">");
 						if (s == -1) {
+							System.out.println(" scaning for first selection ");
 							for (int i = 0; i < menu.getItemCount(); i++) {
+								System.out.println(i + " " + menu.getItemCount() + " " + menu.getItem(i).getData());
 								if (menu.getItem(i).getData() != null) {
-									// ;//System.out.println(" now<"
-									// + i +
-									// ">");
 									menu.setSelection(i);
+									System.out.println(" set selection to be <" + i + ">");
 									if (hu != null)
 										hu.update(i);
 
@@ -304,6 +310,7 @@ public class SmallMenu {
 									break;
 								}
 							}
+							System.out.println(" -- fell through --");
 						} else {
 							for (int i = 0; i < menu.getItemCount(); i++) {
 								s = (s + 1) % menu.getItemCount();
@@ -370,7 +377,7 @@ public class SmallMenu {
 					// close
 					if (u != null)
 						if (u.update(event)) {
-							// ;//System.out.println(" closing it ");
+							System.out.println(" closing it ");
 							shell.setVisible(false);
 						}
 
@@ -389,6 +396,8 @@ public class SmallMenu {
 
 				@Override
 				public void handleEvent(Event event) {
+					System.out.println(" closing it (deactivate)");
+					new Exception().printStackTrace();
 					shell.setVisible(false);
 
 					if (hu != null && !fired) {
@@ -397,30 +406,6 @@ public class SmallMenu {
 
 				}
 			});
-
-			// Listener focusOutListener = new Listener() {
-			// public void handleEvent(Event event) {
-			// /*
-			// * async is needed to wait until focus reaches its new
-			// * Control
-			// */
-			// Launcher.display.asyncExec(new Runnable() {
-			// public void run() {
-			// if (Launcher.display.isDisposed())
-			// return;
-			// Control control = Launcher.display
-			// .getFocusControl();
-			// if (control == null || (control != menu)) {
-			// shell.setVisible(false);
-			// if (fallBackTo!=null)
-			// fallBackTo.forceFocus();
-			// }
-			// }
-			// });
-			// }
-			// };
-			//
-			// menu.addListener(SWT.FocusOut, focusOutListener);
 
 			if (Platform.isLinux()) {
 				shell.setSize(s.x, s.y);
@@ -432,12 +417,6 @@ public class SmallMenu {
 			System.out.println(" ---------- OPEN ----------");
 			new Exception().printStackTrace();
 
-			// should we wait for disposition here?
-			// while (!menu.isDisposed() && menu.isVisible()) {
-			// if (!Launcher.display.readAndDispatch())
-			// Launcher.display.sleep();
-			// }
-			// menu.dispose();
 		}
 
 		long down = 0;
@@ -480,18 +459,9 @@ public class SmallMenu {
 						Launcher.display.removeFilter(SWT.MouseMove, this);
 						Launcher.display.removeFilter(SWT.MouseUp, this);
 
-						;// System.out.println(" menu is at <"
-							// +
-							// (System.currentTimeMillis()
-							// - down) +
-							// "> ms <"+menu.getSelectionCount()+">");
-
 						if ((down > 0 && System.currentTimeMillis() - down > 1000) || menu.getSelectionCount() > 0) {
 
-							;// System.out.println(" selection is :"+Arrays.asList(menu.getSelection()));
-
 							if (event.widget != menu) {
-								// ;//System.out.println(" event not going to widget, would redispatch the up event");
 
 								Listener[] shakers = menu.getListeners(SWT.KeyDown);
 								// ;//System.out.println(" shakers are :"
@@ -789,7 +759,7 @@ public class SmallMenu {
 
 							event.gc.setForeground(Launcher.display.getSystemColor(SWT.COLOR_BLACK));
 
-							draw("<b>"+textToDraw+"</b>", event.gc, event.x + indent, event.y + 2 + vertSpace, null);
+							draw("<b>" + textToDraw + "</b>", event.gc, event.x + indent, event.y + 2 + vertSpace, null);
 						}
 					} else {
 						draw(textToDraw, event.gc, event.x + indent, event.y + 2 + vertSpace);

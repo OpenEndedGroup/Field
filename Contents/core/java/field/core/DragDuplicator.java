@@ -61,10 +61,6 @@ public class DragDuplicator {
 		;//System.out.println(" begin drag <"+isDragging+">");
 		
 		if (isDragging) {
-			//TODO: 64 \u2014 confront mouse cursor setting in pure java
-			//NSCursor.closedHandCursor().set();
-//			GLComponentWindow.getCurrentWindow(null).getCanvas().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-
 			GLComponentWindow.getCurrentWindow(null).getCanvas().setCursor(Launcher.display.getSystemCursor(SWT.CURSOR_HAND));
 			
 			

@@ -1017,7 +1017,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 					}
 				}
 			}
-		} else if (event.type == SWT.KeyDown && event.character == 'T' && tick) {
+		} else if (event.type == SWT.KeyDown && event.character == 'y' && tick) {
 			tick = false;
 			createFromTemplate();
 		} else if (event.type == SWT.KeyDown && event.keyCode == SWT.PAGE_UP && tick) {

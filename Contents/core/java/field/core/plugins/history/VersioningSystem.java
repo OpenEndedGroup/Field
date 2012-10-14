@@ -47,31 +47,39 @@ public abstract class VersioningSystem {
 
 	/* this is sheet local storage */
 
-	static public boolean useGit = SystemProperties.getIntProperty("useGit", 0)==1; 
-	
-//	static public final OKey<VersioningSystem> versioningSystem = new OKey<VersioningSystem>("versioningSystem").rootSet(null);
+	static public boolean useGit = SystemProperties.getIntProperty("useGit", 0) == 1;
+
+	// static public final OKey<VersioningSystem> versioningSystem = new
+	// OKey<VersioningSystem>("versioningSystem").rootSet(null);
 
 	public static VersioningSystem newDefault() {
-		// VersioningSystem r = new SVNVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), SystemProperties.getProperty("fluid.scratch", SystemProperties.getProperty("main.class") + ".xml"), "sheet.xml");
-		
-		
-		
-		if (useGit) return new GitVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), SystemProperties.getProperty("fluid.scratch", SystemProperties.getProperty("main.class") + ".xml"), "sheet.xml");
+		// VersioningSystem r = new
+		// SVNVersioningSystem(SystemProperties.getDirProperty("versioning.dir"),
+		// SystemProperties.getProperty("fluid.scratch",
+		// SystemProperties.getProperty("main.class") + ".xml"),
+		// "sheet.xml");
+
+		if (useGit)
+			return new GitVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), SystemProperties.getProperty("fluid.scratch", SystemProperties.getProperty("main.class") + ".xml"), "sheet.xml");
 		VersioningSystem r = new HGVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), SystemProperties.getProperty("fluid.scratch", SystemProperties.getProperty("main.class") + ".xml"), "sheet.xml");
-//		VersioningSystem.versioningSystem.set(r);
+		// VersioningSystem.versioningSystem.set(r);
 		return r;
 	}
 
 	public static VersioningSystem newDefault(String filename) {
-		// VersioningSystem r = new SVNVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), SystemProperties.getProperty("fluid.scratch", SystemProperties.getProperty("main.class") + ".xml"), "sheet.xml");
-		if (useGit) return new GitVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), filename, "sheet.xml");
+		// VersioningSystem r = new
+		// SVNVersioningSystem(SystemProperties.getDirProperty("versioning.dir"),
+		// SystemProperties.getProperty("fluid.scratch",
+		// SystemProperties.getProperty("main.class") + ".xml"),
+		// "sheet.xml");
+		if (useGit)
+			return new GitVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), filename, "sheet.xml");
 		VersioningSystem r = new HGVersioningSystem(SystemProperties.getDirProperty("versioning.dir"), filename, "sheet.xml");
-//		VersioningSystem.versioningSystem.set(r);
+		// VersioningSystem.versioningSystem.set(r);
 		return r;
 	}
 
 	static public Object objectRepresentationFor(String read) {
-
 
 		if (read.startsWith("string>"))
 			return read.substring("string>".length());
@@ -119,12 +127,12 @@ public abstract class VersioningSystem {
 
 	public VersioningSystem(String fullPathToRepositoryDirectory, String sheetSubdirectory, String xmlFilename) {
 
-		;//System.out.println(" inside versioning system constructor <"+fullPathToRepositoryDirectory+"> <"+sheetSubdirectory+"> <"+xmlFilename+">");
+		;// System.out.println(" inside versioning system constructor <"+fullPathToRepositoryDirectory+"> <"+sheetSubdirectory+"> <"+xmlFilename+">");
 
 		this.fullPathToRepositoryDirectory = fullPathToRepositoryDirectory;
 		this.fullPathToSheetDirectory = fullPathToRepositoryDirectory + "/" + sheetSubdirectory;
 		this.xmlFilename = xmlFilename;
-//		versioningSystem.set(this);
+		// versioningSystem.set(this);
 
 		// find out if the .xml is out of sync with the
 		// file structure
@@ -161,8 +169,9 @@ public abstract class VersioningSystem {
 			}
 			if (op instanceof DeletePropertyOp) {
 
-				;//System.out.println(" delete property <"+((DeletePropertyOp) op).oldProperty.getPath()+">");
-				
+				;// System.out.println(" delete property <"+((DeletePropertyOp)
+					// op).oldProperty.getPath()+">");
+
 				if (new File(((DeletePropertyOp) op).oldProperty.getPath()).exists())
 					scmDeleteFile(((DeletePropertyOp) op).oldProperty.getFile());
 				new File(((DeletePropertyOp) op).oldProperty.getPath()).delete();
@@ -192,13 +201,11 @@ public abstract class VersioningSystem {
 		return this.xmlFilename;
 	}
 
-	public void notifyCopyFileToProperty(
-			String filename,
-			iVisualElement targetElement,
-			VisualElementProperty<String> targetProperty) {
-		File f = new File(fullPathToSheetDirectory+"/"+targetElement.getUniqueID());
-		if (!f.exists()) f.mkdir();
-		String dest = fullPathToSheetDirectory+"/"+targetElement.getUniqueID()+"/"+targetProperty.getName()+".property";
+	public void notifyCopyFileToProperty(String filename, iVisualElement targetElement, VisualElementProperty<String> targetProperty) {
+		File f = new File(fullPathToSheetDirectory + "/" + targetElement.getUniqueID());
+		if (!f.exists())
+			f.mkdir();
+		String dest = fullPathToSheetDirectory + "/" + targetElement.getUniqueID() + "/" + targetProperty.getName() + ".property";
 		scmCopyFile(new File(filename), new File(dest));
 	}
 
@@ -261,8 +268,9 @@ public abstract class VersioningSystem {
 	// called on all elements when first loaded?
 	public void synchronizeElementWithFileStructure(iVisualElement to) {
 
-		if (true) return;
-		
+		if (true)
+			return;
+
 		// there needs to be a way to check to see if we
 		// need to do this. It will only need to be done
 		// if the hash of the dates of these files are
@@ -279,28 +287,28 @@ public abstract class VersioningSystem {
 					return name.endsWith(".property");
 				}
 			});
-			if (properties!=null)
-			for (String p : properties) {
-				File load = new File(p);
-				try {
-					BufferedReader reader = new BufferedReader(new FileReader(path.getPath() + "/" + load));
-					StringBuffer read = new StringBuffer();
-					while (reader.ready()) {
-						read.append(reader.readLine() + "\n");
+			if (properties != null)
+				for (String p : properties) {
+					File load = new File(p);
+					try {
+						BufferedReader reader = new BufferedReader(new FileReader(path.getPath() + "/" + load));
+						StringBuffer read = new StringBuffer();
+						while (reader.ready()) {
+							read.append(reader.readLine() + "\n");
+						}
+						reader.close();
+						Object o = objectRepresentationFor(read.toString());
+
+						suspendJournaling();
+						to.setProperty(new VisualElementProperty(propertyNameFor(p)), o);
+						enableJournaling();
+
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					reader.close();
-					Object o = objectRepresentationFor(read.toString());
-
-					suspendJournaling();
-					to.setProperty(new VisualElementProperty(propertyNameFor(p)), o);
-					enableJournaling();
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
-			}
 		}
 	}
 
@@ -338,7 +346,8 @@ public abstract class VersioningSystem {
 				if (pathFor(to, p).equals(path)) {
 					if (first) {
 						setFileFromString(pathFor(to, p), stringRepresentationFor(to.getProperty(p)), true);
-						// svnCommitFile(pathFor(to, p));
+						// svnCommitFile(pathFor(to,
+						// p));
 						first = false;
 					}
 					a.remove();
@@ -406,9 +415,10 @@ public abstract class VersioningSystem {
 
 		Path path = pathFor(to, null);
 
+		System.out.println(" ensure under version control <" + path + ">");
+
 		boolean needsSVNSupport = false;
 		boolean justCreated = false;
-
 
 		if (!new File(path.getPath()).exists()) {
 			new File(path.getPath()).mkdir();
@@ -425,13 +435,17 @@ public abstract class VersioningSystem {
 				}
 			}
 		}
-		
-		if (iVisualElement.doNotSave.getBoolean(to, false)) return;
-		
+
+		if (iVisualElement.doNotSave.getBoolean(to, false))
+			return;
+
+		if (useGit)
+			scmAddDirectory(path.getFile());
 
 		if (needsSVNSupport && justCreated) {
 
-			scmAddDirectory(path.getFile());
+			if (!useGit)
+				scmAddDirectory(path.getFile());
 
 			properties = to.payload();
 			for (Map.Entry<Object, Object> e : properties.entrySet()) {
@@ -464,6 +478,7 @@ public abstract class VersioningSystem {
 	abstract protected void scmCopyFile(File from, File to);
 
 	abstract protected void scmDeleteDirectory(File path);
+
 	abstract protected void scmDeleteFile(File path);
 
 	protected boolean setFileFromString(Path path, String string, boolean shouldAdd) {
