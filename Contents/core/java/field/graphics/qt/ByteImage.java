@@ -24,34 +24,34 @@ public class ByteImage {
 	public ByteImage(String filename) {
 		this.filename = filename;
 	}
-	
 
 	public ByteBuffer getByteImage() {
 		if (byteBuffer != null)
 			return (ByteBuffer) byteBuffer.duplicate().rewind();
 
-		if (filename.indexOf(":")==-1)
-		{
-			if (!new File(filename).exists())
-			{
-				System.err.println(" file <"+filename+"> does not exist");
+		if (filename.indexOf(":") == -1) {
+			if (!new File(filename).exists()) {
+				System.err.println(" file <" + filename + "> does not exist");
 				return null;
 			}
 			filename = filename.replaceAll(" ", "%20");
-			filename = "file://"+filename;
+			filename = "file://" + filename;
 		}
 
+		System.out.println(" reading :" + filename);
 		try {
 			BufferedImage read = ImageIO.read(new URL(filename));
+			System.out.println(" read :" + filename);
 			int w = read.getWidth();
 			int h = read.getHeight();
-			int[] pixels = new int[w*h];
+			int[] pixels = new int[w * h];
 			new PixelGrabber(read, 0, 0, w, h, pixels, 0, w).grabPixels();
-			byteBuffer = ByteBuffer.allocateDirect(4*pixels.length);
+			byteBuffer = ByteBuffer.allocateDirect(4 * pixels.length);
 			IntBuffer a = byteBuffer.asIntBuffer();
-				a.put(pixels);		
+			a.put(pixels);
 			width = w;
 			height = h;
+			System.out.println(" dim :" + width + " " + height);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -59,7 +59,7 @@ public class ByteImage {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		return byteBuffer;
 	}
 
@@ -80,14 +80,12 @@ public class ByteImage {
 	public int pixelsHigh() {
 		return getHeight();
 	}
-	
-	public int samplesPerPixel()
-	{
+
+	public int samplesPerPixel() {
 		return 4;
 	}
-	
-	public ByteBuffer getImage()
-	{
+
+	public ByteBuffer getImage() {
 		return getByteImage();
 	}
 }

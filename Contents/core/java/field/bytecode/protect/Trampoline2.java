@@ -539,8 +539,8 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <" + n + ">");
-					System.load(n.getAbsolutePath());
+//					System.out.println(" ?preemptive load of <" + n + ">");
+//					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -682,8 +682,8 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <" + n + ">");
-					System.load(n.getAbsolutePath());
+//					System.out.println(" preemptive load of <" + n + ">");
+//					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
