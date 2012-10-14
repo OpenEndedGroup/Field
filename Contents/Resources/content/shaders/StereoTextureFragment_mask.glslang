@@ -14,8 +14,5 @@ void main()
 {
 	gl_FragColor = texture2DRect(texture, vec2(vertexTexture.s+side.x*side.y, side.z+side.w*vertexTexture.t));
 	gl_FragColor.xyzw = gl_FragColor.xyzw;
-//	gl_FragColor.xyz = pow(gl_FragColor.xyz, vec3(1.6, 1.6, 1.6));
-//	gl_FragColor.xyzw = gl_FragColor.xxxx;
 	gl_FragColor.w = 1.0;
-//	gl_FragColor.x = 1.0;
 }
