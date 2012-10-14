@@ -1,5 +1,7 @@
 package field.core.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -18,6 +20,7 @@ import field.core.plugins.PythonOverridden.Callable;
 import field.core.plugins.python.PythonPlugin.CapturedEnvironment;
 import field.core.util.FieldPyObjectAdaptor.iCallable;
 import field.launch.iUpdateable;
+import field.namespace.generic.Bind.iFunction;
 
 public class PythonCallableMap implements iCallable {
 
@@ -44,12 +47,26 @@ public class PythonCallableMap implements iCallable {
 		return f;
 	}
 
+	public iFunction<Object, Object> register(String name, iFunction<Object, Object> f) {
+		Callable newCallable = newCallable(name, f);
+		Callable oldCallable = known.get(name);
+
+		doRegister(name, newCallable, oldCallable);
+		return f;
+		
+	}
+
+	
 	protected Callable newCallable(PyFunction f) {
 		return PythonOverridden.callableForFunction(f, (CapturedEnvironment) PythonInterface.getPythonInterface().getVariable("_environment"));
 	}
 	
 	protected Callable newCallable(String name, iUpdateable f) {
 		return PythonOverridden.callableForUpdatable(name, f);
+	}
+	
+	protected Callable newCallable(String name, iFunction f) {
+		return PythonOverridden.callableForFunction(name, f);
 	}
 
 	protected void doRegister(String name, Callable newCallable, Callable oldCallable) {
@@ -69,15 +86,42 @@ public class PythonCallableMap implements iCallable {
 	public LinkedHashSet<String> clear = new LinkedHashSet<String>();
 	public String current;
 
-	public void invoke(Object... a) {
+	public Object invoke(Object... a) {
 		PythonInterface.getPythonInterface().setVariable("hooks", this);
 
 		clear.clear();
 		try {
+			Object r = null;
 			for (Map.Entry<String, Callable> c : known.entrySet()) {
 				current = c.getKey();
-				c.getValue().call(null, a);
+				r = c.getValue().call(null, a);
 			}
+			return r;
+		} finally {
+			
+			for (String s : clear) {
+				known.remove(s);
+			}
+			clear.clear();
+			
+		}
+	}
+
+	
+	public Collection<Object> gather(Object... a) {
+		PythonInterface.getPythonInterface().setVariable("hooks", this);
+
+		clear.clear();
+		try {
+			Object r = null;
+			ArrayList<Object> aa = new ArrayList<Object>();
+			for (Map.Entry<String, Callable> c : known.entrySet()) {
+				current = c.getKey();
+				r = c.getValue().call(null, a);
+				if (r!=null)
+					aa.add(r);
+			}
+			return aa;
 		} finally {
 			
 			for (String s : clear) {
@@ -165,6 +209,7 @@ public class PythonCallableMap implements iCallable {
 		});
 		
 	}
+
 	
 
 }

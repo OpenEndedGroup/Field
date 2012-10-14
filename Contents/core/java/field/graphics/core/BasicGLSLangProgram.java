@@ -1153,11 +1153,6 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 		return name;
 	}
 
-	@Override
-	public String toString() {
-		return name != null ? "program:" + name : super.toString();
-	}
-
 	public String getAllCode() {
 		StringBuffer b = new StringBuffer();
 		for (BasicGLSLangElement e : getPrograms()) {

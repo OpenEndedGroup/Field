@@ -118,7 +118,8 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 					((TriangleMesh) this.getUnderlyingGeometry()).forceClean();
 
 			}
-			// ;//System.out.println(" limits are <" + vertexCursor +
+			// ;//System.out.println(" limits are <" + vertexCursor
+			// +
 			// "> <" + triangleCursor + ">");
 
 			if (basis instanceof BasicGeometry.TriangleMesh) {
@@ -254,17 +255,19 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 			for (int i = 0; i < r; i++) {
 				float f1 = cachedVertexBuffer.get();
 				float f2 = from.get();
-				;//System.out.println((f1 != f2 ? "!!!!" : "") + f1 + " " + f2);
+				;// System.out.println((f1 != f2 ? "!!!!" : "")
+					// + f1 + " " + f2);
 			}
 
-			;//System.out.println(" -- triangle -- ");
+			;// System.out.println(" -- triangle -- ");
 
 			int num = triangle.remaining();
 			for (int i = 0; i < num; i++) {
 				int t1 = cachedTriangleBuffer.get();
 				int t2 = (triangle.get() - offset);
 
-				;//System.out.println((t1 != t2 ? "!!!!" : "") + t1 + " " + t2);
+				;// System.out.println((t1 != t2 ? "!!!!" : "")
+					// + t1 + " " + t2);
 
 			}
 		} catch (Exception e) {
@@ -729,6 +732,29 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 
 	public void removeChild(iSceneListElement e) {
 		this.getUnderlyingGeometry().removeChild(e);
+	}
+
+	public void rect(float x, float y, float w, float h) {
+		int a = nextVertex(x, y, 0);
+		int b = nextVertex(x + w, y, 0);
+		int c = nextVertex(x + w, y + h, 0);
+		int d = nextVertex(x, y + h, 0);
+		nextFace(a, b, c);
+		nextFace(a, c, d);
+	}
+
+	public void rectTextured(float x, float y, float w, float h, float tw, float th) {
+		int a = nextVertex(x, y, 0);
+		int b = nextVertex(x + w, y, 0);
+		int c = nextVertex(x + w, y + h, 0);
+		int d = nextVertex(x, y + h, 0);
+		nextFace(a, b, c);
+		nextFace(a, c, d);
+		
+		setAux(a, Base.texture0_id, 0, 0);
+		setAux(b, Base.texture0_id, tw, 0);
+		setAux(c, Base.texture0_id, tw, th);
+		setAux(d, Base.texture0_id, 0, th);
 	}
 
 }

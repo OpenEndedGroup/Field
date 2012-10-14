@@ -174,7 +174,7 @@ public class Trampoline2 implements iLaunchable {
 		@Override
 		protected String findLibrary(String rawName) {
 
-			System.out.println("####\n\n looking for <" + rawName + "> \n\n #############");
+//			System.out.println("####\n\n looking for <" + rawName + "> \n\n #############");
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 
@@ -1011,7 +1011,7 @@ public class Trampoline2 implements iLaunchable {
 
 	private Set<Object> injectManifestProperties(Manifest manifest) {
 
-		System.out.println(" inject manifest properties ");
+//		System.out.println(" inject manifest properties ");
 
 		Set<Object> ks = manifest.getMainAttributes().keySet();
 		for (Object o : ks) {
@@ -1029,7 +1029,7 @@ public class Trampoline2 implements iLaunchable {
 						pp = (pp == null ? pathify(manifest.getMainAttributes().getValue(an)) : (pp + ":" + pathify(manifest.getMainAttributes().getValue(an))));
 						SystemProperties.setProperty(prop, pp);
 
-						System.out.println(" property <" + prop + "> now <" + pp + ">");
+//						System.out.println(" property <" + prop + "> now <" + pp + ">");
 
 					} else {
 						SystemProperties.setProperty(prop, manifest.getMainAttributes().getValue(an));
