@@ -32,7 +32,6 @@ public class Launcher {
 
 	static List<iOpenFileHandler> openFileHandlers = new ArrayList<iOpenFileHandler>();
 
-	
 	public static String[] args = {};
 
 	static public final Object lock = new Object();

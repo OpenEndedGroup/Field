@@ -36,21 +36,17 @@ public class ModificationCache {
 		Modification m = known.get(name);
 		if (m == null)
 		{
-			//;//System.out.println(" cache miss :"+name+" "+at);
 			return def;
 		}
 		if (m.at < at) {
-			//;//System.out.println(" cache stale :"+name+" "+at+" > "+m.at);
 			known.remove(name);
 			return def;
 		}
-		//;//System.out.println(" cache hit :"+name+" "+m.instrumented);
 		return m.instrumented;
 	}
 	
 	public void state(String name, boolean is, long at)
 	{
-		//;//System.out.println(" marking <"+name+"> as <"+is+"> @ "+at);
 		known.put(name, new Modification(is, at));
 	}
 	

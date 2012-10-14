@@ -23,6 +23,7 @@ import field.core.plugins.drawing.tweak.Freehand3dUtils;
 import field.core.plugins.drawing.tweak.FreehandTool3d_tweak;
 import field.core.plugins.drawing.tweak.FreehandTool3d_tweak.RawSplineData;
 import field.core.ui.UbiquitousLinks;
+import field.core.util.FieldPyObjectAdaptor.iExtensible;
 import field.core.windowing.components.SelectionGroup;
 import field.core.windowing.components.iComponent;
 import field.extras.plugins.hierarchy.HierarchyPlugin.Mode;

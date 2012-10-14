@@ -54,7 +54,7 @@ public class Trampoline2 implements iLaunchable {
 
 	static public ReloadingSupport reloadingSupport = new ReloadingSupport();
 
-	public class MyClassLoader extends URLClassLoader {
+	public class MyClassLoader extends FastClassLoader {
 
 		private java.lang.reflect.Method findLoadedClass_method1;
 
@@ -178,6 +178,7 @@ public class Trampoline2 implements iLaunchable {
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 
+				System.out.println(extendedLibraryPaths);
 				for (String s : extendedLibraryPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
@@ -352,8 +353,8 @@ public class Trampoline2 implements iLaunchable {
 							// popped.equals(class_name);
 					}
 					if (classNotFound != null) {
-						System.err.println("exception (" + classNotFound.getClass() + "): while trying to load <" + class_name + " / <" + loading + ">");
 						if (debug) {
+							System.err.println("exception (" + classNotFound.getClass() + "): while trying to load <" + class_name + " / <" + loading + ">");
 							new Exception().printStackTrace();
 						}
 						alreadyFailed.add(class_name);
@@ -461,7 +462,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void addJar(String n) {
-		System.out.println(" add jar :"+n);
+		System.out.println(" add jar :" + n);
 		try {
 			loader.addURL(new URL("file://" + n));
 		} catch (MalformedURLException e) {
@@ -481,16 +482,17 @@ public class Trampoline2 implements iLaunchable {
 
 			try {
 
-				// ;//System.out.println(" adding to loader <"+"file://"
-				// + path.getAbsolutePath() + "/"+">");
+				System.out.println(" adding to loader <" + "file://" + path.getAbsolutePath() + "/" + ">");
 
-				loader.addURL(new URL("file://" + path.getAbsolutePath() + "/"));
+				loader.addURL(new URL("file://" + path.getCanonicalPath() + "/"));
 
 				// URL[] uu = loader.getURLs();
 				// for(URL uuu : uu)
 				// ;//System.out.println("     "+uuu);
 
 			} catch (MalformedURLException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
 			extendedClassPaths.add(path.getAbsolutePath());
@@ -501,29 +503,14 @@ public class Trampoline2 implements iLaunchable {
 				}
 			});
 
-			// ;//System.out.println(" jar list is <" +
-			// Arrays.asList(jars) + ">");
-			// ;//System.out.println(" file list is <" +
-			// Arrays.asList(path.list())
-			// + ">");
 			if (jars != null)
 				for (String j : jars) {
-					// ;//System.out.println(" adding jar <"
-					// +
-					// j +
-					// ">");
 					try {
-						loader.addURL(new URL("file://" + path.getAbsolutePath() + "/" + j));
+						loader.addURL(new URL("file://" + path.getCanonicalPath() + "/" + j));
 
-						;// System.out.println(" adding url(2) :"
-							// + (new URL("file://"
-							// +
-							// path.getAbsolutePath()
-							// + "/" + j)));
+						extendedClassPaths.add(path.getCanonicalPath() + "/" + j);
 
-						extendedClassPaths.add(path.getAbsolutePath() + "/" + j);
-
-						JarFile m = new JarFile(new File(path.getAbsoluteFile() + "/" + j));
+						JarFile m = new JarFile(new File(path.getCanonicalFile() + "/" + j));
 						Manifest manifest = m.getManifest();
 						if (manifest != null) {
 							String a = (String) manifest.getMainAttributes().get(new Attributes.Name("Field-PluginClass"));
@@ -543,23 +530,21 @@ public class Trampoline2 implements iLaunchable {
 						e.printStackTrace();
 					}
 				}
-			//
-			// File[] natives= path.listFiles(new FileFilter() {
-			// public boolean accept(File file) {
-			// return file.getPath().endsWith(".dylib") ||
-			// file.getPath().endsWith(".jnilib");
-			// }
-			// });
-			// for(File n : natives)
-			// {
-			// ;//System.out.println(" attempting to premptivly load <"+n+">");
-			//
-			// try{
-			// System.load(n.getAbsolutePath());
-			// }
-			// catch(Throwable t)
-			// {t.printStackTrace();}
-			// }
+			System.out.println(" checking <" + path + "> for natives ");
+			File[] natives = path.listFiles(new FileFilter() {
+				public boolean accept(File file) {
+					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
+				}
+			});
+			System.out.println(" found <" + natives.length + ">");
+			for (File n : natives) {
+				try {
+					System.out.println(" preemptive load of <" + n + ">");
+					System.load(n.getAbsolutePath());
+				} catch (Throwable t) {
+					t.printStackTrace();
+				}
+			}
 
 			File[] dirs = path.listFiles(new FileFilter() {
 				public boolean accept(File file) {
@@ -668,16 +653,10 @@ public class Trampoline2 implements iLaunchable {
 			if (ll != null)
 				for (String l : ll) {
 
-					// ;//System.out.println(" dir is :"
-					// + dir + " " +
-					// l);
-
 					String fp = new File(dir.getAbsolutePath() + "/" + l).getAbsolutePath();
 
 					URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
 
-					// ;//System.out.println(" adding url <"
-					// + url + ">");
 					loader.addURL(url);
 
 					extendedClassPaths.add(fp);
@@ -691,6 +670,22 @@ public class Trampoline2 implements iLaunchable {
 			if (f != null) {
 				for (File ff : f) {
 					addExtensionsDirectory(ff);
+				}
+			}
+
+			System.out.println(" checking <" + dir + "> for natives ");
+			File[] natives = dir.listFiles(new FileFilter() {
+				public boolean accept(File file) {
+					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
+				}
+			});
+			System.out.println(" found <" + natives.length + ">");
+			for (File n : natives) {
+				try {
+					System.out.println(" preemptive load of <" + n + ">");
+					System.load(n.getAbsolutePath());
+				} catch (Throwable t) {
+					t.printStackTrace();
 				}
 			}
 		} else {
@@ -822,6 +817,8 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public byte[] bytesForClass(java.lang.ClassLoader deferTo, String class_name) {
+
+		System.out.println(" bytes for class :" + class_name);
 
 		InputStream s = deferTo.getResourceAsStream(resourceNameForClassName(class_name));
 		if (s == null)
@@ -977,15 +974,8 @@ public class Trampoline2 implements iLaunchable {
 			System.setSecurityManager(new NoWriteSecurityManager());
 		else if (SystemProperties.getIntProperty("collectResources", 0) == 1)
 			System.setSecurityManager(new CollectResourcesSecurityManager());
-
-		//
-		// Launcher.getLauncher().registerUpdateable(new iUpdateable(){
-		// public void update() {
-		// ;//System.out.println(" num classes <"+(loader.already.size()+loader.previous.size())+">");
-		// }
-		// });
-		//
-		//
+		else
+			System.setSecurityManager(new NoopSecurityManager());
 
 	}
 

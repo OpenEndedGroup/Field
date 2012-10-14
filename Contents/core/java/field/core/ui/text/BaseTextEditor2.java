@@ -1,5 +1,6 @@
 package field.core.ui.text;
 
+import java.awt.Graphics;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.swing.JComponent;
+import javax.swing.event.ChangeListener;
+import javax.swing.text.Caret;
+import javax.swing.text.JTextComponent;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.LineStyleEvent;
@@ -32,6 +36,7 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.GlyphMetrics;
+import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -48,6 +53,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 
 import field.bytecode.protect.Woven;
+import field.bytecode.protect.annotations.NextUpdate;
 import field.core.Platform;
 import field.core.Platform.OS;
 import field.core.dispatch.iVisualElement;
@@ -65,6 +71,7 @@ import field.core.ui.text.embedded.CustomInsertDrawing.Nub;
 import field.core.ui.text.embedded.iOutOfBandDrawing;
 import field.core.ui.text.rulers.ExecutedAreas.Area;
 import field.core.ui.text.rulers.ExecutionRuler;
+import field.core.ui.text.rulers.StyledTextPositionSystem;
 import field.core.ui.text.rulers.StyledTextPositionSystem.Position;
 import field.core.ui.text.rulers.iRuler;
 import field.core.ui.text.syntax.PythonScanner;
@@ -96,7 +103,7 @@ public class BaseTextEditor2 {
 	}
 
 	public interface iPositionAnnotation {
-		public void drawRect(Rectangle r, GC g);
+		public boolean drawRect(Rectangle r, GC g);
 
 		public Position getEndPosition();
 
@@ -472,12 +479,12 @@ public class BaseTextEditor2 {
 			int tick = 0;
 			String prevText = "";
 			int lastS = 0;
-			
+
 			@Override
 			public void handleEvent(Event event) {
 
 				// should be if different !!
-				if (!ed.getText().equals(prevText) && ed.getVerticalBar().getSelection()!=lastS)
+				if (!ed.getText().equals(prevText) && ed.getVerticalBar().getSelection() != lastS)
 					lcw.requestRepaint();
 				lastS = ed.getVerticalBar().getSelection();
 				prevText = ed.getText();
@@ -497,6 +504,8 @@ public class BaseTextEditor2 {
 						JComponent comp = ((Nub) data).getComponent();
 						if (comp instanceof iOutOfBandDrawing)
 							((iOutOfBandDrawing) comp).expandDamage(r);
+						
+//						((Nub)data).getControl()
 					}
 				}
 
@@ -574,6 +583,30 @@ public class BaseTextEditor2 {
 				} else if ((event.keyCode == 'a') && (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					ed.selectAll();
 					event.doit = false;
+				} else if ((event.character == ')') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" CLOSE ");
+					bracketMatchClose('(', ')');
+					event.doit = true;
+				} else if ((event.character == '(') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" OPEN ");
+					bracketMatchOpen();
+					event.doit = true;
+				}else if ((event.character == '}') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" CLOSE ");
+					bracketMatchClose('{', '}');
+					event.doit = true;
+				} else if ((event.character == '{') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" OPEN ");
+					bracketMatchOpen();
+					event.doit = true;
+				}else if ((event.character == ']') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" CLOSE ");
+					bracketMatchClose('[', ']');
+					event.doit = true;
+				} else if ((event.character == '[') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+					System.out.println(" OPEN ");
+					bracketMatchOpen();
+					event.doit = true;
 				} else if ((event.keyCode == ']') && (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					indentSelectionOrCurrentLine();
 					event.doit = false;
@@ -668,20 +701,20 @@ public class BaseTextEditor2 {
 
 			}
 		});
-		
+
 		edOut.addPaintListener(new PaintListener() {
 			@Override
-				public void paintControl(PaintEvent e) {
-					globalEditorPaintHook(e, edOut);
-				}	
-			});
-		
+			public void paintControl(PaintEvent e) {
+				globalEditorPaintHook(e, edOut);
+			}
+		});
+
 		rulerCanvas.addPaintListener(new PaintListener() {
 			@Override
-				public void paintControl(PaintEvent e) {
-					globalEditorPaintHook(e, rulerCanvas);
-				}	
-			});
+			public void paintControl(PaintEvent e) {
+				globalEditorPaintHook(e, rulerCanvas);
+			}
+		});
 
 		ed.addListener(SWT.KeyDown, new Listener() {
 
@@ -885,6 +918,111 @@ public class BaseTextEditor2 {
 		new BetterSash(hsplit, false);
 		new BetterSash(vsplit, false);
 
+	}
+
+		protected void bracketMatchClose(char op, char cl) {
+		final StyledText ed = getInputEditor();
+		int here = ed.getCaretOffset() - 1;
+		if (here <= 0)
+			return;
+
+		int backTo = here;
+		
+		String t = ed.getText();
+		int q = 1;
+		while (here >= -1) {
+			if (here == -1)
+				break;
+			char cc = t.charAt(here);
+			if (cc == op)
+				q--;
+			if (cc == cl)
+				q++;
+			if (q == 0) {
+				break;
+			}
+			here--;
+			backTo--;
+		}
+		
+		backTo = Math.max(0, backTo);
+		System.out.println(" match bracket :" + here);
+
+		if (here != -1) {
+			final Position qq = StyledTextPositionSystem.get(ed).createPosition(here);
+			final Position qq1 = StyledTextPositionSystem.get(ed).createPosition(here + 1);
+			addPositionAnnotation(new iPositionAnnotation() {
+
+				@Override
+				public String toolTipText() {
+					return null;
+				}
+
+				@Override
+				public Position getStartPosition() {
+					return qq;
+				}
+
+				@Override
+				public Position getEndPosition() {
+					return qq1;
+				}
+
+				@Override
+				public boolean drawRect(Rectangle r, GC g) {
+					System.out.println(" bracket :" + r);
+					r.width+=8;
+					g.setAlpha(128);
+					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_BLUE));
+					g.fillRectangle(r);
+					
+					deferredRedraw(ed);
+					
+					Point loc = ed.getLocationAtOffset(ed.getCaretOffset());
+					
+					Path pp = new Path(Launcher.getLauncher().display);
+					pp.moveTo(loc.x+4, loc.y-2);
+					pp.cubicTo(loc.x+4, Math.min(loc.y-8, r.y-8), r.x+r.width/2, Math.min(loc.y-8, r.y-8), r.x+r.width/2, r.y);
+					g.drawPath(pp);
+					
+					return false;
+				}
+			});
+		} else {
+			final Position qq = StyledTextPositionSystem.get(ed).createPosition(backTo==0 ? ed.getCaretOffset()-1 : backTo);
+			final Position qq1 = StyledTextPositionSystem.get(ed).createPosition(ed.getCaretOffset());
+			addPositionAnnotation(new iPositionAnnotation() {
+
+				@Override
+				public String toolTipText() {
+					return null;
+				}
+
+				@Override
+				public Position getStartPosition() {
+					return qq;
+				}
+
+				@Override
+				public Position getEndPosition() {
+					return qq1;
+				}
+
+				@Override
+				public boolean drawRect(Rectangle r, GC g) {
+					System.out.println(" bracket :" + r);
+					r.width+=8;
+					g.setAlpha(128);
+					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_RED));
+					g.fillRectangle(r);
+										
+					return false;
+				}
+			});
+		}
+	}
+
+	protected void bracketMatchOpen() {
 	}
 
 	protected void globalEditorPaintHook(PaintEvent e, Control ed) {
@@ -1146,11 +1284,6 @@ public class BaseTextEditor2 {
 			a = 0;
 		String leftText = text.substring(a, pos).trim();
 
-		// String
-		// leftText =
-		// ed.getText().substring(0,
-		// pos);
-
 		iKeystrokeUpdate ks = new iKeystrokeUpdate() {
 
 			public boolean update(Event arg0) {
@@ -1181,38 +1314,6 @@ public class BaseTextEditor2 {
 					return true;
 				}
 				return false;
-
-				// TODO - swt completion
-				// if (arg0.getID() == KeyEvent.KEY_TYPED ||
-				// arg0.getKeyChar()
-				// == '\b' || arg0.getKeyChar() == '\n') {
-				// new MiscNative().disableScreenUpdates();
-				// if (arg0 != null && arg0.getKeyChar() ==
-				// '\n')
-				// arg0.setSource(ed);
-				// menu.setVisible(false);
-				// if (arg0 != null)
-				// try {
-				// ;//System.out.println(" sending event <" +
-				// arg0
-				// + ">");
-				// ReflectionTools.findFirstMethodCalled(JEditorPane.class,
-				// "processKeyEvent").invoke(ed, new Object[] {
-				// arg0 });
-				// } catch (IllegalArgumentException e) {
-				// e.printStackTrace();
-				// } catch (IllegalAccessException e) {
-				// e.printStackTrace();
-				// } catch (InvocationTargetException e) {
-				// e.printStackTrace();
-				// }
-				// completionHandle(publicOnly);
-				// } else if (arg0.getID() ==
-				// KeyEvent.KEY_PRESSED) {
-				// if (arg0.getKeyCode() == KeyEvent.VK_ALT) {
-				// completionHandle(!publicOnly);
-				// }
-				// }
 
 			}
 		};
@@ -1301,8 +1402,7 @@ public class BaseTextEditor2 {
 	// }
 
 	public void removePositionAnnotation(iPositionAnnotation annotation) {
-		if (positionAnnotations.remove(annotation))
-		{
+		if (positionAnnotations.remove(annotation)) {
 			this.frame.redraw();
 			this.ed.redraw();
 		}
@@ -1653,6 +1753,7 @@ public class BaseTextEditor2 {
 	}
 
 	protected void paintPositionAnnotations(GC g2, int width) {
+//		System.out.println(" PA :" + positionAnnotations);
 		Iterator<iPositionAnnotation> ii = positionAnnotations.iterator();
 		while (ii.hasNext()) {
 			iPositionAnnotation pa = ii.next();
@@ -1670,9 +1771,12 @@ public class BaseTextEditor2 {
 				Rectangle left = new Rectangle(leftp.x, leftp.y, 0, ed.getLineHeight(startAt));
 				Rectangle right = new Rectangle(rightp.x, rightp.y, 0, ed.getLineHeight(startAt));
 
-				if (left.y == right.y)
-					pa.drawRect(left.union(right), g2);
-				else {
+//				System.out.println(" computing rect :" + startAt + " " + endAt + " " + leftp + " " + rightp + " " + left + " " + right);
+
+				if (left.y == right.y) {
+					if (!pa.drawRect(left.union(right), g2))
+						ii.remove();
+				} else {
 					left.width = width - left.x;
 					pa.drawRect(left, g2);
 					left.y += left.height;
@@ -1687,7 +1791,8 @@ public class BaseTextEditor2 {
 					left.x = 0;
 					left.width = 0;
 					left.add(right);
-					pa.drawRect(left, g2);
+					if (!pa.drawRect(left, g2))
+						ii.remove();
 				}
 
 			} catch (IllegalArgumentException e) {
@@ -1727,7 +1832,6 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void update() {
-				;// System.out.println(" -- done ? ");
 			}
 		};
 
@@ -1767,6 +1871,11 @@ public class BaseTextEditor2 {
 		} else {
 			return 0;
 		}
+	}
+
+	@NextUpdate(delay=5)
+	private void deferredRedraw(final StyledText ed) {
+		ed.redraw();
 	}
 
 }

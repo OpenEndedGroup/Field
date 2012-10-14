@@ -125,7 +125,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 		// VM crash if this is uncommented in.
 		// alreadyLoaded = false;
 
-		;//;//System.out.println(" ----------- processing is closing ---------");
+		;// ;//System.out.println(" ----------- processing is closing ---------");
 
 	}
 
@@ -157,19 +157,10 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 	static boolean warnOnce = true;
 	public boolean ontop = false;
-	
+
 	@Override
 	public void registeredWith(final iVisualElement root) {
 		if (alreadyLoaded) {
-			// stillborn = true;
-			//
-			// if (warnOnce)
-			// JOptionPane.showMessageDialog(null,
-			// "Currently the Processing Plugin only works with one sheet at a time \u2014 this second sheet will not be able to access your applet (although it can do everything else).\nTo start up with the sheet that you are opening, close all other sheets and select 'Automatically open at launch' from the file menu or set a file from the command line explicitly.");
-			//
-			// warnOnce = false;
-			//
-			// return;
 		} else {
 		}
 
@@ -189,30 +180,27 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 			System.err.println("warning: cannot find processing application at <" + rootProcessingPath + ">");
 			error = true;
 		} else {
-				if (Platform.isMac())
-				{
-					try {
-						Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/Contents/Resources/Java/core.jar").getAbsolutePath());
-						Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/Contents/Resources/Java/core/library/core.jar").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/modes/java/libraries/opengl/library/").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/core/library/").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/Contents/Resources/Java/modes/java/libraries/").getAbsolutePath());
-					} catch (MalformedURLException e1) {
-						e1.printStackTrace();
-					}
+			if (Platform.isMac()) {
+				try {
+					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Resources/Java/core.jar").getAbsolutePath());
+					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Resources/Java/core/library/core.jar").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/modes/java/libraries/opengl/library/").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/core/library/").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/modes/java/libraries/").getAbsolutePath());
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
 				}
-				else
-				{
-					Trampoline2.trampoline.addJar(new File(rootProcessingPath+"/core/library/core.jar").getAbsolutePath());
-					try {
-//						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/opengl/library/").getAbsolutePath());
-						Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath+"/modes/java/libraries/").getAbsolutePath());
-					} catch (MalformedURLException e1) {
-						e1.printStackTrace();
-					}
-					
+			} else {
+				Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/core/library/core.jar").getAbsolutePath());
+				try {
+					// Trampoline2.trampoline.addWildcardPath(new
+					// File(rootProcessingPath+"/modes/java/libraries/opengl/library/").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/modes/java/libraries/").getAbsolutePath());
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
 				}
 
+			}
 
 			error = true;
 
@@ -245,13 +233,13 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 		if (!error) {
 
-			;//;//System.out.println(" -- about to throw an exception -- ");
+			;// ;//System.out.println(" -- about to throw an exception -- ");
 			try {
 				shim.init();
 			} catch (RuntimeException e) {
 			}
 			shim.update();
-			;//;//System.out.println(" -- finished --");
+			;// ;//System.out.println(" -- finished --");
 
 		}
 
@@ -275,7 +263,8 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 			folder.add("icons/p_16x16.png", status);
 
-			;//;//System.out.println(" status is :" + nothing + " " + error);
+			;// ;//System.out.println(" status is :" + nothing + " "
+				// + error);
 			status.setBackground(ToolBarFolder.firstLineBackground);
 
 			GridLayout gl = new GridLayout(1, true);
@@ -297,7 +286,8 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 			folder.add("icons/p_16x16.png", status);
 
-			;//;//System.out.println(" status is :" + nothing + " " + error);
+			;// ;//System.out.println(" status is :" + nothing + " "
+				// + error);
 			status.setBackground(ToolBarFolder.firstLineBackground);
 
 			GridLayout gl = new GridLayout(1, true);
@@ -413,21 +403,20 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 				}
 			});
 
-
 			c.setUnits("(restart required)");
 
 			BooleanControl o = inspect.new BooleanControl(new iIO<Boolean>("On top ?") {
-				
+
 				@Override
 				public Boolean getValue() {
 					return ontop;
 				}
-				
+
 				@Override
 				public Status getStatus() {
 					return Status.valid;
 				}
-				
+
 				@Override
 				public void setValue(Boolean s) {
 					ontop = s;
@@ -474,7 +463,8 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 	private void addLibraryPathRecursively(File file) {
 
-		;//;//System.out.println(" adding extensions directory <" + file + ">");
+		;// ;//System.out.println(" adding extensions directory <" +
+			// file + ">");
 
 		// Trampoline2.trampoline.addExtensionsDirectory(file);
 
@@ -497,13 +487,15 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 					// else if
 					// (f.getCanonicalPath().endsWith(".jar"))
 					// {
-					// ;//;//System.out.println(" adding package
+					// ;//;//System.out.println(" adding
+					// package
 					// <" + f +
 					// ">");
 					// PyJavaPackage p =
 					// PySystemState.add_package(f.getCanonicalPath());
 					// p.fillDir();
-					// ;//;//System.out.println(" filled <" +
+					// ;//;//System.out.println(" filled <"
+					// +
 					// p.__dir__()
 					// + ">");
 					// }
@@ -532,7 +524,8 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 			if (d != null && d.length > 0) {
 				for (File f : d) {
 
-					;//;//System.out.println(" looking at <" + f + ">");
+					;// ;//System.out.println(" looking at <"
+						// + f + ">");
 
 					if (f.isDirectory() && field.core.Platform.isMac()) {
 						if (f.getName().toLowerCase().startsWith("processing") && f.getName().toLowerCase().endsWith(".app"))

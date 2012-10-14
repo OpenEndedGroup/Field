@@ -57,8 +57,10 @@ import field.core.plugins.selection.SelectionSetDriver;
 import field.core.ui.BetterComboBox;
 import field.core.ui.GraphNodeToTreeFancy;
 import field.core.ui.NewTemplates;
+import field.core.ui.text.BaseTextEditor2;
 import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.StyledTextUndo;
 import field.core.ui.text.StyledTextUndo.Memo;
@@ -577,6 +579,11 @@ public class PythonPluginEditor extends PythonPlugin {
 
 			}
 
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
+				return false;
+			}
+
 			public void executeFragment(String fragment) {
 				try {
 					editor.getInput().append(filterFragment(fragment));
@@ -675,6 +682,20 @@ public class PythonPluginEditor extends PythonPlugin {
 
 		protected DefaultEditorExecutionInterface(iVisualElement root) {
 			this.root = root;
+		}
+
+		@Override
+		public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
+
+			iVisualElementOverrides.topology.begin(currentlyEditing);
+			Ref<EditorExecutionInterface> ref = new Ref<EditorExecutionInterface>(new Delegate(currentlyEditing));
+			iVisualElementOverrides.forward.getProperty.getProperty(currentlyEditing, editorExecutionInterface, ref);
+			iVisualElementOverrides.topology.end(currentlyEditing);
+
+			if (ref.get() != null) {
+				return ref.get().globalCompletionHook(leftText, publicOnly, comp, editor);
+			}
+			return false;
 		}
 
 		public void executeFragment(String fragment) {
@@ -1421,10 +1442,10 @@ public class PythonPluginEditor extends PythonPlugin {
 			@Override
 			protected void globalEditorPaintHook(org.eclipse.swt.events.PaintEvent e, Control ed) {
 				OverDrawing od = OverDrawing.overdraw.get(currentlyEditing == null ? root : currentlyEditing);
-				if (od!=null)
+				if (od != null)
 					od.draw(e, ed);
 			};
-			
+
 			protected void navigateTo(iVisualElement box, VisualElementProperty prop, int start, int end) {
 				if (box != currentlyEditing) {
 					changeSelection(Collections.singleton(iVisualElement.localView.get(box)), prop, false);

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -156,7 +157,7 @@ public abstract class JSRInterface implements ScriptingInterface {
 
 			// e.printStackTrace();
 
-			// handleScriptException(e);
+			 handleScriptException(e);
 		}
 		return null;
 	}
@@ -167,12 +168,22 @@ public abstract class JSRInterface implements ScriptingInterface {
 
 	protected void handleScriptException(ScriptException e) {
 
-		;//;//System.out.println(" << stack trace begins >>");
+		System.out.println(" << stack trace begins >>");
 		e.printStackTrace();
-		;//;//System.out.println(" << stack trace ends>>");
+		System.out.println(" << stack trace ends>>");
 
 		try {
-			newContext.getErrorWriter().append(e + ":" + e.getMessage());
+			String message = e.getMessage();
+			System.out.println(" ---------- m");
+			System.out.println(message);
+			System.out.println(" ---------- m");
+			
+			newContext.getErrorWriter().append(message);
+			
+			System.out.println("cause is :"+Arrays.asList(e.getStackTrace()));
+			System.out.println("cause is :"+e.getCause());
+			System.out.println("cause is :"+Arrays.asList(e.getCause().getStackTrace()));
+			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

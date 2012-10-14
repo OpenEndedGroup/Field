@@ -1,15 +1,18 @@
 package field.extras.wrapintransform;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
+import org.python.core.Py;
+import org.python.core.PyFunction;
+import org.python.core.PyList;
 import org.python.core.PyModule;
 import org.python.core.PyObject;
 
-import field.core.Constants;
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
 import field.core.dispatch.iVisualElementOverrides.DefaultOverride;
@@ -20,6 +23,8 @@ import field.core.plugins.BaseSimplePlugin;
 import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.ui.SmallMenu;
+import field.core.ui.text.BaseTextEditor2;
+import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
@@ -70,9 +75,10 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 			public String f(String in) {
 
 				String wrap = source.getProperty(wrapInTransform);
-				if (wrap==null) return in;
-				if (in.startsWith(wrap) && in.endsWith("globals())")) return in;
-				
+				if (wrap == null)
+					return in;
+				if (in.startsWith(wrap) && in.endsWith("globals())"))
+					return in;
 
 				if (wrap == null)
 					return in;
@@ -80,6 +86,72 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 					in = wrap + "(_self,r\"\"\"\n" + in + "\n\"\"\", globals())";
 				}
 				return in;
+			}
+		};
+	}
+
+	public iFunction<Collection<Completion>, String> completionHook(final iVisualElement source, final BaseTextEditor2 inside) {
+		return new iFunction<Collection<Completion>, String>() {
+
+			public Collection<Completion> f(final String in) {
+
+				String wrap = source.getProperty(wrapInTransform);
+				if (wrap == null)
+					return null;
+
+				Object w = PythonInterface.getPythonInterface().getVariables().get(wrap);
+				if (w == null)
+					return null;
+
+				if (w instanceof PyObject) {
+					PyObject c = ((PyObject) w).__findattr__("completions");
+					System.out.println("stage 1 :" + c);
+
+					if (c instanceof PyFunction) {
+						PyObject c2 = ((PyFunction) c).__call__(Py.java2py(in));
+						System.out.println("stage 2 :" + c2);
+
+						if (c2 instanceof PyList) {
+							List<Completion> ccc = new ArrayList<Completion>();
+							for (int i = 0; i < ((PyList) c2).size(); i++) {
+								final String m = ((PyList) c2).get(i).toString();
+
+								Completion comp = inside.new Completion() {
+									@Override
+									public void update() {
+										System.out.println(" inserting <" + m + ">");
+										String mm = m;
+										if (mm.contains(" "))
+											mm = mm.substring(0, mm.indexOf(" "));
+										String r = in;
+										int overlap = 0;
+										for (int i = 1; i < mm.length(); i++) {
+											if (r.endsWith(mm.substring(0, i))) {
+												overlap = i;
+											}
+										}
+										mm = mm.substring(overlap);
+										inside.getInputEditor().insert(mm);
+										inside.getInputEditor().setCaretOffset(inside.getInputEditor().getCaretOffset() + mm.length());
+									};
+								};
+
+								if (m.indexOf("\n") != -1) {
+									comp.text = m;
+									comp.isDocumentation = true;
+								} else {
+									comp.text = m;
+									comp.enabled = true;
+								}
+								ccc.add(comp);
+							}
+							return ccc;
+						}
+
+					}
+
+				}
+				return null;
 			}
 		};
 	}
@@ -120,13 +192,13 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 								d = "" + PythonTextEditor.limitDocumentation(d);
 
 							String trimmed = d.replace("\n", "").replace("\t", " ").trim();
-							if (trimmed.length()>0 && !trimmed.equals("The most base type"))
-							items.put("\u223d <b>" + name + "</b> \u2014 <font size=-2>" + trimmed + "</font>", new iUpdateable() {
+							if (trimmed.length() > 0 && !trimmed.equals("The most base type"))
+								items.put("\u223d <b>" + name + "</b> \u2014 <font size=-2>" + trimmed + "</font>", new iUpdateable() {
 
-								public void update() {
-									setTransformation(source, name.equals("defaultTransform") ? null : name);
-								}
-							});
+									public void update() {
+										setTransformation(source, name.equals("defaultTransform") ? null : name);
+									}
+								});
 						} catch (Exception ex) {
 						}
 					}
@@ -161,15 +233,12 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 	public EditorExecutionInterface getEditorExecutionInterface(final iVisualElement source, final EditorExecutionInterface delegateTo) {
 		return new EditorExecutionInterface() {
 			public void executeFragment(String fragment) {
-				
-				EditorExecutionInterface delegateTo2= delegateTo;
-				if (delegateTo==null)
-				{
+
+				EditorExecutionInterface delegateTo2 = delegateTo;
+				if (delegateTo == null) {
 					fragment = sourceFilter(source).f(fragment);
 					PythonInterface.getPythonInterface().execString(fragment);
-				}
-				else
-				{
+				} else {
 					fragment = sourceFilter(source).f(fragment);
 					delegateTo2.executeFragment(fragment);
 				}
@@ -178,14 +247,29 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 			public Object executeReturningValue(String fragment) {
 				fragment = sourceFilter(source).f(fragment);
 
-				EditorExecutionInterface delegateTo2= delegateTo;
-				if (delegateTo==null)
-				{
-					delegateTo2 = ((PythonPluginEditor)PythonPluginEditor.python_plugin.get(source)).getEditor().getInterface();
+				EditorExecutionInterface delegateTo2 = delegateTo;
+				if (delegateTo == null) {
+					delegateTo2 = ((PythonPluginEditor) PythonPluginEditor.python_plugin.get(source)).getEditor().getInterface();
 				}
 
 				return delegateTo2.executeReturningValue(fragment);
 			}
+
+			@Override
+			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
+
+				iFunction<Collection<Completion>, String> h = completionHook(source, inside);
+				if (h != null) {
+					Collection<Completion> coll = h.f(leftText);
+					if (coll != null) {
+						System.out.println(" completion hook returns <" + coll + ">");
+						comp.addAll(coll);
+						return true;
+					}
+				}
+				return false;
+			}
+
 		};
 	}
 

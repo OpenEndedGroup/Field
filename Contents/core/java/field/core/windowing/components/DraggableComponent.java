@@ -42,6 +42,7 @@ import field.core.plugins.drawing.opengl.LineUtils;
 import field.core.plugins.drawing.opengl.iLinearGraphicsContext;
 import field.core.plugins.help.ContextualHelp;
 import field.core.plugins.help.HelpBrowser;
+import field.core.plugins.pseudo.CustomResize;
 import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.ui.ExecutionDecoration2;
@@ -144,12 +145,6 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 		}
 
 		public void mouseExited(Event arg0) {
-			// TODO: 64 \u2014 confront mouse cursor setting in pure
-			// java
-			// NSCursor.arrowCursor().set();
-
-			// TODO swt cursor
-			// GLComponentWindow.getCurrentWindow(DraggableComponent.this).getCanvas().setCursor(Cursor.getDefaultCursor());
 
 			GLComponentWindow.getCurrentWindow(DraggableComponent.this).getCanvas().setCursor(Launcher.display.getSystemCursor(SWT.CURSOR_ARROW));
 
@@ -176,6 +171,7 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 			// TODO swt cursor
 
 			if (getInside() != null) {
+
 				// TODO: 64 \u2014 confront mouse cursor setting
 				// in
 				// pure java
@@ -429,6 +425,13 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 	}
 
 	public void handleResize(Set<Resize> currentResize, float dx, float dy) {
+		if (CustomResize.applyResize(DraggableComponent.this.getVisualElement(), currentResize, new Vector2(dx, dy))) {
+
+			System.out.println(" custom handle resize <" + currentResize + "> <" + dx + " " + dy + ">");
+
+			return;
+		}
+
 		if (currentResize.contains(Resize.translate))
 			DraggableComponent.this.shouldSetSize((float) DraggableComponent.this.bounds.x + dx, (float) DraggableComponent.this.bounds.y + dy, DraggableComponent.this.getWidth(), DraggableComponent.this.getHeight());
 		if (currentResize.contains(Resize.left)) {
@@ -774,12 +777,12 @@ public class DraggableComponent implements iComponent, iDraggableComponent {
 				text.getProperties().put(iLinearGraphicsContext.containsText, true);
 				text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
 				text.getInput().setPointAttribute(iLinearGraphicsContext.font_v, new Font(Constants.defaultFont, Font.BOLD, 9));// (float)
-																			// (previousViewParameters.z
-																			// *
-																			// Math.min(bounds.h
-																			// -
-																			// 2,
-																			// 10))));
+																		// (previousViewParameters.z
+																		// *
+																		// Math.min(bounds.h
+																		// -
+																		// 2,
+																		// 10))));
 				text.getInput().setPointAttribute(iLinearGraphicsContext.alignment_v, 0f);
 
 				GLComponentWindow.currentContext.submitLine(text, text.getProperties());
