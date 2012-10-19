@@ -13,7 +13,7 @@ To build Field:
 	ant
 
 
-That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then `ant extras_all`
+That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then `ant extras_all`. For the less bold, you can add individual plugins: `extras_jsrscripting` adds nascant support for other languages (including Clojure and Ruby); `extras_online` adds a plugin that lets you write in-browser JavaScript; `extras_jfbxlib` brings in fbx support and so on. See the `build.xml` file for a list of targets.
 
 ### The workspace
 
