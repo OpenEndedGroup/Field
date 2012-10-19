@@ -862,8 +862,12 @@ def getOver(inside):
 	return Mixins().mixInOverride(PythonOverridden, inside)
 
 def paintFLineNow(line):
-	"""Sends a PLine to the renderer (you can only do this inside paint methods)"""
+	"""Sends a FLine to the renderer (you can only do this inside paint methods)"""
 	GLComponentWindow.currentContext.submitLine(line, line.getProperties())
+
+def paintPLineNow(line):
+	"""Sends a PLine to the renderer (you can only do this inside paint methods)"""
+	GLComponentWindow.currentContext.submitLine(line.line, line.line.getProperties())
 
 def overridePaint(callback):
 	"""(Decorator) Add a paint function to this override.
