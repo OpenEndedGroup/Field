@@ -578,6 +578,9 @@ public class Trampoline2 implements iLaunchable {
 								if (!new File(fp).exists()) {
 									System.err.println(" warning, path <" + new File(fp).getAbsolutePath() + ">added to classpath through Field-RedirectionPath inside extension " + j + " doesn't exist");
 								}
+                                else
+                                {
+                                
 								URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
 
 								;// System.out.println(" adding url to main classloader <"
@@ -592,6 +595,7 @@ public class Trampoline2 implements iLaunchable {
 								loader.addURL(url);
 
 								extendedClassPaths.add(fp);
+                                }
 							}
 						}
 					} else {
