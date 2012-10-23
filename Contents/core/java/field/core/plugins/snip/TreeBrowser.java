@@ -106,16 +106,18 @@ public class TreeBrowser {
 			data.horizontalIndent = 0;
 			tree.setLayoutData(data);
 		}
-		label = new Link(toolbar, SWT.MULTI | SWT.NO_BACKGROUND | SWT.CENTER);
-		label.setText("Reusable Tree View (send objects for inspection here)");
-		label.setFont(new Font(Launcher.display, label.getFont().getFontData()[0].getName(), label.getFont().getFontData()[0].getHeight() -2, SWT.NORMAL));
+		label = new Link(toolbar, SWT.NO_BACKGROUND | SWT.CENTER);
+		label.setText("Reusable Tree View");
+		label.setFont(new Font(Launcher.display, label.getFont().getFontData()[0].getName(), label.getFont().getFontData()[0].getHeight() + 2, SWT.NORMAL));
 		label.setBackground(ToolBarFolder.firstLineBackground);
 
 		toolbar.setLayout(new GridLayout(1, true));
 		GridData gd = new GridData(SWT.CENTER, SWT.CENTER, true, true);
 		// gd.verticalIndent = 1;
+		gd.minimumHeight=150;
+		gd.verticalAlignment = gd.VERTICAL_ALIGN_CENTER;
 		label.setLayoutData(gd);
-		
+
 		build(root, tree);
 
 		new MacScrollbarHack(tree);
@@ -198,8 +200,10 @@ public class TreeBrowser {
 	}
 
 	private String limit(String textFor) {
-		if (textFor==null) return "(null)";
-		if (textFor.length()>25) return textFor.substring(0,22)+"...";
+		if (textFor == null)
+			return "(null)";
+		if (textFor.length() > 25)
+			return textFor.substring(0, 22) + "...";
 		return textFor;
 	}
 
