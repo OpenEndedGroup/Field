@@ -26,12 +26,12 @@
 	<classpathentry kind="lib" path="xpp3-1.1.3.4d_b4_min.jar"/>
 	<classpathentry kind="lib" path="xstream-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="clojure-1.4.0.jar"/>
-	<classpathentry kind="lib" path="jruby-complete-1.6.7.2.jar"/>
 	<classpathentry kind="src" path=".apt_generated">
 		<attributes>
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="swt.jar" sourcepath="/Users/marc/Downloads/swt-3.8M5-cocoa-macosx-x86_64/src.zip"/>
+	<classpathentry kind="lib" path="jruby-complete-1.6.7.2.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

@@ -88,7 +88,7 @@
 		<link>
 			<name>jruby-complete-1.6.7.2.jar</name>
 			<type>1</type>
-			<locationURI>PARENT-2-ECLIPSE_HOME/fieldwork/field/Contents/lib/jruby-complete-1.6.7.2.jar</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/lib/jruby-complete-1.6.7.2.jar</locationURI>
 		</link>
 		<link>
 			<name>jython-complete.jar</name>
