@@ -42,7 +42,7 @@ public class FieldMenus2 {
 		boolean auto = false;
 	}
 
-	List<Sheet> openSheets = new ArrayList<FieldMenus2.Sheet>();
+	public List<Sheet> openSheets = new ArrayList<FieldMenus2.Sheet>();
 	public Shell hiddenWindow;
 
 	public FieldMenus2() {
@@ -58,7 +58,7 @@ public class FieldMenus2 {
 
 					MessageBox mb = new MessageBox(hiddenWindow, SWT.OK | SWT.ICON_INFORMATION);
 					mb.setText("About Field");
-					mb.setMessage("Field 14a - http://openendedgroup.com/field");
+					mb.setMessage("Field 15 - http://openendedgroup.com/field");
 					mb.open();
 
 				}
@@ -71,13 +71,16 @@ public class FieldMenus2 {
 			});
 		}
 
+		System.out.println(" -- registering open document handler --");
 		Launcher.display.addListener(SWT.OpenDocument, new Listener() {
 
 			@Override
 			public void handleEvent(Event arg0) {
+				System.out.println(" -- open document handler --  <"+arg0.text+">");
 				openAnyFile(arg0.text, hiddenWindow);
 			}
 		});
+		System.out.println(" -- registering open document handler complete --");
 
 		Menu appMenuBar = Launcher.display.getMenuBar();
 
