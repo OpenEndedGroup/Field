@@ -15,6 +15,9 @@
 # emacs
 *~
 
+# APT
+**/.apt_generated/*
+
 # OS generated files #
 ######################
 .DS_Store*
