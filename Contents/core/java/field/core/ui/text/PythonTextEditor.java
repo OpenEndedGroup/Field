@@ -1034,11 +1034,11 @@ public class PythonTextEditor extends BaseTextEditor2 {
 
 	private Completion completionForPyMethod(final String leftText, final PyMethod f, boolean pythonOnly) {
 
-		if (f.im_func instanceof PyFunction) {
-			Completion c = completionForPyFunction(leftText, (PyFunction) f.im_func, true);
+		if (f.getFunc() instanceof PyFunction) {
+			Completion c = completionForPyFunction(leftText, (PyFunction) f.getFunc(), true);
 			return c;
-		} else if (!pythonOnly && f.im_func instanceof PyReflectedFunction) {
-			PyReflectedFunction ff = ((PyReflectedFunction) f.im_func);
+		} else if (!pythonOnly && f.getFunc() instanceof PyReflectedFunction) {
+			PyReflectedFunction ff = ((PyReflectedFunction) f.getFunc());
 			Method m = (Method) ReflectionTools.illegalGetObject(ff.argslist[0], "data");
 
 			if (m.getDeclaringClass() == Object.class)
