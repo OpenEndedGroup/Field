@@ -80,19 +80,19 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 
 	protected Base.iGeometry basis;
 
-	protected int vertexCursor;
+	public int vertexCursor;
 
-	protected int triangleCursor;
+	public int triangleCursor;
 
 	protected int underlayingMaxStorageVertex;
 
 	protected int underlayingMaxStorageTriangle;
 
-	protected FloatBuffer cachedVertexBuffer;
+	public FloatBuffer cachedVertexBuffer;
 
-	protected ShortBuffer cachedTriangleBuffer;
+	public ShortBuffer cachedTriangleBuffer;
 
-	protected FloatBuffer[] cachedAuxBuffer = new FloatBuffer[16];
+	public FloatBuffer[] cachedAuxBuffer = new FloatBuffer[16];
 
 	protected int[] cachedAuxBufferWidth = new int[16];
 
@@ -106,7 +106,7 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 
 	float growthFactor = 1.5f;
 
-	int openCount = 0;
+	public int openCount = 0;
 
 	int closeCount = 0;
 
@@ -379,6 +379,15 @@ public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.gr
 		cachedVertexBuffer.put(vertexCursor3, v1.get(0));
 		cachedVertexBuffer.put(vertexCursor3 + 1, v1.get(1));
 		cachedVertexBuffer.put(vertexCursor3 + 2, v1.get(2));
+		return vertexCursor++;
+	}
+	public int nextVertex(float  x, float y, float z) {
+		checkVertexStorage(vertexCursor, 3);
+		int vertexCursor3 = 3 * vertexCursor;
+
+		cachedVertexBuffer.put(vertexCursor3, x);
+		cachedVertexBuffer.put(vertexCursor3 + 1, y);
+		cachedVertexBuffer.put(vertexCursor3 + 2, z);
 		return vertexCursor++;
 	}
 

@@ -62,19 +62,19 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 
 	protected Base.iLongGeometry basis;
 
-	protected int vertexCursor;
+	public int vertexCursor;
 
-	protected int triangleCursor;
+	public int triangleCursor;
 
 	protected int underlayingMaxStorageVertex;
 
 	protected int underlayingMaxStorageTriangle;
 
-	protected FloatBuffer cachedVertexBuffer;
+	public FloatBuffer cachedVertexBuffer;
 
-	protected IntBuffer cachedTriangleBuffer;
+	public IntBuffer cachedTriangleBuffer;
 
-	protected FloatBuffer[] cachedAuxBuffer = new FloatBuffer[16];
+	public FloatBuffer[] cachedAuxBuffer = new FloatBuffer[16];
 
 	protected int[] cachedAuxBufferWidth = new int[16];
 
@@ -88,7 +88,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 
 	float growthFactor = 1.5f;
 
-	int openCount = 0;
+	public int openCount = 0;
 
 	int closeCount = 0;
 

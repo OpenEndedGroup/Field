@@ -176,15 +176,13 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 								onError.errorOnLine(ii, ll);
 							}
 						} catch (NumberFormatException e) {
-							try{
+							try {
 								Matcher q = Pattern.compile(".*?\\((.*?)\\)").matcher(ll);
 								q.find();
 								String g = q.group(1);
 								int ii = Integer.parseInt(g);
 								onError.errorOnLine(ii, ll);
-							}
-							catch(Exception e2)
-							{
+							} catch (Exception e2) {
 								e2.printStackTrace();
 							}
 						}
@@ -442,6 +440,58 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			} else {
 			}
 			recur();
+		}
+	}
+
+	public class PreviousLeftCamera extends SetMatrixUniform {
+		public PreviousLeftCamera(String name) {
+			super(name, new iProvider<Matrix4>() {
+
+				@Override
+				public Matrix4 get() {
+					BasicCamera c = BasicCamera.currentCamera;
+					if (c instanceof StereoCamera) {
+						return new Matrix4(((StereoCamera) c).previousModelViewLeft);
+					} else {
+						return new Matrix4(c.previousModelView);
+					}
+				}
+			});
+		}
+	}
+
+	
+	public class PreviousCenterCamera extends SetMatrixUniform {
+		public PreviousCenterCamera(String name) {
+			super(name, new iProvider<Matrix4>() {
+
+				@Override
+				public Matrix4 get() {
+					BasicCamera c = BasicCamera.currentCamera;
+					if (c instanceof LayeredStereoCamera) {
+						return new Matrix4(((LayeredStereoCamera) c).previousModelView);
+					} else {
+						return new Matrix4(c.previousModelView);
+					}
+				}
+			});
+		}
+	}
+
+	public class PreviousRightCamera extends SetMatrixUniform {
+		public PreviousRightCamera(String name) {
+			super(name, new iProvider<Matrix4>() {
+
+				@Override
+				public Matrix4 get() {
+					BasicCamera c = BasicCamera.currentCamera;
+					if (c instanceof StereoCamera) {
+						return new Matrix4(((StereoCamera) c).previousModelViewRight);
+					} else {
+						return new Matrix4(c.previousModelView);
+					}
+				}
+			});
 		}
 	}
 

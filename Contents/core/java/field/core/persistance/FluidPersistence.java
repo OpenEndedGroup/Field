@@ -104,9 +104,7 @@ public class FluidPersistence {
 							Class r = super.realClass(elementName);
 							return r;
 						} catch (CannotResolveClassException e) {
-							;//System.out.println(" context is <"+context+">");
 							Class lookingFor = context.getRequiredType();
-							;//System.out.println(" looking for <" + elementName + "> can't load it <" + e + ">, needed a type <" + lookingFor + "> guessing iVisualElement");
 							return VisualElement.class;
 						}
 					}

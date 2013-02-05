@@ -72,7 +72,7 @@ import field.util.HashMapOfLists;
 
 @Woven
 public class SelectionSetDriver {
-
+    
 	static public class TravelTo implements iUpdateable {
 		private final GLComponentWindow window;
 		private final Vector2 center;
@@ -81,7 +81,7 @@ public class SelectionSetDriver {
 		float tx;
 		float ty;
 		float sx, sy;
-
+        
 		public TravelTo(GLComponentWindow window, Vector2 center) {
 			this.window = window;
 			this.center = center;
@@ -91,7 +91,7 @@ public class SelectionSetDriver {
 			sy = window.getYScale();
 			this.scale = new Vector2(sx, sy);
 		}
-
+        
 		public TravelTo(GLComponentWindow window, SavedView view) {
 			this.window = window;
 			this.center = new Vector2(view.tx, view.ty);
@@ -100,78 +100,78 @@ public class SelectionSetDriver {
 			ty = window.getYTranslation();
 			sx = window.getXScale();
 			sy = window.getYScale();
-
+            
 		}
-
+        
 		public void update() {
-
+            
 			float alpha = (float) ((System.currentTimeMillis() - start) / 1000.0);
 			if (alpha > 1) {
 				alpha = 1;
 				Launcher.getLauncher().deregisterUpdateable(this);
 			}
-
+            
 			float x, y;
-
+            
 			alpha = CubicTools.smoothStep(alpha);
-
+            
 			x = tx * (1 - alpha) + (alpha) * center.x;
 			y = ty * (1 - alpha) + (alpha) * center.y;
-
+            
 			window.setXTranslation(x);
 			window.setYTranslation(y);
-
+            
 			x = sx * (1 - alpha) + (alpha) * scale.x;
 			y = sy * (1 - alpha) + (alpha) * scale.y;
-
+            
 			window.setXScale(x);
 			window.setYScale(y);
-
+            
 			window.requestRepaint();
-
+            
 		}
 	}
-
+    
 	static public class SavedView {
 		float sx, sy, tx, ty;
 		protected String name;
 	}
-
+    
 	public interface iExtendedSelectionAxis extends iSelectionAxis {
 		public void selectionChanged(Set<iVisualElement> s);
-
+        
 		public void start();
-
+        
 		public void stop();
 	}
-
+    
 	public interface iSelectionAxis {
 		public void constructNodesForSelected(Set<iVisualElement> everything, iVisualElement oneThning, SelectionSetNode parent);
-
+        
 		public String getName();
 	}
-
+    
 	public interface iSelectionPredicate {
 		public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache);
-
+        
 		public boolean is(iVisualElement e);
 	}
-
+    
 	static public class SelectionSet {
 		private transient Set<iVisualElement> cached;
-
+        
 		Set<String> cachedUID = new HashSet<String>();
-
+        
 		iSelectionPredicate predicate;
-
+        
 		String name;
-
+        
 		public SelectionSet(iSelectionPredicate predicate, String name) {
 			super();
 			this.predicate = predicate;
 			this.name = name;
 		}
-
+        
 		public Set<iVisualElement> getCached(iVisualElement root) {
 			if (cached == null) {
 				cached = new HashSet<iVisualElement>();
@@ -181,7 +181,7 @@ public class SelectionSetDriver {
 			}
 			return cached;
 		}
-
+        
 		public void setCached(Set<iVisualElement> cached) {
 			this.cached = cached;
 			cachedUID.clear();
@@ -189,54 +189,54 @@ public class SelectionSetDriver {
 				cachedUID.add(e.getUniqueID());
 			}
 		}
-
+        
 		@Override
 		public String toString() {
 			return name;
 		}
 	}
-
+    
 	public enum SelectionSetModifer {
 		or, and, orNot;
 	}
-
+    
 	static public class SelectionSetNode extends field.math.graph.NodeImpl<SelectionSetNode> implements field.math.graph.iMutableContainer<SelectionSet, SelectionSetNode> {
 		public SelectionSetModifer modifier = SelectionSetModifer.or;
-
+        
 		private SelectionSet set;
-
+        
 		private String label;
-
+        
 		private final SelectionSetNodeType type;
-
+        
 		public SelectionSetNode(SelectionSet set, String label, SelectionSetNodeType type) {
 			this.setLabel(label);
 			this.type = type;
 			setPayload(set);
 		}
-
+        
 		public String getLabel() {
 			return label;
 		}
-
+        
 		public SelectionSet payload() {
 			return set;
 		}
-
+        
 		public void setLabel(String label) {
 			this.label = label;
 		}
-
+        
 		public SelectionSetNode setModifier(SelectionSetModifer modifier) {
 			this.modifier = modifier;
 			return this;
 		}
-
+        
 		public SelectionSetNode setPayload(SelectionSet t) {
 			this.set = t;
 			return this;
 		}
-
+        
 		@Override
 		public String toString() {
 			if (type == SelectionSetNodeType.ruler)
@@ -245,41 +245,41 @@ public class SelectionSetDriver {
 				return getLabel() + " " + smaller("(" + this.getChildren().size() + " " + getContentsDescription() + (this.getChildren().size() == 1 ? "" : "s") + ")");
 			if (type == SelectionSetNodeType.computed)
 				return (getLabel() != null ? (getLabel()) : ("" + payload())) + " " + smaller("(" + this.getChildren().size() + " " + getContentsDescription() + (this.getChildren().size() == 1 ? "" : "s") + ")");
-
+            
 			return (modifier != SelectionSetModifer.or ? ("(" + modifier + ") ") : "") + (getLabel() != null ? (getLabel()) : ("" + payload())) + "";
 		}
-
+        
 		protected String getContentsDescription() {
 			return "element";
 		}
 	}
-
+    
 	static public class SelectionSetNodeView extends SelectionSetNode {
-
+        
 		private SavedView view;
-
+        
 		public SelectionSetNodeView(SelectionSet set, String label, SavedView view) {
 			super(set, label, SelectionSetNodeType.view);
 			this.view = view;
 		}
-
+        
 		public SavedView getView() {
 			return view;
 		}
-
+        
 	}
-
+    
 	public enum SelectionSetNodeType {
 		computed, label, root, saved, ruler, view;
 	}
-
+    
 	public static String nameFor(iVisualElement e) {
-
+        
 		// if (e == root)
 		// return "sheet";
-
+        
 		try {
-
+            
 			String name = e.getProperty(iVisualElement.name);
 			iVisualElementOverrides overrides = e.getProperty(iVisualElement.overrides);
 			String overname;
@@ -292,107 +292,106 @@ public class SelectionSetDriver {
 				overname = "[ " + overname + "]";
 			} else
 				overname = overrides.getClass().getSimpleName();
-
+            
 			iComponent view = e.getProperty(iVisualElement.localView);
 			if (view == null) {
 			} else if (view.getClass().equals(DraggableComponent.class) || view.getClass().equals(PlainDraggableComponent.class)) {
 			} else {
 				overname = "[" + overname + " : " + view.getClass().getSimpleName() + "]";
 			}
-
+            
 			return (name == null ? "unnamed" : "<b>" + name + "</b>") + " " + smaller(overname);
 		} catch (NullPointerException ex) {
 			ex.printStackTrace();
 			return "(npe thrown in nameFor)";
 		}
 	}
-
+    
 	static protected String smaller(String text) {
 		return "<font size=-3 color='#" + Constants.defaultTreeColorDim + "'>" + text + "</font>";
 	}
-
+    
 	private final iVisualElement root;
-
+    
 	private final SelectionSetUI selectionUI;
-
+    
 	private final SelectionGroup<iComponent> group;
-
+    
 	private final Button left;
 	private final Button right;
-
+    
 	private final BetterComboBox selectionAxesButton;
-
+    
 	protected TreeItem[] currentPathIs;
-
+    
 	List<iSelectionAxis> selectionAxes = new ArrayList<iSelectionAxis>();
-
+    
 	SelectionSetNode rootModel = new SelectionSetNode(null, "root", SelectionSetNodeType.root);
-
+    
 	FluidCopyPastePersistence copyPaste;
-
+    
 	iSelectionAxis currentAxis;
-
+    
 	SelectionSetNode currentSelectionNode;
-
+    
 	SelectionSetNode savedSelectionNode;
-
+    
 	SelectionSetNode classSelectionNode;
-
+    
 	Set<SelectionSet> saved = new HashSet<SelectionSet>();
-
+    
 	Set<SavedView> savedViews = new HashSet<SavedView>();
-
+    
 	Method method_reconstructRootModel = ReflectionTools.methodOf("reconstructRootModel", SelectionSetDriver.class);
-
+    
 	HashSet<String> open = new LinkedHashSet<String>();
-
+    
 	HashSet<String> closed = new LinkedHashSet<String>();
-
+    
 	boolean suspendSelectionProcessing = false;
-
+    
 	ArrayList<Set<iVisualElement>> previousSelectionSet = new ArrayList<Set<iVisualElement>>();
-
+    
 	Set<iVisualElement> currentSelectionSet = new HashSet<iVisualElement>();
-
+    
 	Set<iVisualElement> everyElement = new HashSet<iVisualElement>();
-
+    
 	private SelectionSetNode viewSelectionNode;
-
-
+    
 	private CTabItem item;
-
+    
 	private GraphNodeToTree graphNodeToTree;
-
+    
 	public SelectionSetDriver(final iVisualElement root, ToolBarFolder parent) {
 		this.root = root;
-
+        
 		selectionUI = new SelectionSetUI("icons/move_32x32.png", parent) {
 			// TODO selectionSet
 			// @Override
 			@Woven
 			@NextUpdate(delay = 2)
 			protected void doubleClickRow(TreeItem p) {
-				
+                
 				currentPathIs = new TreeItem[] { p };
 				// markedSelectedPaths(currentPathIs);
 				axisForwards();
 			}
-
+            
 			protected void selectionChanged(TreeItem[] selection) {
 				currentPathIs = selection;
 				markedSelectedPaths(currentPathIs);
 			}
-
+            
 			@Override
 			protected LinkedHashMap<String, iUpdateable> getMenuItems() {
-
+                
 				LinkedHashMap<String, iUpdateable> ret = new LinkedHashMap<String, iUpdateable>();
 				if (currentSelectionSet.size() > 0) {
 					ret.put("Operations on currently selected element" + (currentSelectionSet.size() > 1 ? "s" : ""), null);
-
+                    
 					ret.put("make a <b>new selection set</b>", new iUpdateable() {
 						public void update() {
-
+                            
 							// TODO swt modal popup
 							// text box
 							// Point top = new
@@ -433,22 +432,22 @@ public class SelectionSetDriver {
 							// }
 							//
 							// });
-
+                            
 						}
 					});
-
+                    
 					ret.put("<b>duplicate</b> these elements", new iUpdateable() {
 						public void update() {
-
+                            
 							FluidCopyPastePersistence copier = iVisualElement.copyPaste.get(root);
-
+                            
 							StringWriter temp = new StringWriter();
 							HashSet<iVisualElement> savedOut = new HashSet<iVisualElement>();
 							ObjectOutputStream oos = copier.getObjectOutputStream(temp, savedOut, currentSelectionSet);
 							try {
 								oos.writeObject(currentSelectionSet);
 								oos.close();
-
+                                
 								everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
 								ObjectInputStream ois = copier.getObjectInputStream(new StringReader(temp.getBuffer().toString()), savedOut, everyElement);
 								Object in = ois.readObject();
@@ -557,28 +556,28 @@ public class SelectionSetDriver {
 							// }
 						}
 					});
-
+                    
 					ret.put("create a <b>clipboard package</b>", new iUpdateable() {
-
+                        
 						public void update() {
-
+                            
 							iVisualElement element = currentSelectionSet.iterator().next();
 							String name = element.getProperty(iVisualElement.name);
 							File tmp = new PackageTools().newTempFileWithSelected(root, name);
 							new PackageTools().copyFileReferenceToClipboard(tmp.getAbsolutePath());
-
+                            
 							// TODO set flash window
 							// with message
 							// selectionUI.setFlash("copied \u279d");
-
+                            
 						}
 					});
-
+                    
 				}
 				ret.put("Operations on view", null);
-
+                
 				ret.put("Save view (zoom and translation)", new iUpdateable() {
-
+                    
 					public void update() {
 						// TODO swt modal text prompt
 						// Point top = new Point(50,
@@ -614,28 +613,28 @@ public class SelectionSetDriver {
 						// }
 						//
 						// });
-
+                        
 					}
 				});
-
+                
 				return ret;
 			}
-
+            
 			@Override
 			protected void popUpMenu(Event ev, LinkedHashMap<String, iUpdateable> items) {
-
+                
 				TreeItem[] path = tree.getSelection();
-
+                
 				if (path != null)
 					if (path.length > 0) {
 						Set<iVisualElement> newSelectionSet = new HashSet<iVisualElement>();
 						everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
 						if (path != null) {
-
+                            
 							HashSet<iVisualElement> here = new HashSet<iVisualElement>();
 							for (TreeItem p : path) {
 								SelectionSet n = (SelectionSet) p.getData();
-
+                                
 								if (n != null) {
 									n.predicate.begin(everyElement, currentSelectionSet, n.getCached(root));
 									for (iVisualElement e : everyElement) {
@@ -643,83 +642,99 @@ public class SelectionSetDriver {
 											here.add(e);
 										}
 									}
-
+                                    
 								}
 							}
 							for (iVisualElement e : here)
 								new MakeDispatchProxy().getOverrideProxyFor(e).menuItemsFor(e, items);
-
+                            
 						}
 					}
-
+                
 			}
-
+            
 		};
-
+        
 		selectionUI.setWaterText("Selection");
 		group = root.getProperty(iVisualElement.selectionGroup);
-
+        
 		selectionAxes.add(new iSelectionAxis() {
 			public void constructNodesForSelected(Set<iVisualElement> everything, iVisualElement oneThning, SelectionSetNode parent) {
 				return;
 			}
-
+            
 			public String getName() {
 				return "<b>Default</b> selection axes";
 			}
 		});
-//		selectionAxes.add(new iSelectionAxis() {
-//			public void constructNodesForSelected(Set<iVisualElement> everything, iVisualElement oneThing, SelectionSetNode parent) {
-//
-//				VEList e = oneThing.getProperty(SplineComputingOverride.computed_elaborates);
-//				if (e == null)
-//					return;
-//				if (e.size() == 0)
-//					return;
-//				for (final iVisualElement element : e) {
-//					parent.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-//						public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
-//						}
-//
-//						public boolean is(iVisualElement ex) {
-//							return element == ex;
-//						};
-//					}, "  \u21e4 \u2014 " + nameFor(element)), null, SelectionSetNodeType.saved));
-//				}
-//			}
-//
-//			public String getName() {
-//				return "<html>Spline \u2014 <b>Elaborates</b> ... (or \"input\")";
-//			}
-//		});
-//		selectionAxes.add(new iSelectionAxis() {
-//			public void constructNodesForSelected(Set<iVisualElement> everything, iVisualElement oneThing, SelectionSetNode parent) {
-//
-//				VEList e = oneThing.getProperty(SplineComputingOverride.computed_elaboratedBy);
-//				if (e == null)
-//					return;
-//				if (e.size() == 0)
-//					return;
-//				for (final iVisualElement element : e) {
-//					parent.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-//						public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
-//						}
-//
-//						public boolean is(iVisualElement ex) {
-//							return element == ex;
-//						};
-//					}, "  \u21e2 \u2014 " + nameFor(element)), null, SelectionSetNodeType.saved));
-//				}
-//			}
-//
-//			public String getName() {
-//				return "<html>Spline \u2014 <b>Elaborated</b> by ... (or \"output\")";
-//			}
-//		});
-
+		// selectionAxes.add(new iSelectionAxis() {
+		// public void constructNodesForSelected(Set<iVisualElement>
+		// everything, iVisualElement oneThing, SelectionSetNode parent)
+		// {
+		//
+		// VEList e =
+		// oneThing.getProperty(SplineComputingOverride.computed_elaborates);
+		// if (e == null)
+		// return;
+		// if (e.size() == 0)
+		// return;
+		// for (final iVisualElement element : e) {
+		// parent.addChild(new SelectionSetNode(new SelectionSet(new
+		// iSelectionPredicate() {
+		// public void begin(Set<iVisualElement> everything,
+		// Set<iVisualElement> currentlySelected, Set<iVisualElement>
+		// previousCache) {
+		// }
+		//
+		// public boolean is(iVisualElement ex) {
+		// return element == ex;
+		// };
+		// }, "  \u21e4 \u2014 " + nameFor(element)), null,
+		// SelectionSetNodeType.saved));
+		// }
+		// }
+		//
+		// public String getName() {
+		// return
+		// "<html>Spline \u2014 <b>Elaborates</b> ... (or \"input\")";
+		// }
+		// });
+		// selectionAxes.add(new iSelectionAxis() {
+		// public void constructNodesForSelected(Set<iVisualElement>
+		// everything, iVisualElement oneThing, SelectionSetNode parent)
+		// {
+		//
+		// VEList e =
+		// oneThing.getProperty(SplineComputingOverride.computed_elaboratedBy);
+		// if (e == null)
+		// return;
+		// if (e.size() == 0)
+		// return;
+		// for (final iVisualElement element : e) {
+		// parent.addChild(new SelectionSetNode(new SelectionSet(new
+		// iSelectionPredicate() {
+		// public void begin(Set<iVisualElement> everything,
+		// Set<iVisualElement> currentlySelected, Set<iVisualElement>
+		// previousCache) {
+		// }
+		//
+		// public boolean is(iVisualElement ex) {
+		// return element == ex;
+		// };
+		// }, "  \u21e2 \u2014 " + nameFor(element)), null,
+		// SelectionSetNodeType.saved));
+		// }
+		// }
+		//
+		// public String getName() {
+		// return
+		// "<html>Spline \u2014 <b>Elaborated</b> by ... (or \"output\")";
+		// }
+		// });
+        
 		selectionAxes.add(new iSelectionAxis() {
 			public void constructNodesForSelected(Set<iVisualElement> everything, iVisualElement oneThing, SelectionSetNode parent) {
-
+                
 				Globals globals = PythonPlugin.python_globals.get(oneThing);
 				if (globals != null) {
 					List<String> potential = globals.getPotentialDefinedBy(oneThing);
@@ -728,28 +743,28 @@ public class SelectionSetDriver {
 					for (String q : used.keySet()) {
 						potential.remove(q);
 					}
-
+                    
 					SelectionSetNode p1 = new SelectionSetNode(null, "Declared but not used", SelectionSetNodeType.label);
 					SelectionSetNode p2 = new SelectionSetNode(null, "Declared and used", SelectionSetNodeType.label);
 					SelectionSetNode p3 = new SelectionSetNode(null, "Used and declared elsewhere", SelectionSetNodeType.label);
 					parent.addChild(p1);
 					parent.addChild(p2);
 					parent.addChild(p3);
-
+                    
 					for (String q : potential) {
 						p1.addChild(new SelectionSetNode(null, q, SelectionSetNodeType.label));
 					}
-
+                    
 					for (Map.Entry<String, Collection<iVisualElement>> q : used.entrySet()) {
 						SelectionSetNode ll = new SelectionSetNode(null, q.getKey(), SelectionSetNodeType.label);
 						p2.addChild(ll);
-
+                        
 						for (final iVisualElement eq : q.getValue()) {
 							ll.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-
+                                
 								public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 								}
-
+                                
 								public boolean is(iVisualElement e) {
 									return e == eq;
 								}
@@ -759,12 +774,12 @@ public class SelectionSetDriver {
 					for (final Pair<String, iVisualElement> q : usedInside) {
 						SelectionSetNode ll = new SelectionSetNode(null, q.left, SelectionSetNodeType.label);
 						p3.addChild(ll);
-
+                        
 						ll.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-
+                            
 							public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 							}
-
+                            
 							public boolean is(iVisualElement e) {
 								return e == q.right;
 							}
@@ -772,102 +787,104 @@ public class SelectionSetDriver {
 					}
 				}
 			}
-
+            
 			public String getName() {
 				return "Offers <b>global variables</b>";
 			}
 		});
-
+        
 		currentAxis = selectionAxes.get(0);
-
+        
 		ArrayList<String> vp = new ArrayList<String>();
 		for (iSelectionAxis ax : selectionAxes) {
 			vp.add(ax.getName());
 		}
-
+        
 		BetterComboBox button = new BetterComboBox(selectionUI.toolbar, vp.toArray(new String[0])) {
-
+            
 			@Override
 			public void updateLabels() {
 			}
-
+            
 			@Override
 			public void updateSelection(int index, String text) {
-
+                
 				if (currentAxis instanceof iExtendedSelectionAxis)
 					((iExtendedSelectionAxis) currentAxis).stop();
-
+                
 				currentAxis = selectionAxes.get(index);
-
+                
 				if (currentAxis instanceof iExtendedSelectionAxis) {
 					((iExtendedSelectionAxis) currentAxis).start();
 					((iExtendedSelectionAxis) currentAxis).selectionChanged(currentSelectionSet);
 				}
-
+                
 				reconstructRootModel();
 			}
 		};
 		button.combo.setBackground(button.combo.getParent().getBackground());
-		
+        
 		button.combo.setLayoutData(new RowData(150, Platform.getOS() == OS.mac ? 20 : 25));
-
+        
 		selectionAxesButton = button;
-
+        
 		left = new Button(selectionUI.toolbar, SWT.PUSH | SWT.FLAT);
-
+        
 		left.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				((MainSelectionGroup) group).popSelection();
 			}
-
+            
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-
+        
 		left.setBackground(button.combo.getParent().getBackground());
 		left.setLayoutData(new RowData(20, Platform.getOS() == OS.mac ? 20 : 25));
-
+        
 		left.addPaintListener(new PaintListener() {
-
+            
 			@Override
 			public void paintControl(PaintEvent e) {
 				left.setEnabled(((MainSelectionGroup) group).canGoBack());
 			}
 		});
-		 left.setText("<");
-//		left.setImage(new Image(Launcher.display, "icons/arrow_left_12x12.png"));
-
+		left.setText("<");
+		// left.setImage(new Image(Launcher.display,
+		// "icons/arrow_left_12x12.png"));
+        
 		right = new Button(selectionUI.toolbar, SWT.PUSH | SWT.FLAT);
-
+        
 		right.addSelectionListener(new SelectionListener() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				((MainSelectionGroup) group).moveForwardSelection();
 			}
-
+            
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
-
+        
 		right.setBackground(button.combo.getParent().getBackground());
 		right.setLayoutData(new RowData(20, Platform.getOS() == OS.mac ? 20 : 25));
-
+        
 		right.addPaintListener(new PaintListener() {
-
+            
 			@Override
 			public void paintControl(PaintEvent e) {
 				right.setEnabled(((MainSelectionGroup) group).canGoForward());
 			}
 		});
-//		right.setImage(new Image(Launcher.display, "icons/arrow_right_12x12.png"));
-		 right.setText(">");
-
+		// right.setImage(new Image(Launcher.display,
+		// "icons/arrow_right_12x12.png"));
+		right.setText(">");
+        
 		right.setToolTipText("Selection history forward");
 		left.setToolTipText("Selection history backward");
-
+        
 		group.registerNotification(new iSelectionChanged<iComponent>() {
 			public void selectionChanged(Set<iComponent> selected) {
 				LinkedHashSet<iComponent> c = new LinkedHashSet<iComponent>();
@@ -876,13 +893,13 @@ public class SelectionSetDriver {
 						group.removeFromSelection(cc);
 				}
 				changeSelection(selected);
-
+                
 				left.redraw();
 				right.redraw();
-
+                
 			}
 		});
-
+        
 		// JButton lock = new JButton("") {
 		// ImageIcon unlocked = new ImageIcon("unlock.png");
 		// ImageIcon locked = new ImageIcon("lock.png");
@@ -928,109 +945,108 @@ public class SelectionSetDriver {
 		// 1,
 		// selectionUI.getToolbarPanel().getComponentCount(), 2, 0, 0,
 		// 0);
-
+        
 		addNotibleOverridesClass(iMixinProxy.class, "Blended Type (from Mixins)");
-
+        
 		DrawTopology.addTopologyAsSelectionAxis(this, "<html><b>Super / Sub-element</b> ", root, new iTopology<iVisualElement>() {
-
+            
 			public List<iVisualElement> getChildrenOf(iVisualElement of) {
 				return of.getChildren();
 			}
-
+            
 			public List<iVisualElement> getParentsOf(iVisualElement of) {
 				return (List<iVisualElement>) of.getParents();
 			}
 		}, new DefaultDrawer(), " \u21e2 members", " \u21e2 enclosing group", "member ", "next ");
-
+        
 		reconstructRootModel();
-
-
+        
 		installHelpBrowser(root);
 	}
-
-	@NextUpdate(delay=3)
+    
+	@NextUpdate(delay = 3)
 	private void installHelpBrowser(final iVisualElement root) {
 		HelpBrowser h = HelpBrowser.helpBrowser.get(root);
 		ContextualHelp ch = h.getContextualHelp();
 		ch.addContextualHelpForWidget("selection", selectionUI.tree, ch.providerForStaticMarkdownResource("contextual/selection.md"), 50);
 	}
-
+    
 	public void addNotibleOverridesClass(final Class/*
-							 * <? extends
-							 * iVisualElementOverrides
-							 * .DefaultOverride>
-							 */c, final String name) {
-
-		aRun arun = new Cont.aRun() {
-			@Override
-			public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
-				ComputedSelectionSets.ByClass select = new ComputedSelectionSets.ByClass(c);
-				if (selectsAny(everyElement, select)) {
-					SelectionSetNode node = new SelectionSetNode(new SelectionSet(select, name), null, SelectionSetNodeType.computed);
-					classSelectionNode.addChild(node);
-
-					ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
-					q.addAll(everyElement);
-					sortByName(q);
-
-					for (final iVisualElement e : q) {
-						if (select.is(e))
-							node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-								public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
-								}
-
-								public boolean is(iVisualElement ex) {
-									return e == ex;
-								};
-							}, nameFor(e)), null, SelectionSetNodeType.saved));
-					}
-
-				}
-				return super.tail(calledOn, args, returnWas);
-			}
-		};
-		Cont.linkWith(this, this.method_reconstructRootModel, arun);
-	}
-
+                                                     * <? extends
+                                                     * iVisualElementOverrides
+                                                     * .DefaultOverride>
+                                                     */c, final String name) {
+                                                         
+                                                         aRun arun = new Cont.aRun() {
+                                                             @Override
+                                                             public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
+                                                                 ComputedSelectionSets.ByClass select = new ComputedSelectionSets.ByClass(c);
+                                                                 if (selectsAny(everyElement, select)) {
+                                                                     SelectionSetNode node = new SelectionSetNode(new SelectionSet(select, name), null, SelectionSetNodeType.computed);
+                                                                     classSelectionNode.addChild(node);
+                                                                     
+                                                                     ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
+                                                                     q.addAll(everyElement);
+                                                                     sortByName(q);
+                                                                     
+                                                                     for (final iVisualElement e : q) {
+                                                                         if (select.is(e))
+                                                                             node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
+                                                                                 public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
+                                                                                 }
+                                                                                 
+                                                                                 public boolean is(iVisualElement ex) {
+                                                                                     return e == ex;
+                                                                                 };
+                                                                             }, nameFor(e)), null, SelectionSetNodeType.saved));
+                                                                     }
+                                                                     
+                                                                 }
+                                                                 return super.tail(calledOn, args, returnWas);
+                                                             }
+                                                         };
+                                                         Cont.linkWith(this, this.method_reconstructRootModel, arun);
+                                                     }
+    
 	public void addNotibleComponentClass(final Class/*
-							 * <? extends
-							 * iVisualElementOverrides
-							 * .DefaultOverride>
-							 */c, final String name) {
-
-		aRun arun = new Cont.aRun() {
-			@Override
-			public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
-				ComputedSelectionSets.ByComponentClass select = new ComputedSelectionSets.ByComponentClass(c);
-				if (selectsAny(everyElement, select)) {
-					SelectionSetNode node = new SelectionSetNode(new SelectionSet(select, name), null, SelectionSetNodeType.computed);
-					classSelectionNode.addChild(node);
-
-					ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
-					q.addAll(everyElement);
-					sortByName(q);
-
-					for (final iVisualElement e : q) {
-						if (select.is(e))
-							node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
-								public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
-								}
-
-								public boolean is(iVisualElement ex) {
-									return e == ex;
-								};
-							}, nameFor(e)), null, SelectionSetNodeType.saved));
-					}
-
-				}
-				return super.tail(calledOn, args, returnWas);
-			}
-		};
-		Cont.linkWith(this, this.method_reconstructRootModel, arun);
-	}
-
+                                                     * <? extends
+                                                     * iVisualElementOverrides
+                                                     * .DefaultOverride>
+                                                     */c, final String name) {
+                                                         
+                                                         aRun arun = new Cont.aRun() {
+                                                             @Override
+                                                             public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
+                                                                 ComputedSelectionSets.ByComponentClass select = new ComputedSelectionSets.ByComponentClass(c);
+                                                                 if (selectsAny(everyElement, select)) {
+                                                                     SelectionSetNode node = new SelectionSetNode(new SelectionSet(select, name), null, SelectionSetNodeType.computed);
+                                                                     classSelectionNode.addChild(node);
+                                                                     
+                                                                     ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
+                                                                     q.addAll(everyElement);
+                                                                     sortByName(q);
+                                                                     
+                                                                     for (final iVisualElement e : q) {
+                                                                         if (select.is(e))
+                                                                             node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
+                                                                                 public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
+                                                                                 }
+                                                                                 
+                                                                                 public boolean is(iVisualElement ex) {
+                                                                                     return e == ex;
+                                                                                 };
+                                                                             }, nameFor(e)), null, SelectionSetNodeType.saved));
+                                                                     }
+                                                                     
+                                                                 }
+                                                                 return super.tail(calledOn, args, returnWas);
+                                                             }
+                                                         };
+                                                         Cont.linkWith(this, this.method_reconstructRootModel, arun);
+                                                     }
+    
 	public void addNotibleOverridesClass(final Set<Class<?>> c, final String name) {
-
+        
 		aRun arun = new Cont.aRun() {
 			@Override
 			public ReturnCode tail(Object calledOn, Object[] args, Object returnWas) {
@@ -1038,59 +1054,59 @@ public class SelectionSetDriver {
 				if (selectsAny(everyElement, select)) {
 					SelectionSetNode node = new SelectionSetNode(new SelectionSet(select, name), null, SelectionSetNodeType.computed);
 					classSelectionNode.addChild(node);
-
+                    
 					ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
 					q.addAll(everyElement);
 					sortByName(q);
-
+                    
 					for (final iVisualElement e : q) {
 						if (select.is(e))
 							node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
 								public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 								}
-
+                                
 								public boolean is(iVisualElement ex) {
 									return e == ex;
 								};
 							}, nameFor(e)), null, SelectionSetNodeType.saved));
 					}
-
+                    
 				}
 				return super.tail(calledOn, args, returnWas);
 			}
 		};
 		Cont.linkWith(this, this.method_reconstructRootModel, arun);
-
+        
 	}
-
+    
 	public void addSavedSelectionSets(Set<SelectionSet> right) {
 		saved.addAll(right);
 		reconstructRootModel();
 	}
-
+    
 	public void addSavedViews(Set<SavedView> right) {
 		savedViews.addAll(right);
 		reconstructRootModel();
 	}
-
+    
 	public void addSelectionAxes(String name, iExtendedSelectionAxis extendedSelectionAxis) {
 		selectionAxes.add(extendedSelectionAxis);
 		selectionAxesButton.addOption(name);
 	}
-
+    
 	public Set<SelectionSet> getSavedSelectionSets() {
 		return saved;
 	}
-
+    
 	public Set<SavedView> getSavedViews() {
 		return savedViews;
 	}
-
+    
 	public ArrayList<iVisualElement> getSelectionByName(String expression) {
 		List<SelectionSetNode> c = savedSelectionNode.getChildren();
 		Set<iVisualElement> r = new HashSet<iVisualElement>();
 		for (int i = 0; i < c.size(); i++) {
-
+            
 			if (c.get(i).set.name.matches(expression)) {
 				c.get(i).set.predicate.begin(everyElement, currentSelectionSet, c.get(i).set.cached);
 				for (iVisualElement e : everyElement) {
@@ -1102,54 +1118,42 @@ public class SelectionSetDriver {
 		}
 		return new ArrayList<iVisualElement>(r);
 	}
-
+    
 	@NextUpdate(delay = 5)
-	public void loadState(List<Boolean> ex) {
-
-		ArrayList<Boolean> bb = new ArrayList<Boolean>(ex);
-		int j = 0;
-		while (bb.size() > 0 && j < selectionUI.getTree().getItemCount()) {
-			boolean z = bb.remove(0);
-			selectionUI.getTree().getItem(j).setExpanded(z);
-			if (z) {
-				loadState(ex, selectionUI.getTree().getItem(j));
-			}
-			j++;
-		}
-		selectionUI.getTree().getItem(0).setExpanded(true);
-
+	public void loadState(TreeState t) {
+		t.load(selectionUI.getTree());
+		// ArrayList<Boolean> bb = new ArrayList<Boolean>(ex);
+		// int j = 0;
+		// while (bb.size() > 0 && j <
+		// selectionUI.getTree().getItemCount()) {
+		// boolean z = bb.remove(0);
+		// selectionUI.getTree().getItem(j).setExpanded(z);
+		// if (z) {
+		// loadState(ex, selectionUI.getTree().getItem(j));
+		// }
+		// j++;
+		// }
+		// selectionUI.getTree().getItem(0).setExpanded(true);
+        
 	}
-
-	private void loadState(List<Boolean> ex, TreeItem item) {
-		int j = 0;
-		while (ex.size() > 0 && j < item.getItemCount()) {
-			boolean z = ex.remove(0);
-			item.getItem(j).setExpanded(z);
-			if (z) {
-				loadState(ex, selectionUI.getTree().getItem(j));
-			}
-			j++;
-
-		}
+    
+	public TreeState saveState() {
+        
+		// int i = selectionUI.getTree().getItemCount();
+		// boolean[] b = new boolean[i];
+		//
+		// List<Boolean> bb = new ArrayList<Boolean>();
+		//
+		// for (int j = 0; j < b.length; j++) {
+		// bb.add(selectionUI.getTree().getItem(j).getExpanded());
+		// if (selectionUI.getTree().getItem(j).getExpanded()) {
+		// saveState(selectionUI.getTree().getItem(j), bb);
+		// }
+		// }
+        
+		return TreeState.save(selectionUI.getTree());
 	}
-
-	public List<Boolean> saveState() {
-
-		int i = selectionUI.getTree().getItemCount();
-		boolean[] b = new boolean[i];
-
-		List<Boolean> bb = new ArrayList<Boolean>();
-
-		for (int j = 0; j < b.length; j++) {
-			bb.add(selectionUI.getTree().getItem(j).getExpanded());
-			if (selectionUI.getTree().getItem(j).getExpanded()) {
-				saveState(selectionUI.getTree().getItem(j), bb);
-			}
-		}
-
-		return bb;
-	}
-
+    
 	private void saveState(TreeItem item, List<Boolean> bb) {
 		for (int j = 0; j < item.getItemCount(); j++) {
 			bb.add(item.getItem(j).getExpanded());
@@ -1158,7 +1162,7 @@ public class SelectionSetDriver {
 			}
 		}
 	}
-
+    
 	private String describeSelection(Set<iComponent> selected) {
 		try {
 			if (selected.size() == 0) {
@@ -1177,7 +1181,7 @@ public class SelectionSetDriver {
 			} else {
 				LinkedHashSet<String> names = new LinkedHashSet<String>();
 				LinkedHashSet<iComponent> toRemove = new LinkedHashSet<iComponent>();
-
+                
 				for (iComponent c : selected) {
 					iVisualElement v = c.getVisualElement();
 					if (v != null) {
@@ -1190,17 +1194,17 @@ public class SelectionSetDriver {
 					}
 				}
 				selected.remove(toRemove);
-
+                
 				if (names.size() < 4) {
 					String e = "'";
 					List<String> snames = new ArrayList<String>(names);
 					for (int i = 0; i < snames.size(); i++) {
 						e += shorter(snames.get(i)) + "'" + ((i != snames.size() - 1) ? ",'" : "");
 					}
-
+                    
 					if (names.size() < selected.size())
 						e += " and " + (selected.size() - names.size()) + " other" + ((names.size() - selected.size() > 1) ? "s" : "");
-
+                    
 					return e;
 				} else {
 					String e = "'";
@@ -1208,7 +1212,7 @@ public class SelectionSetDriver {
 					for (int i = 0; i < 3; i++) {
 						e += shorter(snames.get(i)) + "'" + ((i != snames.size() - 1) ? ",'" : "");
 					}
-
+                    
 					if (selected.size() > 3)
 						e += " and " + (selected.size() - 3) + " other" + ((selected.size() - 3 > 1) ? "s" : "");
 					return e;
@@ -1219,7 +1223,7 @@ public class SelectionSetDriver {
 			return "(unknown selection)";
 		}
 	}
-
+    
 	@NextUpdate(delay = 2)
 	protected void markOnly(Set<iVisualElement> currentSet, Set<iVisualElement> newSet) {
 		// suspendSelectionProcessing = true;
@@ -1231,13 +1235,13 @@ public class SelectionSetDriver {
 					group.deselectAll();
 				}
 			}
-
+            
 			for (iVisualElement n : newSet) {
 				iComponent component = iVisualElement.localView.get(n);
 				SelectionGroup<iComponent> group = iVisualElement.markingGroup.get(n);
 				if (component != null && group != null) {
 					group.addToSelection(component);
-
+                    
 					if (component instanceof DraggableComponent)
 						((DraggableComponent) component).setMarked(true);
 					if (component instanceof PlainDraggableComponent)
@@ -1247,16 +1251,16 @@ public class SelectionSetDriver {
 		} finally {
 		}
 	}
-
+    
 	@DispatchOverTopology(topology = Cont.class)
 	private void reconstructRootModel() {
-
-		List<Boolean> savedTree = saveState();
+        
+		TreeState savedTree = saveState();
 		for (SelectionSetNode n : new ArrayList<SelectionSetNode>(rootModel.getChildren()))
 			rootModel.removeChild(n);
-
+        
 		everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
-
+        
 		// add current selection (if selected), this is
 		// special, and
 		// needs to be noted in a member var
@@ -1268,18 +1272,18 @@ public class SelectionSetDriver {
 		// (locally, in
 		// properties)", "changed" (by listening to prop
 		// changes)
-
+        
 		if (currentSelectionSet.size() == 0) {
 			currentSelectionNode = null;
 		} else {
 			ComputedSelectionSets.CurrentlySelected selected = new ComputedSelectionSets.CurrentlySelected();
 			rootModel.addChild(currentSelectionNode = new SelectionSetNode(new SelectionSet(selected, "<i>Currently selected</i>"), null, SelectionSetNodeType.computed));
-
+            
 			for (final iVisualElement ce : currentSelectionSet) {
 				SelectionSetNode p = new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
 					public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 					}
-
+                    
 					public boolean is(iVisualElement ex) {
 						return ce == ex;
 					};
@@ -1287,7 +1291,7 @@ public class SelectionSetDriver {
 				currentSelectionNode.addChild(p);
 				currentAxis.constructNodesForSelected(everyElement, ce, p);
 			}
-
+            
 		}
 		savedSelectionNode = new SelectionSetNode(null, "<hr>", SelectionSetNodeType.ruler) {
 			@Override
@@ -1296,7 +1300,7 @@ public class SelectionSetDriver {
 			}
 		};
 		rootModel.addChild(savedSelectionNode);
-
+        
 		savedSelectionNode = new SelectionSetNode(null, "<i>Saved selection sets</i>", SelectionSetNodeType.label) {
 			@Override
 			protected String getContentsDescription() {
@@ -1304,11 +1308,11 @@ public class SelectionSetDriver {
 			}
 		};
 		rootModel.addChild(savedSelectionNode);
-
+        
 		for (SelectionSet s : saved) {
 			savedSelectionNode.addChild(new SelectionSetNode(s, null, SelectionSetNodeType.saved));
 		}
-
+        
 		viewSelectionNode = new SelectionSetNode(null, "<i>Saved view configurations</i>", SelectionSetNodeType.label) {
 			@Override
 			protected String getContentsDescription() {
@@ -1316,12 +1320,12 @@ public class SelectionSetDriver {
 			}
 		};
 		rootModel.addChild(viewSelectionNode);
-
+        
 		for (SavedView s : savedViews) {
 			SelectionSetNodeView n = new SelectionSetNodeView(null, s.name, s);
 			viewSelectionNode.addChild(n);
 		}
-
+        
 		classSelectionNode = new SelectionSetNode(null, "<i>Ordered by class...</i>", SelectionSetNodeType.label) {
 			@Override
 			protected String getContentsDescription() {
@@ -1329,7 +1333,7 @@ public class SelectionSetDriver {
 			}
 		};
 		rootModel.addChild(classSelectionNode);
-
+        
 		ComputedSelectionSets.ByClass_plainPython plainPython = new ComputedSelectionSets.ByClass_plainPython();
 		if (selectsAny(everyElement, plainPython)) {
 			SelectionSetNode node = new SelectionSetNode(new SelectionSet(plainPython, "Plain Python elements"), null, SelectionSetNodeType.computed);
@@ -1337,59 +1341,56 @@ public class SelectionSetDriver {
 			ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
 			q.addAll(everyElement);
 			sortByName(q);
-
+            
 			for (final iVisualElement e : q) {
 				if (plainPython.is(e))
 					node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
 						public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 						}
-
+                        
 						public boolean is(iVisualElement ex) {
 							return e == ex;
 						};
 					}, nameFor(e)), null, SelectionSetNodeType.saved));
 			}
-
+            
 		}
-
+        
 		ComputedSelectionSets.ByClass_computedSpline computedSpline = new ComputedSelectionSets.ByClass_computedSpline();
 		if (selectsAny(everyElement, computedSpline)) {
 			SelectionSetNode node = new SelectionSetNode(new SelectionSet(computedSpline, "Spline elements"), null, SelectionSetNodeType.computed);
 			classSelectionNode.addChild(node);
-
+            
 			ArrayList<iVisualElement> q = new ArrayList<iVisualElement>();
 			q.addAll(everyElement);
 			sortByName(q);
-
+            
 			for (final iVisualElement e : q) {
 				if (computedSpline.is(e))
 					node.addChild(new SelectionSetNode(new SelectionSet(new iSelectionPredicate() {
 						public void begin(Set<iVisualElement> everything, Set<iVisualElement> currentlySelected, Set<iVisualElement> previousCache) {
 						}
-
+                        
 						public boolean is(iVisualElement ex) {
 							return e == ex;
 						};
 					}, nameFor(e)), null, SelectionSetNodeType.saved));
 			}
-
+            
 		}
-
-		
-
+        
 		currentPathIs = null;
-
+        
 		graphNodeToTree = new GraphNodeToTree(selectionUI.getTree());
 		graphNodeToTree.reset(rootModel);
-
+        
 		// selectionUI.getRevTree().setModel(new
 		// JTreeModelForGraphNodes<SelectionSetNode>(rootModel));
-
+        
 		loadState(savedTree);
-
+        
 		selectionUI.getTree().getItem(0).setExpanded(true);
-
-		
+        
 		// selectionUI.getRevTree().expandPath(new TreePath(new Object[]
 		// {
 		// rootModel, classSelectionNode }));
@@ -1406,24 +1407,24 @@ public class SelectionSetDriver {
 		// {
 		// rootModel, currentSelectionNode }));
 		// }
-
+        
 	}
-
+    
 	private void selectOnly(Set<iVisualElement> currentSet, Set<iVisualElement> newSet) {
 		// suspendSelectionProcessing = true;
 		try {
-
+            
 			previousSelectionSet.add(new HashSet<iVisualElement>(currentSet));
 			if (previousSelectionSet.size() > 10)
 				previousSelectionSet.remove(0);
-
+            
 			for (iVisualElement c : currentSet) {
 				iComponent component = iVisualElement.localView.get(c);
 				SelectionGroup<iComponent> group = iVisualElement.selectionGroup.get(c);
 				if (group != null)
 					group.deselectAll();
 			}
-
+            
 			currentSet.clear();
 			/*
 			 * for (iVisualElement c : currentSet) { if
@@ -1435,10 +1436,10 @@ public class SelectionSetDriver {
 			 * group.removeFromSelection(component);
 			 * component.setSelected(false); } } }
 			 */
-
+            
 			final Vector2 center = new Vector2();
 			int num = 0;
-
+            
 			for (iVisualElement n : newSet) {
 				if (!currentSet.contains(n)) {
 					iComponent component = iVisualElement.localView.get(n);
@@ -1456,10 +1457,10 @@ public class SelectionSetDriver {
 				iVisualElement a = newSet.iterator().next();
 				final GLComponentWindow window = iVisualElement.enclosingFrame.get(a);
 				Point size = window.getFrame().getSize();
-
+                
 				center.x -= size.x / 2;
 				center.y -= size.y / 2;
-
+                
 				if (window != null) {
 					Launcher.getLauncher().registerUpdateable(new TravelTo(window, center));
 				}
@@ -1467,7 +1468,7 @@ public class SelectionSetDriver {
 		} finally {
 		}
 	}
-
+    
 	static public void travelTo(Set<iVisualElement> e) {
 		final Vector2 center = new Vector2();
 		int num = 0;
@@ -1476,7 +1477,7 @@ public class SelectionSetDriver {
 			if (group != null)
 				group.deselectAll();
 		}
-
+        
 		for (iVisualElement n : e) {
 			iComponent component = iVisualElement.localView.get(n);
 			SelectionGroup<iComponent> group = iVisualElement.selectionGroup.get(n);
@@ -1492,31 +1493,31 @@ public class SelectionSetDriver {
 			iVisualElement a = e.iterator().next();
 			final GLComponentWindow window = iVisualElement.enclosingFrame.get(a);
 			Point size = window.getFrame().getSize();
-
+            
 			center.x -= size.x / 2;
 			center.y -= size.y / 2;
-
+            
 			if (window != null) {
 				Launcher.getLauncher().registerUpdateable(new TravelTo(window, center));
 			}
 		}
 	}
-
+    
 	private void selectOnly_old(Set<iVisualElement> currentSet, Set<iVisualElement> newSet) {
 		// suspendSelectionProcessing = true;
 		try {
-
+            
 			previousSelectionSet.add(new HashSet<iVisualElement>(currentSet));
 			if (previousSelectionSet.size() > 10)
 				previousSelectionSet.remove(0);
-
+            
 			for (iVisualElement c : currentSet) {
 				iComponent component = iVisualElement.localView.get(c);
 				SelectionGroup<iComponent> group = iVisualElement.selectionGroup.get(c);
 				if (group != null)
 					group.deselectAll();
 			}
-
+            
 			currentSet.clear();
 			/*
 			 * for (iVisualElement c : currentSet) { if
@@ -1536,15 +1537,15 @@ public class SelectionSetDriver {
 						group.addToSelection(component);
 						component.setSelected(true);
 					}
-
+                    
 				}
 			}
 		} finally {
 		}
 	}
-
+    
 	private boolean selectsAny(Set<iVisualElement> set, iSelectionPredicate pred) {
-
+        
 		pred.begin(set, currentSelectionSet, null);
 		for (iVisualElement e : set) {
 			if (pred.is(e))
@@ -1552,23 +1553,24 @@ public class SelectionSetDriver {
 		}
 		return false;
 	}
-
+    
 	private String shorter(String name) {
 		if (name.length() < 20)
 			return name;
 		return name.substring(0, 17) + " ... " + name.substring(name.length() - 3, name.length());
 	}
-
+    
 	private void sortByName(ArrayList<iVisualElement> q) {
-
+        
 		Collections.sort(q, new Comparator<iVisualElement>() {
 			public int compare(iVisualElement o1, iVisualElement o2) {
-				
-				;//System.out.println(" compare <"+o1+" , "+o2+">");
-				
+                
+				;// System.out.println(" compare <"+o1+" , "+o2+">");
+                
 				String n1 = o1.getProperty(iVisualElement.name);
 				String n2 = o2.getProperty(iVisualElement.name);
-				if (n1 == null && n2 == null) return 0;
+				if (n1 == null && n2 == null)
+					return 0;
 				if (n1 == null)
 					return 1;
 				if (n2 == null)
@@ -1577,7 +1579,7 @@ public class SelectionSetDriver {
 			}
 		});
 	}
-
+    
 	protected void axisBackwards() {
 		if (previousSelectionSet.size() > 0) {
 			Set<iVisualElement> old = previousSelectionSet.remove(previousSelectionSet.size() - 1);
@@ -1585,22 +1587,22 @@ public class SelectionSetDriver {
 			previousSelectionSet.remove(previousSelectionSet.size() - 1);
 		}
 	}
-
+    
 	@NextUpdate
 	protected void axisForwards() {
 		changeSelectedPaths(currentPathIs);
 	}
-
+    
 	protected void changeSelectedPaths(TreeItem[] path) {
-
+        
 		Set<iVisualElement> newSelectionSet = new HashSet<iVisualElement>();
 		everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
 		if (path != null) {
-
+            
 			for (TreeItem p : path) {
 				if (p != null) {
 					SelectionSet n = (SelectionSet) p.getData();
-
+                    
 					// if (n.predicate instanceof
 					// SelectionSetNodeView) {
 					// final GLComponentWindow window =
@@ -1611,7 +1613,7 @@ public class SelectionSetDriver {
 					// new TravelTo(window,
 					// ((SelectionSetNodeView) n).view));
 					// } else
-
+                    
 					if (n != null) {
 						n.predicate.begin(everyElement, currentSelectionSet, n.getCached(root));
 						HashSet<iVisualElement> here = new HashSet<iVisualElement>();
@@ -1620,7 +1622,7 @@ public class SelectionSetDriver {
 								here.add(e);
 							}
 						}
-
+                        
 						// todo,
 						// different
 						// conjunctions
@@ -1635,53 +1637,54 @@ public class SelectionSetDriver {
 			reconstructRootModel();
 		}
 	}
-
+    
 	@NextUpdate(delay = 2)
 	protected void changeSelection(Set<iComponent> selected) {
 		if (suspendSelectionProcessing) {
 			suspendSelectionProcessing = false;
 			return;
 		}
-
+        
 		Set<iVisualElement> newSelectionSet = new HashSet<iVisualElement>();
 		for (iComponent c : selected) {
 			iVisualElement ve = c.getVisualElement();
 			if (ve != null)
 				newSelectionSet.add(ve);
 		}
-
+        
 		if (!newSelectionSet.equals(currentSelectionSet)) {
 			currentSelectionSet.clear();
 			currentSelectionSet.addAll(newSelectionSet);
 			reconstructRootModel();
 		}
-
+        
 		selectionUI.setLabel("<html><font face='" + Constants.defaultFont + "'><b>Currently selected \u2014 </b> <i>" + describeSelection(selected) + "</i>");
-
+        
 		if (currentAxis instanceof iExtendedSelectionAxis)
 			((iExtendedSelectionAxis) currentAxis).selectionChanged(currentSelectionSet);
-
+        
 	}
-
+    
 	@NextUpdate
 	protected void markedSelectedPaths(TreeItem[] pp) {
-
+        
 		if (true)
 			return;
-
-		;//System.out.println(" mark selected paths <" + Arrays.asList(pp) + ">");
-
+        
+		;// System.out.println(" mark selected paths <" +
+        // Arrays.asList(pp) + ">");
+        
 		Set<iVisualElement> newSelectionSet = new HashSet<iVisualElement>();
 		everyElement = new HashSet<iVisualElement>(StandardFluidSheet.allVisualElements(root));
-
-		;//System.out.println(" all <" + everyElement + ">");
-
+        
+		;// System.out.println(" all <" + everyElement + ">");
+        
 		for (TreeItem path : pp) {
-			;//System.out.println(" path :" + path);
+			;// System.out.println(" path :" + path);
 			if (path != null) {
 				SelectionSet n = (SelectionSet) path.getData();
-
-				;//System.out.println(" node <" + n + ">");
+                
+				;// System.out.println(" node <" + n + ">");
 				if (n != null) {
 					n.predicate.begin(everyElement, currentSelectionSet, n.getCached(root));
 					HashSet<iVisualElement> here = new HashSet<iVisualElement>();
@@ -1690,7 +1693,7 @@ public class SelectionSetDriver {
 							here.add(e);
 						}
 					}
-
+                    
 					// todo,
 					// different
 					// conjunctions
@@ -1699,8 +1702,9 @@ public class SelectionSetDriver {
 				}
 			}
 		}
-		;//System.out.println(" mark only <" + currentSelectionSet + " " + newSelectionSet + ">");
+		;// System.out.println(" mark only <" + currentSelectionSet +
+        // " " + newSelectionSet + ">");
 		markOnly(currentSelectionSet, newSelectionSet);
 	}
-
+    
 }

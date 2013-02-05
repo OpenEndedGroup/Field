@@ -24,7 +24,7 @@ public class FitBox {
 	public FitBox() {
 	}
 
-	Vector3 center = new Vector3();
+	public Vector3 center = new Vector3();
 
 	MatrixN m3 = new MatrixN(3, 3);
 
@@ -86,7 +86,7 @@ public class FitBox {
 		}
 		float fInvQuantity = 1 / (float) points.length;
 		center.scale(1 / (float) points.length);
-	
+
 		float fSumXX = 0.0f, fSumXY = 0.0f, fSumXZ = 0.0f;
 		float fSumYY = (float) 0.0, fSumYZ = (float) 0.0, fSumZZ = (float) 0.0;
 		for (int i = 0; i < points.length; i++) {
@@ -104,27 +104,27 @@ public class FitBox {
 		fSumYY *= fInvQuantity;
 		fSumYZ *= fInvQuantity;
 		fSumZZ *= fInvQuantity;
-	
+
 		// compute eigenvectors for covariance MatrixN
 		m3.set(0, 0, fSumXX);
 		m3.set(0, 1, fSumXY);
 		m3.set(0, 2, fSumXZ);
-	
+
 		m3.set(1, 0, fSumXY);
 		m3.set(1, 1, fSumYY);
 		m3.set(1, 2, fSumYZ);
-	
+
 		m3.set(2, 0, fSumXZ);
 		m3.set(2, 1, fSumYZ);
 		m3.set(2, 2, fSumZZ);
-	
+
 		try {
 			structure = new EigenStructure(m3);
-	
+
 			// lets sort the eigen structure
 			VectorN values = structure.getEigenvalues();
 			MatrixN m = structure.getEigenvectors();
-	
+
 			for (int i = 0; i < 3; i++) {
 				axes[i] = new Axis();
 				axes[i].length = (float) Math.sqrt(values.get(i));
@@ -133,18 +133,19 @@ public class FitBox {
 				}
 				axes[i].direction.normalize();
 			}
-	
-			for(int i=0;i<3;i++)
-				if (Float.isNaN(axes[i].length)) axes[i].length=0f;
-			
+
+			for (int i = 0; i < 3; i++)
+				if (Float.isNaN(axes[i].length))
+					axes[i].length = 0f;
+
 			Arrays.sort(axes, axesComparator);
 			return axes;
-	
+
 		} catch (DimensionMismatchException e) {
 			e.printStackTrace();
 		} catch (EigenStructureException e) {
 			e.printStackTrace();
-			;//System.out.println( Arrays.asList(points));
+			;// System.out.println( Arrays.asList(points));
 		}
 		return null;
 	}
@@ -168,9 +169,7 @@ public class FitBox {
 
 	Comparator<Axis> axesComparator = new Comparator<Axis>() {
 		public int compare(Axis o1, Axis o2) {
-			
-				
-			
+
 			if (((Axis) o1).length > ((Axis) o2).length)
 				return 1;
 			return -1;

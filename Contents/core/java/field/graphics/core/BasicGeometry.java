@@ -557,7 +557,7 @@ public class BasicGeometry {
 			float cw = clamp(width * globalLineScale);
 			CoreHelpers.glLineWidth(cw);
 
-			 checkLine();
+//			 checkLine();
 
 			// glUseProgramObjectARB(0);
 			CoreHelpers.doCameraState();

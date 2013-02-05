@@ -48,6 +48,8 @@ import field.core.plugins.log.Logging.iLoggingEvent;
 import field.core.plugins.selection.PopupInfoWindow;
 import field.core.ui.text.util.IndentationUtils;
 import field.core.util.BetterPythonConstructors;
+import field.graphics.dynamic.DynamicMesh;
+import field.graphics.dynamic.DynamicMesh_long;
 import field.launch.Launcher;
 import field.launch.SystemProperties;
 import field.launch.iUpdateable;
@@ -55,15 +57,19 @@ import field.namespace.generic.Bind.iFunction;
 import field.namespace.generic.ReflectionTools;
 
 public class PythonInterface implements ScriptingInterface {
-
+    
 	public HashMap<String, iFunction<PyObject, String>> specialVariables_read = new HashMap<String, iFunction<PyObject, String>>();
 	public HashMap<String, iFunction<PyObject, PyObject>> specialVariables_write = new HashMap<String, iFunction<PyObject, PyObject>>();
-
+    
+	public interface iPretends {
+		public Object toBe();
+	}
+    
 	public final class LocalDictionary extends PyStringMap implements iLocalDictionary {
-
+        
 		Map<Object, String> reverseCache = new MapMaker().weakKeys().weakValues().initialCapacity(1000).makeMap();
 		Map<String, Object> cache = new MapMaker().weakKeys().weakValues().initialCapacity(1000).makeMap();
-
+        
 		@Override
 		public PyObject __finditem__(String arg0) {
 			PyObject r = super.__finditem__(arg0);
@@ -71,7 +77,7 @@ public class PythonInterface implements ScriptingInterface {
 				iFunction<PyObject, String> s = specialVariables_read.get(arg0);
 				if (s != null)
 					return s.f(arg0);
-
+                
 				if (globalTrap.size() > 0 && !arg0.startsWith("_")) {
 					topic = arg0;
 					r = (PyObject) globalTrap.peek().findItem(arg0, r);
@@ -81,44 +87,55 @@ public class PythonInterface implements ScriptingInterface {
 				return r;
 			}
 		}
-
-		public String findReverse(Object o) {
+        
+		public String findReverse(Object o, Class c) {
+            
+			System.out.println(" find reverse <" + o + " / " + c + ">");
+            
 			String oo = reverseCache.get(o);
 			if (oo != null)
 				return oo;
-
+            
 			PyList k = this.keys();
 			Iterator ii = k.iterator();
 			while (ii.hasNext()) {
+                
 				Object ooo = ii.next();
 				if (ooo instanceof String) {
+                    
 					String p = (String) ooo;
 					PyObject v = super.__finditem__(p);
+                    
 					Object f = v.__tojava__(Object.class);
+                    
+					try {
+						System.out.println("<" + p + "> = <" + f + "> / <" + v + ">");
+					} catch (Throwable t) {
+						t.printStackTrace();
+					}
+                    
 					if (f == o) {
-
+                        
 						cache.put(p, f);
 						reverseCache.put(f, p);
-						
-						System.out.println(" found <"+o+" / "+p+">");
-						
+                        
 						return p;
 					}
 				}
 			}
-			
-			System.out.println(" couldn't find <"+o+"> in <"+k+">");
-			
+            
+			System.out.println(" couldn't find <" + o + "> in <" + k + ">");
+            
 			return null;
 		}
-
+        
 		@Override
 		public void __setitem__(String arg0, PyObject arg1) {
 			try {
 				Object cc = cache.remove(arg0);
 				if (cc != null)
 					reverseCache.remove(cc);
-
+                
 				iFunction<PyObject, PyObject> g = specialVariables_write.get(arg0);
 				if (g != null) {
 					arg1 = g.f(arg1);
@@ -126,7 +143,7 @@ public class PythonInterface implements ScriptingInterface {
 				if (globalTrap.size() > 0) {
 					PyObject was = super.__finditem__(arg0);
 					arg1 = (PyObject) globalTrap.peek().setItem(arg0, was, arg1);
-
+                    
 					if (shared.size() > 0 && !arg0.startsWith("_")) {
 						topic = arg0;
 						insideShared = true;
@@ -139,82 +156,82 @@ public class PythonInterface implements ScriptingInterface {
 						} finally {
 							insideShared = false;
 						}
-
+                        
 					}
 				}
 			} catch (Throwable t) {
 			}
 			super.__setitem__(arg0, arg1);
 		}
-
+        
 		public PyObject __superfinditem__(String arg0) {
 			return super.__finditem__(arg0);
 		}
 	}
-
+    
 	private static PythonInterface pythonInterface;
-
+    
 	static public PythonInterface getPythonInterface() {
 		if (pythonInterface == null) {
 			init();
 		}
 		return pythonInterface;
 	}
-
+    
 	private static void init() {
 		pythonInterface = new PythonInterface();
 	}
-
+    
 	private final LocalDictionary localDictionary;
-
+    
 	private final PythonInterpreter interpreter;
-
+    
 	public Writer errOut;
-
+    
 	private Throwable lastError;
-
+    
 	Stack<iGlobalTrap> globalTrap = new Stack<iGlobalTrap>();
-
+    
 	Stack<Writer> outputRedirects = new Stack<Writer>();
-
+    
 	Stack<Writer> errorRedirects = new Stack<Writer>();
-
+    
 	List<ScriptingInterface> shared = new ArrayList<ScriptingInterface>();
-
+    
 	private ExecutionMonitor monitor;
-
+    
 	private PySystemState state;
-
+    
 	private ThreadState ts;
-
+    
 	protected PythonInterface() {
 		pythonInterface = this;
-
+        
 		monitor = new ExecutionMonitor();
 		// System.setProperty("python.verbose", "debug");
 		// System.setProperty("python.security.respectJavaAccessibility",
 		// "false");
-
+        
 		;// System.out.println(" python path is <" +
-			// System.getProperty("python.path") +
-			// "> classloader is <" +
-			// this.getClass().getClassLoader() + ">");
-
+        // System.getProperty("python.path") +
+        // "> classloader is <" +
+        // this.getClass().getClassLoader() + ">");
+        
 		localDictionary = new LocalDictionary();
 		state = new PySystemState();
 		state.setClassLoader(this.getClass().getClassLoader());
-
+        
 		interpreter = new PythonInterpreter(localDictionary, state);
-
+        
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-
+        
 		// interpreter = new PythonInterpreter(state);
-
+        
 		// ReflectionTools.illegalSetObject(interpreter, "cflags", new
 		// CompilerFlags(org.python.core.PyTableCode.CO_GENE
 		// RATOR_ALLOWED));
 		BetterPythonConstructors.load();
-
+        
 		execString("from __future__ import with_statement");
 		execString("from field.util import PythonUtils");
 		execString("from field.core.plugins.python import PythonPlugin");
@@ -247,43 +264,43 @@ public class PythonInterface implements ScriptingInterface {
 		for (String s : ex) {
 			if (s.endsWith(".jar")) {
 				;// System.out.println(" add package <" + s +
-					// ">");
+                // ">");
 				PySystemState.add_package(s);
 			} else {
 				;// System.out.println(" add classdir <" + s +
-					// ">");
+                // ">");
 				PySystemState.add_classdir(s);
 			}
 		}
 		execString("from array import array");
 		execString("from java.lang import Runtime\n" + "from field.core.execution import PythonInterface\n" + "\n" + "import signal\n" + "\n" + "def __signal_handler( signal_number ):\n" + "	def __decorator( function ):\n" + "		was = signal.signal( signal_number, function )\n" + "		print was\n" + "		return function\n" + "	\n" + "	return __decorator\n" + "\n" + "@__signal_handler(signal.SIGINT)\n" + "def __forceExit(a,b):\n" + "	PythonInterface.getPythonInterface().forceExit()\n" + "\n" + "");
 		execString("from NewCachedLines import CFrame, FLine");
-
+        
 		String extensionsDir = SystemProperties.getProperty("extensions.dir", "../../extensions/");
 		addExtensionsDirectory(new File(extensionsDir));
-
+        
 		Options.includeJavaStackInExceptions = true;
-
+        
 		execString("from __builtin__ import zip");
-
+        
 		ts = Py.getThreadState(state);
-
+        
 	}
-
+    
 	// scan the directory for .py files. open them, see if they are
 	// marked as "field-library", and execute them if needed,
 	// otherwise, import them.
 	protected void addExtensionsDirectory(File file) {
-
+        
 		String[] pythonFiles = file.list(new FilenameFilter() {
-
+            
 			public boolean accept(File dir, String name) {
 				return name.endsWith(".py");
 			}
 		});
 		if (pythonFiles == null)
 			return;
-
+        
 		for (String p : pythonFiles) {
 			try {
 				BufferedReader reader;
@@ -303,18 +320,18 @@ public class PythonInterface implements ScriptingInterface {
 			}
 		}
 	}
-
+    
 	public void addSharedScriptingInterface(ScriptingInterface s) {
 		shared.add(s);
 	}
-
+    
 	public Object eval(String fragment) {
-
+        
 		monitor.enter();
 		try {
-
+            
 			fragment = clean(fragment);
-
+            
 			try {
 				fragment = fragment.trim();
 				PyObject o = eval(interpreter, fragment);
@@ -326,7 +343,7 @@ public class PythonInterface implements ScriptingInterface {
 					if (t instanceof PyException) {
 						PrintWriter w = new PrintWriter(errOut);
 						writeException(t, w);
-
+                        
 					} else {
 						t.printStackTrace(new PrintWriter(errOut));
 						handlePythonException(null, null, t);
@@ -338,15 +355,15 @@ public class PythonInterface implements ScriptingInterface {
 			monitor.exit();
 		}
 	}
-
+    
 	public void execString(String fragment) {
-
+        
 		long in = System.currentTimeMillis();
 		monitor.enter();
 		try {
-
+            
 			fragment = clean(fragment);
-
+            
 			try {
 				exec(interpreter, fragment);
 			} catch (Throwable t) {
@@ -358,16 +375,16 @@ public class PythonInterface implements ScriptingInterface {
 						String s = "";
 						try {
 							writeException(t, w);
-
+                            
 						} catch (Throwable t2) {
 							System.err.println(" throw another exception ");
 							w.println("python exception <" + ((PyException) t).value.__tojava__(Object.class) + ">");
 							w.println("on line " + ((((PyException) t).traceback != null ? ((PyException) t).traceback.tb_lineno : "null")));
 							t.printStackTrace(w);
 							t.printStackTrace(System.err);
-
+                            
 							handlePythonException(null, null, t);
-
+                            
 							t2.printStackTrace();
 						}
 					} else {
@@ -382,17 +399,17 @@ public class PythonInterface implements ScriptingInterface {
 			monitor.exit();
 			long out = System.currentTimeMillis();
 		}
-
+        
 	}
-
+    
 	public void execStringWithContinuation(String fragment, iUpdateable waiting, iUpdateable ending) {
-
+        
 		long in = System.currentTimeMillis();
 		monitor.enter();
 		try {
-
+            
 			fragment = clean(fragment);
-
+            
 			try {
 				exececuteWithWaitContinuation(interpreter, fragment, waiting, ending);
 			} catch (Throwable t) {
@@ -405,16 +422,16 @@ public class PythonInterface implements ScriptingInterface {
 						String s = "";
 						try {
 							writeException(t, w);
-
+                            
 						} catch (Throwable t2) {
 							System.err.println(" throw another exception ");
 							w.println("python exception <" + ((PyException) t).value.__tojava__(Object.class) + ">");
 							w.println("on line " + ((((PyException) t).traceback != null ? ((PyException) t).traceback.tb_lineno : "null")));
 							t.printStackTrace(w);
 							t.printStackTrace(System.err);
-
+                            
 							handlePythonException(null, null, t);
-
+                            
 							t2.printStackTrace();
 						}
 					} else {
@@ -429,20 +446,20 @@ public class PythonInterface implements ScriptingInterface {
 			monitor.exit();
 			long out = System.currentTimeMillis();
 		}
-
+        
 	}
-
+    
 	static public void writeException(Throwable t) {
 		t.printStackTrace(System.err);
 		if (t instanceof PyException) {
 			PrintWriter w = new PrintWriter(PythonInterface.getPythonInterface().errOut);
 			PythonInterface.getPythonInterface().writeException(t, w);
-
+            
 			Throwable cause = t.getCause();
 			if (cause != null) {
 				writeException(cause);
 			}
-
+            
 		} else {
 			t.printStackTrace();
 			Throwable cause = t.getCause();
@@ -451,7 +468,7 @@ public class PythonInterface implements ScriptingInterface {
 			}
 		}
 	}
-
+    
 	private void writeException(Throwable t, PrintWriter w) {
 		w.println("python exception <" + ((PyException) t).value + ">");
 		try {
@@ -463,7 +480,7 @@ public class PythonInterface implements ScriptingInterface {
 			}
 			lastError = t;
 			// t.printStackTrace(System.err);
-
+            
 			Throwable cause = t.getCause();
 			if (cause != null) {
 				Throwable last = cause;
@@ -471,7 +488,7 @@ public class PythonInterface implements ScriptingInterface {
 					last = cause;
 					cause = cause.getCause();
 				}
-
+                
 				if (last instanceof PyException)
 					writeException(last, w);
 				else {
@@ -484,19 +501,19 @@ public class PythonInterface implements ScriptingInterface {
 					}
 				}
 			}
-
+            
 		} catch (Exception e) {
 		}
-
+        
 		handlePythonException(null, null, t);
 	}
-
+    
 	private String moduleNameFor(String m) {
 		if (m.indexOf("[") == -1)
 			return m;
 		return m.split("\\[")[0];
 	}
-
+    
 	private PyObject eval(final PythonInterpreter i, final String fragment) {
 		// if (ThreadedLauncher.isTimer2Thread())
 		return i.eval(fragment);
@@ -531,30 +548,30 @@ public class PythonInterface implements ScriptingInterface {
 		// return ret[0];
 		// }
 	}
-
+    
 	String moduleName = "<unknown>";
-
+    
 	public void setModuleName(String moduleName) {
 		this.moduleName = moduleName;
 	}
-
+    
 	public String getModuleName() {
 		return moduleName;
 	}
-
+    
 	private void exec(final PythonInterpreter i, final String f) {
-
+        
 		// ;//System.out.println(" inside exec <" + i + " " + f + "> <"
 		// + Thread.currentThread() + ">");
 		// new Exception().printStackTrace();
-
+        
 		// if (ThreadedLauncher.isTimer2Thread()) {
 		// i.exec(f);
 		// yuck
-
+        
 		PyCode code = Py.compile_flags(f, moduleName, CompileMode.exec, (CompilerFlags) ReflectionTools.illegalGetObject(i, "cflags"));
 		i.exec(code);
-
+        
 		return;
 		// } else {
 		// final boolean[] run = { false };
@@ -611,17 +628,17 @@ public class PythonInterface implements ScriptingInterface {
 		// }
 		// }
 	}
-
+    
 	public void exececuteWithWaitContinuation(final PythonInterpreter i, final String f, final iUpdateable next, final iUpdateable end) {
-
+        
 		// if (ThreadedLauncher.isTimer2Thread()) {
 		// i.exec(f);
 		// yuck
-
+        
 		PyCode code = Py.compile_flags(f, moduleName, CompileMode.exec, (CompilerFlags) ReflectionTools.illegalGetObject(i, "cflags"));
 		i.exec(code);
 		end.update();
-
+        
 		return;
 		// } else {
 		// final boolean[] run = { false };
@@ -646,7 +663,7 @@ public class PythonInterface implements ScriptingInterface {
 		// park(next, end, run, c);
 		// }
 	}
-
+    
 	// private void park(final iUpdateable next, final iUpdateable end,
 	// final boolean[] run, final Condition c) {
 	// ;//System.out.println(" thread1 about to go sync");
@@ -700,12 +717,12 @@ public class PythonInterface implements ScriptingInterface {
 	// }
 	// });
 	// }
-
+    
 	public void executeFile(String filename) {
-
+        
 		try {
 			BufferedReader r = new BufferedReader(new FileReader(new File(filename)));
-
+            
 			String s = "";
 			while (r.ready()) {
 				s += r.readLine() + "\n";
@@ -716,9 +733,9 @@ public class PythonInterface implements ScriptingInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+        
 	}
-
+    
 	public PyObject executeStringReturnPyObject(String script, String tag) {
 		script = clean(script);
 		try {
@@ -731,7 +748,7 @@ public class PythonInterface implements ScriptingInterface {
 		}
 		return null;
 	}
-
+    
 	public Object executeStringReturnRawValue(String script, String tag) {
 		script = clean(script);
 		try {
@@ -743,31 +760,31 @@ public class PythonInterface implements ScriptingInterface {
 		}
 		return null;
 	}
-
+    
 	protected String topic;
-
+    
 	public void clearTopic() {
 		topic = null;
 	}
-
+    
 	public String getTopic() {
 		return topic;
 	}
-
+    
 	public Object executeStringReturnValue(String script, String tag) {
 		script = clean(script);
-
+        
 		try {
-
+            
 			exec(interpreter, script);
-
+            
 			PyObject py = (interpreter).get(tag);
-
+            
 			if (py == null)
 				return null;
-
+            
 			Object result = py.__tojava__(Object.class);
-
+            
 			return result;
 		} catch (Throwable ex) {
 			writeException(ex);
@@ -776,27 +793,27 @@ public class PythonInterface implements ScriptingInterface {
 			throw a;
 		}
 	}
-
+    
 	public Language getLanguage() {
 		return Language.python;
 	}
-
+    
 	public Throwable getLastError() {
 		return lastError;
 	}
-
+    
 	public LocalDictionary getLocalDictionary() {
 		return localDictionary;
 	}
-
+    
 	public Stack<Writer> getOutputRedirects() {
 		return outputRedirects;
 	}
-
+    
 	public Stack<Writer> getErrorRedirects() {
 		return errorRedirects;
 	}
-
+    
 	public Object getVariable(String name) {
 		Object o = null;
 		try {
@@ -809,17 +826,17 @@ public class PythonInterface implements ScriptingInterface {
 		}
 		return o;
 	}
-
+    
 	public Map<String, Object> getVariables() {
-
+        
 		PyList keys = ((PyStringMap) interpreter.getLocals()).keys();
-
+        
 		Object o = ((PyStringMap) (interpreter.getLocals())).values();
 		if (o instanceof PyList) {
 			PyList values = (PyList) o;
-
+            
 			HashMap<String, Object> ret = new HashMap<String, Object>();
-
+            
 			for (int i = 0; i < keys.__len__(); i++) {
 				PyObject key = keys.__getitem__(i);
 				PyObject value = values.__getitem__(i);
@@ -829,7 +846,7 @@ public class PythonInterface implements ScriptingInterface {
 		} else {
 			Collection values = (Collection) o;
 			HashMap<String, Object> ret = new HashMap<String, Object>();
-
+            
 			Iterator vi = values.iterator();
 			for (int i = 0; i < keys.__len__(); i++) {
 				try {
@@ -841,23 +858,23 @@ public class PythonInterface implements ScriptingInterface {
 				;
 			}
 			return ret;
-
+            
 		}
 	}
-
+    
 	public void importJava(String pack, String clas) {
-
+        
 		;// System.out.println("exec<" + "from " + pack + " import " +
-			// clas + ">");
+        // clas + ">");
 		execString("from " + pack + " import " + clas);
 	}
-
+    
 	public void popGlobalTrap() {
 		globalTrap.pop();
 	}
-
+    
 	boolean insideShared = false;
-
+    
 	public void popOutput() {
 		if (insideShared)
 			return;
@@ -867,12 +884,12 @@ public class PythonInterface implements ScriptingInterface {
 				outputRedirects.pop();
 			if (errorRedirects.size() > 0)
 				errorRedirects.pop();
-
+            
 			if (outputRedirects.size() > 0)
 				interpreter.setOut(wrapWriter(outputRedirects.peek()));
 			// else
 			// interpreter.setOut(System.out);
-
+            
 			if (errorRedirects.size() > 0) {
 				interpreter.setErr(wrapWriter(errorRedirects.peek()));
 				errOut = errorRedirects.peek();
@@ -880,28 +897,28 @@ public class PythonInterface implements ScriptingInterface {
 				// interpreter.setErr(System.err);
 				// errOut = null;
 			}
-
+            
 			for (ScriptingInterface s : shared)
 				s.popOutput();
 		} finally {
 			insideShared = false;
 		}
 	}
-
+    
 	public void print(String p) {
 		((PyFile) state.stdout).write(p);
 		((PyFile) state.stdout).flush();
 	}
-
+    
 	public void printError(String p) {
 		((PyFile) state.stderr).write(p);
 		((PyFile) state.stderr).flush();
 	}
-
+    
 	public void pushGlobalTrap(iGlobalTrap gt) {
 		globalTrap.add(gt);
 	}
-
+    
 	public void pushOutput(Writer output, Writer error) {
 		if (insideShared)
 			return;
@@ -918,7 +935,7 @@ public class PythonInterface implements ScriptingInterface {
 			insideShared = false;
 		}
 	}
-
+    
 	private OutputStream wrapWriter(final Writer error) {
 		return new OutputStream() {
 			@Override
@@ -927,7 +944,7 @@ public class PythonInterface implements ScriptingInterface {
 			}
 		};
 	}
-
+    
 	public void setVariable(String name, Object value) {
 		if (insideShared)
 			return;
@@ -940,19 +957,19 @@ public class PythonInterface implements ScriptingInterface {
 			insideShared = false;
 		}
 	}
-
+    
 	/**
 	 * the automagic character \u000b means 'indent the same as the previous
 	 * line' and is useful for making text transformations in a white-space
 	 * sensitive language.
 	 */
-
+    
 	private String clean(String script) {
 		if (!script.contains("\u000b"))
 			return script;
-
+        
 		;// System.out.println(" cleaning <" + script + ">");
-
+        
 		String[] lines = script.split("\n");
 		StringBuilder b = new StringBuilder(script.length() + 5);
 		int lastTab = 0;
@@ -969,11 +986,11 @@ public class PythonInterface implements ScriptingInterface {
 				if (ll.trim().length() > 0)
 					lastTab = t;
 			}
-
+            
 			b.append(ll + "\n");
 		}
 		return b.toString();
-
+        
 		// StringBuilder b = new StringBuilder(script.length() + 10);
 		// int tab = 0;
 		// int clearIn = 0;
@@ -999,48 +1016,48 @@ public class PythonInterface implements ScriptingInterface {
 		//
 		// return b.toString();
 	}
-
+    
 	static public void handlePythonException(final iVisualElement element, final iVisualElement parentElement, final Throwable t) {
 		Logging.logging.addEvent(new iLoggingEvent() {
-
+            
 			public String getLongDescription() {
-
+                
 				String m = "<html>" + PopupInfoWindow.title("Exception") + PopupInfoWindow.content(t.getMessage() + " / (" + t.getClass().getSimpleName() + ")") + "<br>";
 				StackTraceElement[] trace = t.getStackTrace();
-
+                
 				;// System.out.println(" stack trace is <" +
-					// Arrays.asList(trace) + ">");
+                // Arrays.asList(trace) + ">");
 				if (t instanceof PyException) {
 					PyException ee = ((PyException) t);
-
+                    
 					m += PopupInfoWindow.title("Python Information " + ee.type + "");
 					if (ee.value.toString().trim().length() > 0)
 						m += PopupInfoWindow.content("" + ee.value) + "<br>";
-
+                    
 					m += PopupInfoWindow.content(ee.toString().replace("\n", "<br>"));
 					m += PopupInfoWindow.title("Java Stack");
 					m += PopupInfoWindow.stackTrace(trace) + "<BR>";
 				} else {
 					m += PopupInfoWindow.title("At:") + PopupInfoWindow.stackTrace(trace) + "<BR>";
 				}
-
+                
 				return m;
 			}
-
+            
 			public String getReplayExpression() {
 				return null;
 			}
-
+            
 			public String getTextDescription() {
 				return "<html><font bgcolor=#ffeeee><b> Exception  " + (t.getMessage() == null ? "" : t.getMessage()) + " (" + t.getClass().getSimpleName() + ") thrown in element " + ElementInvocationLogging.describeElementLink(element) + (parentElement == null ? "" : ("called from " + ElementInvocationLogging.describeElementLink(parentElement)));
 			}
-
+            
 			public boolean isError() {
 				return true;
 			}
 		});
 	}
-
+    
 	/**
 	 * useful for stopping the python execution from sigint handler
 	 */
@@ -1049,31 +1066,31 @@ public class PythonInterface implements ScriptingInterface {
 		Launcher.shuttingDown = true;
 		if (ts.frame != null)
 			ts.frame.tracefunc = ts.tracefunc = new TraceFunction() {
-
+                
 				@Override
 				public TraceFunction traceReturn(PyFrame frame, PyObject ret) {
 					;// System.out.println(frame + " " +
-						// ret);
+                    // ret);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
-
+                
 				@Override
 				public TraceFunction traceLine(PyFrame frame, int line) {
 					;// System.out.println(frame + " " +
-						// line);
+                    // line);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
-
+                
 				@Override
 				public TraceFunction traceException(PyFrame frame, PyException exc) {
 					;// System.out.println(frame + " " +
-						// exc);
+                    // exc);
 					ts.tracefunc = null;
 					throw new IllegalStateException("aborted");
 				}
-
+                
 				@Override
 				public TraceFunction traceCall(PyFrame frame) {
 					;// System.out.println(frame);
@@ -1081,35 +1098,35 @@ public class PythonInterface implements ScriptingInterface {
 					throw new IllegalStateException("aborted");
 				}
 			};
-
+        
 		Launcher.getLauncher().runRegisteredShutdownHooks();
-
+        
 	}
-
+    
 	public PrintStream getOutputStream() {
 		return new PrintStream(new OutputStream() {
-
+            
 			@Override
 			public void write(int b) throws IOException {
 				print("" + (char) b);
 			}
 		});
-
+        
 	}
-
+    
 	public PrintStream getErrorStream() {
 		return new PrintStream(new OutputStream() {
-
+            
 			@Override
 			public void write(int b) throws IOException {
 				printError("" + (char) b);
 			}
 		});
-
+        
 	}
-
+    
 	@Override
 	public void finishInstall() {
 	}
-
+    
 }

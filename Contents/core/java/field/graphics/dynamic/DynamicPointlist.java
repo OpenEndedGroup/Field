@@ -102,4 +102,5 @@ public class DynamicPointlist extends DynamicMesh implements iDynamicMesh {
 		DynamicPointlist ret = new DynamicPointlist(lines);
 		return ret;
 	}
+
 }

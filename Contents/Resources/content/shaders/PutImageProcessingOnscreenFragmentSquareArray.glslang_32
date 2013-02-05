@@ -1,0 +1,17 @@
+#version 150
+in vec4 vertexTexture;
+out vec4 _out;
+
+uniform sampler2DArray depthTexture;
+uniform vec4 offset;
+uniform vec4 mul;
+uniform float layer;
+
+
+void main()
+{
+	vec4 c2 = texture(depthTexture, vec3(vertexTexture.st,layer));
+
+	_out = (c2)*mul+offset;
+	_out.w=1.0;	
+}

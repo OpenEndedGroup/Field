@@ -41,12 +41,15 @@ public class EditorSpaceBox {
 		this.window = window;
 		this.root = root;
 	}
+	
+	static final boolean disable = true;
 
 	HashMap<iVisualElement, Pair<Rect, StyledTextPositionSystem.Position>> frozen = new HashMap<iVisualElement, Pair<Rect, StyledTextPositionSystem.Position>>();
 	private Vector4 frozenAt;
 	private ArrayList<Vector2> frozenAtLineMap;
 
 	public void freeze() {
+		if (disable) return;
 
 		try {
 			ComponentContainer root = window.getRoot();
@@ -63,6 +66,7 @@ public class EditorSpaceBox {
 	}
 
 	private ArrayList<Vector2> buildLineMap() {
+		if (disable) return null;
 		try {
 			PythonPluginEditor p = (PythonPluginEditor) PythonPluginEditor.python_plugin.get(root);
 			StyledText t = p.getEditor().getInputEditor();
@@ -83,6 +87,7 @@ public class EditorSpaceBox {
 	int tc = 0;
 
 	public void thaw() {
+		if (disable) return;
 		if (frozen == null)
 			return;
 

@@ -122,6 +122,7 @@ import field.graphics.core.Base.iAcceptsSceneListElement;
 import field.graphics.core.Base.iGeometry;
 import field.graphics.core.Base.iPass;
 import field.graphics.core.Base.iSceneListElement;
+import field.graphics.core.BasicFrameBuffers.SingleFrameBuffer;
 import field.graphics.core.BasicGeometry.Instance;
 import field.graphics.core.BasicGeometry.TriangleMesh;
 import field.graphics.core.BasicTextures.BaseTexture;
@@ -157,6 +158,7 @@ import field.util.TaskQueue;
 public class BasicFrameBuffers {
 
 	static public boolean use32 = false;
+	static public boolean useRG= false;
 
 	static public class Any implements iMatchRule {
 		public boolean match(Object o) {
@@ -2524,10 +2526,15 @@ public class BasicFrameBuffers {
 			this.width = width;
 			this.height = height;
 
-			// fakeStorage =
-			// ByteBuffer.allocateDirect(width*height*4);
+			 fakeStorage =
+			 ByteBuffer.allocateDirect(width*height*16);
 		}
 
+		public void useStorage()
+		{
+			fakeStorage = ByteBuffer.allocateDirect(width*height*16);
+		}
+		
 		public void delete() {
 			glDeleteTextures(textureId);
 			deallocated = true;
@@ -2593,7 +2600,7 @@ public class BasicFrameBuffers {
 			// glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8,
 			// width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
 			// fakeStorage);
-			glTexImage2D(GL_TEXTURE_2D, 0, (use32 ? GL_RGBA32F : GL_RGBA16F), width, height, 0, GL_RGBA, GL11.GL_FLOAT, fakeStorage);
+			glTexImage2D(GL_TEXTURE_2D, 0, useRG ? (GL_RG16F) : (use32 ? GL_RGBA32F : GL_RGBA16F), width, height, 0, GL_RGBA, useRG ? GL_HALF_FLOAT : (use32 ? GL11.GL_FLOAT : GL_HALF_FLOAT), fakeStorage);
 
 			if (doGenMip) {
 				glGenerateMipmap(GL_TEXTURE_2D);
@@ -2718,6 +2725,123 @@ public class BasicFrameBuffers {
 		}
 	}
 
+	static public class PingPong extends BasicTextures.BaseTexture implements iDisplayable, iHasFBO, iHasTexture
+	{
+		private SingleFrameBuffer a;
+		private SingleFrameBuffer b;
+
+		public PingPong(SingleFrameBuffer a, SingleFrameBuffer b)
+		{
+			this.a = a;
+			this.b = b;
+		}
+		
+		public void flip()
+		{
+			SingleFrameBuffer f = a;
+			a = b;
+			b = f;
+		}
+		
+		@Override
+		public void display() {
+			this.a.display();
+		}
+
+		@Override
+		public iProvider<Integer> getOutput() {
+			return b.getOutput();
+		}
+
+		@Override
+		public int getFBO() {
+			return b.getFBO();
+		}
+
+		@Override
+		protected void post() {
+			b.post();
+		}
+
+		@Override
+		protected void pre() {
+			b.pre();
+		}
+
+		@Override
+		protected void setup() {
+			a.setup();
+			b.setup();
+		}
+		
+		public iSceneListElement placeOnscreen(final Rect r) {
+			return getOnscreenList(0, r, new Vector4(0, 0, 0, 0), new Vector4(1, 1, 1, 1), false);
+		}
+
+		public iSceneListElement getOnscreenList(final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
+			return getOnscreenList(0, r, offset, mul, genMip);
+		}
+
+		@HiddenInAutocomplete
+		public iSceneListElement getOnscreenList(int output, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+			mesh.rebuildTriangle(2);
+			mesh.rebuildVertex(4);
+
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(a.useRect ? a.width : 1).put(0).put(a.useRect ? a.width : 1).put(a.useRect ? a.height : 1).put(0).put(a.useRect ? a.height : 1).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+
+			// onscreen program
+			// BasicGLSLangProgram onscreenProgram = (!useRect ? new
+			// BasicGLSLangProgram("content/shaders/NDCvertex.glslang",
+			// "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang")
+			// : new
+			// BasicGLSLangProgram("content/shaders/NDCvertex.glslang",
+			// "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			BasicGLSLangProgram onscreenProgram = (!a.useRect ? new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentSquare.glslang") : new BasicGLSLangProgram("content/shaders/NDCvertex.glslang", "content/shaders/PutImageProcessingOnscreenFragmentRect.glslang"));
+			onscreenProgram.new SetIntegerUniform("depthTexture", 0);
+			onscreenProgram.new SetUniform("offset", offset);
+			onscreenProgram.new SetUniform("mul", mul);
+			onscreenProgram.addChild(mesh);
+			onscreenProgram.addChild(new TextureWrapper(genMip, a.useRect, this.getOutput(), 0));
+			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
+
+			return onscreenProgram;
+		}
+
+		public iSceneListElement placeOnscreen(BasicGLSLangProgram onscreenProgram, final Rect r) {
+			return getOnscreenList(onscreenProgram, 0, r, new Vector4(0, 0, 0, 0), new Vector4(1, 1, 1, 1), false);
+		}
+
+		public iSceneListElement getOnscreenList(BasicGLSLangProgram onscreenProgram, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
+			return getOnscreenList(onscreenProgram, 0, r, offset, mul, genMip);
+		}
+
+		@HiddenInAutocomplete
+		public iSceneListElement getOnscreenList(BasicGLSLangProgram onscreenProgram, int output, final Rect r, Vector4 offset, Vector4 mul, final boolean genMip) {
+			final TriangleMesh mesh = new BasicGeometry.TriangleMesh(StandardPass.render);
+			mesh.rebuildTriangle(2);
+			mesh.rebuildVertex(4);
+
+			mesh.vertex().put((float) (r.x + r.w)).put((float) r.y).put(0.5f).put((float) (r.x + r.w)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y + r.h)).put(0.5f).put((float) (r.x)).put((float) (r.y)).put(0.5f);
+			mesh.triangle().put((short) 0).put((short) 1).put((short) 2).put((short) 0).put((short) 2).put((short) 3);
+			mesh.aux(Base.texture0_id, 2).put(a.useRect ? a.width : 1).put(0).put(a.useRect ? a.width : 1).put(a.useRect ? a.height : 1).put(0).put(a.useRect ? a.height : 1).put(0).put(0);
+			mesh.aux(Base.color0_id, 4).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1).put(1);
+
+			onscreenProgram.new SetIntegerUniform("depthTexture", 0);
+			onscreenProgram.new SetUniform("offset", offset);
+			onscreenProgram.new SetUniform("mul", mul);
+			onscreenProgram.addChild(mesh);
+			onscreenProgram.addChild(new TextureWrapper(genMip, a.useRect, this.getOutput(), 0));
+			onscreenProgram.addChild(new BasicUtilities.DisableDepthTest(true));
+
+			return onscreenProgram;
+		}
+
+	}
+	
 	static public class SingleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable, iHasFBO, iHasTexture {
 		private final int width;
 

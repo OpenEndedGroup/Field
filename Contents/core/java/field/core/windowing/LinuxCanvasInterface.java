@@ -2,6 +2,7 @@ package field.core.windowing;
 
 import org.eclipse.swt.opengl.GLCanvas;
 import org.eclipse.swt.widgets.Canvas;
+import org.lwjgl.opengl.GLContext;
 
 public class LinuxCanvasInterface implements iCanvasInterface {
 
@@ -20,7 +21,7 @@ public class LinuxCanvasInterface implements iCanvasInterface {
 	@Override
 	public void swapBuffers() {
 		c.swapBuffers();
-
+		
 	}
 
 }

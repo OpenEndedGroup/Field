@@ -40,7 +40,7 @@ public class Cont implements DispatchSupport.DispatchProvider {
 
 	static HashMap<Method, List<Run>> class_links = new HashMap<Method, List<Run>>();
 
-	static WeakHashMap<Object, HashMap<Method, List<Run>>> instance_links = new WeakHashMap<Object, HashMap<Method, List<Run>>>();
+	public static WeakHashMap<Object, HashMap<Method, List<Run>>> instance_links = new WeakHashMap<Object, HashMap<Method, List<Run>>>();
 
 	static public void linkWith(Object o, Method m, Run r) {
 
