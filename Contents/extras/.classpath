@@ -27,7 +27,6 @@
 	<classpathentry kind="lib" path="/field/xstream-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/field/WebSocket.jar"/>
 	<classpathentry kind="lib" path="processing/lib/antlr.jar"/>
-	<classpathentry kind="lib" path="processing/lib/core.jar" sourcepath="/Volumes/c1/Users/marc/fieldwork/temp/processingsource/processing-read-only/processing"/>
 	<classpathentry kind="lib" path="processing/lib/pde.jar"/>
 	<classpathentry kind="lib" path="/field/java-engine.jar"/>
 	<classpathentry kind="lib" path="/field/clojure-1.4.0.jar"/>
@@ -37,5 +36,6 @@
 	<classpathentry kind="lib" path="/usr/lib/jvm/jdk1.7.0/lib/tools.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/jode-1.1.2-pre-embedded.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/jitter.jar"/>
+	<classpathentry kind="lib" path="processing/lib/core.jar" sourcepath="/Volumes/c1/Users/marc/fieldwork/temp/processingsource/processing-read-only/processing/core/src"/>
 	<classpathentry kind="output" path="topology/bin"/>
 </classpath>

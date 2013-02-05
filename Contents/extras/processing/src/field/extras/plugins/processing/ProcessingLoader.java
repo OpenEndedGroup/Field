@@ -716,9 +716,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 						applet.size(500, 500, indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
 					else
 						applet.size(frame.getWidth(), frame.getHeight(), indexToRenderer[ProcessingPlugin.defaultProcessingRenderer[0]]);
-
 				}
-
 			}
 		});
 	}

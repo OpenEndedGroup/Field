@@ -3049,8 +3049,8 @@ public class BasicFrameBuffers {
 				fbo_multisample = glGenFramebuffers();
 				int rb_multisample = glGenRenderbuffers();
 				int rb_multisample_depth = glGenRenderbuffers();
-				int converageSamples = 8;
-				int depthSamples = 8;
+				int converageSamples = 4;
+				int depthSamples = 4;
 
 				glBindFramebuffer(GL_FRAMEBUFFER, fbo_multisample);
 
