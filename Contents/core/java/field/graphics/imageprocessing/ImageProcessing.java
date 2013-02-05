@@ -151,12 +151,21 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 
 		private final int unit;
 
+		private int target;
+
 		public TextureWrapper(boolean mip, boolean rect, iProvider<Integer> from, int unit) {
 			super("", StandardPass.preRender, StandardPass.postRender);
 			this.mip = mip;
 			this.rect = rect;
 			this.from = from;
 			this.unit = unit;
+			
+			this.target = rect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D;
+		}
+		
+		public TextureWrapper setTarget(int target) {
+			this.target = target;
+			return this;
 		}
 
 		@Override
@@ -164,8 +173,8 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 			if (from.get() == -1)
 				return;
 			glActiveTexture(GL_TEXTURE0 + unit);
-			glBindTexture(rect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, 0);
-			CoreHelpers.glDisable(rect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(target, 0);
+			CoreHelpers.glDisable(target);
 			glActiveTexture(GL_TEXTURE0);
 		}
 
@@ -176,8 +185,8 @@ public class ImageProcessing implements iImageProcessor, iAcceptsSceneListElemen
 
 			glActiveTexture(GL_TEXTURE0 + unit);
 
-			glBindTexture(rect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D, from.get());
-			CoreHelpers.glEnable(rect ? GL_TEXTURE_RECTANGLE : GL_TEXTURE_2D);
+			glBindTexture(target, from.get());
+			CoreHelpers.glEnable(target);
 
 			if (mip) {
 				glGenerateMipmap(GL_TEXTURE_2D);

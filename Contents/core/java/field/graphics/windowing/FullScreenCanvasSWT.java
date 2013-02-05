@@ -54,6 +54,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.KHRDebugCallback;
@@ -83,6 +84,7 @@ import field.graphics.core.BasicUtilities;
 import field.graphics.core.BasicUtilities.Clear;
 import field.graphics.core.CoreHelpers;
 import field.graphics.core.DynamicFrameRateCuller;
+import field.graphics.core.LayeredStereoCamera;
 import field.graphics.core.ResourceMonitor;
 import field.graphics.core.StereoCamera;
 import field.graphics.core.When;
@@ -131,9 +133,11 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 	protected BasicSceneList rootSceneList;
 
-	protected BasicSceneList sceneList;
-	protected BasicSceneList leftSceneList;
-	protected BasicSceneList rightSceneList;
+	public BasicSceneList sceneList;
+	public BasicSceneList leftSceneList;
+	public BasicSceneList rightSceneList;
+	public BasicSceneList repackageList_left;
+	public BasicSceneList repackageList_right;
 
 	protected Clear clear;
 
@@ -145,6 +149,10 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	boolean sequentialStereo = SystemProperties.getIntProperty("sequentialStereo", 0) == 1;
 	@HiddenInAutocomplete
 	public boolean passiveStereo = SystemProperties.getIntProperty("passiveStereo", 0) == 1;
+	@HiddenInAutocomplete
+	public boolean layeredStereo = SystemProperties.getIntProperty("layeredStereo", 0) == 1;
+	public boolean activeLayered = SystemProperties.getIntProperty("activeLayered", 0) == 1;
+
 	@HiddenInAutocomplete
 	static public boolean doMultisampling = SystemProperties.getIntProperty("needsFSAA", 0) == 1;
 
@@ -239,10 +247,9 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		GLData data = new GLData();
 		data.doubleBuffer = true;
 		data.depthSize = 24;
-
 		data.stencilSize = 8;
 
-		data.stereo = stereo;
+		data.stereo = stereo | activeLayered;
 		if (doMultisampling) {
 			data.samples = 2;
 			// data.sampleBuffers = 2;
@@ -387,43 +394,28 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		if (first) {
 			System.out.println(" Setting up debug stream ");
 			first = false;
-			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-			glDebugMessageCallback(new KHRDebugCallback(new Handler() {
-
-				@Override
-				public void handleMessage(int arg0, int arg1, int arg2, int arg3, String arg4) {
-					System.out.println(" handle message :" + arg0 + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
-				}
-			}));
-			glDebugMessageControl(GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, null, true);
+//			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+//			glDebugMessageCallback(new KHRDebugCallback(new Handler() {
+//
+//				@Override
+//				public void handleMessage(int arg0, int arg1, int arg2, int arg3, String arg4) {
+//					System.out.println(" handle message :" + arg0 + " " + arg1 + " " + arg2 + " " + arg3 + " " + arg4);
+//				}
+//			}));
+//			glDebugMessageControl(GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, GL11.GL_DONT_CARE, null, true);
 		}
 
 		if (doMultisampling) {
 			glEnable(GL_MULTISAMPLE);
 		}
 
-		// ;//System.out.println(" frame number "+this.frameNumber);
-
-		// if (this.frameNumber==10)
-		// {
-		// ;//System.out.println(" going multithreaded ?");
-		// new MiscNative().goMultithreadedRenderer();
-		// }
-
-		// ;//System.out.println(" -- main display --");
-
 		currentCanvas = this;
 		try {
-
-			// if (!frame.isVisible())
-			// return;
-			// ;//System.out.println(" -- in");
 
 			try {
 
 				if (stereo) {
 					culler.enter();
-					// ;//System.out.println(" -- in ");
 					if (leftOnly)
 						side = 1;
 
@@ -431,7 +423,6 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						windowContextTree.begin(getContextName());
 						side++;
 
-						// arg0.getGL().
 						try {
 							if (!leftOnly)
 								glEnable(GL11.GL_STEREO);
@@ -453,7 +444,6 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 						rootSceneList.update();
 
 						if (side % 2 == 0) {
-							// ;//System.out.println(" -- left");
 							if (anaglyph)
 								glColorMask(true, false, false, true);
 							if (doLeft) {
@@ -461,7 +451,6 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 								beforeLeftFlush();
 							}
 						} else {
-							// ;//System.out.println(" -- right");
 							if (anaglyph)
 								glColorMask(false, true, true, true);
 							if (doRight) {
@@ -470,33 +459,18 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 							}
 						}
 
-						// if (leftOnly)
-						// beforeRightFlush();
-
-						// ;//System.out.println(" -- both");
-
 						beforeFlush();
 						windowContextTree.end(getContextName());
-
-						// byte[] bb = new byte[1];
-						// arg0.getGL().glGetBooleanv(GL.GL_STEREO,
-						// bb,
-						// 0);
-						// ;//System.out.println(" ?? stereo ? :"
-						// + bb[0]);
 
 						if (side % 2 == 0 || leftOnly)
 							if (doFlush()) {
 								canvasInterface.swapBuffers();
-								// canvasInterface.swapBuffers();
-								// arg0.getGL().glFinish();
 							}
 						if (leftOnly)
 							break;
 					}
 					frameNumber++;
 					culler.exit();
-					// ;//System.out.println(" -- out");
 
 				} else if (passiveStereo) {
 					culler.enter();
@@ -558,19 +532,25 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					beforeFlush();
 					windowContextTree.end(getContextName());
 
-					// byte[] bb = new byte[1];
-					// arg0.getGL().glGetBooleanv(GL.GL_STEREO,
-					// bb,
-					// 0);
-					// ;//System.out.println(" ?? stereo ? :"
-					// +
-					// bb[0]);
-
-					if (side % 2 == 0)
+					if (activeLayered) {
+						glEnable(GL11.GL_STEREO);
+						glDrawBuffer(GL_BACK_LEFT);
+						side = 0;
+						repackageList_left.update();
+						glDrawBuffer(GL_BACK_RIGHT);
+						side = 1;
+						repackageList_right.update();
+						side = 0;
 						if (doFlush()) {
-							// canvasInterface.swapBuffers();
 							canvasInterface.swapBuffers();
 						}
+					} else {
+
+						if (side % 2 == 0)
+							if (doFlush()) {
+								canvasInterface.swapBuffers();
+							}
+					}
 
 					frameNumber++;
 				}
@@ -720,7 +700,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		boolean doClear = SystemProperties.getIntProperty("background.clear", 1) == 1;
 
-		camera = (stereo || sequentialStereo || passiveStereo) ? new StereoCamera() : new BasicCamera();
+		camera = (stereo || sequentialStereo || passiveStereo) ? new StereoCamera() : ((layeredStereo || activeLayered) ? new LayeredStereoCamera() : new BasicCamera());
+
 		// camera = new BasicCamera();
 
 		rootSceneList = new BasicSceneList();
@@ -740,6 +721,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		rootSceneList.addChild(camera);
 		sceneList = leftSceneList = new BasicSceneList();
 		rightSceneList = new BasicSceneList();
+		repackageList_left = new BasicSceneList();
+		repackageList_right = new BasicSceneList();
 	}
 
 	/**

@@ -24,9 +24,9 @@ import java.nio.FloatBuffer;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.lwjgl.opengl.GL11;
-
 import field.core.Platform.OS;
+import field.core.plugins.PythonOverridden;
+import field.core.util.PythonCallableMap;
 import field.core.windowing.GLComponentWindow;
 import field.graphics.core.Base.iGeometry;
 import field.graphics.core.BasicGeometry.VertexBuffer;
@@ -68,20 +68,16 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 		return this;
 	}
 
+	PythonCallableMap drawArraysOverrides = new PythonCallableMap();
+
+	public PythonCallableMap getDrawArraysOverrides() {
+		return drawArraysOverrides;
+	}
+
 	@Override
 	protected void doPerformPass() {
-		// glDisable(GL_POINT_SMOOTH);
-		// glDisable(GL_TEXTURE_2D);
-		// glDisable(GL_TEXTURE_RECTANGLE);
-
-//		;//System.out.println(" drawing <"+this+">");
-		
-//		;//System.out.println(" setting point size to <"+size+">");
 		glPointSize(size);
 
-		
-//		glDisable(GL11.GL_BLEND);
-		
 		CoreHelpers.glBindVertexArrayAPPLE(0);
 
 		int vertexObjectID = BasicContextManager.getId(this);
@@ -97,7 +93,7 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 
 		clean();
 		CoreHelpers.doCameraState();
-		
+
 		if (GLComponentWindow.rendererInfo != null && GLComponentWindow.rendererInfo.startsWith("intel")) {
 
 			int p = BasicGLSLangProgram.currentProgram.getShader();
@@ -106,7 +102,8 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 			FloatBuffer a = aux(Base.color0_id, 0);
 			FloatBuffer ps = aux(13, 0);
 
-			;//System.out.println(" dawing <" + numVertex() + "> points the slow way");
+			;// System.out.println(" dawing <" + numVertex() +
+				// "> points the slow way");
 
 			glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
 			glPointSize(ps == null ? size : ps.get());
@@ -138,9 +135,9 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 			CoreHelpers.glBindVertexArrayAPPLE(vertexObjectID);
 
 			if (!CoreHelpers.isCore && useATIPointSpriteWorkaround && field.core.Platform.getOS() == OS.mac) {
-				
-				;//System.out.println(" using ati point sprite workaround ");
-				
+
+				;// System.out.println(" using ati point sprite workaround ");
+
 				glBindVertexArrayAPPLE(0);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -162,7 +159,12 @@ public class PointList extends BasicGeometry.TriangleMesh implements iGeometry {
 			if (doDynamicFrameRateCulling) {
 				glDrawArrays(GL_POINTS, 0, DynamicFrameRateCuller.advise(this.vertexLimit, this));
 			} else {
-				glDrawArrays(GL_POINTS, 0, this.vertexLimit);
+
+				if (drawArraysOverrides.isEmpty())
+					glDrawArrays(GL_POINTS, 0, this.vertexLimit);
+				else
+					drawArraysOverrides.invoke(GL_POINTS, 0, this.vertexLimit);
+
 			}
 		}
 

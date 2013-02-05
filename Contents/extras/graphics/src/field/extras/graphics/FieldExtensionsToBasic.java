@@ -1337,7 +1337,7 @@ public class FieldExtensionsToBasic {
 			tq.put( ((Matrix4)value).get(tqm) );
 			tq.rewind();
 
-			GL20.glUniformMatrix4(id, true, tq);
+			GL20.glUniformMatrix4(id, false, tq);
 		}
 	}
 

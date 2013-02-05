@@ -67,7 +67,7 @@ public class NanoHTTPD
 	// ==================================================
 	// API parts
 	// ==================================================
-
+    
 	/**
 	 * HTTP response.
 	 * Return one of these from serve().
@@ -78,23 +78,23 @@ public class NanoHTTPD
 		 * HTTP status code after processing, e.g. "200 OK", HTTP_OK
 		 */
 		public String status;
-
+        
 		/**
 		 * MIME type of content, e.g. "text/html"
 		 */
 		public String mimeType;
-
+        
 		/**
 		 * Data of the response, may be null.
 		 */
 		public InputStream data;
-
+        
 		/**
 		 * Headers for the HTTP response. Use addHeader()
 		 * to add lines.
 		 */
 		public Properties header = new Properties();
-
+        
 		/**
 		 * Default constructor: response = HTTP_OK, data = mime = 'null'
 		 */
@@ -102,7 +102,7 @@ public class NanoHTTPD
 		{
 			this.status = HTTP_OK;
 		}
-
+        
 		/**
 		 * Basic constructor.
 		 */
@@ -112,7 +112,7 @@ public class NanoHTTPD
 			this.mimeType = mimeType;
 			this.data = data;
 		}
-
+        
 		/**
 		 * Convenience method that makes an InputStream out of
 		 * given text.
@@ -123,7 +123,7 @@ public class NanoHTTPD
 			this.mimeType = mimeType;
 			this.data = new ByteArrayInputStream( txt.getBytes());
 		}
-
+        
 		/**
 		 * Adds given line to the header.
 		 */
@@ -132,7 +132,7 @@ public class NanoHTTPD
 			header.put( name, value );
 		}
 	}
-
+    
 	/**
 	 * Handles one session, i.e. parses the HTTP request
 	 * and returns the response.
@@ -140,7 +140,7 @@ public class NanoHTTPD
 	private class HTTPSession implements Runnable
 	{
 		private final Socket mySocket;
-
+        
 		public HTTPSession( Socket s )
 		{
 			mySocket = s;
@@ -148,7 +148,7 @@ public class NanoHTTPD
 			t.setDaemon( true );
 			t.start();
 		}
-
+        
 		public void run()
 		{
 			try
@@ -156,32 +156,32 @@ public class NanoHTTPD
 				InputStream is = mySocket.getInputStream();
 				if ( is == null) return;
 				BufferedReader in = new BufferedReader( new InputStreamReader( is ));
-
+                
 				// Read the request line
 				String ll = in.readLine();
 				;//System.out.println(" ll :"+ll);
 				StringTokenizer st = new StringTokenizer( ll);
-
+                
 				if ( !st.hasMoreTokens())
 				{
 					;//System.out.println(" bad request 1");
 					sendError( HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html" );
 				}
-
+                
 				String method = st.nextToken();
-
+                
 				if ( !st.hasMoreTokens())
 				{
 					;//System.out.println(" bad request 2");
 					sendError( HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html" );
 				}
-
+                
 				String tok = st.nextToken();
 				
 				;//System.out.println(" remaining <"+tok+">");
 				
 				String uri = /*decodePercent*/( tok);
-
+                
 				;//System.out.println(" uri "+tok);
 				
 				// Decode parameters from the URI
@@ -192,7 +192,7 @@ public class NanoHTTPD
 					decodeParms( uri.substring( qmi+1 ), parms );
 					uri = decodePercent( uri.substring( 0, qmi ));
 				}
-
+                
 				
 				;//System.out.println(" params are :");
 				Set<Object> k = parms.keySet();
@@ -214,7 +214,7 @@ public class NanoHTTPD
 						line = in.readLine();
 					}
 				}
-
+                
 				//;//System.out.println(" header :"+header);
 				
 				// If the method is POST, there may be parameters
@@ -241,14 +241,14 @@ public class NanoHTTPD
 					postLine = postLine.trim();
 					decodeParms( postLine, parms );
 				}
-
+                
 				// Ok, now do the serve()
 				Response r = serve( uri, method, header, parms );
 				if ( r == null )
 					sendError( HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response." );
 				else
 					sendResponse( r.status, r.mimeType, r.header, r.data );
-
+                
 				in.close();
 			}
 			catch ( IOException ioe )
@@ -264,8 +264,8 @@ public class NanoHTTPD
 				// Thrown by sendError, ignore and exit the thread.
 			}
 		}
-
-
+        
+        
 		/**
 		 * Returns an error message as a HTTP response and
 		 * throws InterruptedException to stop furhter request processing.
@@ -275,7 +275,7 @@ public class NanoHTTPD
 			sendResponse( status, MIME_PLAINTEXT, null, new ByteArrayInputStream( msg.getBytes()));
 			throw new InterruptedException();
 		}
-
+        
 		/**
 		 * Sends given response to the socket.
 		 */
@@ -285,17 +285,17 @@ public class NanoHTTPD
 			{
 				if ( status == null )
 					throw new Error( "sendResponse(): Status can't be null." );
-
+                
 				OutputStream out = mySocket.getOutputStream();
 				PrintWriter pw = new PrintWriter( out );
 				pw.print("HTTP/1.0 " + status + " \r\n");
-
+                
 				if ( mime != null )
 					pw.print("Content-Type: " + mime + "\r\n");
-
+                
 				if ( header == null || header.getProperty( "Date" ) == null )
 					pw.print( "Date: " + gmtFrmt.format( new Date()) + "\r\n");
-
+                
 				if ( header != null )
 				{
 					Enumeration e = header.keys();
@@ -306,10 +306,10 @@ public class NanoHTTPD
 						pw.print( key + ": " + value + "\r\n");
 					}
 				}
-
+                
 				pw.print("\r\n");
 				pw.flush();
-
+                
 				if ( data != null )
 				{
 					byte[] buff = new byte[2048];
@@ -333,93 +333,93 @@ public class NanoHTTPD
 			}
 		}
 	}
-
+    
 	/**
 	 * Some HTTP response status codes
 	 */
 	public static final String
-		HTTP_OK = "200 OK",
-		HTTP_REDIRECT = "301 Moved Permanently",
-		HTTP_FORBIDDEN = "403 Forbidden",
-		HTTP_NOTFOUND = "404 Not Found",
-		HTTP_BADREQUEST = "400 Bad Request",
-		HTTP_INTERNALERROR = "500 Internal Server Error",
-		HTTP_NOTIMPLEMENTED = "501 Not Implemented";
-
+    HTTP_OK = "200 OK",
+    HTTP_REDIRECT = "301 Moved Permanently",
+    HTTP_FORBIDDEN = "403 Forbidden",
+    HTTP_NOTFOUND = "404 Not Found",
+    HTTP_BADREQUEST = "400 Bad Request",
+    HTTP_INTERNALERROR = "500 Internal Server Error",
+    HTTP_NOTIMPLEMENTED = "501 Not Implemented";
+    
 	/**
 	 * Common mime types for dynamic content
 	 */
 	public static final String
-		MIME_PLAINTEXT = "text/plain",
-		MIME_HTML = "text/html",
-		MIME_DEFAULT_BINARY = "application/octet-stream";
-
+    MIME_PLAINTEXT = "text/plain",
+    MIME_HTML = "text/html",
+    MIME_DEFAULT_BINARY = "application/octet-stream";
+    
 	// ==================================================
 	// Socket & server code
 	// ==================================================
-
+    
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
 	private static Hashtable theMimeTypes = new Hashtable();
-
+    
 	/**
 	 * GMT date formatter
 	 */
     private static java.text.SimpleDateFormat gmtFrmt;
-
+    
 	/**
 	 * The distribution licence
 	 */
 	private static final String LICENCE =
-		"Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n"+
-		"\n"+
-		"Redistribution and use in source and binary forms, with or without\n"+
-		"modification, are permitted provided that the following conditions\n"+
-		"are met:\n"+
-		"\n"+
-		"Redistributions of source code must retain the above copyright notice,\n"+
-		"this list of conditions and the following disclaimer. Redistributions in\n"+
-		"binary form must reproduce the above copyright notice, this list of\n"+
-		"conditions and the following disclaimer in the documentation and/or other\n"+
-		"materials provided with the distribution. The name of the author may not\n"+
-		"be used to endorse or promote products derived from this software without\n"+
-		"specific prior written permission. \n"+
-		" \n"+
-		"THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"+
-		"IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"+
-		"OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"+
-		"IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n"+
-		"INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n"+
-		"NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n"+
-		"DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n"+
-		"THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n"+
-		"(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"+
-		"OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";;
-
+    "Copyright (C) 2001,2005 by Jarno Elonen <elonen@iki.fi>\n"+
+    "\n"+
+    "Redistribution and use in source and binary forms, with or without\n"+
+    "modification, are permitted provided that the following conditions\n"+
+    "are met:\n"+
+    "\n"+
+    "Redistributions of source code must retain the above copyright notice,\n"+
+    "this list of conditions and the following disclaimer. Redistributions in\n"+
+    "binary form must reproduce the above copyright notice, this list of\n"+
+    "conditions and the following disclaimer in the documentation and/or other\n"+
+    "materials provided with the distribution. The name of the author may not\n"+
+    "be used to endorse or promote products derived from this software without\n"+
+    "specific prior written permission. \n"+
+    " \n"+
+    "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"+
+    "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"+
+    "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"+
+    "IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,\n"+
+    "INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT\n"+
+    "NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,\n"+
+    "DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY\n"+
+    "THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT\n"+
+    "(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE\n"+
+    "OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.";;
+    
 	static
 	{
 		StringTokenizer st = new StringTokenizer(
-			"htm		text/html "+
-			"html		text/html "+
-			"txt		text/plain "+
-			"asc		text/plain "+
-			"gif		image/gif "+
-			"jpg		image/jpeg "+
-			"jpeg		image/jpeg "+
-			"png		image/png "+
-			"mp3		audio/mpeg "+
-			"m3u		audio/mpeg-url " +
-			"pdf		application/pdf "+
-			"doc		application/msword "+
-			"ogg		application/x-ogg "+
-			"zip		application/octet-stream "+
-			"exe		application/octet-stream "+
-			"class		application/octet-stream " );
+                                                 "htm		text/html "+
+                                                 "html		text/html "+
+                                                 "txt		text/plain "+
+                                                 "asc		text/plain "+
+                                                 "gif		image/gif "+
+                                                 "jpg		image/jpeg "+
+                                                 "jpeg		image/jpeg "+
+                                                 "png		image/png "+
+                                                 "mp3		audio/mpeg "+
+                                                 "m3u		audio/mpeg-url " +
+                                                 "pdf		application/pdf "+
+                                                 "doc		application/msword "+
+                                                 "ogg		application/x-ogg "+
+                                                 "zip		application/octet-stream "+
+                                                 "exe		application/octet-stream "+
+                                                 "class		application/octet-stream " );
 		while ( st.hasMoreTokens())
 			theMimeTypes.put( st.nextToken(), st.nextToken());
-	}
-
+            }
+    
 	static
 	{
 		gmtFrmt = new java.text.SimpleDateFormat( "E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
@@ -433,21 +433,21 @@ public class NanoHTTPD
 		// Show licence if requested
 		int lopt = -1;
 		for ( int i=0; i<args.length; ++i )
-		if ( args[i].toLowerCase().endsWith( "licence" ))
-		{
-			lopt = i;
-			;//System.out.println( LICENCE + "\n" );
-		}
-
+            if ( args[i].toLowerCase().endsWith( "licence" ))
+            {
+                lopt = i;
+                ;//System.out.println( LICENCE + "\n" );
+            }
+        
 		// Change port if requested
 		int port = 80;
 		if ( args.length > 0 && lopt != 0 )
 			port = Integer.parseInt( args[0] );
-
+        
 		if ( args.length > 1 &&
-			 args[1].toLowerCase().endsWith( "licence" ))
-				;//System.out.println( LICENCE + "\n" );
-
+            args[1].toLowerCase().endsWith( "licence" ))
+            ;//System.out.println( LICENCE + "\n" );
+        
 		NanoHTTPD nh = null;
 		try
 		{
@@ -459,16 +459,16 @@ public class NanoHTTPD
 			System.exit( -1 );
 		}
 		nh.myFileDir = new File("");
-
+        
 		try { System.in.read(); } catch( Throwable t ) {};
 	}
-
+    
 	// ==================================================
 	// File server code
 	// ==================================================
-
+    
 	private final int myTcpPort;
-
+    
 	File myFileDir;
 	/**
 	 * Starts a HTTP server to given port.<p>
@@ -477,32 +477,32 @@ public class NanoHTTPD
 	public NanoHTTPD( int port ) throws IOException
 	{
 		myTcpPort = port;
-
+        
 		final ServerSocket ss = new ServerSocket(  );
-		ss.bind(new InetSocketAddress("localhost", myTcpPort));
+		ss.bind(new InetSocketAddress(myTcpPort));
 		
 		Thread t = new Thread( new Runnable()
-			{
-				public void run()
-				{
-					try
-					{
-						while( true )
-						{
-							;//System.out.println(" opening session on <"+ss+">");
-							new HTTPSession( ss.accept());
-						}
-					}
-					catch ( IOException ioe )
-					{
-						ioe.printStackTrace();
-					}
-				}
-			});
+                              {
+            public void run()
+            {
+                try
+                {
+                    while( true )
+                    {
+                        ;//System.out.println(" opening session on <"+ss+">");
+                        new HTTPSession( ss.accept());
+                    }
+                }
+                catch ( IOException ioe )
+                {
+                    ioe.printStackTrace();
+                }
+            }
+        });
 		t.setDaemon( true );
 		t.start();
 	}
-
+    
 	/**
 	 * Override this to customize the server.<p>
 	 *
@@ -517,7 +517,7 @@ public class NanoHTTPD
 	public Response serve( String uri, String method, Properties header, Properties parms )
 	{
 		;//System.out.println( method + " '" + uri + "' " );
-
+        
 		Enumeration e = header.propertyNames();
 		while ( e.hasMoreElements())
 		{
@@ -528,7 +528,7 @@ public class NanoHTTPD
 		{
 			String value = (String)e.nextElement();
 		}
-
+        
 		return serveFile( uri, header, new File("."), true );
 	}
 	/**
@@ -536,29 +536,29 @@ public class NanoHTTPD
 	 * Uses only URI, ignores all headers and HTTP parameters.
 	 */
 	public Response serveFile( String uri, Properties header, File homeDir,
-							   boolean allowDirectoryListing )
+                              boolean allowDirectoryListing )
 	{
 		// Make sure we won't die of an exception later
 		if ( !homeDir.isDirectory())
 			return new Response( HTTP_INTERNALERROR, MIME_PLAINTEXT,
-								 "INTERNAL ERRROR: serveFile(): given homeDir is not a directory." );
-
+                                "INTERNAL ERRROR: serveFile(): given homeDir is not a directory." );
+        
 		// Remove URL arguments
 		uri = uri.trim().replace( File.separatorChar, '/' );
 		if ( uri.indexOf( '?' ) >= 0 )
-			uri = uri.substring(0, uri.indexOf( '?' ));			
-
-
+			uri = uri.substring(0, uri.indexOf( '?' ));
+        
+        
 		// Prohibit getting out of current directory
 		if ( uri.startsWith( ".." ) || uri.endsWith( ".." ) || uri.indexOf( "../" ) >= 0 )
 			return new Response( HTTP_FORBIDDEN, MIME_PLAINTEXT,
-								 "FORBIDDEN: Won't serve ../ for security reasons." );
-
+                                "FORBIDDEN: Won't serve ../ for security reasons." );
+        
 		File f = new File( homeDir, uri );
 		if ( !f.exists())
 			return new Response( HTTP_NOTFOUND, MIME_PLAINTEXT,
-								 "Error 404, file not found." );
-
+                                "Error 404, file not found." );
+        
 		// List the directory, if necessary
 		if ( f.isDirectory())
 		{
@@ -568,24 +568,24 @@ public class NanoHTTPD
 			{
 				uri += "/";
 				Response r = new Response( HTTP_REDIRECT, MIME_HTML,
-										   "<html><body>Redirected: <a href=\"" + uri + "\">" +
-										   uri + "</a></body></html>");
+                                          "<html><body>Redirected: <a href=\"" + uri + "\">" +
+                                          uri + "</a></body></html>");
 				r.addHeader( "Location", uri );
 				return r;
 			}
-
+            
 			// First try index.html and index.htm
 			if ( new File( f, "index.html" ).exists())
 				f = new File( homeDir, uri + "/index.html" );
 			else if ( new File( f, "index.htm" ).exists())
 				f = new File( homeDir, uri + "/index.htm" );
-
+            
 			// No index file, list the directory
 			else if ( allowDirectoryListing )
 			{
 				String[] files = f.list();
 				String msg = "<html><body><h1>Directory " + uri + "</h1><br/>";
-
+                
 				if ( uri.length() > 1 )
 				{
 					String u = uri.substring( 0, uri.length()-1 );
@@ -593,7 +593,7 @@ public class NanoHTTPD
 					if ( slash >= 0 && slash  < u.length())
 						msg += "<b><a href=\"" + uri.substring(0, slash+1) + "\">..</a></b><br/>";
 				}
-
+                
 				for ( int i=0; i<files.length; ++i )
 				{
 					File curFile = new File( f, files[i] );
@@ -603,10 +603,10 @@ public class NanoHTTPD
 						msg += "<b>";
 						files[i] += "/";
 					}
-
+                    
 					msg += "<a href=\"" + encodeUri( uri + files[i] ) + "\">" +
-						   files[i] + "</a>";
-
+                    files[i] + "</a>";
+                    
 					// Show file size
 					if ( curFile.isFile())
 					{
@@ -618,7 +618,7 @@ public class NanoHTTPD
 							msg += curFile.length()/1024 + "." + (curFile.length()%1024/10%100) + " KB";
 						else
 							msg += curFile.length()/(1024*1024) + "." + curFile.length()%(1024*1024)/10%100 + " MB";
-
+                        
 						msg += ")</font>";
 					}
 					msg += "<br/>";
@@ -629,10 +629,10 @@ public class NanoHTTPD
 			else
 			{
 				return new Response( HTTP_FORBIDDEN, MIME_PLAINTEXT,
-								 "FORBIDDEN: No directory listing." );
+                                    "FORBIDDEN: No directory listing." );
 			}
 		}
-
+        
 		try
 		{
 			// Get MIME type from file name extension, if possible
@@ -642,7 +642,7 @@ public class NanoHTTPD
 				mime = (String)theMimeTypes.get( f.getCanonicalPath().substring( dot + 1 ).toLowerCase());
 			if ( mime == null )
 				mime = MIME_DEFAULT_BINARY;
-
+            
 			// Support (simple) skipping:
 			long startFrom = 0;
 			String range = header.getProperty( "Range" );
@@ -660,7 +660,7 @@ public class NanoHTTPD
 					catch ( NumberFormatException nfe ) {}
 				}
 			}
-
+            
 			FileInputStream fis = new FileInputStream( f );
 			fis.skip( startFrom );
 			Response r = new Response( HTTP_OK, mime, fis );
@@ -674,7 +674,7 @@ public class NanoHTTPD
 			return new Response( HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Reading file failed." );
 		}
 	}
-
+    
 	/**
 	 * URL-encodes everything between "/"-characters.
 	 * Encodes spaces as '%20' instead of '+'.
@@ -706,11 +706,11 @@ public class NanoHTTPD
 	 * adds them to given Properties.
 	 */
 	static public void decodeParms( String parms, Properties p )
-		throws InterruptedException
+    throws InterruptedException
 	{
 		if ( parms == null )
 			return;
-
+        
 		StringTokenizer st = new StringTokenizer( parms, "&" );
 		while ( st.hasMoreTokens())
 		{
@@ -718,10 +718,10 @@ public class NanoHTTPD
 			int sep = e.indexOf( '=' );
 			if ( sep >= 0 )
 				p.put( decodePercent( e.substring( 0, sep )).trim(),
-					   decodePercent( e.substring( sep+1 )));
+                      decodePercent( e.substring( sep+1 )));
 		}
 	}
-
+    
 	/**
 	 * Decodes the percent encoding scheme. <br/>
 	 * For example: "an+example%20string" -> "an example string"
@@ -757,9 +757,9 @@ public class NanoHTTPD
 		{
 			;//System.out.println(" bad percent encoding");
 			e.printStackTrace();
-//			sendError( HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding." );
+            //			sendError( HTTP_BADREQUEST, "BAD REQUEST: Bad percent-encoding." );
 			return null;
 		}
 	}
-
+    
 }

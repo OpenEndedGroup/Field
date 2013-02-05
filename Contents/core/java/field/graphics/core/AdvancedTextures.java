@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.APPLETextureRange.GL_STORAGE_PRIVATE_APPLE;
 import static org.lwjgl.opengl.APPLETextureRange.GL_STORAGE_SHARED_APPLE;
 import static org.lwjgl.opengl.APPLETextureRange.GL_TEXTURE_STORAGE_HINT_APPLE;
 import static org.lwjgl.opengl.APPLETextureRange.glTextureRangeAPPLE;
+import static org.lwjgl.opengl.ARBTextureFloat.GL_LUMINANCE32F_ARB;
 import static org.lwjgl.opengl.GL11.GL_CLAMP;
 import static org.lwjgl.opengl.GL11.GL_INTENSITY;
 import static org.lwjgl.opengl.GL11.GL_LINEAR;
@@ -50,7 +51,6 @@ import static org.lwjgl.opengl.GL12.GL_UNSIGNED_INT_8_8_8_8;
 import static org.lwjgl.opengl.GL12.GL_UNSIGNED_INT_8_8_8_8_REV;
 import static org.lwjgl.opengl.GL12.glTexImage3D;
 import static org.lwjgl.opengl.GL14.GL_GENERATE_MIPMAP;
-import static org.lwjgl.opengl.GL30.GL_R32F;
 import static org.lwjgl.opengl.GL30.GL_RGBA32F;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 import static org.lwjgl.opengl.GL31.GL_TEXTURE_RECTANGLE;
@@ -65,14 +65,21 @@ import java.util.LinkedHashMap;
 import org.lwjgl.opengl.APPLEYcbcr422;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+import org.lwjgl.opengl.GL15;
+import org.lwjgl.opengl.GL21;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.OpenGLException;
 
+import field.bytecode.protect.dispatch.Cont;
+import field.bytecode.protect.dispatch.Cont.ReturnCode;
+import field.bytecode.protect.dispatch.Cont.aRun;
 import field.core.Platform;
 import field.core.Platform.OS;
 import field.graphics.core.Base.StandardPass;
 import field.graphics.core.Base.iPass;
+import field.graphics.qt.ByteImage;
 import field.graphics.qt.QTImage;
+import field.graphics.windowing.FullScreenCanvasSWT;
 import field.math.linalg.Vector4;
 import field.util.TaskQueue;
 
@@ -152,7 +159,8 @@ public class AdvancedTextures extends BasicTextures {
 				dirty = true;
 
 			if (dirty) {
-				;//System.out.println(" pixel buffer is <" + pixelBuffer + ">");
+				;// System.out.println(" pixel buffer is <" +
+					// pixelBuffer + ">");
 				pixelBuffer.rewind();
 				glTexSubImage2D(textureTarget, 0, 0, 0, width, height, GL_LUMINANCE, GL_UNSIGNED_BYTE, pixelBuffer);
 			}
@@ -245,7 +253,8 @@ public class AdvancedTextures extends BasicTextures {
 				textureId = BasicContextManager.getId(this);
 				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
 			}
-			// ;//System.out.println(" binding texture <" + textureId +
+			// ;//System.out.println(" binding texture <" +
+			// textureId +
 			// "> <" + pixelBuffer + "> <" + in + ">");
 			assert (glGetError() == 0) : this.getClass().getName();
 			glBindTexture(this.textureTarget, textureId);
@@ -323,7 +332,7 @@ public class AdvancedTextures extends BasicTextures {
 		}
 
 		public void dirty() {
-			dirty ++;
+			dirty++;
 		}
 
 		public Base3ByteTexture allwaysDirty() {
@@ -348,9 +357,8 @@ public class AdvancedTextures extends BasicTextures {
 			}
 			glEnable(this.textureTarget);
 			glBindTexture(this.textureTarget, textureId);
-			
-			if (Platform.isMac())
-			{
+
+			if (Platform.isMac()) {
 				glTexParameteri(textureTarget, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
 
 				glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL11.GL_TRUE);
@@ -361,31 +369,38 @@ public class AdvancedTextures extends BasicTextures {
 
 			assert glGetError() == 0;
 
-//			if (allwaysDirty)
-//				dirty = true;
+			// if (allwaysDirty)
+			// dirty = true;
 
 			if (isDirty(BasicContextManager.getCurrentContext())) {
 				pixelBuffer.rewind();
 
-				if (this.doGenMip)
-				{
+				if (this.doGenMip) {
 
+					System.out.println(" !!");
 					glTexParameteri(this.textureTarget, GL_GENERATE_MIPMAP, 1);
 				}
+
+				long a = System.currentTimeMillis();
 				glTexSubImage2D(this.textureTarget, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixelBuffer);
+				long b = System.currentTimeMillis();
+				System.out.println(" texture upload took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+
 				// glTexSubImage2D(this.textureTarget, 0, 0,
 				// 0, width, height, GL_BGRA,
 				// GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
 			}
-			
+
 			modCounts.put(BasicContextManager.getCurrentContext(), dirty);
-			
+
 		}
 
 		private boolean isDirty(Object currentContext) {
 			Integer o = modCounts.get(currentContext);
-			if (o==null) return true;
-			if (o.intValue()!=dirty) return true;
+			if (o == null)
+				return true;
+			if (o.intValue() != dirty)
+				return true;
 			return false;
 		}
 
@@ -415,9 +430,241 @@ public class AdvancedTextures extends BasicTextures {
 			glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(this.textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(this.textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+			if (doGenMip) {
+
+				glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(this.textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(this.textureTarget, GL_GENERATE_MIPMAP, 1);
+			}
+
+			// not sure about this...
+			glTexImage2D(this.textureTarget, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, pixelBuffer);
+			assert (glGetError() == 0);
+
+			assert (glGetError() == 0);
+		}
+
+		void declareNow() {
+			glTextureRangeAPPLE(this.textureTarget, pixelBuffer);
+		}
+
+	}
+
+	static public class Base3ByteTexture_pbo extends BaseTexture {
+		protected ByteBuffer pixelBuffer;
+
+		TextureRange in;
+
+		int allocated = 0;
+
+		int width;
+
+		int height;
+
+		int textureId = 0;
+
+		int dirty = 0;
+		LinkedHashMap<Object, Integer> modCounts = new LinkedHashMap<Object, Integer>();
+
+		public Base3ByteTexture_pbo(ByteBuffer b, int width, int height) {
+			super("");
+			this.pixelBuffer = b;
+			this.width = width;
+			this.height = height;
+		}
+
+		public void dirty() {
+			dirty++;
+		}
+
+		public Base3ByteTexture_pbo allwaysDirty() {
+			allwaysDirty = true;
+			return this;
+		}
+
+		boolean allwaysDirty = false;
+
+		@Override
+		public void post() {
+			glDisable(this.textureTarget);
+		}
+
+		ByteBuffer old = null;
+
+		public void dirtyLater(final FullScreenCanvasSWT s, final ByteBuffer upload)
+		{
+			aRun r = new aRun() {
+				public ReturnCode head(Object calledOn, Object[] args) {
+					dirtyNow(upload);
+					Cont.unlinkWith(s, FullScreenCanvasSWT.method_display, this);
+					return ReturnCode.cont;
+				};
+			};
+			Cont.linkWith(s, FullScreenCanvasSWT.method_display, r);
+		}
+		
+		public void dirtyLaterSideways(final FullScreenCanvasSWT s, final ByteBuffer upload)
+		{
+			aRun r = new aRun() {
+				public ReturnCode head(Object calledOn, Object[] args) {
+					dirtyNowSideways(upload);
+					Cont.unlinkWith(s, FullScreenCanvasSWT.method_display, this);
+					return ReturnCode.cont;
+				};
+			};
+			Cont.linkWith(s, FullScreenCanvasSWT.method_display, r);
+		}
+
+		public void dirtyNow(ByteBuffer upload) {
+
+			long a = System.currentTimeMillis();
+			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
+			GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
+			old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
+			old.rewind();
+			upload.rewind();
+			old.put(upload);
+			upload.rewind();
+			old.rewind();
+			GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
+			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+			dirty();
+			long b = System.currentTimeMillis();
+			System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+
+			pbo = pboA;
+		}
+
+		public void dirtyNowSideways(ByteBuffer upload) {
+
+			long a = System.currentTimeMillis();
+			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
+			GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
+			old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
 			
-			if (doGenMip)
+			int w = this.width;
+			int h = this.height;
+			
+			old.rewind();
+			upload.rewind();
+			
+			System.out.println(" reloaded !?!");
+			
+			for(int q=0;q<w*h;q++)
 			{
+				old.put((byte)255);
+				old.put((byte)128);
+				old.put((byte)200);
+			}
+			old.rewind();
+			
+			
+			for(int y=0;y<w;y++)
+			{
+				for(int x=0;x<h;x++)
+				{
+					byte q0 = upload.get();
+					old.put((h-1-x)*w*3+y*3+0, (byte)(q0*0));
+					byte q1 = upload.get();
+					old.put((h-1-x)*w*3+y*3+1, (byte)(q1));
+					byte q2 = upload.get();
+					old.put((h-1-x)*w*3+y*3+2, (byte)(q2));
+				}
+			}
+			
+			
+			//old.put(upload);
+			upload.rewind();
+			old.rewind();
+			
+			GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
+			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+			dirty();
+			long b = System.currentTimeMillis();
+			System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+
+			pbo = pboA;
+		}
+
+		@Override
+		public void pre() {
+
+			int textureId = BasicContextManager.getId(this);
+			if (textureId == BasicContextManager.ID_NOT_FOUND) {
+				setup();
+				textureId = BasicContextManager.getId(this);
+				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
+			}
+
+			glEnable(this.textureTarget);
+			glBindTexture(this.textureTarget, textureId);
+			if (in != null)
+				in.declareNow(gl);
+
+			assert glGetError() == 0;
+
+			if (isDirty(BasicContextManager.getCurrentContext())) {
+				long a = System.currentTimeMillis();
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pbo);
+				glTexSubImage2D(this.textureTarget, 0, 0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, 0);
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+				long b = System.currentTimeMillis();
+
+				int q = pboA;
+				pboA = pboB;
+				pboB = q;
+
+				System.out.println(" texture upload A took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+			}
+
+			modCounts.put(BasicContextManager.getCurrentContext(), dirty);
+		}
+
+		private boolean isDirty(Object currentContext) {
+			Integer o = modCounts.get(currentContext);
+			if (o == null)
+				return true;
+			if (o.intValue() != dirty)
+				return true;
+			return false;
+		}
+
+		public void setGL(Object gl) {
+			this.gl = gl;
+		}
+
+		public Base3ByteTexture_pbo setTextureRange(TextureRange in) {
+			this.in = in;
+			return this;
+		}
+
+		int pboA = -1;
+		int pboB = -1;
+		int pbo = -1;
+
+		@Override
+		public void setup() {
+			int[] textures = new int[1];
+			textures[0] = glGenTextures();
+			textureId = textures[0];
+			BasicContextManager.putId(this, textureId);
+			glBindTexture(this.textureTarget, textureId);
+
+			pboA = GL15.glGenBuffers();
+			pboB = GL15.glGenBuffers();
+			pbo = pboA;
+
+			if (in != null)
+				in.declareNow(gl);
+
+			glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(this.textureTarget, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexParameteri(this.textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(this.textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+			if (doGenMip) {
 
 				glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glTexParameteri(this.textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -510,9 +757,6 @@ public class AdvancedTextures extends BasicTextures {
 
 			if (dirty) {
 				glTexSubImage2D(this.textureTarget, 0, 0, 0, width, height, GL_RGBA, GL11.GL_FLOAT, pixelBuffer);
-				// glTexSubImage2D(this.textureTarget, 0, 0,
-				// 0, width, height, GL_BGRA,
-				// GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
 			}
 			dirty = false;
 		}
@@ -527,13 +771,6 @@ public class AdvancedTextures extends BasicTextures {
 			if (in != null)
 				in.declareNow(gl);
 
-			// glTexParameteri(GL_TEXTURE_RECTANGLE,
-			// GL_TEXTURE_STORAGE_HINT_APPLE,
-			// GL_STORAGE_SHARED_APPLE);
-			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE,
-			// 1);
-			// glTexParameteri(this.textureTarget,
-			// GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			glTexParameteri(this.textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -542,9 +779,6 @@ public class AdvancedTextures extends BasicTextures {
 			glTexImage2D(this.textureTarget, 0, GL_RGBA32F, width, height, 0, GL_RGBA, GL11.GL_FLOAT, pixelBuffer);
 			glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
-			// glTexImage2D(this.textureTarget, 0, GL_RGBA,
-			// width, height, 0, GL_BGRA,
-			// GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
 			assert (glGetError() == 0);
 		}
 
@@ -627,7 +861,8 @@ public class AdvancedTextures extends BasicTextures {
 		public void post() {
 			glBindTexture(textureTarget, 0);
 			try {
-				if (!CoreHelpers.isCore) glDisable(textureTarget);
+				if (!CoreHelpers.isCore)
+					glDisable(textureTarget);
 			} catch (OpenGLException e) {
 				e.printStackTrace();
 			}
@@ -637,12 +872,15 @@ public class AdvancedTextures extends BasicTextures {
 		public void pre() {
 			glBindTexture(textureTarget, textureId);
 
-//			;//System.out.println(" -- binding to <" + textureId + "> <" + textureTarget + ">"+(GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE)-GL13.GL_TEXTURE0));
+			// ;//System.out.println(" -- binding to <" + textureId
+			// + "> <" + textureTarget +
+			// ">"+(GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE)-GL13.GL_TEXTURE0));
 
 			try {
 
-//				BasicGLSLangProgram.currentProgram.debugPrintUniforms();
-				if (!CoreHelpers.isCore) glEnable(textureTarget);
+				// BasicGLSLangProgram.currentProgram.debugPrintUniforms();
+				if (!CoreHelpers.isCore)
+					glEnable(textureTarget);
 				if (in != null)
 					in.declareNow(gl);
 
@@ -652,19 +890,16 @@ public class AdvancedTextures extends BasicTextures {
 				if (dirty)
 					glTexSubImage2D(textureTarget, 0, 0, 0, width, height, GL12.GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, from);
 
-				
 				if (textureTarget == GL_TEXTURE_2D) {
 					// glTexParameterf(GL_TEXTURE_2D,
 					// GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
-					if (!CoreHelpers.isCore)
-					{
+					if (!CoreHelpers.isCore) {
 						glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, 1);
 						glGenerateMipmap(GL_TEXTURE_2D);
-					}
-					else
+					} else
 						GL30.glGenerateMipmap(textureTarget);
 				}
-				
+
 				// if (dirty)
 				// glTexSubImage2D(textureTarget, 0, 0,
 				// 0, width, height, GL_RGBA,
@@ -695,12 +930,10 @@ public class AdvancedTextures extends BasicTextures {
 				if (Platform.getOS() == OS.mac)
 					glTexParameteri(textureTarget, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
 
-
 				glTexParameteri(textureTarget, GL_TEXTURE_MIN_FILTER, textureTarget == GL_TEXTURE_2D ? GL_LINEAR_MIPMAP_LINEAR : GL_NEAREST);
 				int best = Platform.getOS() == OS.mac ? GL_LINEAR : GL_LINEAR;
 
 				glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, textureTarget == GL_TEXTURE_2D ? best : GL_NEAREST);
-
 
 				glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 				glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -708,16 +941,14 @@ public class AdvancedTextures extends BasicTextures {
 				glTexImage2D(textureTarget, 0, GL_RGBA, width, height, 0, GL12.GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, from);
 
 				if (textureTarget == GL_TEXTURE_2D) {
-//					GL11.glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
-					if (!CoreHelpers.isCore)
-					{
+					// GL11.glTexParameterf(GL_TEXTURE_2D,
+					// GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
+					if (!CoreHelpers.isCore) {
 						glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, 1);
-//						glGenerateMipmap(GL_TEXTURE_2D);
-					}
-					else
+						// glGenerateMipmap(GL_TEXTURE_2D);
+					} else
 						GL30.glGenerateMipmap(textureTarget);
 				}
-
 
 				glBindTexture(textureTarget, 0);
 			} catch (OpenGLException e) {
@@ -774,8 +1005,7 @@ public class AdvancedTextures extends BasicTextures {
 		public void pre() {
 			glBindTexture(GL_TEXTURE_2D, textureId);
 			glEnable(GL_TEXTURE_2D);
-			if (genMipsNext)
-			{
+			if (genMipsNext) {
 				genMipsNext = false;
 				glTexParameteri(this.textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 				glTexParameteri(this.textureTarget, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -785,7 +1015,7 @@ public class AdvancedTextures extends BasicTextures {
 		}
 
 		public boolean genMipsNext = false;
-		
+
 		@Override
 		public void setup() {
 			int[] textures = new int[1];
@@ -811,7 +1041,8 @@ public class AdvancedTextures extends BasicTextures {
 
 		public int getTextureID() {
 
-			;//System.out.println(" returning texture id <" + textureId + ">");
+			;// System.out.println(" returning texture id <" +
+				// textureId + ">");
 			return textureId;
 		}
 	}
@@ -922,7 +1153,7 @@ public class AdvancedTextures extends BasicTextures {
 
 			int[] textures = new int[1];
 
-			;//System.out.println(" setting up ");
+			;// System.out.println(" setting up ");
 
 			textures[0] = glGenTextures();
 			textureId = textures[0];
@@ -1125,7 +1356,8 @@ public class AdvancedTextures extends BasicTextures {
 
 		@Override
 		protected void post() {
-			if (!CoreHelpers.isCore) glDisable(textureTarget);
+			if (!CoreHelpers.isCore)
+				glDisable(textureTarget);
 		}
 
 		@Override
@@ -1137,11 +1369,11 @@ public class AdvancedTextures extends BasicTextures {
 				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
 			}
 			assert (glGetError() == 0) : this.getClass().getName();
-			
-			
+
 			glBindTexture(textureTarget, textureId);
 			assert (glGetError() == 0) : this.getClass().getName() + " " + BasicContextManager.getCurrentContext();
-			if (!CoreHelpers.isCore) glEnable(textureTarget);
+			if (!CoreHelpers.isCore)
+				glEnable(textureTarget);
 			assert (glGetError() == 0) : this.getClass().getName();
 			if (in != null)
 				in.declareNow(gl);
@@ -1179,12 +1411,13 @@ public class AdvancedTextures extends BasicTextures {
 			glTexParameteri(textureTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(textureTarget, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-			glTexImage2D(textureTarget, 0, GL_R32F, width, height, 0, GL11.GL_RED, GL11.GL_FLOAT, pixelBuffer);
+			glTexImage2D(textureTarget, 0, GL_LUMINANCE32F_ARB, width, height, 0, GL11.GL_LUMINANCE, GL11.GL_FLOAT, pixelBuffer);
 			glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
 			// glTexImage2D(GL_TEXTURE_RECTANGLE, 0,
 			// GL_RGBA, width, height, 0, GL_BGRA,
 			// GL_UNSIGNED_INT_8_8_8_8_REV, pixelBuffer);
+			System.out.println(" error for texture r32f " + glGetError());
 			assert (glGetError() == 0);
 		}
 
@@ -1729,23 +1962,22 @@ public class AdvancedTextures extends BasicTextures {
 	static public class Stack3dTexture extends BasicUtilities.TwoPassElement {
 		private final int width;
 
-		private final QTImage[] images;
+		private final ByteImage[] images;
 
 		private final ByteBuffer buffer;
 
 		int[] tex = { -1 };
 
-		public Stack3dTexture(int width, String[] filename) {
+		private int height;
+
+		public Stack3dTexture(int width, int height, String[] filename) {
 			super("", StandardPass.preRender, StandardPass.postRender);
 			this.width = width;
-			images = new QTImage[filename.length];
+			this.height = height;
+			images = new ByteImage[filename.length];
 			buffer = ByteBuffer.allocateDirect(width * width * filename.length * 4);
 			for (int i = 0; i < images.length; i++) {
-				images[i] = new QTImage();
-				images[i].loadTexture(filename[i]);
-
-				assert width == images[i].pixelsWide() && width == images[i].pixelsHigh() : width + " " + images[i].pixelsWide() + " " + images[i].pixelsHigh();
-
+				images[i] = new ByteImage(filename[i]);
 				buffer.put(images[i].getImage());
 			}
 			buffer.rewind();
@@ -1772,9 +2004,11 @@ public class AdvancedTextures extends BasicTextures {
 			assert (glGetError() == 0) : this.getClass().getName();
 
 			glBindTexture(GL_TEXTURE_3D, tex[0]);
-			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, width, width, images.length, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, buffer);
+			glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, width, height, images.length, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, buffer);
 			assert (glGetError() == 0) : this.getClass().getName();
-			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+			// glTexParameteri(GL_TEXTURE_3D,
+			// GL_TEXTURE_STORAGE_HINT_APPLE,
+			// GL_STORAGE_CACHED_APPLE);
 			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_REPEAT);
@@ -1796,30 +2030,27 @@ public class AdvancedTextures extends BasicTextures {
 
 		public FloatCube(Vector4[][][] data) {
 			super("", StandardPass.preRender, StandardPass.postRender);
-			
+
 			width = data.length;
 
-			buffer = ByteBuffer.allocateDirect(4*4*width*width*width);
+			buffer = ByteBuffer.allocateDirect(4 * 4 * width * width * width);
 			buffer.order(ByteOrder.nativeOrder());
 			update(data);
-			
+
 		}
 
 		private void update(Vector4[][][] data) {
 			FloatBuffer f = buffer.asFloatBuffer();
-			for(int z=0;z<width;z++)
-			{
-				for(int y=0;y<width;y++)
-				{
-					for(int x=0;x<width;x++)
-					{
+			for (int z = 0; z < width; z++) {
+				for (int y = 0; y < width; y++) {
+					for (int x = 0; x < width; x++) {
 						f.put(data[x][y][z].x);
 						f.put(data[x][y][z].y);
 						f.put(data[x][y][z].z);
 						f.put(data[x][y][z].w);
 					}
 				}
-				
+
 			}
 		}
 
@@ -1858,8 +2089,6 @@ public class AdvancedTextures extends BasicTextures {
 		}
 
 	}
-
-	
 
 	// VERTEX_PROGRAM_POINT_SIZE_ARB
 

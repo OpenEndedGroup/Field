@@ -20,6 +20,9 @@ public class DynamicMesh_tessSupport {
 
 			@Override
 			protected void nextFace(int a, int b, int c) {
+				
+//				System.out.println(" _tessSupport <"+a+" "+b+" "+c+">");
+				
 				into.nextFace(a, b, c);
 			}
 

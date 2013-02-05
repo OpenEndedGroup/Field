@@ -2,6 +2,7 @@ package field.graphics.qt;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.PixelGrabber;
+import java.awt.image.Raster;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,18 +30,18 @@ public class ByteImage {
 		if (byteBuffer != null)
 			return (ByteBuffer) byteBuffer.duplicate().rewind();
 
-		if (filename.indexOf(":") == -1) {
-			if (!new File(filename).exists()) {
-				System.err.println(" file <" + filename + "> does not exist");
-				return null;
-			}
-			filename = filename.replaceAll(" ", "%20");
-			filename = "file://" + filename;
-		}
+//		if (filename.indexOf(":") == -1) {
+//			if (!new File(filename).exists()) {
+//				System.err.println(" file <" + filename + "> does not exist");
+//				return null;
+//			}
+//			filename = filename.replaceAll(" ", "%20");
+//			filename = "file://" + filename;
+//		}
 
 		System.out.println(" reading :" + filename);
 		try {
-			BufferedImage read = ImageIO.read(new URL(filename));
+			BufferedImage read = ImageIO.read(new File(filename));
 			System.out.println(" read :" + filename);
 			int w = read.getWidth();
 			int h = read.getHeight();

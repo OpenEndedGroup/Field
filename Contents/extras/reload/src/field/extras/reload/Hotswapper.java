@@ -51,6 +51,17 @@ public class Hotswapper {
 			}
 		}
 		System.out.println(" SWAP SINGLE CLASS EXIT ");
+		
+		for(Class c : cc)
+		{
+			System.out.println(" has outer class ? :"+c.getEnclosingClass());
+			if (c.getEnclosingClass()!=null)
+			{
+				System.out.println(" recursive swap :"+c.getEnclosingClass());
+				swapClass(c.getEnclosingClass());
+			}
+		}
+		
 		return true;
 		// }
 		// }.start();

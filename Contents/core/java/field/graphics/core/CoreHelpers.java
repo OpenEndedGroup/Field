@@ -66,9 +66,22 @@ public class CoreHelpers {
 	static public GLMatrix texture3 = new GLMatrix();
 	static public GLMatrix texture4 = new GLMatrix();
 	static public GLMatrix texture5 = new GLMatrix();
+
+	static public GLMatrix _modelView0 = new GLMatrix();
+	static public GLMatrix _projection0 = new GLMatrix();
+
+	static public GLMatrix _modelView1 = new GLMatrix();
+	static public GLMatrix _projection1 = new GLMatrix();
+
+
 	static public GLMatrix texture = texture0;
 
 	static int mode;
+
+	static public final int MODELVIEW_0 = 1;
+	static public final int PROJECTION_0 = 2;
+	static public final int MODELVIEW_1 = 3;
+	static public final int PROJECTION_1 = 4;
 
 	static public class Attrib {
 		GLMatrix modelview = new GLMatrix(CoreHelpers.modelview);
@@ -79,6 +92,13 @@ public class CoreHelpers {
 		GLMatrix texture3 = new GLMatrix(CoreHelpers.texture3);
 		GLMatrix texture4 = new GLMatrix(CoreHelpers.texture4);
 		GLMatrix texture5 = new GLMatrix(CoreHelpers.texture5);
+
+		GLMatrix modelview0 = new GLMatrix(CoreHelpers._modelView0);
+		GLMatrix modelview1 = new GLMatrix(CoreHelpers._modelView1);
+		GLMatrix projection0 = new GLMatrix(CoreHelpers._projection0);
+		GLMatrix projection1 = new GLMatrix(CoreHelpers._projection1);
+
+		
 		GLMatrix texture = CoreHelpers.texture;
 		int mode = CoreHelpers.mode;
 		int[] viewport = new int[4];
@@ -139,7 +159,7 @@ public class CoreHelpers {
 
 		switch (mode) {
 		case GL11.GL_PROJECTION:
-			loadIdentity(projection.head);			
+			loadIdentity(projection.head);
 			break;
 		case GL11.GL_TEXTURE:
 			loadIdentity(texture.head);
@@ -147,6 +167,21 @@ public class CoreHelpers {
 		case GL11.GL_MODELVIEW:
 			loadIdentity(modelview.head);
 			break;
+
+		case MODELVIEW_0:
+			loadIdentity(_modelView0.head);
+			break;
+		case PROJECTION_0:
+			loadIdentity(_projection0.head);
+			break;
+
+		case MODELVIEW_1:
+			loadIdentity(_modelView1.head);
+			break;
+		case PROJECTION_1:
+			loadIdentity(_projection1.head);
+			break;
+
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -164,7 +199,7 @@ public class CoreHelpers {
 	static public void glOrtho(double left, double right, double bottom, double top, double zNear, double zFar) {
 		// ;//System.out.println(" ortho :" + left + " " + right + " " +
 		// bottom + " " + top + " " + zNear + " " + zFar);
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glOrtho(left, right, bottom, top, zNear, zFar);
 
 		float tx = (float) (-(right + left) / (right - left));
@@ -195,6 +230,21 @@ public class CoreHelpers {
 		case GL11.GL_TEXTURE:
 			System.arraycopy(glMultiply(texture.head, m), 0, texture.head, 0, 16);
 			break;
+
+		case MODELVIEW_1:
+			System.arraycopy(glMultiply(_modelView1.head, m), 0, _modelView1.head, 0, 16);
+			break;
+		case PROJECTION_1:
+			System.arraycopy(glMultiply(_projection1.head, m), 0, _projection1.head, 0, 16);
+			break;
+
+		case MODELVIEW_0:
+			System.arraycopy(glMultiply(_modelView0.head, m), 0, _modelView0.head, 0, 16);
+			break;
+		case PROJECTION_0:
+			System.arraycopy(glMultiply(_projection0.head, m), 0, _projection0.head, 0, 16);
+			break;
+
 		default:
 			throw new IllegalArgumentException();
 		}
@@ -253,7 +303,7 @@ public class CoreHelpers {
 	}
 
 	public static void glBindVertexArrayAPPLE(int i) {
-		if (!isCore  || isCoreCompat) {
+		if (!isCore || isCoreCompat) {
 			if (field.core.Platform.getOS() == OS.mac)
 				APPLEVertexArrayObject.glBindVertexArrayAPPLE(i);
 			else
@@ -265,7 +315,7 @@ public class CoreHelpers {
 	}
 
 	public static int glGenVertexArraysApple() {
-		if (!isCore  || isCoreCompat) {
+		if (!isCore || isCoreCompat) {
 			if (field.core.Platform.getOS() == OS.mac)
 				return glGenVertexArraysAPPLE();
 			else
@@ -278,7 +328,7 @@ public class CoreHelpers {
 
 	public static void glPushMatrix() {
 
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glPushMatrix();
 
 		switch (mode) {
@@ -303,13 +353,41 @@ public class CoreHelpers {
 			texture.stack.add(c);
 		}
 			break;
+		case MODELVIEW_0: {
+			float[] c = new float[16];
+			System.arraycopy(_modelView0.head, 0, c, 0, 16);
+			_modelView0.head = c;
+			_modelView0.stack.add(c);
+		}
+			break;
+		case PROJECTION_0: {
+			float[] c = new float[16];
+			System.arraycopy(_projection0.head, 0, c, 0, 16);
+			_projection0.head = c;
+			_projection0.stack.add(c);
+		}
+			break;
+		case MODELVIEW_1: {
+			float[] c = new float[16];
+			System.arraycopy(_modelView1.head, 0, c, 0, 16);
+			_modelView1.head = c;
+			_modelView1.stack.add(c);
+		}
+			break;
+		case PROJECTION_1: {
+			float[] c = new float[16];
+			System.arraycopy(_projection1.head, 0, c, 0, 16);
+			_projection1.head = c;
+			_projection1.stack.add(c);
+		}
+			break;
 		}
 	}
 
 	static float[] tmp = new float[16];
 
 	public static void glMultMatrix(FloatBuffer matrixm) {
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glMultMatrix(matrixm);
 
 		matrixm.rewind();
@@ -322,7 +400,7 @@ public class CoreHelpers {
 	}
 
 	public static void glPopMatrix() {
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glPopMatrix();
 
 		switch (mode) {
@@ -338,6 +416,23 @@ public class CoreHelpers {
 			texture.stack.remove(texture.stack.size() - 1);
 			texture.head = texture.stack.get(texture.stack.size() - 1);
 			break;
+
+		case MODELVIEW_0:
+			_modelView0.stack.remove(_modelView0.stack.size() - 1);
+			_modelView0.head = _modelView0.stack.get(_modelView0.stack.size() - 1);
+			break;
+		case PROJECTION_0:
+			_projection0.stack.remove(_projection0.stack.size() - 1);
+			_projection0.head = _projection0.stack.get(_projection0.stack.size() - 1);
+			break;
+		case MODELVIEW_1:
+			_modelView1.stack.remove(_modelView1.stack.size() - 1);
+			_modelView1.head = _modelView1.stack.get(_modelView1.stack.size() - 1);
+			break;
+		case PROJECTION_1:
+			_projection1.stack.remove(_projection1.stack.size() - 1);
+			_projection1.head = _projection1.stack.get(_projection1.stack.size() - 1);
+			break;
 		}
 		// ;//System.out.println(" -------- pop"+projection.stack.size()+" "+modelview.stack.size()+" "+texture.stack.size());
 
@@ -349,46 +444,91 @@ public class CoreHelpers {
 		UniformCache u = BasicGLSLangProgram.currentProgram.getUniformCache();
 		{
 			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_viewMatrix");
-
-			// ;//System.out.println(" finding model view matrix, got :"
-			// + vm);
-
 			if (vm != -1) {
 				// hack, no caching
 				tq.rewind();
 				tq.put(modelview.head);
 				tq.rewind();
-				// ;//System.out.println(" -- updating model view matrix -- ");
-				//
-				// for (int j = 0; j < 4; j++) {
-				// for (int i = 0; i < 4; i++) {
-				// System.out.print(tq.get() + " ");
-				// }
-				// ;//System.out.println();
-				// }
-				// tq.rewind();
 
 				GL20.glUniformMatrix4(vm, true, tq);
 			}
 		}
 		{
 			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_projMatrix");
-			// ;//System.out.println(" finding projection matrix, got :"
-			// + vm);
 			if (vm != -1) {
 				// hack, no caching
 				tq.rewind();
 				tq.put(projection.head);
 				tq.rewind();
-				// ;//System.out.println(" -- updating projeciton matrix -- ");
-				//
-				// for (int j = 0; j < 4; j++) {
-				// for (int i = 0; i < 4; i++) {
-				// System.out.print(tq.get() + " ");
-				// }
-				// ;//System.out.println();
-				// }
-				// tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_viewMatrix0");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(_modelView0.head);
+				tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_projMatrix0");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(_projection0.head);
+				tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+		
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_viewMatrix1");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(_modelView1.head);
+				tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_projMatrix1");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(_projection1.head);
+				tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_texture0");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(texture0.head);
+				tq.rewind();
+
+				GL20.glUniformMatrix4(vm, true, tq);
+			}
+		}
+		{
+			int vm = u.find(null, BasicGLSLangProgram.currentProgram.getShader(), "_texture1");
+			if (vm != -1) {
+				// hack, no caching
+				tq.rewind();
+				tq.put(texture1.head);
+				tq.rewind();
 
 				GL20.glUniformMatrix4(vm, true, tq);
 			}
@@ -396,7 +536,7 @@ public class CoreHelpers {
 	}
 
 	public static void glLineWidth(float f) {
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glLineWidth(f);
 		else {
 
@@ -404,8 +544,9 @@ public class CoreHelpers {
 	}
 
 	public static void glFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
-		if (!isCore  || isCoreCompat)
+		if (!isCore || isCoreCompat)
 			GL11.glFrustum(left, right, bottom, top, zNear, zFar);
+
 		float A = (right + left) / (right - left);
 		float B = (top + bottom) / (top - bottom);
 		float C = -(zFar + zNear) / (zFar - zNear);
@@ -423,40 +564,68 @@ public class CoreHelpers {
 
 		glMultiply(m);
 	}
-
+    
+	// from http://and-what-happened.blogspot.co.uk/
+	public static void glFrustum_advanced(float pull, float near, float far, float w, float h, Vector3 vCenter, Vector3 eye, float s) {
+        
+		CoreHelpers.glLoadIdentity();
+		float[] m = new float[16];
+		m[0] = 2/w;
+		m[1] = 0;
+		m[2] = (2*(eye.x-vCenter.x)+s)/(w*(vCenter.z-eye.z));
+		m[3] = (2*(vCenter.x*eye.z - eye.x*vCenter.x)-vCenter.z*s)/(w*(vCenter.z-eye.z));
+        
+		m[4] = 0;
+		m[5] = 2/h;
+		m[6] = (2*(eye.y-vCenter.y)+s)/(h*(vCenter.z-eye.z));
+		m[7] = (2*(vCenter.y*eye.z - eye.x*vCenter.y))/(h*(vCenter.z-eye.z));
+        
+		m[8] = 0;
+		m[9] = 0;
+		m[10] = (2*(vCenter.z*(1-pull)-eye.z)+pull*(far+near))/((far-near)*(vCenter.z-eye.z));
+		m[11] = -((vCenter.z*(1-pull)-eye.z)*(far+near)+2*far*near*pull)/((far-near)*(vCenter.z-eye.z));
+		
+		m[12] = 0;
+		m[13] = 0;
+		m[14] = pull/(vCenter.z-eye.z);
+		m[15] = (vCenter.z*(1-pull)-eye.z)/(vCenter.z-eye.z);
+        
+		glMultiply(m);
+	}
+    
 	public static void gluLookAt(float eyex, float eyey, float eyez, float centerx, float centery, float centerz, float upx, float upy, float upz) {
-
+        
 		if (!isCore  || isCoreCompat)
 			GLU.gluLookAt(eyex, eyey, eyez, centerx, centery, centerz, upx, upy, upz);
-
+        
 		Vector3 forward = new Vector3(centerx - eyex, centery - eyey, centerz - eyez);
 		Vector3 up = new Vector3(upx, upy, upz);
-
+        
 		forward.normalize();
-
+        
 		/* Side = forward x up */
 		Vector3 side = new Vector3().cross(forward, up);
 		side.normalize();
-
+        
 		/* Recompute up as: up = side x forward */
 		up.cross(side, forward);
-
+        
 		float[] ret = new float[16];
-
+        
 		ret[0 * 4 + 0] = side.get(0);
 		ret[1 * 4 + 0] = side.get(1);
 		ret[2 * 4 + 0] = side.get(2);
-
+        
 		ret[0 * 4 + 1] = up.get(0);
 		ret[1 * 4 + 1] = up.get(1);
 		ret[2 * 4 + 1] = up.get(2);
-
+        
 		ret[0 * 4 + 2] = -forward.get(0);
 		ret[1 * 4 + 2] = -forward.get(1);
 		ret[2 * 4 + 2] = -forward.get(2);
-
+        
 		ret[3 * 4 + 3] = 1;
-
+        
 		Matrix4 m = new Matrix4(ret);
 		try {
 			m.invert();
@@ -464,53 +633,53 @@ public class CoreHelpers {
 			ret[3 * 4 + 0] = -e.x;
 			ret[3 * 4 + 1] = -e.y;
 			ret[3 * 4 + 2] = -e.z;
-
+            
 			Matrix4 q = new Matrix4(ret);
 			q.transpose();
 			q.get(ret);
-
+            
 			glMultiply(ret);
 		} catch (SingularMatrixException e) {
 			e.printStackTrace();
 			System.err.println(" WARNING: gluLookat didn't apply");
 		}
 	}
-
+    
 	static Set<Integer> noLongerEnabled = new LinkedHashSet<Integer>();
 	static {
 		noLongerEnabled.add(GL11.GL_TEXTURE_1D);
 		noLongerEnabled.add(GL11.GL_TEXTURE_2D);
 		noLongerEnabled.add(GL31.GL_TEXTURE_RECTANGLE);
 	}
-
+    
 	public static void glEnable(int i) {
 		if (isCore && noLongerEnabled.contains(i))
 			return;
 		else
 			GL11.glEnable(i);
 	}
-
+    
 	public static void glDisable(int i) {
 		if (isCore && noLongerEnabled.contains(i))
 			return;
 		else
 			GL11.glDisable(i);
 	}
-
+    
 	public static void glTranslated(double x, double y, double z) {
 		glMultiply(new float[] { 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, (float) x, (float) y, (float) z, 1 });
 	}
-
+    
 	static List<Attrib> attrib = new LinkedList<Attrib>();
-
+    
 	public static void glPushAttrib(int glAllAttribBits) {
 		attrib.add(new Attrib());
 	}
-
+    
 	public static void glPopAttrib() {
 		attrib.remove(attrib.size() - 1).pop();
 	}
-
+    
 	public static void backOutStacks() {
 		while (modelview.stack.size() > 1) {
 			CoreHelpers.glMatrixMode(GL11.GL_MODELVIEW);
@@ -521,31 +690,38 @@ public class CoreHelpers {
 			CoreHelpers.glPopMatrix();
 		}
 		while (texture0.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE0);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE0);
 			CoreHelpers.glPopMatrix();
 		}
 		while (texture1.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE1);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE1);
 			CoreHelpers.glPopMatrix();
 		}
 		while (texture2.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE2);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE2);
 			CoreHelpers.glPopMatrix();
 		}
-
+        
 		while (texture3.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE3);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE3);
 			CoreHelpers.glPopMatrix();
 		}
 		while (texture4.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE4);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE4);
 			CoreHelpers.glPopMatrix();
 		}
 		while (texture5.stack.size() > 1) {
-			CoreHelpers.glMatrixMode(GL13.GL_TEXTURE5);
+			CoreHelpers.glMatrixMode(GL11.GL_TEXTURE);
+			CoreHelpers.glActiveTexture(GL13.GL_TEXTURE5);
 			CoreHelpers.glPopMatrix();
 		}
-
+        
 	}
-
+    
 }
+

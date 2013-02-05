@@ -1054,8 +1054,20 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 		} else if (tick) {
 
 			if ((event.stateMask & Platform.getCommandModifier()) != 0 && event.type == SWT.KeyDown) {
-				String match = "" + Character.toLowerCase(event.character);
-
+				{
+					String match = "" + Character.toLowerCase(event.character);
+					String s = keyboardShortcut.get(newSource);
+					if (s != null) {
+						if (s.equals(match)) {
+							tick = false;
+							if ((event.stateMask & SWT.SHIFT) != 0)
+								endExecution(newSource);
+							else
+								beginExecution(newSource);
+						}
+					}
+				}
+				String match = "" + Character.toLowerCase((char)event.keyCode);
 				String s = keyboardShortcut.get(newSource);
 				if (s != null) {
 					if (s.equals(match)) {
@@ -1066,6 +1078,7 @@ public class StandardFluidSheet implements iVisualElementOverrides, iUpdateable,
 							beginExecution(newSource);
 					}
 				}
+
 			}
 		}
 
