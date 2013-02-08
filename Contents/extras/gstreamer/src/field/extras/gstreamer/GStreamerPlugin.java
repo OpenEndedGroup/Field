@@ -23,13 +23,13 @@ public class GStreamerPlugin extends BaseSimplePlugin {
 		if (field.core.Platform.isMac()) {
 			extensionsDir = SystemProperties.getDirProperty("gstreamer_dir");
 
-			System.setProperty("jna.library.path", extensionsDir + "/lib/macosx");
+			System.setProperty("jna.library.path", System.getProperty("jna.library.path")+File.pathSeparator+extensionsDir + "/lib/macosx");
 
 			System.out.println(" will load gstreamer from:" + new File(extensionsDir + "lib/macosx").getAbsolutePath());
 		} else {
 			extensionsDir = SystemProperties.getDirProperty("gstreamer_dir", "/usr/lib/gstreamer-0.10/");
 
-			System.setProperty("jna.library.path", extensionsDir);
+			System.setProperty("jna.library.path", System.getProperty("jna.library.path")+File.pathSeparator+extensionsDir);
 
 			System.out.println(" will load gstreamer from: " + new File(extensionsDir).getAbsolutePath());
 

@@ -174,7 +174,8 @@ public class Trampoline2 implements iLaunchable {
 		@Override
 		protected String findLibrary(String rawName) {
 
-//			System.out.println("####\n\n looking for <" + rawName + "> \n\n #############");
+			// System.out.println("####\n\n looking for <" + rawName
+			// + "> \n\n #############");
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 
@@ -527,7 +528,7 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-//					System.load(n.getAbsolutePath());
+					// System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -577,25 +578,25 @@ public class Trampoline2 implements iLaunchable {
 
 								if (!new File(fp).exists()) {
 									System.err.println(" warning, path <" + new File(fp).getAbsolutePath() + ">added to classpath through Field-RedirectionPath inside extension " + j + " doesn't exist");
+								} else {
+
+									URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
+
+									;// System.out.println(" adding url to main classloader <"
+										// +
+										// url
+										// +
+										// "> <"
+										// +
+										// new
+										// File(url.getPath()).exists()
+										// +
+										// ">");
+
+									loader.addURL(url);
+
+									extendedClassPaths.add(fp);
 								}
-                                else
-                                {
-                                
-								URL url = new URL("file://" + fp + (fp.endsWith(".jar") ? "" : "/"));
-
-								;// System.out.println(" adding url to main classloader <"
-									// + url
-									// +
-									// "> <"
-									// + new
-									// File(url.getPath()).exists()
-									// +
-									// ">");
-
-								loader.addURL(url);
-
-								extendedClassPaths.add(fp);
-                                }
 							}
 						}
 					} else {
@@ -633,6 +634,7 @@ public class Trampoline2 implements iLaunchable {
 
 			extendedClassPaths.add(dir.getAbsolutePath());
 
+			System.out.println(" extending library path by :"+dir.getAbsolutePath());
 			extendLibraryPath(dir.getAbsolutePath());
 
 			String[] ll = dir.list(new FilenameFilter() {
@@ -673,8 +675,8 @@ public class Trampoline2 implements iLaunchable {
 			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-//					System.out.println(" preemptive load of <" + n + ">");
-//					System.load(n.getAbsolutePath());
+					System.out.println(" preemptive load of <" + n + ">");
+					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -758,52 +760,46 @@ public class Trampoline2 implements iLaunchable {
 	static public List<String> extendedLibraryPaths = new ArrayList<String>();
 
 	private void extendLibraryPath(String s) {
-		;// System.out.println(" extending library path <" + s + ">");
 		extendedLibraryPaths.add(s);
+		System.setProperty("java.library.path", System.getProperty("java.library.path") + File.pathSeparator + s);
+		System.setProperty("jna.library.path", System.getProperty("jna.library.path") + File.pathSeparator + s);
 
+		System.out.println(" library paths now "+System.getProperty("java.library.path")+" and "+System.getProperty("jna.library.path"));
 		// This enables the java.library.path to be modified at runtime
 		// From a Sun engineer at
 		// http://forums.sun.com/thread.jspa?threadID=707176
-		//
-		// try {
-		// Field field =
-		// ClassLoader.class.getDeclaredField("usr_paths");
-		// field.setAccessible(true);
-		// String[] paths = (String[]) field.get(null);
-		// for (int i = 0; i < paths.length; i++) {
-		// if (s.equals(paths[i])) {
-		// return;
-		// }
-		// }
-		// String[] tmp = new String[paths.length + 1];
-		// System.arraycopy(paths, 0, tmp, 0, paths.length);
-		// tmp[paths.length] = s;
-		// field.set(null, tmp);
-		// System.setProperty("java.library.path",
-		// System.getProperty("java.library.path") + File.pathSeparator
-		// + s);
-		// } catch (IllegalAccessException e) {
-		// throw new
-		// IllegalArgumentException("Failed to get permissions to set library path");
-		// } catch (NoSuchFieldException e) {
-		// throw new
-		// IllegalArgumentException("Failed to get field handle to set library path");
-		// }
-		//
-		//
-		// File[] f = new File(s).listFiles();
-		// if (f!=null)
-		// {
-		// for(File ff : f)
-		// {
-		// if (ff.getName().endsWith(".dylib") |
-		// ff.getName().endsWith(".so"))
-		// {
-		// ;//System.out.println(" premptivly loading <"+ff+">");
-		// System.load(ff.getAbsolutePath());
-		// }
-		// }
-		// }
+
+		try {
+			Field field = ClassLoader.class.getDeclaredField("usr_paths");
+			field.setAccessible(true);
+			String[] paths = (String[]) field.get(null);
+			for (int i = 0; i < paths.length; i++) {
+				if (s.equals(paths[i])) {
+					return;
+				}
+			}
+			String[] tmp = new String[paths.length + 1];
+			System.arraycopy(paths, 0, tmp, 0, paths.length);
+			tmp[paths.length] = s;
+			field.set(null, tmp);
+		} catch (IllegalAccessException e) {
+			throw new IllegalArgumentException("Failed to get permissions to set library path");
+		} catch (NoSuchFieldException e) {
+			throw new IllegalArgumentException("Failed to get field handle to set library path");
+		}
+
+		File[] f = new File(s).listFiles();
+		if (f != null) {
+			for (File ff : f) {
+				if (ff.getName().endsWith(".dylib") | ff.getName().endsWith(".so")) {
+					System.out.println(" premptivly loading <"+ff+">");
+					try{
+						System.load(ff.getAbsolutePath());
+					}
+					catch(Throwable t){System.out.println(" didn't load, continuing");}
+				}
+			}
+		}
 
 	}
 
@@ -992,7 +988,7 @@ public class Trampoline2 implements iLaunchable {
 
 	private Set<Object> injectManifestProperties(Manifest manifest) {
 
-//		System.out.println(" inject manifest properties ");
+		// System.out.println(" inject manifest properties ");
 
 		Set<Object> ks = manifest.getMainAttributes().keySet();
 		for (Object o : ks) {
@@ -1010,7 +1006,9 @@ public class Trampoline2 implements iLaunchable {
 						pp = (pp == null ? pathify(manifest.getMainAttributes().getValue(an)) : (pp + ":" + pathify(manifest.getMainAttributes().getValue(an))));
 						SystemProperties.setProperty(prop, pp);
 
-//						System.out.println(" property <" + prop + "> now <" + pp + ">");
+						// System.out.println(" property <"
+						// + prop + "> now <" + pp +
+						// ">");
 
 					} else {
 						SystemProperties.setProperty(prop, manifest.getMainAttributes().getValue(an));

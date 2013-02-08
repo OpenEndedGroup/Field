@@ -1030,7 +1030,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		data.depthSize = 24;
 		// data.stencilSize = 8;
         
-		if (doMultisampling || Platform.isLinux()) {
+		if (doMultisampling) {
 			data.samples = 2;
 			// data.sampleBuffers = 2;
 		}
