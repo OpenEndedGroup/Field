@@ -172,6 +172,24 @@ public class MinimalColorWell extends JComponent implements iAcceptsInsertRender
 		if (Platform.isMac()) {
 			changeColorMac();
 		}
+		else 
+		{
+			org.eclipse.swt.widgets.ColorDialog d = new org.eclipse.swt.widgets.ColorDialog(CustomInsertDrawing.currentNub.canvas.getShell(), SWT.PRIMARY_MODAL);
+			d.setRGB(new RGB((int) (Math.max(0, Math.min(255, 255 * color.x))), (int) (Math.max(0, Math.min(255, 255 * color.y))), (int) (Math.max(0, Math.min(255, 255 * color.z)))));
+			d.open();
+			RGB rgb = d.getRGB();
+
+			color.x = rgb.red / 255f;
+			color.y = rgb.green / 255f;
+			color.z = rgb.blue / 255f;
+
+			setValue(color);
+
+			if (when == ExecutesWhen.always) {
+				needsExecuting = true;
+				repaint();
+			}			
+		}
 	}
 
 	protected void changeColorMac() {
