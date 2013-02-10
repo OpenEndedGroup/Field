@@ -104,8 +104,10 @@ public class SimpleConstraints implements iPlugin {
 		@Override
 		protected boolean doFire(iVisualElement root, Rect newRect, Rect oldRect, Rect currentRect) {
 			Rect oldParentFrame = from.get(root).getFrame(null);
+			float delta = (float) ((newRect.y+newRect.h)-(oldRect.y+oldRect.h));
 
-			Rect newFrame = new Rect(oldParentFrame.x, oldParentFrame.y + oldParentFrame.h + oy, oldParentFrame.w, currentRect.h);
+//			Rect newFrame = new Rect(oldParentFrame.x, oldParentFrame.y + oldParentFrame.h + oy, oldParentFrame.w, currentRect.h);
+			Rect newFrame = new Rect(oldParentFrame.x, currentRect.y+delta, oldParentFrame.w, currentRect.h);
 
 			if (newFrame.distanceFrom(currentRect) > 0) {
 				currentRect.setValue(newFrame);

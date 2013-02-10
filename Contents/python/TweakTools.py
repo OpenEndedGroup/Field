@@ -1001,10 +1001,10 @@ def makePDF(geometry = None, bounds = None, background = None, scale=1, filename
 	if (isinstance(bounds, PLine)):
 		bounds = bounds.bounds()
 
-	if (isinstance(bounds, FLine)):
+	if (isinstance(bounds, CachedLine)):
 		bounds = bounds.bounds2()
 
-
+	print bounds
 	pdfContext.paperWidth=bounds.w*scale
 	pdfContext.paperHeight=bounds.h*scale
 	

@@ -11,6 +11,7 @@ import java.awt.IllegalComponentStateException;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -20,6 +21,7 @@ import org.eclipse.swt.widgets.Event;
 import org.lwjgl.opengl.GL11;
 
 import field.core.Platform;
+import field.core.StandardFluidSheet;
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.Rect;
 import field.core.dispatch.iVisualElementOverrides.Ref;
@@ -37,6 +39,7 @@ import field.graphics.dynamic.iDynamicMesh;
 import field.math.linalg.Vector4;
 import field.math.linalg.iCoordinateFrame;
 import field.namespace.generic.ReflectionTools;
+import field.util.CascadedResize;
 
 /**
  * a single (minimal) swing component rendered as a texture map
@@ -584,6 +587,12 @@ public abstract class SwingBridgeComponent extends PlainDraggableComponent {
 			dirty = true;
 			inside.requestRedisplay();
 		}
+		
+		List<iVisualElement> parents = StandardFluidSheet.allVisualElements(element.getChildren().get(0));
+		
+		System.out.println(" parents are <"+parents+">");
+		new CascadedResize(parents).cascadedResize(element, oldBounds, bounds, 10);
+		
 	}
 
 	protected void setAribitraryComponent(AribitraryComponent aribitraryComponent) {
