@@ -29,7 +29,7 @@
 	<classpathentry kind="lib" path="processing/lib/antlr.jar"/>
 	<classpathentry kind="lib" path="processing/lib/pde.jar"/>
 	<classpathentry kind="lib" path="/field/java-engine.jar"/>
-	<classpathentry kind="lib" path="/field/clojure-1.4.0.jar"/>
+	<classpathentry kind="lib" path="/field/clojure-1.5.1.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/max.jar"/>
 	<classpathentry kind="lib" path="gstreamer/lib/gstreamer-java.jar"/>
 	<classpathentry kind="lib" path="/field/jruby-complete-1.6.7.2.jar"/>
