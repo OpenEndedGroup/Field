@@ -29,8 +29,10 @@ public class PresentationMode {
 	PresentationParameters p = v.getProperty(present);
 	if (p == null)
 	    return false;
+
 	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
 	    return false;
+	
 	return p.hidden;
     }
 
@@ -142,7 +144,7 @@ public class PresentationMode {
 	if (p == null)
 	    return true;
 	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
-	    return false;
+	    return true;
 
 	return !p.notSelectable;
     }
