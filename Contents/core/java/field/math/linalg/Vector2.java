@@ -246,6 +246,21 @@ public class Vector2 implements java.io.Serializable, Cloneable, iToFloatArray, 
 			vDot = 1.0;
 		return ((float) (Math.acos(vDot)));
 	}
+	
+	/**
+	 * Returns the signed angle in radians between this vector and the vector
+	 * parameter; the return value is constrained to the range [-PI,PI].
+	 * 
+	 * @param b
+	 *                the other vector
+	 * @return the angle in radians in the range [-PI,PI] +ve is counter-clockwise from this to b
+	 */
+	public final float signedAngle(Vector2 b) {
+		float angle = angle(b);
+		if(this.x*b.y - this.y*b.x < 0)
+			    angle = -angle;
+		return angle;
+	}
 
 	public Vector2 blendRepresentation_newZero() {
 		return new Vector2();
