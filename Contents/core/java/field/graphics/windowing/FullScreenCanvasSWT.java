@@ -959,6 +959,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		return postQueue;
 	}
 
+		
 	/**
 	 * returns which stereo side we are building (or middle if we are not a
 	 * stereo canvas

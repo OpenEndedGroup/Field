@@ -494,9 +494,12 @@ public class PythonInterface implements ScriptingInterface {
 				else {
 					// last.printStackTrace(w);
 					StackTraceElement[] s = last.getStackTrace();
+					int nn = 0;
 					for (int i = 0; i < s.length; i++) {
 						w.println(" from java - " + s[i]);
 						if (!s[i].getClassName().startsWith("java."))
+							nn++;
+						if (nn>3)
 							break;
 					}
 				}

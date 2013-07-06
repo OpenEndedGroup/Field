@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.GlyphMetrics;
@@ -268,6 +270,8 @@ public class BaseTextEditor2 {
 			composite.setLayoutData(data);
 		}
 
+		composite.setBackground(ToolBarFolder.firstLineBackground);
+
 		hsplit = new SashForm(composite, SWT.HORIZONTAL);
 		hsplit.setSashWidth(0);
 		hsplit.setBackground(ToolBarFolder.sashBackground);
@@ -322,15 +326,11 @@ public class BaseTextEditor2 {
 		});
 
 		final Canvas c = new Canvas(toolbar, 0) {
-			@Override
-			public void drawBackground(GC gc, int x, int y, int width, int height) {
-				// super.drawBackground(gc, x, y, width,
-				// height);
-
-				;// System.out.println(" toolbar spacer is <" +
-					// this.getBounds()
-					// + ">");
-			}
+			// @Override
+			// public void drawBackground(GC gc, int x, int y, int
+			// width, int height) {
+			//
+			// }
 		};
 		c.setBackground(ToolBarFolder.background);
 		c.setLayoutData(new RowData(rulerCanvas.getSize().x, 1));
@@ -504,8 +504,8 @@ public class BaseTextEditor2 {
 						JComponent comp = ((Nub) data).getComponent();
 						if (comp instanceof iOutOfBandDrawing)
 							((iOutOfBandDrawing) comp).expandDamage(r);
-						
-//						((Nub)data).getControl()
+
+						// ((Nub)data).getControl()
 					}
 				}
 
@@ -529,6 +529,7 @@ public class BaseTextEditor2 {
 		int size = SystemProperties.getIntProperty("editorFontSize", (int) (Platform.isMac() ? (Launcher.display.getSystemFont().getFontData()[0].height * 1.25f) : (Launcher.display.getSystemFont().getFontData()[0].height)));
 		Font font = new Font(Launcher.display, field.core.Constants.defaultTextEditorFont, size, SWT.NORMAL);
 		ed.setTabs(SystemProperties.getIntProperty("editorTabSize", 8));
+		System.out.println(" font :" + font);
 		ed.setFont(font);
 		ed.setText("");
 		edOut.setText("");
@@ -591,7 +592,7 @@ public class BaseTextEditor2 {
 					System.out.println(" OPEN ");
 					bracketMatchOpen();
 					event.doit = true;
-				}else if ((event.character == '}') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+				} else if ((event.character == '}') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
 					System.out.println(" CLOSE ");
 					bracketMatchClose('{', '}');
 					event.doit = true;
@@ -599,7 +600,7 @@ public class BaseTextEditor2 {
 					System.out.println(" OPEN ");
 					bracketMatchOpen();
 					event.doit = true;
-				}else if ((event.character == ']') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
+				} else if ((event.character == ']') && (event.stateMask & Platform.getCommandModifier2()) == 0) {
 					System.out.println(" CLOSE ");
 					bracketMatchClose('[', ']');
 					event.doit = true;
@@ -659,7 +660,7 @@ public class BaseTextEditor2 {
 
 				if (!ed.isEnabled()) {
 					// e.gc.setAdvanced(true);
-					e.gc.setBackground(new Color(Launcher.display, 200, 200, 200));
+					e.gc.setBackground(ToolBarFolder.sashBackground);
 					Rectangle area = ed.getClientArea();
 					e.gc.fillRectangle(area);
 					e.gc.setForeground(Launcher.display.getSystemColor(SWT.COLOR_BLACK));
@@ -826,6 +827,8 @@ public class BaseTextEditor2 {
 
 					StyleRange s = new StyleRange(left + event.lineOffset, scanner.getEndOffset(), colors[token], ed.getBackground());
 
+					System.out.println(" background color for style range is <" + ed.getBackground() + "> is <" + s.font);
+
 					if (token == TokenTypes.embedded_control.ordinal()) {
 						doNotCache = true;
 
@@ -920,14 +923,14 @@ public class BaseTextEditor2 {
 
 	}
 
-		protected void bracketMatchClose(char op, char cl) {
+	protected void bracketMatchClose(char op, char cl) {
 		final StyledText ed = getInputEditor();
 		int here = ed.getCaretOffset() - 1;
 		if (here <= 0)
 			return;
 
 		int backTo = here;
-		
+
 		String t = ed.getText();
 		int q = 1;
 		while (here >= -1) {
@@ -944,7 +947,7 @@ public class BaseTextEditor2 {
 			here--;
 			backTo--;
 		}
-		
+
 		backTo = Math.max(0, backTo);
 		System.out.println(" match bracket :" + here);
 
@@ -971,25 +974,25 @@ public class BaseTextEditor2 {
 				@Override
 				public boolean drawRect(Rectangle r, GC g) {
 					System.out.println(" bracket :" + r);
-					r.width+=8;
+					r.width += 8;
 					g.setAlpha(128);
 					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_BLUE));
 					g.fillRectangle(r);
-					
+
 					deferredRedraw(ed);
-					
+
 					Point loc = ed.getLocationAtOffset(ed.getCaretOffset());
-					
+
 					Path pp = new Path(Launcher.getLauncher().display);
-					pp.moveTo(loc.x+4, loc.y-2);
-					pp.cubicTo(loc.x+4, Math.min(loc.y-8, r.y-8), r.x+r.width/2, Math.min(loc.y-8, r.y-8), r.x+r.width/2, r.y);
+					pp.moveTo(loc.x + 4, loc.y - 2);
+					pp.cubicTo(loc.x + 4, Math.min(loc.y - 8, r.y - 8), r.x + r.width / 2, Math.min(loc.y - 8, r.y - 8), r.x + r.width / 2, r.y);
 					g.drawPath(pp);
-					
+
 					return false;
 				}
 			});
 		} else {
-			final Position qq = StyledTextPositionSystem.get(ed).createPosition(backTo==0 ? ed.getCaretOffset()-1 : backTo);
+			final Position qq = StyledTextPositionSystem.get(ed).createPosition(backTo == 0 ? ed.getCaretOffset() - 1 : backTo);
 			final Position qq1 = StyledTextPositionSystem.get(ed).createPosition(ed.getCaretOffset());
 			addPositionAnnotation(new iPositionAnnotation() {
 
@@ -1011,11 +1014,11 @@ public class BaseTextEditor2 {
 				@Override
 				public boolean drawRect(Rectangle r, GC g) {
 					System.out.println(" bracket :" + r);
-					r.width+=8;
+					r.width += 8;
 					g.setAlpha(128);
 					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_RED));
 					g.fillRectangle(r);
-										
+
 					return false;
 				}
 			});
@@ -1753,7 +1756,7 @@ public class BaseTextEditor2 {
 	}
 
 	protected void paintPositionAnnotations(GC g2, int width) {
-//		System.out.println(" PA :" + positionAnnotations);
+		// System.out.println(" PA :" + positionAnnotations);
 		Iterator<iPositionAnnotation> ii = positionAnnotations.iterator();
 		while (ii.hasNext()) {
 			iPositionAnnotation pa = ii.next();
@@ -1771,7 +1774,9 @@ public class BaseTextEditor2 {
 				Rectangle left = new Rectangle(leftp.x, leftp.y, 0, ed.getLineHeight(startAt));
 				Rectangle right = new Rectangle(rightp.x, rightp.y, 0, ed.getLineHeight(startAt));
 
-//				System.out.println(" computing rect :" + startAt + " " + endAt + " " + leftp + " " + rightp + " " + left + " " + right);
+				// System.out.println(" computing rect :" +
+				// startAt + " " + endAt + " " + leftp + " " +
+				// rightp + " " + left + " " + right);
 
 				if (left.y == right.y) {
 					if (!pa.drawRect(left.union(right), g2))
@@ -1873,7 +1878,7 @@ public class BaseTextEditor2 {
 		}
 	}
 
-	@NextUpdate(delay=5)
+	@NextUpdate(delay = 5)
 	private void deferredRedraw(final StyledText ed) {
 		ed.redraw();
 	}

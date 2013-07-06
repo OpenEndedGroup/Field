@@ -584,4 +584,12 @@ public class Vector4 extends Tuple4 implements java.io.Serializable, iToFloatArr
 		return Float.isNaN(x) || Float.isInfinite(x) || Float.isNaN(y) || Float.isInfinite(y) || Float.isNaN(z) || Float.isInfinite(z) || Float.isNaN(w) || Float.isInfinite(w);
 	}
 
+	public Vector4 add(Vector4 v, float w) {
+		this.x += v.x*w;
+		this.y += v.y*w;
+		this.z += v.z*w;
+		this.w += v.w*w;
+		return this;
+	}
+
 }

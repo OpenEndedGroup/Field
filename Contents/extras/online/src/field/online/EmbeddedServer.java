@@ -81,6 +81,9 @@ public class EmbeddedServer implements iUpdateable {
 			server = new NanoHTTPD(port) {
 				public Response serve(String uri, String method, java.util.Properties header, java.util.Properties parms) {
 
+					
+					System.out.println(" !! :"+uri+" "+method+" "+header+" "+parms);
+					
 					Object id = parms.get("id");
 
 					if (id == null) {
@@ -118,8 +121,11 @@ public class EmbeddedServer implements iUpdateable {
 
 						for (String s : fileSearchPaths) {
 							File ff = new File(s + "/" + e);
+							System.out.println(ff);
 							if (ff.exists()) {
 								try {
+									
+									
 									return new Response(HTTP_OK, null, new BufferedInputStream(new FileInputStream(ff)));
 								} catch (FileNotFoundException e1) {
 									e1.printStackTrace();

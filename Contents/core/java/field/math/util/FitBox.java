@@ -1,17 +1,19 @@
 package field.math.util;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
 import field.math.linalg.EigenStructure;
+import field.math.linalg.EigenStructure.EigenStructureException;
 import field.math.linalg.MatrixN;
+import field.math.linalg.MatrixN.DimensionMismatchException;
 import field.math.linalg.Vector3;
 import field.math.linalg.VectorN;
-import field.math.linalg.EigenStructure.EigenStructureException;
-import field.math.linalg.MatrixN.DimensionMismatchException;
 
 /**
  * 
@@ -164,6 +166,39 @@ public class FitBox {
 			}
 			axis[z].positiveLength = max;
 			axis[z].negativeLength = min;
+		}
+	}
+
+	public void medianFit(Axis[] axis, List<Vector3> points) {
+		for (int z = 0; z < axis.length; z++) {
+			
+			List<Float>fp = new ArrayList<Float>();
+			List<Float>fn = new ArrayList<Float>();
+			
+			float max = Float.NEGATIVE_INFINITY;
+			float min = Float.POSITIVE_INFINITY;
+			float ds = center.dot(axis[z].direction);
+			for (int q = 0; q < points.size(); q++) {
+				float d2 = points.get(q).dot(axis[z].direction) - ds;
+				if (d2>0)
+					fp.add(d2);
+				else 
+					fn.add(d2);
+			}
+			
+			Collections.sort(fp);
+			Collections.sort(fn);
+			
+			axis[z].positiveLength = fp.get(fp.size()/2);
+			axis[z].negativeLength = fn.get(fn.size()/2);
+			
+//			if (fn.size()>fp.size())
+//			{
+//				float t = axis[z].positiveLength;
+//				axis[z].positiveLength= axis[z].negativeLength;
+//				axis[z].negativeLength= t;
+//			}
+			
 		}
 	}
 

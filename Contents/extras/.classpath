@@ -33,7 +33,7 @@
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/max.jar"/>
 	<classpathentry kind="lib" path="gstreamer/lib/gstreamer-java.jar"/>
 	<classpathentry kind="lib" path="/field/jruby-complete-1.6.7.2.jar"/>
-	<classpathentry kind="lib" path="/usr/lib/jvm/jdk1.7.0/lib/tools.jar"/>
+	<classpathentry kind="lib" path="/usr/lib/jvm/jdk1.8.0/lib/tools.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/jode-1.1.2-pre-embedded.jar"/>
 	<classpathentry kind="lib" path="/Applications/Max6 Runtime/Cycling &apos;74/java/lib/jitter.jar"/>
 	<classpathentry kind="lib" path="processing/lib/core.jar" sourcepath="/Volumes/c1/Users/marc/fieldwork/temp/processingsource/processing-read-only/processing/core/src"/>

@@ -621,12 +621,14 @@ public class FieldExtensionsToBasic {
 			};
 			PyType.fromClass(Instance.class).addMethod(meth);
 		}
-
 		{
 			final PyObject objectGetattribute = PyObject.TYPE.__getattr__("__setattr__");
 			PyBuiltinMethodNarrow meth = new PyBuiltinMethodNarrow("__setattr__", 1) {
 				@Override
 				public PyObject __call__(PyObject name, final PyObject value) {
+
+					;//;//System.out.println(" inside setattr for dynamicmesh_long");
+
 					PyException was;
 					try {
 						return objectGetattribute.__call__(self, name);
@@ -638,38 +640,26 @@ public class FieldExtensionsToBasic {
 						// was = e;
 					}
 
-					final DynamicMesh mesh = (DynamicMesh) Py.tojava(self, DynamicMesh.class);
-					// PyObject under =
-					// Py.java2py(mesh.getUnderlyingGeometry());
-					//
-					// try {
-					// under.__setattr__((PyString) name,
-					// value);
-					// } catch (PyException e) {
-					// }
+					final DynamicMesh Mesh_long = (DynamicMesh) Py.tojava(self, DynamicMesh.class);
 
 					final String nn = ((PyString) name).asString();
 
-					Map<String, Object> m = perGeometryShaderValues.get(mesh.getUnderlyingGeometry());
+					Map<String, Object> m = perGeometryShaderValues.get(Mesh_long.getUnderlyingGeometry());
 					if (m == null) {
-						perGeometryShaderValues.put(mesh, m = new HashMap<String, Object>());
-
-						;//;//System.out.println(" --- new per geometry shader values --");
+						perGeometryShaderValues.put(Mesh_long.getUnderlyingGeometry(), m = new HashMap<String, Object>());
 					}
 
-					;//;//System.out.println(" values were <" + m + ">");
-
-					installUniformUpdator((BasicSceneList) mesh.getUnderlyingGeometry(), m);
+					installUniformUpdator((BasicSceneList) Mesh_long.getUnderlyingGeometry(), m);
 
 					m.put(nn, Py.tojava(value, Object.class));
-
-					;//;//System.out.println(" values now <" + m + ">");
 
 					return Py.None;
 				}
 			};
 			PyType.fromClass(DynamicMesh.class).addMethod(meth);
 		}
+		
+		
 		{
 			final PyObject objectGetattribute = PyObject.TYPE.__getattr__("__setattr__");
 			PyBuiltinMethodNarrow meth = new PyBuiltinMethodNarrow("__setattr__", 1) {
@@ -1245,16 +1235,14 @@ public class FieldExtensionsToBasic {
 						public void update() {
 
 							Map<String, Object> m = lookupIn;
-							// ;//;//System.out.println(" -- push <"
-							// + underlyingGeometry
-							// +
-							// "> <"+BasicGLSLangProgram.currentProgram+"> <"+lookupIn+">");
+//							System.out.println(" -- push <"+ underlyingGeometry+"> <"+BasicGLSLangProgram.currentProgram+"> <"+lookupIn+">");
 							if (BasicGLSLangProgram.currentProgram != null) {
 
 								for (Map.Entry<String, Object> e : m.entrySet()) {
 									int id = BasicGLSLangProgram.currentProgram.getUniformCache().find(BasicGLSLangProgram.currentProgram.gl, BasicGLSLangProgram.currentProgram.getProgram(), e.getKey());
 									if (id > -1) {
 										was.put(e.getKey(), BasicGLSLangProgram.currentProgram.getUniformCache().get(e.getKey()));
+//										System.out.println(" SUN :"+e.getValue());
 										setUniformNow(BasicGLSLangProgram.currentProgram.gl, id, e.getValue());
 									}
 								}
@@ -1314,8 +1302,6 @@ public class FieldExtensionsToBasic {
 		
 		if (value instanceof Vector4) {
 			glUniform4f(id, ((Vector4) value).x, ((Vector4) value).y, ((Vector4) value).z, ((Vector4) value).w);
-			// ;//;//System.out.println(" set uniform right now <" + id +
-			// " " + value + ">");
 		} else if (value instanceof Vector3) {
 			glUniform3f(id, ((Vector3) value).x, ((Vector3) value).y, ((Vector3) value).z);
 		} else if (value instanceof Vector2) {

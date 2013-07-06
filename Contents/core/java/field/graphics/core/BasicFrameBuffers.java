@@ -1131,6 +1131,30 @@ public class BasicFrameBuffers {
 
 			}
 		}
+		
+		// advanced use
+		public void enter() {
+			currentFBOContext.push(this);
+			gl = BasicContextManager.getGl();
+			glu = BasicContextManager.getGlu();
+			if (BasicContextManager.getId(this) == BasicContextManager.ID_NOT_FOUND) {
+				setup();
+			}
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo[0]);
+			glViewport(0, 0, width, height);
+			buffers.put(GL_COLOR_ATTACHMENT0).put(GL_COLOR_ATTACHMENT1).rewind();
+			glDrawBuffers(buffers);
+		}
+
+		public void exit() {
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			glDrawBuffer(GL_BACK);
+
+			assert glGetError() == 0;
+
+			Object popped = currentFBOContext.pop();
+			assert popped == this : popped;
+		}
 
 		public void copyToVBO(final TriangleMesh mesh, final int aux, final boolean first) {
 			sceneList.add(StandardPass.preDisplay).register("__copyToVbo__" + System.identityHashCode(mesh) + " " + aux + " " + first, new iUpdateable() {
@@ -1343,6 +1367,8 @@ public class BasicFrameBuffers {
 
 			return onscreenProgram;
 		}
+		
+		
 	}
 
 	static public class TripleFrameBuffer extends BasicTextures.BaseTexture implements iDisplayable {

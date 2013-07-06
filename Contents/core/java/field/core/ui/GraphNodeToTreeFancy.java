@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Widget;
 
 import field.core.Constants;
 import field.core.Platform;
+import field.core.plugins.selection.ToolBarFolder;
 import field.launch.Launcher;
 import field.math.graph.iMutable;
 
@@ -85,6 +86,7 @@ public class GraphNodeToTreeFancy {
 			normalFont = new Font(Launcher.display, name, baseFontHeight(install), SWT.NORMAL);
 
 			install.setBackground(install.getShell().getBackground());
+			install.setBackground(ToolBarFolder.background);
 
 			install.addListener(SWT.MeasureItem, new Listener() {
 

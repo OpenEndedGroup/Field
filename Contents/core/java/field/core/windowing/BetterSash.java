@@ -91,14 +91,17 @@ public class BetterSash {
 
 					e.gc.setClipping((Rectangle) null);
 					e.gc.setAdvanced(true);
+					
+					
 
 					Control[] c = f.getChildren();
 
-					e.gc.setBackground(new Color(Launcher.display, 0,0,0));
-					e.gc.setForeground(new Color(Launcher.display, 0,0,0));
-					e.gc.setAlpha(128);
-					// e.gc.fillRectangle(0, 0, e.width,
-					// e.height);
+//					e.gc.setBackground(new Color(Launcher.display, 0,0,0));
+//					e.gc.setForeground(new Color(Launcher.display, 0,0,0));
+//					e.gc.setAlpha(128);
+					
+					 e.gc.fillRectangle(0, 0, e.width,
+					 e.height);
 					
 					if (f.getOrientation() == SWT.HORIZONTAL) {
 //						Path p = new Path(Launcher.display);

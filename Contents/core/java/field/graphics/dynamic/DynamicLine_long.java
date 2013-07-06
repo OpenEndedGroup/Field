@@ -169,6 +169,7 @@ public class DynamicLine_long extends DynamicMesh_long implements iLineOutput {
 			System.err.println(ANSIColorUtils.red(" -- \n"));
 			System.err.println(ANSIColorUtils.red(" -- \n"));
 		} else {
+
 			checkTriangleStorage(triangleCursor, (vertexCursor - lineStartAt) * 2);
 			for (int i = 0; i < vertexCursor - lineStartAt - 1; i++) {
 				int triangleCursor2 = 2 * triangleCursor;
@@ -191,6 +192,8 @@ public class DynamicLine_long extends DynamicMesh_long implements iLineOutput {
 		}
 	}
 
+	
+	
 	@HiddenInAutocomplete
 	public void endSpline() {
 		endLine();

@@ -25,7 +25,7 @@ import field.math.linalg.Vector3;
 /**
  * @author marc Created on Oct 21, 2003
  */
-public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAcceptsSceneListElement {
+public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAcceptsSceneListElement, AutoCloseable {
 
 	@HiddenInAutocomplete
 	public static DynamicMesh_long unshadedMesh() {
@@ -360,16 +360,7 @@ public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAc
 		}
 	}
 
-	/**
-	 * todo: remove this nonsense once we'er running in java 6
-	 */
 	private void safePut(FloatBuffer to, FloatBuffer from) {
-
-		// if (true)
-		// {
-		// to.put(from);
-		// return;
-		// }
 
 		if (to.isDirect() && from.isDirect()) {
 

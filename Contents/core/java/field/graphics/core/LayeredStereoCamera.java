@@ -35,6 +35,7 @@ public class LayeredStereoCamera extends BasicCamera {
 	boolean noStereo = SystemProperties.getIntProperty("zeroStereo", 0) == 1;
 
 	float multiplyDisparity = (float) SystemProperties.getDoubleProperty("multiplyDisparity", 1);
+	float multiplyFust= (float) SystemProperties.getDoubleProperty("multiplyFust", 1);
 
 	public LayeredStereoCamera setIOFrustra(float i) {
 		this.io_frustra = i;
@@ -81,8 +82,8 @@ public class LayeredStereoCamera extends BasicCamera {
 		boolean wasDirty = projectionDirty || modelViewDirty;
 		{
 			glViewport(oX, oY, width, height);
-			float right = (float) (near * Math.tan((Math.PI * fov / 180f) / 2) * aspect) * frustrumMul;
-			float top = (float) (near * Math.tan((Math.PI * fov / 180f) / 2)) * frustrumMul;
+			float right = (float) (near * Math.tan((Math.PI * fov / 180f) / 2) * aspect) * frustrumMul*multiplyFust;
+			float top = (float) (near * Math.tan((Math.PI * fov / 180f) / 2)) * frustrumMul*multiplyFust;
 			
 			float x = flipped * io_frustra ;
 			

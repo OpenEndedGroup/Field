@@ -203,14 +203,14 @@ public class Trampoline2 implements iLaunchable {
 				for (String s : extendedLibraryPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
-						System.out.println(" found it <" + file + ">");
+//						System.out.println(" found it <" + file + ">");
 						return file.getAbsolutePath();
 					}
 				}
 				for (String s : extendedClassPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
-						System.out.println(" found it <" + file + ">");
+//						System.out.println(" found it <" + file + ">");
 						return file.getAbsolutePath();
 					}
 				}
@@ -451,7 +451,7 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void addJar(String n) {
-		System.out.println(" add jar :" + n);
+//		System.out.println(" add jar :" + n);
 		try {
 			loader.addURL(new URL("file://" + n));
 		} catch (MalformedURLException e) {
@@ -471,7 +471,7 @@ public class Trampoline2 implements iLaunchable {
 
 			try {
 
-				System.out.println(" adding to loader <" + "file://" + path.getAbsolutePath() + "/" + ">");
+//				System.out.println(" adding to loader <" + "file://" + path.getAbsolutePath() + "/" + ">");
 
 				loader.addURL(new URL("file://" + path.getCanonicalPath() + "/"));
 
@@ -519,13 +519,13 @@ public class Trampoline2 implements iLaunchable {
 						e.printStackTrace();
 					}
 				}
-			System.out.println(" checking <" + path + "> for natives ");
+//			System.out.println(" checking <" + path + "> for natives ");
 			File[] natives = path.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-			System.out.println(" found <" + natives.length + ">");
+//			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
 					// System.load(n.getAbsolutePath());
@@ -666,17 +666,17 @@ public class Trampoline2 implements iLaunchable {
 				}
 			}
 
-			System.out.println(" checking <" + dir + "> for natives ");
+//			System.out.println(" checking <" + dir + "> for natives ");
 			File[] natives = dir.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-			System.out.println(" found <" + natives.length + ">");
+//			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-					System.out.println(" preemptive load of <" + n + ">");
-					System.load(n.getAbsolutePath());
+//					System.out.println(" preemptive load of <" + n + ">");
+//					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -764,7 +764,7 @@ public class Trampoline2 implements iLaunchable {
 		System.setProperty("java.library.path", System.getProperty("java.library.path") + File.pathSeparator + s);
 		System.setProperty("jna.library.path", System.getProperty("jna.library.path") + File.pathSeparator + s);
 
-		System.out.println(" library paths now "+System.getProperty("java.library.path")+" and "+System.getProperty("jna.library.path"));
+//		System.out.println(" library paths now "+System.getProperty("java.library.path")+" and "+System.getProperty("jna.library.path"));
 		// This enables the java.library.path to be modified at runtime
 		// From a Sun engineer at
 		// http://forums.sun.com/thread.jspa?threadID=707176
@@ -792,11 +792,11 @@ public class Trampoline2 implements iLaunchable {
 		if (f != null) {
 			for (File ff : f) {
 				if (ff.getName().endsWith(".dylib") | ff.getName().endsWith(".so")) {
-					System.out.println(" premptivly loading <"+ff+">");
-					try{
-						System.load(ff.getAbsolutePath());
-					}
-					catch(Throwable t){System.out.println(" didn't load, continuing");}
+//					System.out.println(" premptivly loading <"+ff+">");
+//					try{
+//						System.load(ff.getAbsolutePath());
+//					}
+//					catch(Throwable t){System.out.println(" didn't load, continuing");}
 				}
 			}
 		}

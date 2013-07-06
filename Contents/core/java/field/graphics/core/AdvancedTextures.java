@@ -78,7 +78,6 @@ import field.core.Platform.OS;
 import field.graphics.core.Base.StandardPass;
 import field.graphics.core.Base.iPass;
 import field.graphics.qt.ByteImage;
-import field.graphics.qt.QTImage;
 import field.graphics.windowing.FullScreenCanvasSWT;
 import field.math.linalg.Vector4;
 import field.util.TaskQueue;
@@ -597,7 +596,7 @@ public class AdvancedTextures extends BasicTextures {
 				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
 			}
 
-			glEnable(this.textureTarget);
+			CoreHelpers.glEnable(this.textureTarget);
 			glBindTexture(this.textureTarget, textureId);
 			if (in != null)
 				in.declareNow(gl);
@@ -1863,6 +1862,91 @@ public class AdvancedTextures extends BasicTextures {
 			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, this.gl_texture_wrap_t);
 			assert (glGetError() == 0);
 			glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA, width, 0, GL12.GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, buffer);
+			assert (glGetError() == 0);
+
+			dirty = false;
+		}
+	}
+	
+	static public class OneDFloatTexture extends BaseTexture {
+		private final int width;
+
+		private int textureId;
+
+		ByteBuffer buffer;
+
+		boolean dirty = false;
+
+		public OneDFloatTexture(ByteBuffer buffer, int width) {
+			super("");
+			this.width = width;
+			this.buffer = buffer;
+		}
+
+		
+		public void delete() {
+			if (gl != null) {
+				glDeleteTextures(textureId);
+			}
+		}
+
+		public void dirty() {
+			dirty = true;
+		}
+
+		@Override
+		protected void post() {
+			CoreHelpers.glDisable(GL_TEXTURE_1D);
+		}
+
+		/** @see field.graphics.core.BasicTextures.BaseTexture#pre() */
+		@Override
+		protected void pre() {
+			int textureId = BasicContextManager.getId(this);
+			if (textureId == BasicContextManager.ID_NOT_FOUND) {
+				assert glGetError() == 0 : buffer;
+				setup();
+				assert glGetError() == 0 : buffer;
+				textureId = BasicContextManager.getId(this);
+				assert textureId != BasicContextManager.ID_NOT_FOUND : "called setup() in texture, didn't get an ID has subclass forgotten to call BasicContextIDManager.pudId(...) ?";
+			}
+			if (dirty) {
+				assert glGetError() == 0 : buffer;
+				glBindTexture(GL_TEXTURE_1D, textureId);
+				glTexSubImage1D(GL_TEXTURE_1D, 0, 0,  width, GL12.GL_BGRA, GL11.GL_FLOAT, buffer);
+				assert glGetError() == 0 : buffer;
+			}
+			dirty = false;
+			assert glGetError() == 0 : buffer;
+			if (BaseTexture.enableTextures) {
+				assert glGetError() == 0 : buffer;
+				glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, gl_texture_env_mode);
+				glBindTexture(GL_TEXTURE_1D, textureId);
+				CoreHelpers.glEnable(GL_TEXTURE_1D);
+				assert glGetError() == 0 : buffer;
+			}
+			assert glGetError() == 0 : buffer;
+		}
+
+		/** @see field.graphics.core.BasicTextures.BaseTexture#setup() */
+		@Override
+		protected void setup() {
+			int[] textures = new int[1];
+			textureId = textures[0] = glGenTextures();
+			BasicContextManager.putId(this, textureId);
+			glBindTexture(GL_TEXTURE_1D, textureId);
+			assert (glGetError() == 0);
+
+			if (Platform.isMac())
+				glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
+			// glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, 1);
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_S, this.gl_texture_wrap_s);
+			glTexParameteri(GL_TEXTURE_1D, GL_TEXTURE_WRAP_T, this.gl_texture_wrap_t);
+			assert (glGetError() == 0);
+			glTexImage1D(GL_TEXTURE_1D, 0, GL_RGBA32F, width, 0, GL12.GL_BGRA, GL11.GL_FLOAT, buffer);
 			assert (glGetError() == 0);
 
 			dirty = false;

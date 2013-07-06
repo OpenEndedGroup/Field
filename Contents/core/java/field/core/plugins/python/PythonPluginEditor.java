@@ -2047,6 +2047,9 @@ public class PythonPluginEditor extends PythonPlugin {
 
 		ToolBar t = editor.getToolbar();
 
+		System.out.println(" background for custom toolbar is :"+t.getBackground());
+
+		
 		for (Control b : customToolbarFromProperties)
 			b.dispose();
 
@@ -2104,6 +2107,8 @@ public class PythonPluginEditor extends PythonPlugin {
 			customToolbarFromProperties.add(b);
 			b.setBackground(b.getParent().getBackground());
 
+			System.out.println(" background for custom toolbar is :"+b.getParent().getBackground());
+			
 		}
 		t.layout();
 		//

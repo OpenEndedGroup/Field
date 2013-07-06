@@ -1014,7 +1014,7 @@ public class GLComponentWindow implements Listener, iUpdateable, iProvidesQueue,
 		leftComp1.setSize(defaultRect.width / 5, defaultRect.height);
 		leftComp1.setBackground(ToolBarFolder.sashBackground);
         
-		frame.setBackground(new Color(Launcher.display, 200, 200, 200));
+		frame.setBackground(ToolBarFolder.sashBackground);
         
 		hsplit = new SashForm(rsplit, SWT.HORIZONTAL);
 		hsplit.setSashWidth(10);

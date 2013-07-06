@@ -49,7 +49,7 @@ public class TextureBackedWebBrowser {
 		this.h = h;
 		window = new Shell(Launcher.display, SWT.NO_TRIM);
 		window.setSize(w, h);
-		window.setLocation(-10000, 10000);
+		window.setLocation(0, 0);
 		// window.setLocation(50, 50);
 
 		window.setLayout(new FillLayout());

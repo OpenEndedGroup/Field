@@ -10,9 +10,9 @@ import field.math.linalg.Vector4;
 public class Constants {
 
 	// static public final String defaultFont = "Gill Sans";
-	static public final String defaultFont = Platform.getOS() == OS.mac ? SystemProperties.getProperty("systemFont", "Gill Sans") : "Ubuntu";
-	static public final String defaultTextEditorFont = SystemProperties.getProperty("editorFont", defaultFont);
-	static public int defaultFont_editorSize = SystemProperties.getIntProperty("editorFontSize", 14);
+	static public final String defaultFont = Platform.getOS() == OS.mac ? SystemProperties.getProperty("systemFont", "Gill Sans") : "Source Sans Pro";
+	static public final String defaultTextEditorFont = SystemProperties.getProperty("textEditorFont", defaultFont);
+	static public int defaultFont_editorSize = SystemProperties.getIntProperty("editorFontSize", 16);
 
 	// static public final String defaultTreeColor = "eeeeee";
 	static public final String defaultTreeColor = "111111";

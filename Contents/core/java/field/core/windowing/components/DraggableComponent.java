@@ -744,7 +744,7 @@ opt = 1f;
 {
 CachedLine text = new CachedLine();
 
-text.getInput().moveTo((float) (bounds.x + bounds.w / 2), (float) (bounds.y + bounds.h / 2));
+text.getInput().moveTo((int) (bounds.x + bounds.w / 2), (int) (bounds.y + bounds.h / 2));
 text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, element.getProperty(iVisualElement.name));
 text.getProperties().put(iLinearGraphicsContext.containsText, true);
 text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));
@@ -765,7 +765,7 @@ String b = element.getProperty(iVisualElement.boundTo);
 if (b != null && b.trim().length() > 0) {
 CachedLine text = new CachedLine();
 
-text.getInput().moveTo((float) (bounds.x + bounds.w / 2), (float) (bounds.y + bounds.h / 2 + 14));
+text.getInput().moveTo((int) (bounds.x + bounds.w / 2), (int) (bounds.y + bounds.h / 2 + 14));
 text.getInput().setPointAttribute(iLinearGraphicsContext.text_v, "\"" + b + "\"");
 text.getProperties().put(iLinearGraphicsContext.containsText, true);
 text.getProperties().put(iLinearGraphicsContext.color, new Vector4(0, 0, 0, 0.9f));

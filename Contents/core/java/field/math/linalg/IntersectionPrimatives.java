@@ -1238,4 +1238,6 @@ public class IntersectionPrimatives {
 		return new Vector2(xx, yy);
 	} /* lines_doubleersect */
 
+	
+
 }

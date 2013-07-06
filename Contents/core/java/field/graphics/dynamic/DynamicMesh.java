@@ -23,7 +23,7 @@ import field.math.linalg.Vector3;
 /**
  * @author marc Created on Oct 21, 2003
  */
-public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.graphics.core.Base.iAcceptsSceneListElement {
+public class DynamicMesh implements iDynamicMesh, iInside, iRemoveable, field.graphics.core.Base.iAcceptsSceneListElement, AutoCloseable {
 
 	public static DynamicMesh unshadedMesh() {
 		BasicGeometry.TriangleMesh lines = new BasicGeometry.TriangleMesh(new CoordinateFrame());

@@ -16,7 +16,8 @@ public class ExecuteCommand {
 
 	private List<String> command;
 
-	public boolean echo = true;
+	static public boolean defaultEcho = true;
+	public boolean echo = defaultEcho;
 	
 	StringBuffer allOut = new StringBuffer();
 

@@ -157,9 +157,7 @@ public class BasicUtilities {
 				return;
 			x++;
 
-			
-			if (FullScreenCanvasSWT.currentCanvas==null || (!FullScreenCanvasSWT.currentCanvas.passiveStereo || FullScreenCanvasSWT.currentCanvas.getSide() == StereoSide.right)) 
-			{
+			if (FullScreenCanvasSWT.currentCanvas == null || (!FullScreenCanvasSWT.currentCanvas.passiveStereo || FullScreenCanvasSWT.currentCanvas.getSide() == StereoSide.right)) {
 				glClearColor(background.get(0), background.get(1), background.get(2), alpha);
 				assert glGetError() == 0;
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -1073,8 +1071,8 @@ public class BasicUtilities {
 
 		private Vector4 constant;
 
-		static public Vector4 constantMul = new Vector4(1,1,1,1);
-		
+		static public Vector4 constantMul = new Vector4(1, 1, 1, 1);
+
 		public SetBlendMode(StandardPass requestPass, int src, int dest) {
 			super(requestPass);
 			this.src = src;
@@ -1166,6 +1164,46 @@ public class BasicUtilities {
 				first = false;
 				glColorMask(true, true, true, true);
 			}
+		}
+
+		@Override
+		protected void pre() {
+			glColorMask(red, green, blue, alpha);
+		}
+
+		@Override
+		protected void setup() {
+		}
+	}
+
+	static public class SetColorMaskWrap extends TwoPassElement {
+		private boolean b;
+
+		private final boolean red;
+
+		private final boolean green;
+
+		private final boolean blue;
+
+		private final boolean alpha;
+
+		public SetColorMaskWrap(boolean red, boolean green, boolean blue, boolean alpha) {
+			super("", StandardPass.preTransform, StandardPass.postRender);
+			this.red = red;
+			this.green = green;
+			this.blue = blue;
+			this.alpha = alpha;
+		}
+
+		boolean first = true;
+
+		@Override
+		protected void post() {
+
+			if (thinState)
+				return;
+
+			glColorMask(true, true, true, true);
 		}
 
 		@Override
@@ -1363,8 +1401,7 @@ public class BasicUtilities {
 			// glEnable(GL_POLYGON_SMOOTH);
 			// glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 
-			if (!CoreHelpers.isCore)
-			{
+			if (!CoreHelpers.isCore) {
 				glDisable(GL_POINT_SMOOTH);
 				glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 			}

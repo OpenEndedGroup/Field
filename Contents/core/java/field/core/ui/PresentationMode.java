@@ -16,135 +16,135 @@ import field.namespace.generic.ReflectionTools;
 
 public class PresentationMode {
 
-	static public final VisualElementProperty<PresentationParameters> present = new VisualElementProperty<PresentationParameters>("present");
+    static public final VisualElementProperty<PresentationParameters> present = new VisualElementProperty<PresentationParameters>("present");
 
-	public PresentationMode() {
+    public PresentationMode() {
 
-	}
+    }
 
-	static public boolean isHidden(iComponent c) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return false;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return false;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return false;
-		return p.hidden;
-	}
+    static public boolean isHidden(iComponent c) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return false;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return false;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+	return p.hidden;
+    }
 
-	static public boolean canResizeWidth(iComponent c) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return true;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return true;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return true;
-		return !p.fixedWidth;
-	}
+    static public boolean canResizeWidth(iComponent c) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return true;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return true;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+	return !p.fixedWidth;
+    }
 
-	static public boolean canResizeHeight(iComponent c) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return true;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return true;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return true;
-		return !p.fixedHeight;
-	}
+    static public boolean canResizeHeight(iComponent c) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return true;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return true;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+	return !p.fixedHeight;
+    }
 
-	static public boolean canMove(iComponent c) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return true;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return true;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return true;
-		return !p.fixedPosition;
-	}
+    static public boolean canMove(iComponent c) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return true;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return true;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+	return !p.fixedPosition;
+    }
 
-	static public boolean transformOptionClick(iComponent c, Event e) {
+    static public boolean transformOptionClick(iComponent c, Event e) {
 
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return false;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return false;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return false;
-		if (p.clickBecomesOptionClick) {
-			if (e.button==1)
-			{
-				e.stateMask = e.stateMask | SWT.ALT;
-				return true;
-			}
-		} else if (p.rightClickBecomesOptionClick) {
-			if (Platform.isPopupTrigger(e))
-			{
-				e.stateMask = e.stateMask | SWT.ALT;
-				e.button = 1;
-			}
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return false;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return false;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+	if (p.clickBecomesOptionClick) {
+	    if (e.button==1)
+		{
+		    e.stateMask = e.stateMask | SWT.ALT;
+		    return true;
 		}
-		return false;
-	}
-
-	static public boolean isSpace(iComponent c, Event e) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return false;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return false;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return false;
-
-		if (Platform.isPopupTrigger(e)) {
-			return p.rightClickBecomesSpace || p.rightClickBecomesOptionClick;
-		}
-
-		return false;
-	}
-
-	public static void filterResize(iComponent c, Set<Resize> currentResize) {
-		if (!canMove(c)) {
-			currentResize.remove(Resize.translate);
-			currentResize.remove(Resize.left);
-			currentResize.remove(Resize.right);
-			currentResize.remove(Resize.up);
-			currentResize.remove(Resize.down);
-			currentResize.remove(Resize.innerScale);
-			currentResize.remove(Resize.innerTranslate);
-		}
-		if (!canResizeHeight(c)) {
-			currentResize.remove(Resize.up);
-			currentResize.remove(Resize.down);
-		}
-		if (!canResizeWidth(c)) {
-			currentResize.remove(Resize.left);
-			currentResize.remove(Resize.right);
-			currentResize.remove(Resize.right);
+	} else if (p.rightClickBecomesOptionClick) {
+	    if (Platform.isPopupTrigger(e))
+		{
+		    e.stateMask = e.stateMask | SWT.ALT;
+		    e.button = 1;
 		}
 	}
+	return false;
+    }
 
-	public static boolean isSelectable(iComponent c) {
-		if (!GLComponentWindow.getCurrentWindow(c).present)
-			return true;
-		iVisualElement v = c.getVisualElement();
-		if (v == null)
-			return true;
-		PresentationParameters p = v.getProperty(present);
-		if (p == null)
-			return true;
+    static public boolean isSpace(iComponent c, Event e) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return false;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return false;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
 
-		return !p.notSelectable;
+	if (Platform.isPopupTrigger(e)) {
+	    return p.rightClickBecomesSpace || p.rightClickBecomesOptionClick;
 	}
+
+	return false;
+    }
+
+    public static void filterResize(iComponent c, Set<Resize> currentResize) {
+	if (!canMove(c)) {
+	    currentResize.remove(Resize.translate);
+	    currentResize.remove(Resize.left);
+	    currentResize.remove(Resize.right);
+	    currentResize.remove(Resize.up);
+	    currentResize.remove(Resize.down);
+	    currentResize.remove(Resize.innerScale);
+	    currentResize.remove(Resize.innerTranslate);
+	}
+	if (!canResizeHeight(c)) {
+	    currentResize.remove(Resize.up);
+	    currentResize.remove(Resize.down);
+	}
+	if (!canResizeWidth(c)) {
+	    currentResize.remove(Resize.left);
+	    currentResize.remove(Resize.right);
+	    currentResize.remove(Resize.right);
+	}
+    }
+
+    public static boolean isSelectable(iComponent c) {
+	iVisualElement v = c.getVisualElement();
+	if (v == null)
+	    return true;
+	PresentationParameters p = v.getProperty(present);
+	if (p == null)
+	    return true;
+	if (!p.always && !GLComponentWindow.getCurrentWindow(c).present)
+	    return false;
+
+	return !p.notSelectable;
+    }
 
 }

@@ -17,8 +17,10 @@ import java.util.Set;
 
 import org.lwjgl.opengl.APPLEVertexArrayObject;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL31;
 import org.lwjgl.util.glu.GLU;
 
@@ -129,6 +131,7 @@ public class CoreHelpers {
 	}
 
 	static public void glActiveTexture(int tex) {
+		GL13.glActiveTexture(tex);
 		switch (tex) {
 		case GL13.GL_TEXTURE0:
 			texture = texture0;
@@ -649,6 +652,8 @@ public class CoreHelpers {
 	static {
 		noLongerEnabled.add(GL11.GL_TEXTURE_1D);
 		noLongerEnabled.add(GL11.GL_TEXTURE_2D);
+		noLongerEnabled.add(GL12.GL_TEXTURE_3D);
+		noLongerEnabled.add(GL30.GL_TEXTURE_2D_ARRAY);
 		noLongerEnabled.add(GL31.GL_TEXTURE_RECTANGLE);
 	}
     

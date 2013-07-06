@@ -31,7 +31,7 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="swt.jar" sourcepath="/Users/marc/Downloads/swt-3.8M5-cocoa-macosx-x86_64/src.zip"/>
 	<classpathentry kind="lib" path="jruby-complete-1.6.7.2.jar"/>
+	<classpathentry kind="lib" path="swt.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>

@@ -107,6 +107,11 @@ public class Vector2 implements java.io.Serializable, Cloneable, iToFloatArray, 
 		this(position.get(), position.get());
 	}
 
+	public Vector2(String[] q, int i) {
+		this.x = Float.parseFloat(q[i]);
+		this.y = Float.parseFloat(q[i+1]);
+	}
+
 	public PyObject __finditem__(int key) {
 		try {
 			return Py.java2py(getIndex(key));

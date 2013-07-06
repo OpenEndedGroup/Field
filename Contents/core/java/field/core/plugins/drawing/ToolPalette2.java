@@ -42,6 +42,8 @@ public class ToolPalette2 {
 	public ToolPalette2() {
 
 		toolBarPaletteInspector = new ToolBarFolder(defaultRect);
+		toolBarPaletteInspector.getContainer().setBackground(ToolBarFolder.firstLineBackground);
+
 		if (toolBarPaletteInspector.getShell() != null) {
 			toolBarPaletteInspector.getShell().setText("Mouse tools");
 			toolBarPaletteInspector.getShell().open();
@@ -60,8 +62,10 @@ public class ToolPalette2 {
 
 		Label description = new Label(toolBarPaletteInspector.getContainer(), SWT.WRAP );
 		description.setFont(new Font(Launcher.display, Constants.defaultFont, 10, 0));
+		
 //		description.setText(tool.getDescription());
 		
+	
 		
 		if (toolBarPaletteInspector.getShell()!=null)
 			toolBarPaletteInspector.getShell().setMinimumSize(300, 200);
