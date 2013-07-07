@@ -1,0 +1,3 @@
+Field-Property-Append-java-library-path: /home/marc/fieldwork/personal/classpath/
+Field-RedirectionPath: /home/marc/fieldwork/personal/classpath/**
+
