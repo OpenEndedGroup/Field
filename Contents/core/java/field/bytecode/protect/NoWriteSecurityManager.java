@@ -7,6 +7,8 @@ import java.io.FileDescriptor;
 import java.net.InetAddress;
 import java.security.Permission;
 
+import field.launch.SystemProperties;
+
 public class NoWriteSecurityManager extends
 		SecurityManager {
 	@Override
@@ -18,6 +20,9 @@ public class NoWriteSecurityManager extends
 	@Override
 	public void checkWrite(
 			String fd) {
+		
+		if (fd.startsWith(System.getProperty("java.io.tmpdir"))) return;
+		
 		throw new SecurityException();
 	}
 
