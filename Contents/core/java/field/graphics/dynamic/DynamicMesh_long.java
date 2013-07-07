@@ -25,7 +25,7 @@ import field.math.linalg.Vector3;
 /**
  * @author marc Created on Oct 21, 2003
  */
-public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAcceptsSceneListElement, AutoCloseable {
+public class DynamicMesh_long implements iDynamicMesh, iInside, iRemoveable, iAcceptsSceneListElement {
 
 	@HiddenInAutocomplete
 	public static DynamicMesh_long unshadedMesh() {
