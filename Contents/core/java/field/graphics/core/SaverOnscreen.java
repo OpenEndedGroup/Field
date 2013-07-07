@@ -47,7 +47,7 @@ public class SaverOnscreen {
 
 	private final ExecutorService pool;
 				
-	private final String prefix;
+	public String prefix;
 
 	public SaverOnscreen(int width, int height, int numWorkers, String prefix) {
 		this.width = width;
@@ -60,12 +60,14 @@ public class SaverOnscreen {
 
 	List<FutureTask<ByteBuffer>> workers = new ArrayList<FutureTask<ByteBuffer>>();
 
-	int frameNumber = 0;
+	public int frameNumber = 0;
 
 	boolean on = false;
 	boolean drip = false;
 
 	private String lastFilename;
+
+	public boolean noFrameNumber = false;
 
 	public void setOn(boolean on) {
 		this.on = on;
@@ -113,7 +115,7 @@ public class SaverOnscreen {
 
 		getImage(storage);
 
-		lastFilename = prefix + pad(frameNumber++) + ".jpg";
+		lastFilename = prefix + (noFrameNumber ? "" : pad(frameNumber++))+ ".jpg";
 		FutureTask<ByteBuffer> task = new FutureTask<ByteBuffer>(makeWorker(storage, lastFilename));
 		pool.execute(task);
 		workers.add(task);
@@ -174,9 +176,6 @@ public class SaverOnscreen {
 					}
 				}
 
-				FileOutputStream fos;
-				//RenderedOp op = JAI.create("filestore", bi, filename, "JPEG");
-
 				JPEGEncodeParam encodeParam = new JPEGEncodeParam();
 				encodeParam.setQuality(100.00f);
 				ParameterBlock pb = new ParameterBlock();
@@ -185,9 +184,6 @@ public class SaverOnscreen {
 				pb.add("jpeg");
 				pb.add(encodeParam);
 				JAI.create("encode", pb);
-
-
-				;//System.out.println(" thread <"+Thread.currentThread()+"> saved <"+filename+">");
 
 				return storage;
 			}
