@@ -16,7 +16,10 @@
 *~
 
 # APT
-**/.apt_generated/*
+Contents/core/.apt_generated
+
+# Eclipse prefs:
+Contents/core/.settings
 
 # OS generated files #
 ######################
