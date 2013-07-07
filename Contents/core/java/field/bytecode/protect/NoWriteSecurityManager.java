@@ -14,15 +14,33 @@ public class NoWriteSecurityManager extends
 	@Override
 	public void checkWrite(
 			FileDescriptor fd) {
-		throw new SecurityException();
+		System.out.println("NoWriteSecurityManager.checkWrite(fd)");
+		//	Allow file descriptor writes:
+		//throw new SecurityException();
 	}
 
 	@Override
 	public void checkWrite(
 			String fd) {
 		
-		if (fd.startsWith(System.getProperty("java.io.tmpdir"))) return;
+		//	Allow writes to temporary files, or to anywhere with (directory) prefix in property "writeableDirPrefixes".
 		
+		final String prop = "writeableDirPrefixes";
+		
+		String tmpdir = System.getProperty("java.io.tmpdir");
+		String[] whitelistedDirs = SystemProperties.getDirProperties(prop);
+
+		boolean ok = fd.startsWith(tmpdir);
+		
+		for (String d: whitelistedDirs) {
+			System.out.println(String.format("Checking %s against whitelist entry %s", fd, d));
+			ok = ok || fd.startsWith(d);
+		}
+		
+		System.out.println(String.format("NoWriteSecurityManager.checkWrite('%s', tmp='%s', wl='%s') -> %s)",
+										 fd, tmpdir, SystemProperties.getProperty(prop), (ok ? "TRUE" : "FALSE")));
+
+		if (ok) return;
 		throw new SecurityException();
 	}
 
