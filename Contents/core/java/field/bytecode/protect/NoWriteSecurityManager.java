@@ -23,8 +23,15 @@ public class NoWriteSecurityManager extends
 	public void checkWrite(
 			String fd) {
 		
-		//	Allow writes to temporary files, or to anywhere with (directory) prefix in property "writeableDirPrefixes".
+		/*	Allow writes to temporary files, or to anywhere with (directory) prefix in property "writeableDirPrefixes".
+		 * 
+		 * 	This looks a little odd: add "/" to the end of the file we're checking, regardless of whether it's an actual
+		 * 	file or just a directory. That lets us match against "/okpath/" and allow "/okpath" but not "/okpathbutnotreally" -
+		 * 	but "/okpath/foo.txt/ will also pass." 
+		 */
 		
+		fd = fd + "/";
+
 		final String prop = "writeableDirPrefixes";
 		
 		String tmpdir = System.getProperty("java.io.tmpdir");
@@ -37,7 +44,7 @@ public class NoWriteSecurityManager extends
 			ok = ok || fd.startsWith(d);
 		}
 		
-		System.out.println(String.format("NoWriteSecurityManager.checkWrite('%s', tmp='%s', wl='%s') -> %s)",
+		System.out.println(String.format("NoWriteSecurityManager.checkWrite(fdslash='%s', tmp='%s', wl='%s') -> %s)",
 										 fd, tmpdir, SystemProperties.getProperty(prop), (ok ? "TRUE" : "FALSE")));
 
 		if (ok) return;
