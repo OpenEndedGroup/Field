@@ -47,7 +47,7 @@ public class FastClassLoader extends URLClassLoader {
 			if (o != null) {
 				loadedmaphash = Long.parseLong(o);
 			}
-			System.out.println(" loaded classmap with <" + a + ">");
+//			System.out.println(" loaded classmap with <" + a + ">");
 		} catch (Throwable x) {
 			x.printStackTrace();
 		}
