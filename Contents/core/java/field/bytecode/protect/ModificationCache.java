@@ -89,7 +89,7 @@ public class ModificationCache {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				try {
-					System.err.println(" saving <"+known.size()+"> elements");
+//					System.err.println(" saving <"+known.size()+"> elements");
 					ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(new File(filename))));
 					oos.writeObject(ft);
 					oos.close();

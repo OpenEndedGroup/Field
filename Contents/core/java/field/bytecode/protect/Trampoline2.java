@@ -179,7 +179,7 @@ public class Trampoline2 implements iLaunchable {
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 
-				System.out.println(extendedLibraryPaths);
+//				System.out.println(extendedLibraryPaths);
 				for (String s : extendedLibraryPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {

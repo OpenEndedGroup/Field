@@ -491,8 +491,7 @@ public class AdvancedTextures extends BasicTextures {
 
 		ByteBuffer old = null;
 
-		public void dirtyLater(final FullScreenCanvasSWT s, final ByteBuffer upload)
-		{
+		public void dirtyLater(final FullScreenCanvasSWT s, final ByteBuffer upload) {
 			aRun r = new aRun() {
 				public ReturnCode head(Object calledOn, Object[] args) {
 					dirtyNow(upload);
@@ -502,9 +501,8 @@ public class AdvancedTextures extends BasicTextures {
 			};
 			Cont.linkWith(s, FullScreenCanvasSWT.method_display, r);
 		}
-		
-		public void dirtyLaterSideways(final FullScreenCanvasSWT s, final ByteBuffer upload)
-		{
+
+		public void dirtyLaterSideways(final FullScreenCanvasSWT s, final ByteBuffer upload) {
 			aRun r = new aRun() {
 				public ReturnCode head(Object calledOn, Object[] args) {
 					dirtyNowSideways(upload);
@@ -517,72 +515,74 @@ public class AdvancedTextures extends BasicTextures {
 
 		public void dirtyNow(ByteBuffer upload) {
 
-			long a = System.currentTimeMillis();
-			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
-			GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
-			old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
-			old.rewind();
-			upload.rewind();
-			old.put(upload);
-			upload.rewind();
-			old.rewind();
-			GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
-			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
-			dirty();
-			long b = System.currentTimeMillis();
-			System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
-
+			try {
+				long a = System.currentTimeMillis();
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
+				GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
+				old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
+				old.rewind();
+				upload.rewind();
+				old.put(upload);
+				upload.rewind();
+				old.rewind();
+				GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+				dirty();
+				long b = System.currentTimeMillis();
+//				System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+			} catch (Throwable t) {
+				System.err.println(" texture upload failed <" + t + ">");
+			}
 			pbo = pboA;
 		}
 
 		public void dirtyNowSideways(ByteBuffer upload) {
+			try {
 
-			long a = System.currentTimeMillis();
-			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
-			GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
-			old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
-			
-			int w = this.width;
-			int h = this.height;
-			
-			old.rewind();
-			upload.rewind();
-			
-			System.out.println(" reloaded !?!");
-			
-			for(int q=0;q<w*h;q++)
-			{
-				old.put((byte)255);
-				old.put((byte)128);
-				old.put((byte)200);
-			}
-			old.rewind();
-			
-			
-			for(int y=0;y<w;y++)
-			{
-				for(int x=0;x<h;x++)
-				{
-					byte q0 = upload.get();
-					old.put((h-1-x)*w*3+y*3+0, (byte)(q0*0));
-					byte q1 = upload.get();
-					old.put((h-1-x)*w*3+y*3+1, (byte)(q1));
-					byte q2 = upload.get();
-					old.put((h-1-x)*w*3+y*3+2, (byte)(q2));
+				long a = System.currentTimeMillis();
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, pboA);
+				GL15.glBufferData(GL21.GL_PIXEL_UNPACK_BUFFER, 3 * width * height, GL15.GL_STREAM_DRAW);
+				old = GL15.glMapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, GL15.GL_WRITE_ONLY, old);
+
+				int w = this.width;
+				int h = this.height;
+
+				old.rewind();
+				upload.rewind();
+
+				System.out.println(" reloaded !?!");
+
+				for (int q = 0; q < w * h; q++) {
+					old.put((byte) 255);
+					old.put((byte) 128);
+					old.put((byte) 200);
 				}
-			}
-			
-			
-			//old.put(upload);
-			upload.rewind();
-			old.rewind();
-			
-			GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
-			GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
-			dirty();
-			long b = System.currentTimeMillis();
-			System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+				old.rewind();
 
+				for (int y = 0; y < w; y++) {
+					for (int x = 0; x < h; x++) {
+						byte q0 = upload.get();
+						old.put((h - 1 - x) * w * 3 + y * 3 + 0, (byte) (q0 * 0));
+						byte q1 = upload.get();
+						old.put((h - 1 - x) * w * 3 + y * 3 + 1, (byte) (q1));
+						byte q2 = upload.get();
+						old.put((h - 1 - x) * w * 3 + y * 3 + 2, (byte) (q2));
+					}
+				}
+
+				// old.put(upload);
+				upload.rewind();
+				old.rewind();
+
+				GL15.glUnmapBuffer(GL21.GL_PIXEL_UNPACK_BUFFER);
+				GL15.glBindBuffer(GL21.GL_PIXEL_UNPACK_BUFFER, 0);
+				dirty();
+				long b = System.currentTimeMillis();
+//				System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+
+			} catch (Throwable t) {
+				System.err.println(" texture upload failed <" + t + ">");
+			}
 			pbo = pboA;
 		}
 
@@ -614,7 +614,7 @@ public class AdvancedTextures extends BasicTextures {
 				pboA = pboB;
 				pboB = q;
 
-				System.out.println(" texture upload A took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
+//				System.out.println(" texture upload A took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
 			}
 
 			modCounts.put(BasicContextManager.getCurrentContext(), dirty);
@@ -1867,7 +1867,7 @@ public class AdvancedTextures extends BasicTextures {
 			dirty = false;
 		}
 	}
-	
+
 	static public class OneDFloatTexture extends BaseTexture {
 		private final int width;
 
@@ -1883,7 +1883,6 @@ public class AdvancedTextures extends BasicTextures {
 			this.buffer = buffer;
 		}
 
-		
 		public void delete() {
 			if (gl != null) {
 				glDeleteTextures(textureId);
@@ -1913,7 +1912,7 @@ public class AdvancedTextures extends BasicTextures {
 			if (dirty) {
 				assert glGetError() == 0 : buffer;
 				glBindTexture(GL_TEXTURE_1D, textureId);
-				glTexSubImage1D(GL_TEXTURE_1D, 0, 0,  width, GL12.GL_BGRA, GL11.GL_FLOAT, buffer);
+				glTexSubImage1D(GL_TEXTURE_1D, 0, 0, width, GL12.GL_BGRA, GL11.GL_FLOAT, buffer);
 				assert glGetError() == 0 : buffer;
 			}
 			dirty = false;

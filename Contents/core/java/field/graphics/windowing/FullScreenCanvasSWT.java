@@ -385,6 +385,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	@HiddenInAutocomplete
 	public void display() {
 
+		
+		
 		if (neverDisplay)
 			return;
 

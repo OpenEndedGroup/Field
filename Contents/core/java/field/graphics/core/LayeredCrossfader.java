@@ -20,7 +20,7 @@ public class LayeredCrossfader {
 
 	List<iDisplayable> withA = new ArrayList<iDisplayable>();
 	List<iDisplayable> withB = new ArrayList<iDisplayable>();
-	
+
 	int cadence = 4;
 	int tick = 0;
 
@@ -29,6 +29,8 @@ public class LayeredCrossfader {
 	boolean updateA = false;
 	boolean updateB = false;
 	boolean clear = false;
+
+	public boolean doClear = true;
 
 	public LayeredCrossfader(FullScreenCanvasSWT canvas, final LayeredFrameBuffer buffer, int width, int height, int layers) {
 		this.width = width;
@@ -45,16 +47,16 @@ public class LayeredCrossfader {
 			@Override
 			public void update() {
 				if (updateA) {
-					System.out.println(" update A");
-					for(iDisplayable d : withA)
+//					System.out.println(" update A");
+					for (iDisplayable d : withA)
 						d.display();
 					a.display();
 					updateA = false;
 					clear = true;
 				}
 				if (updateB) {
-					System.out.println(" update B");
-					for(iDisplayable d : withB)
+//					System.out.println(" update B");
+					for (iDisplayable d : withB)
 						d.display();
 					b.display();
 					updateB = false;
@@ -62,9 +64,9 @@ public class LayeredCrossfader {
 				}
 			}
 		});
-		
+
 		// attach a program and quad that copies buffer to a and b
-		
+
 		buffer.getSceneList().add(StandardPass.preTransform).register("__layered_cf__" + this, new iUpdateable() {
 
 			@Override
@@ -80,8 +82,8 @@ public class LayeredCrossfader {
 					}
 				}
 
-				if (clear) {
-					System.out.println(" clear ");
+				if (clear && doClear) {
+//					System.out.println(" clear ");
 					GL11.glClearColor(0, 0, 0, 0);
 					GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 					clear = false;
