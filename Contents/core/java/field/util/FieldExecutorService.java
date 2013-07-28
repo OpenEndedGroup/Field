@@ -47,7 +47,12 @@ public class FieldExecutorService extends AbstractExecutorService {
 
 			@Override
 			public void update() {
-				arg0.run();
+				try {
+					arg0.run();
+				} catch (Throwable t) {
+					System.out.println(" exception thrown in SendToField function");
+					t.printStackTrace();
+				}
 				Launcher.getLauncher().deregisterUpdateable(this);
 			}
 		});
