@@ -60,6 +60,20 @@ public class SystemProperties {
 			return p + "/";
 		return p;
 	}
+	
+	/**	Get multiple directory values (guaranteed trailing "/") from a property
+	 	when items separated by ":".
+	 */
+
+	static public String[] getDirProperties(String s) {
+		String[] ps = getProperties(s);
+		
+		for (int i = 0; i < ps.length; i++) {
+			if (!ps[i].endsWith("/")) { ps[i] = ps[i] + "/"; }
+		}
+		
+		return ps;
+	}
 
 
 	static public String getDirProperty(String s, String def)
@@ -134,6 +148,18 @@ public class SystemProperties {
 			System.err.println(" property <"+key+"> from <"+st[st.length-2]+">");
 		}
 		return getProperty(key, "");
+	}
+	
+	/**	Get multiple values from a property when separated by ":". */
+
+	static public String[] getProperties(String key) {
+		String s = getProperty(key);
+
+		if ("".equals(s)) {
+			return new String[] { };
+		} else {
+			return s.split(":");
+		}
 	}
 
 	/**
