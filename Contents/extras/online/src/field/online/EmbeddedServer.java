@@ -168,9 +168,15 @@ public class EmbeddedServer implements iUpdateable {
 							Response r = null;
 							while (mi.hasNext()) {
 								Handler h = mi.next();
-								r = h.serve(r, uri, method, header, parms);
-								if (h.isTransient())
-									mi.remove();
+								try{
+									r = h.serve(r, uri, method, header, parms);
+									if (h.isTransient())
+										mi.remove();
+								}	
+								catch(Throwable t)
+								{
+									t.printStackTrace();
+								}
 							}
 							return r;
 						}
