@@ -52,7 +52,7 @@ public class WorkspaceDirectory {
 		System.err.println(" user home is <" + System.getProperty("user.home") + ">");
 
 		if (!new File(d).exists()) {
-			System.err.println(" since this file doesn't exist, we're goping to ask for one");
+			System.err.println(" since this file doesn't exist, we're going to ask for one");
 			// JOptionPane.showMessageDialog(null,
 			// "Field needs to store all of your files in one directory, the 'workspace'.\nThis is so that it can keep track of them properly and automatically back them up.\nThis directory needs to be set now \u2014 just this once.\nWe recommend Documents/FieldWorkspace");
 
