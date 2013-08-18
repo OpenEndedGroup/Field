@@ -1,8 +1,16 @@
 ## Field
 
-Field is an open-source software project initiated by OpenEndedGroup, for the creation of their digital artworks. It is an environment for writing code to rapidly and experimentally assemble and explore algorithmic systems. It is _visual_, it is _hybrid_, it is _code-based_. We think that it has something to offer a diverse range of programmers and artists. It is developed and tested on Mac OS X (primarily) and Ubuntu 12 + Nvidia proprietary drivers.
+Field is an open-source software project initiated by OpenEndedGroup, for the creation of their digital artworks.
 
-*Our main documentation website is here: http://openendedgroup.com/field*
+It is an environment for writing code to rapidly and experimentally assemble and explore algorithmic systems.
+
+It is _visual_, it is __code-based__, it is ___hybrid___.
+
+We think it has something to offer a diverse range of programmers and artists.
+
+Field is developed and tested on Mac OS X (primarily) and Ubuntu 12 + Nvidia proprietary drivers.
+
+*Our main documentation website is: http://openendedgroup.com/field*
 
 ### MacOS X
 
@@ -21,7 +29,20 @@ To build Field with Java 7 (as supplied by Apple):
 	$ cd ../../..
 	$ ant
 
-That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If you want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then `ant extras_all`. For the less bold, you can add individual plugins: `extras_jsrscripting` adds nascant support for other languages (including Clojure and Ruby); `extras_online` adds a plugin that lets you write in-browser JavaScript; `extras_jfbxlib` brings in fbx support and so on. See the `build.xml` file for a list of targets.
+This will build the core of Field. Individual plugins have additional targets inside the `Contents/build.xml` file.
+
+If you want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then:
+
+	$ ant extras_all
+
+For the less bold, you can add individual plugins:
+
+* `$ ant extras_jsrscripting` - adds nascant support for other languages (including Clojure and Ruby)
+* `$ ant extras_online` - adds a plugin for writing in-browser JavaScript
+* `$ ant extras_jfbxlib` - adds fbx support
+
+... and so on. For the complete list, see the `Contents/build.xml` file.
+
 
 #### Note
 
@@ -48,7 +69,9 @@ Instead of launching Field from its application icon, you can start it from the 
 	$ cd /Applications/Field.app
 	$ ./Contents/MacOS/field_mac64.sh -field.scratch nameOfFileToOpen.field
 
-On first launch Field will ask where you want to store your Field files (we suggest ~/Documents/FieldWorkspace). It will also check to see if you have Mercurial installed. To start with the [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace).
+
+To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
 
 
 ### Linux
@@ -61,7 +84,19 @@ To build Field:
 	$ cd Field/Contents
 	$ ant
 
-That will build the core of Field. Individual plugins have additional targets inside the `build.xml` file. If you want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then `ant extras_all`. For the less bold, you can add individual plugins: `extras_jsrscripting` adds nascant support for other languages (including Clojure and Ruby); `extras_online` adds a plugin that lets you write in-browser JavaScript; `extras_jfbxlib` brings in fbx support and so on. See the `build.xml` file for a list of targets.
+This will build the core of Field. Individual plugins have additional targets inside the `Contents/build.xml` file.
+
+If you want to build them all (and have both Max/MSP and Processing 2.0b1 installed) then:
+
+	$ ant extras_all
+
+For the less bold, you can add individual plugins:
+
+* `$ ant extras_jsrscripting` - adds nascant support for other languages (including Clojure and Ruby)
+* `$ ant extras_online` - adds a plugin for writing in-browser JavaScript
+* `$ ant extras_jfbxlib` - adds fbx support
+
+... and so on. For the complete list, see the `Contents/build.xml` file.
 
 
 #### Starting field
@@ -78,5 +113,7 @@ Should you find that Field crashes on startup complaining of "No Handles", you n
 
 	$ sudo apt-get install libwebkitgtk-1.0-0
 
-On first launch Field will ask where you want to store your Field files (we suggest ~/Documents/FieldWorkspace). It will also check to see if you have Mercurial installed. To start with the [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace), and it will check to see if you have Mercurial installed.
+
+To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
 
