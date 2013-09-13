@@ -323,7 +323,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		if (SystemProperties.getIntProperty("nocursor", 0) == 1) {
 			// getCanvas().setCursor(Launcher.display.getSystemCursor(SWT.));
-			
+
 //			ImageData dd = new ImageData("/Users/nick/Documents/black.png");
 //			Cursor c = new Cursor(Launcher.display, dd, 0, 0);
 //			getCanvas().setCursor(c);
@@ -335,7 +335,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 			sourceData.transparentPixel=0;
 			Cursor cursor = new Cursor(Launcher.getLauncher().display, sourceData, 0, 0);
 			frame.setCursor(cursor);
-			
+
 			// int[] pixels = new int[16 * 16];
 			// Image image =
 			// Toolkit.getDefaultToolkit().createImage(new
@@ -398,8 +398,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	@HiddenInAutocomplete
 	public void display() {
 
-		
-		
+
+
 		if (neverDisplay)
 			return;
 
@@ -639,7 +639,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	}
 
 	/**
-	 * returns the main scenelist � the list of things to draw
+	 * returns the main scenelist - the list of things to draw
 	 */
 	public BasicSceneList getSceneList() {
 		return sceneList;
@@ -974,7 +974,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		return postQueue;
 	}
 
-		
+
 	/**
 	 * returns which stereo side we are building (or middle if we are not a
 	 * stereo canvas
