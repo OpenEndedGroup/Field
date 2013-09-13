@@ -41,8 +41,11 @@ import javax.media.jai.RenderedOp;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Cursor;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.PaletteData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.layout.FillLayout;
@@ -320,9 +323,19 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 
 		if (SystemProperties.getIntProperty("nocursor", 0) == 1) {
 			// getCanvas().setCursor(Launcher.display.getSystemCursor(SWT.));
-			ImageData dd = new ImageData("/Users/marc/Desktop/black.png");
-			Cursor c = new Cursor(Launcher.display, dd, 0, 0);
-			getCanvas().setCursor(c);
+
+//			ImageData dd = new ImageData("/Users/nick/Documents/black.png");
+//			Cursor c = new Cursor(Launcher.display, dd, 0, 0);
+//			getCanvas().setCursor(c);
+
+			Color white = Launcher.getLauncher().display.getSystemColor(SWT.COLOR_WHITE);
+			Color black= Launcher.getLauncher().display.getSystemColor(SWT.COLOR_BLACK);
+			PaletteData palette = new PaletteData(new RGB[]{white.getRGB(), black.getRGB()});
+			ImageData sourceData = new ImageData(16,16,1, palette);
+			sourceData.transparentPixel=0;
+			Cursor cursor = new Cursor(Launcher.getLauncher().display, sourceData, 0, 0);
+			frame.setCursor(cursor);
+
 			// int[] pixels = new int[16 * 16];
 			// Image image =
 			// Toolkit.getDefaultToolkit().createImage(new
@@ -385,8 +398,8 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	@HiddenInAutocomplete
 	public void display() {
 
-		
-		
+
+
 		if (neverDisplay)
 			return;
 
@@ -626,7 +639,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 	}
 
 	/**
-	 * returns the main scenelist � the list of things to draw
+	 * returns the main scenelist - the list of things to draw
 	 */
 	public BasicSceneList getSceneList() {
 		return sceneList;
@@ -961,7 +974,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		return postQueue;
 	}
 
-		
+
 	/**
 	 * returns which stereo side we are building (or middle if we are not a
 	 * stereo canvas
