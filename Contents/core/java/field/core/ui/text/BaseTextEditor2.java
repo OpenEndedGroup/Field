@@ -1,21 +1,24 @@
 package field.core.ui.text;
 
-import java.awt.Graphics;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JComponent;
-import javax.swing.event.ChangeListener;
-import javax.swing.text.Caret;
-import javax.swing.text.JTextComponent;
+import javax.swing.text.Segment;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CaretEvent;
+import org.eclipse.swt.custom.CaretListener;
+import org.eclipse.swt.custom.ExtendedModifyEvent;
+import org.eclipse.swt.custom.ExtendedModifyListener;
 import org.eclipse.swt.custom.LineStyleEvent;
 import org.eclipse.swt.custom.LineStyleListener;
 import org.eclipse.swt.custom.SashForm;
@@ -34,9 +37,7 @@ import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.GCData;
 import org.eclipse.swt.graphics.GlyphMetrics;
 import org.eclipse.swt.graphics.Path;
 import org.eclipse.swt.graphics.Point;
@@ -56,11 +57,13 @@ import org.eclipse.swt.widgets.ToolBar;
 
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.NextUpdate;
+import field.core.Constants;
 import field.core.Platform;
 import field.core.Platform.OS;
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.Rect;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
+import field.core.execution.PythonInterface;
 import field.core.plugins.selection.ToolBarFolder;
 import field.core.ui.MacScrollbarHack;
 import field.core.ui.SmallMenu;
@@ -169,6 +172,8 @@ public class BaseTextEditor2 {
 	private Color[] colors;
 
 	PythonCallableMap textDecoration = new PythonCallableMap();
+	PythonCallableMap keybindings = new PythonCallableMap();
+	PythonCallableMap postKeybindings = new PythonCallableMap();
 
 	String searchString = null;
 
@@ -218,11 +223,10 @@ public class BaseTextEditor2 {
 
 	private FindAndReplace fandr;
 
+	protected Color tabBackground = new Color(Launcher.display, 80, 80, 80);
+
 	public BaseTextEditor2() {
 
-		// ;//System.out.println(" window is <"+GLComponentWindow.lastCreatedWindow);
-
-		// todo ÔøΩ pass in parent
 		final GLComponentWindow lcw = GLComponentWindow.lastCreatedWindow;
 		final Composite target = GLComponentWindow.lastCreatedWindow.rightComp;
 		final Composite targetWindow = GLComponentWindow.lastCreatedWindow.getFrame();
@@ -474,6 +478,24 @@ public class BaseTextEditor2 {
 			}
 		});
 
+		ed.addExtendedModifyListener(new ExtendedModifyListener() {
+
+			boolean inside = false;
+
+			@Override
+			public void modifyText(ExtendedModifyEvent arg0) {
+				if (!inside) {
+					try {
+						inside = true;
+						postKeybindings.invoke();
+						postKeybindings.reset();
+					} finally {
+						inside = false;
+					}
+				}
+			}
+		});
+
 		ed.addListener(SWT.Paint, new Listener() {
 
 			int tick = 0;
@@ -486,6 +508,7 @@ public class BaseTextEditor2 {
 				// should be if different !!
 				if (!ed.getText().equals(prevText) && ed.getVerticalBar().getSelection() != lastS)
 					lcw.requestRepaint();
+
 				lastS = ed.getVerticalBar().getSelection();
 				prevText = ed.getText();
 				fandr.setLocation(5, ed.getSize().y - 5 - 74);
@@ -526,7 +549,7 @@ public class BaseTextEditor2 {
 
 		edOut = new StyledText(vsplit, SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
 
-		int size = SystemProperties.getIntProperty("editorFontSize", (int) (Platform.isMac() ? (Launcher.display.getSystemFont().getFontData()[0].height * 1.25f) : (Launcher.display.getSystemFont().getFontData()[0].height)));
+		int size = Constants.defaultFont_editorSize;
 		Font font = new Font(Launcher.display, field.core.Constants.defaultTextEditorFont, size, SWT.NORMAL);
 		ed.setTabs(SystemProperties.getIntProperty("editorTabSize", 8));
 		System.out.println(" font :" + font);
@@ -541,9 +564,17 @@ public class BaseTextEditor2 {
 
 			@Override
 			public void verifyKey(VerifyEvent event) {
-				lcw.requestRepaint();
+				// lcw.requestRepaint();
 
-				System.out.println(" event.stateMask :" + event.stateMask + " " + Platform.getCommandModifier2() + " " + event.keyCode);
+				try {
+					keybindings.invoke(event, getThisBox());
+				} catch (Exception e) {
+					e.printStackTrace();
+					e.printStackTrace(PythonInterface.getPythonInterface().getErrorStream());
+					keybindings.reset();
+				}
+				if (!event.doit)
+					return;
 
 				if (event.keyCode == '\r' && (event.stateMask & Platform.getCommandModifier2()) != 0) {
 					if ((event.stateMask & SWT.ALT) != 0) {
@@ -573,7 +604,6 @@ public class BaseTextEditor2 {
 					event.doit = false;
 				} else if ((event.keyCode == SWT.ARROW_UP) && (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(1, true);
-					;// System.out.println(" scrolling ");
 					event.doit = false;
 				} else if ((event.keyCode == SWT.ARROW_DOWN) && (event.stateMask & SWT.ALT) != 0) {
 					sliders.scroll(-1, true);
@@ -646,15 +676,26 @@ public class BaseTextEditor2 {
 			}
 		});
 
+		ed.addCaretListener(new CaretListener() {
+
+			int was = 0;
+
+			@Override
+			public void caretMoved(CaretEvent arg0) {
+				navigationChanged(was, arg0.caretOffset);
+				was = arg0.caretOffset;
+			}
+		});
+
 		ed.addPaintListener(new PaintListener() {
 
 			@Override
 			public void paintControl(PaintEvent e) {
 
-				if (Platform.isMac()) {
-					GCData data = e.gc.getGCData();
-					data.state &= ~(1 << 10);
-				}
+				// if (Platform.isMac()) {
+				// GCData data = e.gc.getGCData();
+				// data.state &= ~(1 << 10);
+				// }
 
 				paintPositionAnnotations(e.gc, ed.getSize().x);
 
@@ -801,10 +842,14 @@ public class BaseTextEditor2 {
 				};
 			}
 
+			LinkedHashSet<Integer> ongoing = new LinkedHashSet<Integer>();
+
 			@Override
 			public void lineGetStyle(LineStyleEvent event) {
 				String text = event.lineText;
 
+				System.out.println(" lineGetStyle :" + event.lineOffset + " >" + event.lineText + "<");
+				// new Exception().printStackTrace();
 				LineRec lr = new LineRec(event.lineOffset, text);
 				StyleRange[] rr = cache.get(lr);
 
@@ -815,40 +860,143 @@ public class BaseTextEditor2 {
 
 				List<StyleRange> ranges = new ArrayList<StyleRange>();
 
-				int left = 0;
-
+				List<Token> tl = tok.getTokenList(new Segment(text.toCharArray(), 0, text.length()), 0, 0);
+				tl = handleEmbeddedControls(tl);
 				boolean doNotCache = false;
+				if (tl != null)
+					for (Token tt : tl) {
+						if (tt.toToken() == TokenTypes.embedded_control) {
+							doNotCache = true;
+							StyleRange s = new StyleRange(tt.start + event.lineOffset, tt.end - tt.start + 1, colors[tt.toToken().ordinal()], ed.getBackground());
 
-				while (left < event.lineText.length()) {
-					scanner.setString(text.substring(left), 0);
-					scanner.scan();
+							getStyleForEmbeddedString(s, text.substring(tt.start, tt.end + 1));
+							ranges.add(s);
+							if (s.data instanceof JComponent) {
+								int h = ((JComponent) s.data).getMinimumSize().height;
+								if (h < 12)
+									h = 12;
+								s.metrics = new GlyphMetrics((int) (h * 2 / 3.0f), (int) (h * 1 / 3.0f), s.metrics.width);
+							}
+						} else if (tt.type != 0) {
+							StyleRange s = new StyleRange(tt.start + event.lineOffset, tt.end - tt.start + 1, colors[tt.toToken().ordinal()], ed.getBackground());
+							if (tt.toToken() == TokenTypes.whitespace && tt.start == 0 && event.lineOffset > 0 && tt.array[0] != '\t') {
+								s.background = tabBackground;
+								// s.background
+								// =
+								// Launcher.getLauncher().display.getSystemColor(SWT.COLOR_RED);
+								// s.borderColor
+								// =
+								// Launcher.getLauncher().display.getSystemColor(SWT.COLOR_RED);
+								// s.borderStyle
+								// =
+								// SWT.BORDER_DASH;
 
-					int token = scanner.token;
+								int previousLine = ed.getLineAtOffset(event.lineOffset - 1);
+								int lineStart = ed.getOffsetAtLine(previousLine);
+								int lineEnd = event.lineOffset - 1;
 
-					StyleRange s = new StyleRange(left + event.lineOffset, scanner.getEndOffset(), colors[token], ed.getBackground());
+								if (lineStart == 0 || ongoing.contains(lineStart)) {
+									s.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), 0);
+									ranges.add(s);
+								} else {
 
-					System.out.println(" background color for style range is <" + ed.getBackground() + "> is <" + s.font);
+									ongoing.add(lineStart);
+									try {
+										System.out.println(" character is :" + ed.getTextRange(1 + lineStart + Math.max(0, Math.min(tt.end, ed.getLine(previousLine).length() - 1)), 1));
+										Point p = ed.getLocationAtOffset(lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)));
+										Rectangle bounds = ed.getTextBounds(lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)), lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)) + 1);
+										Point p2 = ed.getLocationAtOffset(lineStart);
+										System.out.println(" point for previous position is :" + p.x + " " + p2.x + " " + bounds);
 
-					if (token == TokenTypes.embedded_control.ordinal()) {
-						doNotCache = true;
+										p.x = Math.max(0, p.x - 5);
 
-						getStyleForEmbeddedString(s, text.substring(left, left + scanner.getEndOffset()));
-						if (s.data instanceof JComponent) {
-							int h = ((JComponent) s.data).getMinimumSize().height;
-							if (h < 12)
-								h = 12;
-							s.metrics = new GlyphMetrics((int) (h * 2 / 3.0f), (int) (h * 1 / 3.0f), s.metrics.width);
+										if (tt.end > 0) {
+											int base = p.x / (tt.end);
+
+											System.out.println(" tt.end :" + tt.end);
+											s.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), base);
+											s.length--;
+
+											ranges.add(s);
+
+											StyleRange s2 = new StyleRange(s.start + s.length, 1, colors[tt.toToken().ordinal()], ed.getBackground());
+											s2.start = s.start + s.length;
+											s2.length = 1;
+											s2.background = tabBackground;
+											// s2.borderColor
+											// =
+											// Launcher.getLauncher().display.getSystemColor(SWT.COLOR_GREEN);
+											// s2.borderStyle
+											// =
+											// SWT.BORDER_DASH;
+
+											int remainder = p.x - (base * (tt.end));
+											s2.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), remainder);
+
+											System.out.println(" base is :" + base + " remainder is " + remainder);
+
+											s = s2;
+										} else {
+											s.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), p.x);
+
+											ranges.add(s);
+
+										}
+									} finally {
+										ongoing.remove(lineStart);
+									}
+								}
+							}
+							ranges.add(s);
 						}
 					}
 
-					ranges.add(s);
+				System.out.println(" translated :" + event.lineText + " to " + tl);
 
-					// ;//System.out.println(" style <" +
-					// text.substring(left)
-					// + " -> " + s + ">");
-
-					left = Math.max(left + scanner.getEndOffset(), left + 1);
-				}
+				// int left = 0;
+				//
+				// boolean doNotCache = false;
+				//
+				// while (left < event.lineText.length()) {
+				// scanner.setString(text.substring(left), 0);
+				// scanner.scan();
+				//
+				// int token = scanner.token;
+				//
+				// StyleRange s = new StyleRange(left +
+				// event.lineOffset, scanner.getEndOffset(),
+				// colors[token], ed.getBackground());
+				//
+				// System.out.println(" background color for style range is <"
+				// + ed.getBackground() + "> is <" + s.font);
+				//
+				// if (token ==
+				// TokenTypes.embedded_control.ordinal()) {
+				// doNotCache = true;
+				//
+				// getStyleForEmbeddedString(s,
+				// text.substring(left, left +
+				// scanner.getEndOffset()));
+				// if (s.data instanceof JComponent) {
+				// int h = ((JComponent)
+				// s.data).getMinimumSize().height;
+				// if (h < 12)
+				// h = 12;
+				// s.metrics = new GlyphMetrics((int) (h * 2 /
+				// 3.0f), (int) (h * 1 / 3.0f),
+				// s.metrics.width);
+				// }
+				// }
+				//
+				// ranges.add(s);
+				//
+				// // ;//System.out.println(" style <" +
+				// // text.substring(left)
+				// // + " -> " + s + ">");
+				//
+				// left = Math.max(left +
+				// scanner.getEndOffset(), left + 1);
+				// }
 
 				event.styles = new StyleRange[ranges.size()];
 				for (int i = 0; i < ranges.size(); i++)
@@ -922,6 +1070,161 @@ public class BaseTextEditor2 {
 		new BetterSash(vsplit, false);
 
 	}
+
+	Pattern embeddedControl = Pattern.compile("[\uf800-\uff00]");
+
+	protected List<Token> handleEmbeddedControls(List<Token> tl) {
+		List<Token> tt = new ArrayList<Token>();
+		for (Token t : tl) {
+			if (t.array == null) {
+				tt.add(t);
+				continue;
+			}
+			Matcher m = embeddedControl.matcher(new String(t.array).subSequence(t.start, t.end + 1));
+			int at = 0;
+
+			System.out.println(" matching : '" + new String(t.array).subSequence(t.start, t.end + 1) + "'");
+
+			while (m.find(at)) {
+				int a = m.start();
+				int b = m.end();
+
+				if (a > 0) {
+					Token t1 = new Token();
+					t1.start = t.start + at;
+					t1.end = t1.start + a;
+					t1.array = t.array;
+					t1.type = t.type;
+
+					System.out.println(" add pre token :" + t1.start + " -> " + t1.end);
+
+					tt.add(t1);
+				}
+				Token t1 = new Token();
+				t1.start = t.start + a;
+				t1.end = t.start + b - 1;
+				t1.array = t.array;
+				t1.type = Token.EMBEDDED_CONTROL;
+				System.out.println(" add EC token :" + t1.start + " -> " + t1.end);
+				tt.add(t1);
+				at = m.end();
+			}
+			if (at == 0) {
+				System.out.println(" copy token :" + t.start + " -> " + t.end);
+				tt.add(t);
+			} else if (at < t.end - t.start + 1) {
+				Token t1 = new Token();
+				t1.start = t.start + at;
+				t1.end = t.start + t.array.length - 1;
+				t1.array = t.array;
+				System.out.println(" add post token :" + t1.start + " -> " + t1.end);
+				t1.type = t.type;
+				tt.add(t1);
+			}
+		}
+
+		System.out.println(" explode out controls ");
+		System.out.println("   from :" + tl);
+		System.out.println(" to :" + tt);
+		return tt;
+	}
+
+	protected int[] bracketPosition(String text, int q) {
+		int[] ret = { 0, 0 };
+
+		if (q > text.length())
+			return new int[] { 0, 0 };
+
+		{
+			int start = q - 1;
+			int bra = 0;
+			while (start >= 0) {
+				char tq = text.charAt(start);
+				if (tq == '(' || tq == '[' || tq == '{') {
+					bra--;
+					if (bra < 0)
+						break;
+				}
+				if (tq == ')' || tq == ']' || tq == '}') {
+					bra++;
+				}
+				start--;
+			}
+			ret[0] = start;
+		}
+		{
+			int start = q;
+			int bra = 0;
+			while (start < text.length()) {
+				char tq = text.charAt(start);
+				if (tq == '(' || tq == '[' || tq == '{') {
+					bra++;
+				}
+				if (tq == ')' || tq == ']' || tq == '}') {
+					bra--;
+					if (bra < 0)
+						break;
+				}
+				start++;
+			}
+			ret[1] = start;
+		}
+		return ret;
+	}
+
+	protected void navigationChanged(int lastCaretPosition, int at) {
+		String z = getInputEditor().getText();
+
+		int[] was = bracketPosition(z, lastCaretPosition);
+		final int[] now = bracketPosition(z, at);
+		System.out.println(" navigation changed, brackets are :" + was[0] + " -> " + was[1] + " : " + now[0] + " " + now[1]);
+		if (was[0] != now[0] || was[1] != now[1]) {
+
+			final Position qq = StyledTextPositionSystem.get(ed).createPosition(now[0]);
+			final Position qq1 = StyledTextPositionSystem.get(ed).createPosition(now[0] + 1);
+
+			addPositionAnnotation(new iPositionAnnotation() {
+
+				@Override
+				public String toolTipText() {
+					return null;
+				}
+
+				@Override
+				public Position getStartPosition() {
+					return qq;
+				}
+
+				@Override
+				public Position getEndPosition() {
+					return qq1;
+				}
+
+				@Override
+				public boolean drawRect(Rectangle r, GC g) {
+					System.out.println(" bracket :" + r);
+					r.width += 8;
+					g.setAlpha(128);
+					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_BLUE));
+					g.fillRectangle(r);
+
+					deferredRedraw(ed);
+
+					Point loc = ed.getLocationAtOffset(now[1]);
+
+					Path pp = new Path(Launcher.getLauncher().display);
+					pp.moveTo(loc.x + 4, loc.y - 2);
+					pp.cubicTo(loc.x + 4, Math.min(loc.y - 8, r.y - 8), r.x + r.width / 2, Math.min(loc.y - 8, r.y - 8), r.x + r.width / 2, r.y);
+					g.drawPath(pp);
+
+					return false;
+				}
+			});
+		}
+	}
+
+	TokenMaker tok = new PythonTokenMaker();
+	
 
 	protected void bracketMatchClose(char op, char cl) {
 		final StyledText ed = getInputEditor();
@@ -1152,40 +1455,6 @@ public class BaseTextEditor2 {
 
 	}
 
-	// JButton actions = null;
-	//
-	// private JButton getActions() {
-	// if (actions == null) {
-	// actions = new JButton();
-	// actions.setPreferredSize(new Dimension(24, 24));
-	// actions.setMaximumSize(new Dimension(24, 24));
-	// actions.setMinimumSize(new Dimension(24, 24));
-	// // actions.setPressedIcon(new
-	// //
-	// ImageIcon(getClass().getResource("/content/icons/Action_Pressed.jpg")));
-	// // actions.setIcon(new
-	// // ImageIcon(getClass().getResource("/content/icons/action.tiff")));
-	// // actions.setIcon(BetterComboBox.getDiscloseIcon());
-	// actions.setIcon(new ImageIcon("content/icons/Gear.png"));
-	// actions.setIconTextGap(0);
-	// actions.putClientProperty("Quaqua.Button.style", "square");
-	// actions.addActionListener(new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// BetterPopup menu = getActionMenu();
-	//
-	// // TODO swt ÔøΩ text editor
-	// // if (menu != null)
-	// // menu.show(actions, 20, 10);
-	// }
-	// });
-	//
-	// actions.setOpaque(false);
-	//
-	// }
-	// return actions;
-	// }
-	//
-
 	Button actionsOutput = null;
 
 	private Button getOutputActions() {
@@ -1265,13 +1534,18 @@ public class BaseTextEditor2 {
 
 	public void addPositionAnnotation(iPositionAnnotation annotation) {
 		positionAnnotations.add(annotation);
-		this.frame.redraw();
-		this.ed.redraw();
+		// this.frame.redraw();
+		try {
+			this.ed.redraw();
+		} catch (Throwable t) {
+			System.out.println(" mysterious, but benign?");
+			t.printStackTrace();
+		}
 	}
 
 	public void clearPositionAnnotations() {
 		positionAnnotations.clear();
-		this.frame.redraw();
+		// this.frame.redraw();
 		this.ed.redraw();
 	}
 
@@ -1756,7 +2030,7 @@ public class BaseTextEditor2 {
 	}
 
 	protected void paintPositionAnnotations(GC g2, int width) {
-		// System.out.println(" PA :" + positionAnnotations);
+		System.out.println(" PA :" + positionAnnotations);
 		Iterator<iPositionAnnotation> ii = positionAnnotations.iterator();
 		while (ii.hasNext()) {
 			iPositionAnnotation pa = ii.next();

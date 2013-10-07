@@ -1,5 +1,6 @@
 package field.extras.jsrscripting;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -86,7 +87,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 			// "		return RT.var(self.nsName, name).get()\n" +
 					"		return Namespace.findOrCreate(Symbol.intern(self.nsName)).getMappings()[Symbol.intern(name)].get()\n" +
 					//
-					"\n" + "	def __setattr__(self, name, val):\n" + "		return RT.var(self.nsName, name).bindRoot(name, val)\n" + "\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n");
+					"\n" + "	def __setattr__(self, name, val):\n" + "		return RT.var(self.nsName, name).bindRoot(val)\n" + "\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n");
 
 
 			lateInitCompletionHook();
@@ -174,7 +175,9 @@ public class ClojureScriptingInterface extends JSRInterface {
 			}
 
 			return e;
-		} finally {
+		} 
+		
+		finally {
 
 			ns_exit();
 			System.out.flush();
@@ -183,6 +186,47 @@ public class ClojureScriptingInterface extends JSRInterface {
 		}
 	}
 
+	protected void handleScriptException(ScriptException e) {
+
+		System.out.println(" << stack trace begins >>");
+		e.printStackTrace();
+		System.out.println(" << stack trace ends>>");
+
+		try {
+			String message = e.getMessage();
+			System.out.println(" ---------- m");
+			System.out.println(message);
+			System.out.println(" ---------- m");
+			
+			newContext.getErrorWriter().append(message+"\n");
+			Throwable c = e.getCause();
+			if (c!=null)
+			{
+				StackTraceElement[] st = c.getStackTrace();
+				for(int i=0;i<st.length;i++)
+				{
+					if (st[i].getClassName().equals("clojure.lang.Compiler"))
+						break;
+					newContext.getErrorWriter().append("  "+st[i]+"\n");
+				}
+			}
+//			System.out.println("cause is :"+Arrays.asList(e.getStackTrace()));
+//			System.out.println("cause is :"+e.getCause());
+//			System.out.println("cause is :"+Arrays.asList(e.getCause().getStackTrace()));
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		// e.printStackTrace(new PrintStream(new OutputStream() {
+		// Writer w = newContext.getErrorWriter();
+		//
+		// @Override
+		// public void write(int b) throws IOException {
+		// w.append((char) b);
+		// }
+		// }));
+	}
 	private void ns_exit() {
 	}
 
@@ -198,12 +242,6 @@ public class ClojureScriptingInterface extends JSRInterface {
 			return false;
 
 		return !forbiddenNames.contains(name);
-	}
-
-	@Override
-	protected void handleScriptException(ScriptException e) {
-		e.printStackTrace();
-		super.handleScriptException(e);
 	}
 
 	@Override

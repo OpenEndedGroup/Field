@@ -60,6 +60,8 @@ import field.core.ui.NewTemplates;
 import field.core.ui.text.BaseTextEditor2;
 import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor;
+import field.core.ui.text.PythonTokenMaker;
+import field.core.ui.text.TokenMaker;
 import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.core.ui.text.StyledTextUndo;
@@ -676,6 +678,11 @@ public class PythonPluginEditor extends PythonPlugin {
 				}
 				return r;
 			}
+			
+			@Override
+			public TokenMaker getCustomTokenMaker() {
+				return null;
+			}
 		}
 
 		private final iVisualElement root;
@@ -696,6 +703,21 @@ public class PythonPluginEditor extends PythonPlugin {
 				return ref.get().globalCompletionHook(leftText, publicOnly, comp, editor);
 			}
 			return false;
+		}
+
+		@Override
+		public TokenMaker getCustomTokenMaker() {
+			iVisualElementOverrides.topology.begin(currentlyEditing);
+			Ref<EditorExecutionInterface> ref = new Ref<EditorExecutionInterface>(new Delegate(currentlyEditing));
+			iVisualElementOverrides.forward.getProperty.getProperty(currentlyEditing, editorExecutionInterface, ref);
+			iVisualElementOverrides.topology.end(currentlyEditing);
+
+			if (ref.get() != null) {
+				TokenMaker q = ref.get().getCustomTokenMaker();
+				if (q != null)
+					return q;
+			}
+			return new PythonTokenMaker();
 		}
 
 		public void executeFragment(String fragment) {
@@ -1915,6 +1937,7 @@ public class PythonPluginEditor extends PythonPlugin {
 	protected void swapIn(iVisualElement element, VisualElementProperty<String> prop) {
 		editor.clearPositionAnnotations();
 		editor.setInside(element);
+		
 		if (element != null) {
 			informationFor(element);
 			Ref<String> r = new Ref<String>(null);
@@ -1939,6 +1962,7 @@ public class PythonPluginEditor extends PythonPlugin {
 				}
 
 				currentlyEditing = element;
+				editor.setTokenMaker(editor.getInterface().getCustomTokenMaker());
 
 				editor.setText(markedText);
 
@@ -2028,6 +2052,7 @@ public class PythonPluginEditor extends PythonPlugin {
 				}
 			}
 
+			
 		} else {
 			banner = "disabled (no selection)";
 			editor.setActionMenu(null);
@@ -2047,9 +2072,8 @@ public class PythonPluginEditor extends PythonPlugin {
 
 		ToolBar t = editor.getToolbar();
 
-		System.out.println(" background for custom toolbar is :"+t.getBackground());
+		System.out.println(" background for custom toolbar is :" + t.getBackground());
 
-		
 		for (Control b : customToolbarFromProperties)
 			b.dispose();
 
@@ -2107,8 +2131,8 @@ public class PythonPluginEditor extends PythonPlugin {
 			customToolbarFromProperties.add(b);
 			b.setBackground(b.getParent().getBackground());
 
-			System.out.println(" background for custom toolbar is :"+b.getParent().getBackground());
-			
+			System.out.println(" background for custom toolbar is :" + b.getParent().getBackground());
+
 		}
 		t.layout();
 		//

@@ -1,5 +1,6 @@
 package field.core.util;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -10,6 +11,8 @@ import org.python.core.Py;
 import org.python.core.PyFunction;
 import org.python.core.PyObject;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import clojure.lang.IFn;
 import field.core.dispatch.FastVisualElementOverridesPropertyCombiner;
 import field.core.dispatch.FastVisualElementOverridesPropertyCombiner.iCombiner;
 import field.core.dispatch.iVisualElement;
@@ -28,7 +31,7 @@ public class PythonCallableMap implements iCallable {
 	// {
 	// FieldPyObjectAdaptor2.isCallable(PythonCallableMap.class);
 	// }
-	//	
+	//
 	public LinkedHashMap<String, Callable> known = new LinkedHashMap<String, Callable>();
 
 	public PyFunction register(String name, PyFunction f) {
@@ -47,24 +50,42 @@ public class PythonCallableMap implements iCallable {
 		return f;
 	}
 
+	public IFn register(String name, final IFn f) {
+		Callable newCallable = new Callable(f, name) {
+			@Override
+			public Object call(Method m, Object[] args) {
+				if (args.length == 0)
+					return f.invoke();
+				if (args.length == 1)
+					return f.invoke(args[0]);
+				if (args.length == 2)
+					return f.invoke(args[0], args[1]);
+				throw new NotImplementedException();
+			}
+		};
+		Callable oldCallable = known.get(name);
+
+		doRegister(name, newCallable, oldCallable);
+		return f;
+	}
+
 	public iFunction<Object, Object> register(String name, iFunction<Object, Object> f) {
 		Callable newCallable = newCallable(name, f);
 		Callable oldCallable = known.get(name);
 
 		doRegister(name, newCallable, oldCallable);
 		return f;
-		
+
 	}
 
-	
 	protected Callable newCallable(PyFunction f) {
 		return PythonOverridden.callableForFunction(f, (CapturedEnvironment) PythonInterface.getPythonInterface().getVariable("_environment"));
 	}
-	
+
 	protected Callable newCallable(String name, iUpdateable f) {
 		return PythonOverridden.callableForUpdatable(name, f);
 	}
-	
+
 	protected Callable newCallable(String name, iFunction f) {
 		return PythonOverridden.callableForFunction(name, f);
 	}
@@ -98,16 +119,15 @@ public class PythonCallableMap implements iCallable {
 			}
 			return r;
 		} finally {
-			
+
 			for (String s : clear) {
 				known.remove(s);
 			}
 			clear.clear();
-			
+
 		}
 	}
 
-	
 	public Collection<Object> gather(Object... a) {
 		PythonInterface.getPythonInterface().setVariable("hooks", this);
 
@@ -118,17 +138,17 @@ public class PythonCallableMap implements iCallable {
 			for (Map.Entry<String, Callable> c : known.entrySet()) {
 				current = c.getKey();
 				r = c.getValue().call(null, a);
-				if (r!=null)
+				if (r != null)
 					aa.add(r);
 			}
 			return aa;
 		} finally {
-			
+
 			for (String s : clear) {
 				known.remove(s);
 			}
 			clear.clear();
-			
+
 		}
 	}
 
@@ -186,12 +206,11 @@ public class PythonCallableMap implements iCallable {
 	}
 
 	public void merge(PythonCallableMap u) {
-		if (u!=null)
+		if (u != null)
 			this.known.putAll(u.known);
 	}
-	
-	static public PythonCallableMap merge(iVisualElement from, VisualElementProperty<PythonCallableMap> parameter)
-	{
+
+	static public PythonCallableMap merge(iVisualElement from, VisualElementProperty<PythonCallableMap> parameter) {
 		return new FastVisualElementOverridesPropertyCombiner<PythonCallableMap, PythonCallableMap>(false).getProperty(from, parameter, new iCombiner<PythonCallableMap, PythonCallableMap>() {
 
 			@Override
@@ -207,9 +226,7 @@ public class PythonCallableMap implements iCallable {
 				return m;
 			}
 		});
-		
-	}
 
-	
+	}
 
 }

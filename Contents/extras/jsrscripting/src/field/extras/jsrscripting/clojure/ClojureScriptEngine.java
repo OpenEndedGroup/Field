@@ -190,7 +190,9 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 			result = Compiler.load(reader);
 		} catch (Exception e) {
 
-			throw new ScriptException(e);
+			ScriptException ee = new ScriptException(e.getMessage());
+			ee.initCause(e);
+			throw ee;
 		} finally {
 			Var.popThreadBindings();
 		}

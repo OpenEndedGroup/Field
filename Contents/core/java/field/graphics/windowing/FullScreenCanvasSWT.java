@@ -247,7 +247,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		GLData data = new GLData();
 		data.doubleBuffer = true;
 		data.depthSize = 24;
-		data.stencilSize = 8;
+		data.stencilSize = 8; 
 
 		data.stereo = stereo | activeLayered;
 		if (doMultisampling) {
@@ -318,22 +318,7 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 		dimensions[2] = w;
 		dimensions[3] = h;
 
-		if (SystemProperties.getIntProperty("nocursor", 0) == 1) {
-			// getCanvas().setCursor(Launcher.display.getSystemCursor(SWT.));
-			ImageData dd = new ImageData("/Users/marc/Desktop/black.png");
-			Cursor c = new Cursor(Launcher.display, dd, 0, 0);
-			getCanvas().setCursor(c);
-			// int[] pixels = new int[16 * 16];
-			// Image image =
-			// Toolkit.getDefaultToolkit().createImage(new
-			// MemoryImageSource(16, 16, pixels, 0, 16));
-			// Cursor transparentCursor =
-			// Toolkit.getDefaultToolkit().createCustomCursor(image,
-			// new Point(0, 0), "nothing");
-			// frame.setCursor(transparentCursor);
-			// canvas.setCursor(transparentCursor);
-		}
-
+		
 	}
 
 	@HiddenInAutocomplete
@@ -537,10 +522,10 @@ public class FullScreenCanvasSWT implements iUpdateable, iThreedDrawingSurface, 
 					if (activeLayered) {
 						glEnable(GL11.GL_STEREO);
 						glDrawBuffer(GL_BACK_LEFT);
-						side = 0;
+						side = totalFlip ? 1 : 0;
 						repackageList_left.update();
 						glDrawBuffer(GL_BACK_RIGHT);
-						side = 1;
+						side = totalFlip ? 0 : 1;
 						repackageList_right.update();
 						side = 0;
 						if (doFlush()) {

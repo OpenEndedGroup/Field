@@ -10,7 +10,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -40,10 +39,14 @@ public class JSRPlugin extends BaseSimplePlugin {
 		knownLanguages.put("JavaC", JavaCScriptingInterface.class.getName());
 		knownLanguages.put("Clojure", ClojureScriptingInterface.class.getName());
 		knownLanguages.put("JRuby", JRubyScriptingInterface.class.getName());
+		knownLanguages.put("Nashorn", NashornScriptingInterface.class.getName());
+		knownLanguages.put("Scala", ScalaScriptingInterface.class.getName());
 
 		knownTests.put("JavaC", JavaCScriptingInterface.class.getName());
 		knownTests.put("Clojure", ClojureScriptingInterface.class.getName());
 		knownTests.put("JRuby", JRubyScriptingInterface_test.class.getName());
+		knownTests.put("Nashorn", NashornScriptingInterface.class.getName());
+		knownTests.put("Scala", ScalaScriptingInterface.class.getName());
 
 	}
 

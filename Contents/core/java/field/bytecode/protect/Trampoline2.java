@@ -451,9 +451,16 @@ public class Trampoline2 implements iLaunchable {
 	}
 
 	public void addJar(String n) {
-//		System.out.println(" add jar :" + n);
 		try {
-			loader.addURL(new URL("file://" + n));
+			
+			if (new File(n).exists())
+			{				
+				if (new File(n).isDirectory() && !n.endsWith("/"))
+					loader.addURL(new URL("file://" + n+"/"));
+				else
+					loader.addURL(new URL("file://" + n));
+				extendedClassPaths.add(n);
+			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
@@ -471,13 +478,7 @@ public class Trampoline2 implements iLaunchable {
 
 			try {
 
-//				System.out.println(" adding to loader <" + "file://" + path.getAbsolutePath() + "/" + ">");
-
 				loader.addURL(new URL("file://" + path.getCanonicalPath() + "/"));
-
-				// URL[] uu = loader.getURLs();
-				// for(URL uuu : uu)
-				// ;//System.out.println("     "+uuu);
 
 			} catch (MalformedURLException e1) {
 				e1.printStackTrace();
@@ -675,7 +676,6 @@ public class Trampoline2 implements iLaunchable {
 //			System.out.println(" found <" + natives.length + ">");
 			for (File n : natives) {
 				try {
-//					System.out.println(" preemptive load of <" + n + ">");
 //					System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
@@ -893,8 +893,6 @@ public class Trampoline2 implements iLaunchable {
 		if (extendedJars != null) {
 			String[] ex = extendedJars.split(":");
 			for (String e : ex) {
-				;// System.out.println(" adding jar <" + e +
-					// ">");
 				addJar(e);
 			}
 		}
