@@ -154,6 +154,10 @@ public class BasicGeometry {
 			}
 
 			pre();
+			if (/* first || */(id == BasicContextManager.ID_NOT_FOUND) || (!BasicContextManager.isValid(this))) {
+				doSetup();
+				first = false;
+			}
 			if (Base.trace)
 				;//System.out.println(" ----------- drawing " + this + " <<" + System.identityHashCode(this) + ">>");
 			if (enable)

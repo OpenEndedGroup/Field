@@ -18,7 +18,7 @@ import field.launch.Launcher.iExceptionHandler;
 public class SimpleLogging {
 
 	static {
-		System.setErr(new PrintStream(System.err) {
+		System.setErr(new PrintStream(System.out) {
 
 			ThreadLocal<StringBuffer> thisLine = new ThreadLocal<StringBuffer>() {
 				@Override

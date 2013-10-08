@@ -532,6 +532,7 @@ public class AdvancedTextures extends BasicTextures {
 //				System.out.println(" texture upload B took :" + (b - a) + " " + (width * height * 3 / 1024.0 / 1024.0) / ((b - a) / 1000.0) + " MB/s");
 			} catch (Throwable t) {
 				System.err.println(" texture upload failed <" + t + ">");
+				System.out.println(" input was :"+upload+" into "+old+" / "+width+" "+height+" ( "+(3*width*height)+")");
 			}
 			pbo = pboA;
 		}
@@ -582,6 +583,7 @@ public class AdvancedTextures extends BasicTextures {
 
 			} catch (Throwable t) {
 				System.err.println(" texture upload failed <" + t + ">");
+				System.out.println(" input was :"+upload+" into "+old+" / "+width+" "+height+" ( "+(3*width*height)+")");
 			}
 			pbo = pboA;
 		}

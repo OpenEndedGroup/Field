@@ -30,6 +30,7 @@ import field.core.plugins.log.AssemblingLogging.iBlendSupport;
 import field.core.plugins.python.PythonPlugin;
 import field.core.plugins.python.PythonPluginEditor;
 import field.core.ui.text.BaseTextEditor2;
+import field.core.ui.text.TokenMaker;
 import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
 import field.math.abstraction.iFloatProvider;
@@ -291,6 +292,11 @@ public class KeyframeGroupOverride extends GroupOverride {
 					@Override
 					public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
 						return false;
+					}
+
+					@Override
+					public TokenMaker getCustomTokenMaker() {
+						return delegate.getCustomTokenMaker();
 					}
 				});
 
