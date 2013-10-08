@@ -12,6 +12,7 @@ import org.python.core.PyFunction;
 import org.python.core.PyList;
 import org.python.core.PyModule;
 import org.python.core.PyObject;
+import org.python.core.PyString;
 
 import field.core.dispatch.iVisualElement;
 import field.core.dispatch.iVisualElement.VisualElementProperty;
@@ -27,6 +28,7 @@ import field.core.ui.text.BaseTextEditor2;
 import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.PythonTextEditor;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
+import field.core.ui.text.TokenMaker;
 import field.core.ui.text.embedded.MinimalTextField_blockMenu;
 import field.launch.Launcher;
 import field.launch.iUpdateable;
@@ -160,6 +162,10 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 		return source.getProperty(wrapInTransform) != null;
 	}
 
+	static public String getWrap(iVisualElement source) {
+		return source.getProperty(wrapInTransform);
+	}
+
 	private iExecutesPromise ep;
 
 	public void addElementsTo(final iVisualElement source, ArrayList<Pair<String, iUpdateable>> r) {
@@ -255,8 +261,43 @@ public class WrapInTransformPlugin extends BaseSimplePlugin {
 				return delegateTo2.executeReturningValue(fragment);
 			}
 
+			public TokenMaker getCustomTokenMaker() {
+				String ww = getWrap(source);
+				if (ww == null)
+					return null;
+
+				Object w = PythonInterface.getPythonInterface().getVariables().get(ww);
+				if (w == null)
+					return null;
+
+				if (w instanceof PyObject) {
+					PyObject c = ((PyObject) w).__findattr__("tokenizer");
+					if (c instanceof PyString) {
+						String cc = ((PyString) c).toString();
+						if (cc != null) {
+							try {
+								Object ii = Class.forName(cc).newInstance();
+								if (ii instanceof TokenMaker) {
+									System.out.println(" \n \n returning tokenmaker <"+ii+">");
+									return ((TokenMaker) ii);
+								}
+							} catch (ClassNotFoundException e) {
+								e.printStackTrace();
+							} catch (InstantiationException e) {
+								e.printStackTrace();
+							} catch (IllegalAccessException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				return null;
+			}
+
 			@Override
 			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
+
+				System.out.println(" inside global completion hook <" + leftText + " " + publicOnly + ">" + comp + " " + inside);
 
 				iFunction<Collection<Completion>, String> h = completionHook(source, inside);
 				if (h != null) {

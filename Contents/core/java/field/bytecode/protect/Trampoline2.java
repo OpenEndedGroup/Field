@@ -179,7 +179,7 @@ public class Trampoline2 implements iLaunchable {
 			if (Platform.isMac()) {
 				String name = "lib" + rawName + ".dylib";
 
-//				System.out.println(extendedLibraryPaths);
+				// System.out.println(extendedLibraryPaths);
 				for (String s : extendedLibraryPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
@@ -203,14 +203,16 @@ public class Trampoline2 implements iLaunchable {
 				for (String s : extendedLibraryPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
-//						System.out.println(" found it <" + file + ">");
+						// System.out.println(" found it <"
+						// + file + ">");
 						return file.getAbsolutePath();
 					}
 				}
 				for (String s : extendedClassPaths) {
 					File file = new File(s, name);
 					if (file.exists()) {
-//						System.out.println(" found it <" + file + ">");
+						// System.out.println(" found it <"
+						// + file + ">");
 						return file.getAbsolutePath();
 					}
 				}
@@ -452,11 +454,10 @@ public class Trampoline2 implements iLaunchable {
 
 	public void addJar(String n) {
 		try {
-			
-			if (new File(n).exists())
-			{				
+
+			if (new File(n).exists()) {
 				if (new File(n).isDirectory() && !n.endsWith("/"))
-					loader.addURL(new URL("file://" + n+"/"));
+					loader.addURL(new URL("file://" + n + "/"));
 				else
 					loader.addURL(new URL("file://" + n));
 				extendedClassPaths.add(n);
@@ -520,13 +521,15 @@ public class Trampoline2 implements iLaunchable {
 						e.printStackTrace();
 					}
 				}
-//			System.out.println(" checking <" + path + "> for natives ");
+			// System.out.println(" checking <" + path +
+			// "> for natives ");
 			File[] natives = path.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-//			System.out.println(" found <" + natives.length + ">");
+			// System.out.println(" found <" + natives.length +
+			// ">");
 			for (File n : natives) {
 				try {
 					// System.load(n.getAbsolutePath());
@@ -635,7 +638,7 @@ public class Trampoline2 implements iLaunchable {
 
 			extendedClassPaths.add(dir.getAbsolutePath());
 
-			System.out.println(" extending library path by :"+dir.getAbsolutePath());
+			System.out.println(" extending library path by :" + dir.getAbsolutePath());
 			extendLibraryPath(dir.getAbsolutePath());
 
 			String[] ll = dir.list(new FilenameFilter() {
@@ -667,16 +670,18 @@ public class Trampoline2 implements iLaunchable {
 				}
 			}
 
-//			System.out.println(" checking <" + dir + "> for natives ");
+			// System.out.println(" checking <" + dir +
+			// "> for natives ");
 			File[] natives = dir.listFiles(new FileFilter() {
 				public boolean accept(File file) {
 					return file.getPath().endsWith(".dylib") || file.getPath().endsWith(".jnilib");
 				}
 			});
-//			System.out.println(" found <" + natives.length + ">");
+			// System.out.println(" found <" + natives.length +
+			// ">");
 			for (File n : natives) {
 				try {
-//					System.load(n.getAbsolutePath());
+					// System.load(n.getAbsolutePath());
 				} catch (Throwable t) {
 					t.printStackTrace();
 				}
@@ -764,7 +769,7 @@ public class Trampoline2 implements iLaunchable {
 		System.setProperty("java.library.path", System.getProperty("java.library.path") + File.pathSeparator + s);
 		System.setProperty("jna.library.path", System.getProperty("jna.library.path") + File.pathSeparator + s);
 
-//		System.out.println(" library paths now "+System.getProperty("java.library.path")+" and "+System.getProperty("jna.library.path"));
+		// System.out.println(" library paths now "+System.getProperty("java.library.path")+" and "+System.getProperty("jna.library.path"));
 		// This enables the java.library.path to be modified at runtime
 		// From a Sun engineer at
 		// http://forums.sun.com/thread.jspa?threadID=707176
@@ -792,11 +797,12 @@ public class Trampoline2 implements iLaunchable {
 		if (f != null) {
 			for (File ff : f) {
 				if (ff.getName().endsWith(".dylib") | ff.getName().endsWith(".so")) {
-//					System.out.println(" premptivly loading <"+ff+">");
-//					try{
-//						System.load(ff.getAbsolutePath());
-//					}
-//					catch(Throwable t){System.out.println(" didn't load, continuing");}
+					// System.out.println(" premptivly loading <"+ff+">");
+					// try{
+					// System.load(ff.getAbsolutePath());
+					// }
+					// catch(Throwable
+					// t){System.out.println(" didn't load, continuing");}
 				}
 			}
 		}
@@ -896,6 +902,8 @@ public class Trampoline2 implements iLaunchable {
 				addJar(e);
 			}
 		}
+
+		System.out.println(" extended jars :" + extendedJars);
 
 		Vector v = (Vector) ReflectionTools.illegalGetObject(this.getClass().getClassLoader(), "classes");
 		if (debug)

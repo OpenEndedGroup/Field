@@ -8,7 +8,14 @@ public class SWTSwingCompatibility {
 
 	public class Document {
 		public String getText(int start, int length) {
-			return out.getTextRange(start, length);
+			try{
+				return out.getTextRange(start, length);
+			}
+			catch(IllegalArgumentException e)
+			{
+				e.printStackTrace();
+				return "";
+			}
 		}
 
 		public void insertString(int start, String text, Object ignored) {

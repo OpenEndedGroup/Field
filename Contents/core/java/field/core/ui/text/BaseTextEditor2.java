@@ -844,11 +844,13 @@ public class BaseTextEditor2 {
 
 			LinkedHashSet<Integer> ongoing = new LinkedHashSet<Integer>();
 
+			boolean smartIndent = false;
+			
 			@Override
 			public void lineGetStyle(LineStyleEvent event) {
 				String text = event.lineText;
 
-				System.out.println(" lineGetStyle :" + event.lineOffset + " >" + event.lineText + "<");
+//				System.out.println(" lineGetStyle :" + event.lineOffset + " >" + event.lineText + "<");
 				// new Exception().printStackTrace();
 				LineRec lr = new LineRec(event.lineOffset, text);
 				StyleRange[] rr = cache.get(lr);
@@ -879,7 +881,7 @@ public class BaseTextEditor2 {
 							}
 						} else if (tt.type != 0) {
 							StyleRange s = new StyleRange(tt.start + event.lineOffset, tt.end - tt.start + 1, colors[tt.toToken().ordinal()], ed.getBackground());
-							if (tt.toToken() == TokenTypes.whitespace && tt.start == 0 && event.lineOffset > 0 && tt.array[0] != '\t') {
+							if (smartIndent && tt.toToken() == TokenTypes.whitespace && tt.start == 0 && event.lineOffset > 0 && tt.array[0] != '\t') {
 								s.background = tabBackground;
 								// s.background
 								// =
@@ -902,18 +904,18 @@ public class BaseTextEditor2 {
 
 									ongoing.add(lineStart);
 									try {
-										System.out.println(" character is :" + ed.getTextRange(1 + lineStart + Math.max(0, Math.min(tt.end, ed.getLine(previousLine).length() - 1)), 1));
+//										System.out.println(" character is :" + ed.getTextRange(1 + lineStart + Math.max(0, Math.min(tt.end, ed.getLine(previousLine).length() - 1)), 1));
 										Point p = ed.getLocationAtOffset(lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)));
 										Rectangle bounds = ed.getTextBounds(lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)), lineStart + Math.max(0, Math.min(tt.end + 1, ed.getLine(previousLine).length() - 1)) + 1);
 										Point p2 = ed.getLocationAtOffset(lineStart);
-										System.out.println(" point for previous position is :" + p.x + " " + p2.x + " " + bounds);
+//										System.out.println(" point for previous position is :" + p.x + " " + p2.x + " " + bounds);
 
 										p.x = Math.max(0, p.x - 5);
 
 										if (tt.end > 0) {
 											int base = p.x / (tt.end);
 
-											System.out.println(" tt.end :" + tt.end);
+//											System.out.println(" tt.end :" + tt.end);
 											s.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), base);
 											s.length--;
 
@@ -933,7 +935,7 @@ public class BaseTextEditor2 {
 											int remainder = p.x - (base * (tt.end));
 											s2.metrics = new GlyphMetrics((int) (12 * 2 / 3.0f), (int) (12 * 1 / 3.0f), remainder);
 
-											System.out.println(" base is :" + base + " remainder is " + remainder);
+//											System.out.println(" base is :" + base + " remainder is " + remainder);
 
 											s = s2;
 										} else {
@@ -951,7 +953,7 @@ public class BaseTextEditor2 {
 						}
 					}
 
-				System.out.println(" translated :" + event.lineText + " to " + tl);
+//				System.out.println(" translated :" + event.lineText + " to " + tl);
 
 				// int left = 0;
 				//
@@ -1083,7 +1085,7 @@ public class BaseTextEditor2 {
 			Matcher m = embeddedControl.matcher(new String(t.array).subSequence(t.start, t.end + 1));
 			int at = 0;
 
-			System.out.println(" matching : '" + new String(t.array).subSequence(t.start, t.end + 1) + "'");
+//			System.out.println(" matching : '" + new String(t.array).subSequence(t.start, t.end + 1) + "'");
 
 			while (m.find(at)) {
 				int a = m.start();
@@ -1096,7 +1098,7 @@ public class BaseTextEditor2 {
 					t1.array = t.array;
 					t1.type = t.type;
 
-					System.out.println(" add pre token :" + t1.start + " -> " + t1.end);
+//					System.out.println(" add pre token :" + t1.start + " -> " + t1.end);
 
 					tt.add(t1);
 				}
@@ -1105,27 +1107,27 @@ public class BaseTextEditor2 {
 				t1.end = t.start + b - 1;
 				t1.array = t.array;
 				t1.type = Token.EMBEDDED_CONTROL;
-				System.out.println(" add EC token :" + t1.start + " -> " + t1.end);
+//				System.out.println(" add EC token :" + t1.start + " -> " + t1.end);
 				tt.add(t1);
 				at = m.end();
 			}
 			if (at == 0) {
-				System.out.println(" copy token :" + t.start + " -> " + t.end);
+//				System.out.println(" copy token :" + t.start + " -> " + t.end);
 				tt.add(t);
 			} else if (at < t.end - t.start + 1) {
 				Token t1 = new Token();
 				t1.start = t.start + at;
 				t1.end = t.start + t.array.length - 1;
 				t1.array = t.array;
-				System.out.println(" add post token :" + t1.start + " -> " + t1.end);
+//				System.out.println(" add post token :" + t1.start + " -> " + t1.end);
 				t1.type = t.type;
 				tt.add(t1);
 			}
 		}
 
-		System.out.println(" explode out controls ");
-		System.out.println("   from :" + tl);
-		System.out.println(" to :" + tt);
+//		System.out.println(" explode out controls ");
+//		System.out.println("   from :" + tl);
+//		System.out.println(" to :" + tt);
 		return tt;
 	}
 
@@ -1177,7 +1179,7 @@ public class BaseTextEditor2 {
 
 		int[] was = bracketPosition(z, lastCaretPosition);
 		final int[] now = bracketPosition(z, at);
-		System.out.println(" navigation changed, brackets are :" + was[0] + " -> " + was[1] + " : " + now[0] + " " + now[1]);
+//		System.out.println(" navigation changed, brackets are :" + was[0] + " -> " + was[1] + " : " + now[0] + " " + now[1]);
 		if (was[0] != now[0] || was[1] != now[1]) {
 
 			final Position qq = StyledTextPositionSystem.get(ed).createPosition(now[0]);
@@ -1202,7 +1204,7 @@ public class BaseTextEditor2 {
 
 				@Override
 				public boolean drawRect(Rectangle r, GC g) {
-					System.out.println(" bracket :" + r);
+//					System.out.println(" bracket :" + r);
 					r.width += 8;
 					g.setAlpha(128);
 					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_BLUE));
@@ -1252,7 +1254,7 @@ public class BaseTextEditor2 {
 		}
 
 		backTo = Math.max(0, backTo);
-		System.out.println(" match bracket :" + here);
+//		System.out.println(" match bracket :" + here);
 
 		if (here != -1) {
 			final Position qq = StyledTextPositionSystem.get(ed).createPosition(here);
@@ -1276,7 +1278,7 @@ public class BaseTextEditor2 {
 
 				@Override
 				public boolean drawRect(Rectangle r, GC g) {
-					System.out.println(" bracket :" + r);
+//					System.out.println(" bracket :" + r);
 					r.width += 8;
 					g.setAlpha(128);
 					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_BLUE));
@@ -1316,7 +1318,7 @@ public class BaseTextEditor2 {
 
 				@Override
 				public boolean drawRect(Rectangle r, GC g) {
-					System.out.println(" bracket :" + r);
+//					System.out.println(" bracket :" + r);
 					r.width += 8;
 					g.setAlpha(128);
 					g.setBackground(Launcher.getLauncher().display.getSystemColor(SWT.COLOR_DARK_RED));
@@ -2030,7 +2032,7 @@ public class BaseTextEditor2 {
 	}
 
 	protected void paintPositionAnnotations(GC g2, int width) {
-		System.out.println(" PA :" + positionAnnotations);
+//		System.out.println(" PA :" + positionAnnotations);
 		Iterator<iPositionAnnotation> ii = positionAnnotations.iterator();
 		while (ii.hasNext()) {
 			iPositionAnnotation pa = ii.next();

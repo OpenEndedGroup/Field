@@ -31,11 +31,11 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
+import clojure.lang.Atom;
 import clojure.lang.Compiler;
 import clojure.lang.LineNumberingPushbackReader;
 import clojure.lang.Namespace;
 import clojure.lang.RT;
-import clojure.lang.Repl;
 import clojure.lang.Symbol;
 import clojure.lang.Var;
 
@@ -48,7 +48,11 @@ import clojure.lang.Var;
 public class ClojureScriptEngine extends AbstractScriptEngine implements Invocable, Compilable {
 
 	private static final Symbol USER_SYM = Symbol.create("user");
+	private static final Symbol FIELD_SYM = Symbol.create("field");
+	private static final Symbol STICKY_SYM = Symbol.create("field/*sticky-ns*");
 	private static final Namespace USER_NS = Namespace.findOrCreate(USER_SYM);
+	private static final Namespace FIELD_NS = Namespace.findOrCreate(FIELD_SYM);
+	
 	private static final Var IN_NS = RT.var("clojure.core", "in-ns");
 	private static final String SOURCE_PATH_KEY = "clojure.source.path";
 	private static final String COMPILE_PATH_KEY = "clojure.compile.path";
@@ -145,6 +149,24 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 			applyBindings(globalScope);
 
 		Var.pushThreadBindings(RT.map(RT.CURRENT_NS, RT.CURRENT_NS.deref(), RT.IN, new LineNumberingPushbackReader(context.getReader()), RT.OUT, context.getWriter(), RT.ERR, context.getErrorWriter()));
+
+	}
+	
+	public Symbol current_ns = Symbol.create("user");
+
+	public void setCurrentNS(String ns)
+	{
+		current_ns = Symbol.create(ns);
+	}
+	
+	public void clearStickyNS()
+	{
+		((Atom)(Var.find(STICKY_SYM).deref())).reset(null);
+	}
+
+	public Object getStickyNS()
+	{
+		return ((Atom)Var.find(STICKY_SYM).get()).deref();
 	}
 	
 	/**
@@ -165,7 +187,7 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 	 * to provide consistency with the REPL.
 	 * <p>
 	 * For consistency with the REPL, redirect {@code *err* } to a
-	 * {@code PrintWriter}.
+	 * {@code PrintWriter}.   
 	 */
 	public Object eval(Reader reader, ScriptContext context) throws ScriptException {
 		if (reader == null)
@@ -184,17 +206,25 @@ public class ClojureScriptEngine extends AbstractScriptEngine implements Invocab
 			applyBindings(globalScope);
 		try {
 
+			System.out.println(" ns nowA, :"+RT.CURRENT_NS.get());
 			Var.pushThreadBindings(RT.map(RT.CURRENT_NS, RT.CURRENT_NS.deref(), RT.IN, new LineNumberingPushbackReader(context.getReader()), RT.OUT, context.getWriter(), RT.ERR, context.getErrorWriter()));
-			IN_NS.invoke(USER_SYM);
+			System.out.println(" ns nowB, :"+RT.CURRENT_NS.get());
+			
+			IN_NS.invoke(current_ns);
 			
 			result = Compiler.load(reader);
+			
+			System.out.println(" ns now, :"+RT.CURRENT_NS.get());
+
 		} catch (Exception e) {
 
 			ScriptException ee = new ScriptException(e.getMessage());
 			ee.initCause(e);
 			throw ee;
 		} finally {
+			System.out.println(" ns nowC, :"+RT.CURRENT_NS.get());
 			Var.popThreadBindings();
+			System.out.println(" ns nowD, :"+RT.CURRENT_NS.get());
 		}
 
 		return result;
