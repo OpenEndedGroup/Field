@@ -18,6 +18,8 @@ public class GitVersioningSystem extends VersioningSystem {
 		if (!new File(gitCommand).exists())
 			gitCommand = "/usr/local/bin/git";
 		if (!new File(gitCommand).exists())
+			gitCommand = "/usr/local/git/bin/git";
+		if (!new File(gitCommand).exists())
 			gitCommand = "/bin/git";
 		if (!new File(gitCommand).exists())
 			gitCommand = System.getProperty("user.home") + "/bin/git";
