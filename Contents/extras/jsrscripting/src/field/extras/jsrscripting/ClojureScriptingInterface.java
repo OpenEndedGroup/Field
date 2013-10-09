@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import javax.script.ScriptEngine;
@@ -192,12 +193,17 @@ public class ClojureScriptingInterface extends JSRInterface {
 				System.out.println(e + " " + e.getClass());
 
 				if (e instanceof Var) {
-					// Object name = ((Var) e).getTag();
-					e = ((Var) e).get();
-					if (e instanceof AFunction) {
+
+					System.out.println(" tag is :"+((Var) e).sym.getName());
+					
+					if (("" + ((Var) e).sym.getName()).equals("_r")) {
+
+						e = ((Var) e).get();
+
 						PythonInterface.getPythonInterface().setVariable("_r", e);
 					}
 				}
+
 			}
 
 			return e;
