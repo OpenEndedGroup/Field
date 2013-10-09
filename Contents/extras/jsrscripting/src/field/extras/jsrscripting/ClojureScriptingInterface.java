@@ -140,7 +140,8 @@ public class ClojureScriptingInterface extends JSRInterface {
 		// + "\n" + "(defn __field__possibleFor [a]\n" +
 		// "	(apropos (re-pattern a)))\n" + "");
 
-		eval("\n" + "(ns field)\n" + "(def ^:dynamic *sticky-ns* (atom nil))\n" + "\n" + "(defn set-sticky-ns \n" + "	[x] (reset! *sticky-ns* x))\n" + "\n" + "(print field/*sticky-ns*)\n" + "", false);
+		eval("\n" + "(ns field)\n" + "(defmacro _python [variable] `(.getVariable (field.core.execution.PythonInterface/getPythonInterface)  ~(str variable) ) )\n" +
+		"(def ^:dynamic *sticky-ns* (atom nil))\n" + "\n" + "(defn set-sticky-ns \n" + "	[x] (reset! *sticky-ns* x))\n" + "\n" + "(print field/*sticky-ns*)\n" + "", false);
 
 		ns_bootstrapped = true;
 	}
