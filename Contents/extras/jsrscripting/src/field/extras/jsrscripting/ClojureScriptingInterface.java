@@ -14,6 +14,8 @@ import org.python.core.PyBuiltinMethodNarrow;
 import org.python.core.PyObject;
 import org.python.core.PyType;
 
+import clojure.lang.AFunction;
+import clojure.lang.Var;
 import field.bytecode.protect.Woven;
 import field.bytecode.protect.annotations.NextUpdate;
 import field.core.dispatch.iVisualElement;
@@ -83,17 +85,13 @@ public class ClojureScriptingInterface extends JSRInterface {
 
 			// register helper class _clojure
 
-			PythonInterface.getPythonInterface().execString("from clojure.lang import RT\nfrom clojure.lang import Symbol\n" + "from clojure.lang import Namespace\n" + "from clojure.lang import *\n" + "class ClojureNamespaceAccess:\n" + "	def __init__(self, nsName=\"user\", hinted=0):\n" + "		self.__dict__[\"nsName\"]= nsName\n"+"		self.__dict__[\"hinted\"]= hinted\n" + "	\n" 
-			+ "	def __getattr__(self, name):\n" +
+			PythonInterface.getPythonInterface().execString("from clojure.lang import RT\nfrom clojure.lang import Symbol\n" + "from clojure.lang import Namespace\n" + "from clojure.lang import *\n" + "class ClojureNamespaceAccess:\n" + "	def __init__(self, nsName=\"user\", hinted=0):\n" + "		self.__dict__[\"nsName\"]= nsName\n" + "		self.__dict__[\"hinted\"]= hinted\n" + "	\n" + "	def __getattr__(self, name):\n" +
 			// "		return RT.var(self.nsName, name).get()\n" +
 					"		return Namespace.findOrCreate(Symbol.intern(self.nsName)).getMappings()[Symbol.intern(name)].get()\n" +
 					//
-					"\n" + "	def __setattr__(self, name, val):\n" 
-					+ "		v = RT.var(self.nsName, name)\n"+
-					   "		v.bindRoot(val)\n"+
-					   "		if (self.hinted and val!=None): v.setMeta(v.meta().assoc(Keyword.intern(\"tag\"), type(val)))\n" + 
-				 
-					 "\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n"+"_clojure_t = ClojureNamespaceAccess(\"user\", hinted=1)\n");
+					"\n" + "	def __setattr__(self, name, val):\n" + "		v = RT.var(self.nsName, name)\n" + "		v.bindRoot(val)\n" + "		if (self.hinted and val!=None): v.setMeta(v.meta().assoc(Keyword.intern(\"tag\"), type(val)))\n" +
+
+					"\n" + "_clojure = ClojureNamespaceAccess(\"user\")\n" + "_clojure_t = ClojureNamespaceAccess(\"user\", hinted=1)\n");
 
 			lateInitCompletionHook();
 			System.out.println(" finished making engine ");
@@ -140,8 +138,7 @@ public class ClojureScriptingInterface extends JSRInterface {
 		// + "\n" + "(defn __field__possibleFor [a]\n" +
 		// "	(apropos (re-pattern a)))\n" + "");
 
-		eval("\n" + "(ns field)\n" + "(defmacro _python [variable] `(.getVariable (field.core.execution.PythonInterface/getPythonInterface)  ~(str variable) ) )\n" +
-		"(def ^:dynamic *sticky-ns* (atom nil))\n" + "\n" + "(defn set-sticky-ns \n" + "	[x] (reset! *sticky-ns* x))\n" + "\n" + "(print field/*sticky-ns*)\n" + "", false);
+		eval("\n" + "(ns field)\n" + "(defmacro _python [variable] `(.getVariable (field.core.execution.PythonInterface/getPythonInterface)  ~(str variable) ) )\n" + "(def ^:dynamic *sticky-ns* (atom nil))\n" + "\n" + "(defn set-sticky-ns \n" + "	[x] (reset! *sticky-ns* x))\n" + "\n" + "(print field/*sticky-ns*)\n" + "", false);
 
 		ns_bootstrapped = true;
 	}
@@ -194,17 +191,13 @@ public class ClojureScriptingInterface extends JSRInterface {
 			if (e != null) {
 				System.out.println(e + " " + e.getClass());
 
-				// if (e instanceof Var) {
-				// Object name = ((Var) e).getTag();
-				// e = ((Var) e).get();
-				// if (e != null) {
-				// if (e instanceof AFunction) {
-				// PythonInterface.getPythonInterface().setVariable("_r",
-				// e);
-				// }
-				//
-				// }
-				// }
+				if (e instanceof Var) {
+					// Object name = ((Var) e).getTag();
+					e = ((Var) e).get();
+					if (e instanceof AFunction) {
+						PythonInterface.getPythonInterface().setVariable("_r", e);
+					}
+				}
 			}
 
 			return e;
