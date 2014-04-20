@@ -435,11 +435,11 @@ public class NewInspector {
 
 						org.eclipse.swt.widgets.ColorDialog d = new org.eclipse.swt.widgets.ColorDialog(GLComponentWindow.getCurrentWindow(null).getFrame(), SWT.PRIMARY_MODAL);
 						d.setRGB(new RGB((int) (Math.max(0, Math.min(255, 255 * color.x))), (int) (Math.max(0, Math.min(255, 255 * color.y))), (int) (Math.max(0, Math.min(255, 255 * color.z)))));
-						d.setAlpha((int) (color.w * 255f));
+//						d.setAlpha((int) (color.w * 255f));
 						d.open();
 						RGB rgb = d.getRGB();
 
-						i.setValue(new Vector4(rgb.red/255f, rgb.green/255f, rgb.blue/255, d.getAlpha()/255f));
+						i.setValue(new Vector4(rgb.red/255f, rgb.green/255f, rgb.blue/255, 1/*d.getAlpha()/255f*/));
 						
 //						new ColorDialog(new Color(color.x, color.y, color.z, color.w), (Frame) SwingUtilities.getWindowAncestor(this), x) {
 //							public void setColor(Color color) {

@@ -307,7 +307,8 @@ public class FieldMenus2 {
 
 	protected void doOpenFile(Shell setup) {
 
-		if (Platform.isMac()) {
+	    if (Platform.isMac()) 
+		    {
 			FileDialog d = new FileDialog(setup, SWT.OPEN);
 			d.setFilterPath(WorkspaceDirectory.dir[0]);
 			d.setOverwrite(false);
