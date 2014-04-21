@@ -195,7 +195,7 @@ public class MinimalColorWell extends JComponent implements iAcceptsInsertRender
 	protected void changeColorMac() {
 		org.eclipse.swt.widgets.ColorDialog d = new org.eclipse.swt.widgets.ColorDialog(CustomInsertDrawing.currentNub.canvas.getShell(), SWT.PRIMARY_MODAL);
 		d.setRGB(new RGB((int) (Math.max(0, Math.min(255, 255 * color.x))), (int) (Math.max(0, Math.min(255, 255 * color.y))), (int) (Math.max(0, Math.min(255, 255 * color.z)))));
-		d.setAlpha((int) (color.w * 255f));
+//		d.setAlpha((int) (color.w * 255f));
 		d.open();
 		RGB rgb = d.getRGB();
 
@@ -203,8 +203,8 @@ public class MinimalColorWell extends JComponent implements iAcceptsInsertRender
 		color.y = rgb.green / 255f;
 		color.z = rgb.blue / 255f;
 
-		color.w = d.getAlpha() / 255f;
-
+//		color.w = d.getAlpha() / 255f;
+        color.w  = 1; // once again, we can't have alpha on colors right now due to SWT problems
 		setValue(color);
 
 		if (when == ExecutesWhen.always) {
