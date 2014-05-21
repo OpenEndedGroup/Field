@@ -46,11 +46,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/lib/batik-all.jar</locationURI>
 		</link>
 		<link>
-			<name>clojure-1.5.1.jar</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/lib/clojure-1.5.1.jar</locationURI>
-		</link>
-		<link>
+-			<name>clojure-1.6.0.jar</name>
+-			<type>1</type>
+-			<locationURI>PARENT-1-PROJECT_LOC/lib/clojure-1.6.0.jar</locationURI>
+-		</link>
+-		<link>
 			<name>glazedlists-1.8.0_java15.jar</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/lib/glazedlists-1.8.0_java15.jar</locationURI>
