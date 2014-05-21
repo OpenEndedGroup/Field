@@ -103,11 +103,11 @@ For the less bold, you can add individual plugins:
 
 To run:
 
-	$ ./Contents/Linux/field_linux32.sh -field.scratch nameOfFileToOpen.field
+	$ ./Contents/linux/field_linux32.sh -field.scratch nameOfFileToOpen.field
 
 or:
 
-	$ ./Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
+	$ ./Contents/linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
 
 Should you find that Field crashes on startup complaining of "No Handles", you need to install libwebkitgtk-1.0. For example:
 
