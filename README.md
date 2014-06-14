@@ -109,11 +109,21 @@ or:
 
 	$ ./Contents/linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
 
+On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace), and it will check to see if you have Mercurial installed.
+
+To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+
+#### Common Problems
+
 Should you find that Field crashes on startup complaining of "No Handles", you need to install libwebkitgtk-1.0. For example:
 
 	$ sudo apt-get install libwebkitgtk-1.0-0
 
-On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace), and it will check to see if you have Mercurial installed.
+Should you find that Field crashes on startup inside libsoup (https://bugs.eclipse.org/bugs/show_bug.cgi?id=400626#c4), you'll need to use:
 
-To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+	$ ./Contents/linux/field_linux64_mozilla.sh -field.scratch nameOfFileToOpen.field
+	
+to launch Field instead (this may disable the internal webbrowser). 
+
+
 
