@@ -1162,6 +1162,8 @@ public class TextSystem {
 
 			float a = 1 / 9f;
 
+			try{
+
 			PlanarImage dst = JAI.create("convolve", image, new KernelJAI(3, 3, new float[] { a / 2, a / 2, a / 2, a / 2, 1, a / 2, a / 2, a / 2, a / 2 }));
 			PlanarImage dst1 = dst;
 			for (int i = 0; i < 5; i++) {
@@ -1217,6 +1219,15 @@ public class TextSystem {
 
 			intBuffer.rewind();
 			slow.dirty();
+			}
+			catch(java.lang.NoClassDefFoundError e)
+			    {
+				resetText(text, backr, backg, backb, backa, frontr, frontg, frontb, fronta);
+			    }
+			catch(Error e)
+			    {
+				resetText(text, backr, backg, backb, backa, frontr, frontg, frontb, fronta);
+			    }
 		}
 
 		public void setFont(Font f) {
