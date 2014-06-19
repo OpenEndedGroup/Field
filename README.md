@@ -125,5 +125,8 @@ Should you find that Field crashes on startup inside libsoup (https://bugs.eclip
 	
 to launch Field instead (this may disable the internal webbrowser). 
 
+Should you find that Field doesn't seem to be drawing its UI correctly (black or missing boxes) then you are almost certainly using buggy graphics card drivers on Linux. Field is developped with the latest Nvidia proprietary drivers and generally requires a correctly functioning OpenGL 3.2+ stack.
+
+
 
 
