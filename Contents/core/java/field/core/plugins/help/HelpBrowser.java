@@ -362,6 +362,8 @@ public class HelpBrowser extends BaseSimplePlugin {
 			});
 		} catch (NoSuchMethodError e) {
 			System.out.println(" webkit integration busted in 32bit mode");
+		} catch (org.eclipse.swt.SWTError e) {
+			System.out.println(" work around for bug #53");
 		}
 	}
 
