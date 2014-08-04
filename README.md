@@ -27,7 +27,7 @@ To build Field with Java 7 (as supplied by Apple):
 	$ cd Field.app/Contents/Plugins/1.7.0.jdk/Contents
 	$ ln -s /System/Library/Frameworks/JavaVM.framework/Home
 	$ cd ../../..
-	$ ant
+	$ JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/ ant
 
 This will build the core of Field. Individual plugins have additional targets inside the `Contents/build.xml` file.
 
