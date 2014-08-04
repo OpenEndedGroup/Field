@@ -182,11 +182,11 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 		} else {
 			if (Platform.isMac()) {
 				try {
-					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Resources/Java/core.jar").getAbsolutePath());
-					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Resources/Java/core/library/core.jar").getAbsolutePath());
-					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/modes/java/libraries/opengl/library/").getAbsolutePath());
-					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/core/library/").getAbsolutePath());
-					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Resources/Java/modes/java/libraries/").getAbsolutePath());
+					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Java/core.jar").getAbsolutePath());
+					Trampoline2.trampoline.addJar(new File(rootProcessingPath + "/Contents/Java/core/library/core.jar").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Java/modes/java/libraries/opengl/library/").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Java/core/library/").getAbsolutePath());
+					Trampoline2.trampoline.addWildcardPath(new File(rootProcessingPath + "/Contents/Java/modes/java/libraries/").getAbsolutePath());
 				} catch (MalformedURLException e1) {
 					e1.printStackTrace();
 				}
@@ -434,7 +434,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 
 	private void extendClasspath() {
 		if (field.core.Platform.isMac()) {
-			Trampoline2.trampoline.addExtensionsDirectory(new File(rootProcessingPath + "/Contents/Resources/Java/"));
+			Trampoline2.trampoline.addExtensionsDirectory(new File(rootProcessingPath + "/Contents/Java/"));
 
 			try {
 				Trampoline2.trampoline.addWildcardPathRecursively(new File(rootProcessingPath).getAbsolutePath());
@@ -442,7 +442,7 @@ public class ProcessingPlugin extends BaseSimplePlugin {
 				e1.printStackTrace();
 			}
 
-			addLibraryPathRecursively(new File(rootProcessingPath + "/Contents/Resources/Java/"));
+			addLibraryPathRecursively(new File(rootProcessingPath + "/Contents/Java/"));
 		} else {
 			Trampoline2.trampoline.addExtensionsDirectory(new File(rootProcessingPath + "/lib/"));
 			try {

@@ -530,9 +530,14 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 		Launcher.getLauncher().registerUpdateable(new iUpdateable() {
 			public void update() {
 
+			    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+			    public void run() {
 				applet.init();
 				applet.noLoop();
 				applet.setLocation(0, 22);
+
+			}});
 				Launcher.getLauncher().deregisterUpdateable(this);
 			}
 		});
@@ -706,6 +711,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 	public void init() {
 
+	    /*
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -719,6 +725,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				}
 			}
 		});
+	    */
 	}
 
 	@InQueue
