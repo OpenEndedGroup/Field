@@ -112,10 +112,12 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 				public void paint(Graphics g) {
 					super.paint(g);
 
+					System.out.println(" PAINT ");
 					if (lastBounds == null || !this.getBounds().equals(lastBounds)) {
 						drawQueue.new Task() {
 							@Override
 							protected void run() {
+							    System.out.println(" SETTING SIZE <"+applet.getWidth()+" "+applet.getHeight()+" "+applet.g.getClass().getName()+">");
 								((PApplet) applet).size(applet.getWidth(), applet.getHeight(), applet.g.getClass().getName(), "");
 								applet.background(0);
 							}
@@ -231,6 +233,7 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 
 			@Override
 			public void draw() {
+			    System.out.println(" DRAW ");
 //				System.out.println(" draw_impl for <" + System.identityHashCode(this) + "> <" + drawQueue.getNumTasks() + ">");
 				theApplet = this;
 
@@ -243,6 +246,8 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			}
 
 			private void draw_impl() {
+
+			    System.out.println(" DRAW_IMPL ");
 
 				frameNumber++;
 				if (g != null && g.getClass().getName().toLowerCase().contains("opengl") && ProcessingLoader.this.frame != null && frameNumber == 4) {
@@ -534,9 +539,9 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
                         @Override
 			    public void run() {
 				applet.init();
-				applet.noLoop();
+				applet.loop();
 				applet.setLocation(0, 22);
-
+				applet.setSize(appletWidth, appletHeight);
 			}});
 				Launcher.getLauncher().deregisterUpdateable(this);
 			}
