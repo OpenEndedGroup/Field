@@ -45,9 +45,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.lwjgl.opengl.EXTGeometryShader4;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import org.lwjgl.opengl.GL32;
 import org.lwjgl.opengl.GL40;
+import org.lwjgl.opengl.GL41;
 import org.lwjgl.opengl.GL43;
 
 import field.bytecode.protect.Woven;
@@ -1099,12 +1102,12 @@ public class BasicGLSLangProgram extends BasicUtilities.OnePassListElement imple
 			// " " + geometryVertexNumOut);
 			// GL41.glProgramParameteri(program, pname, value)
 
-		// GL41.glProgramParameteri(getProgram(),
-		// GL_GEOMETRY_OUTPUT_TYPE, geometryVertexOutType);
-		// GL41.glProgramParameteri(getProgram(),
-		// GL_GEOMETRY_INPUT_TYPE, geometryVertexInType);
-		// GL41.glProgramParameteri(getProgram(),
-		// GL_GEOMETRY_VERTICES_OUT, geometryVertexNumOut);
+		 EXTGeometryShader4.glProgramParameteriEXT(getProgram(),
+				 EXTGeometryShader4.GL_GEOMETRY_OUTPUT_TYPE_EXT, geometryVertexOutType);
+		 EXTGeometryShader4.glProgramParameteriEXT(getProgram(),
+				 EXTGeometryShader4.GL_GEOMETRY_INPUT_TYPE_EXT, geometryVertexInType);
+		 EXTGeometryShader4.glProgramParameteriEXT(getProgram(),
+				 EXTGeometryShader4.GL_GEOMETRY_VERTICES_OUT_EXT, geometryVertexNumOut);
 
 		// }
 		// }
