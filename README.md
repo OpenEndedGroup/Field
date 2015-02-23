@@ -4,7 +4,7 @@ Field is an open-source software project initiated by OpenEndedGroup, for the cr
 
 It is an environment for writing code to rapidly and experimentally assemble and explore algorithmic systems.
 
-It is _visual_, it is __code-based__, it is ___hybrid___.
+It is _visual_, it is _code-based_, it is _hybrid_.
 
 We think it has something to offer a diverse range of programmers and artists.
 
@@ -16,7 +16,7 @@ Field is developed and tested on Mac OS X (primarily) and Ubuntu 12 + Nvidia pro
 
 #### Building Field
 
-Before anything else, ensure you have Xcode installed.  Field won't build without it.
+Before anything else, ensure you have Xcode installed.  Field won't build without it.  You'll also need a JDK 1.7 (you can run Field on 1.8, but you need 1.7 to build it); and `ant` installed. 
 
 To build Field with Java 7 (as supplied by Apple):
 
