@@ -78,7 +78,7 @@ To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simp
 
 #### Building Field
 
-To build Field:
+To build Field (you can run Field on 1.8, but you need 1.7 to build it);
 
 	$ git clone git://github.com/OpenEndedGroup/Field.git
 	$ cd Field/Contents
