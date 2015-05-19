@@ -4,7 +4,7 @@ Field is an open-source software project initiated by OpenEndedGroup, for the cr
 
 It is an environment for writing code to rapidly and experimentally assemble and explore algorithmic systems.
 
-It is _visual_, it is __code-based__, it is ___hybrid___.
+It is _visual_, it is _code-based_, it is _hybrid_.
 
 We think it has something to offer a diverse range of programmers and artists.
 
@@ -16,7 +16,7 @@ Field is developed and tested on Mac OS X (primarily) and Ubuntu 12 + Nvidia pro
 
 #### Building Field
 
-Before anything else, ensure you have Xcode installed.  Field won't build without it.
+Before anything else, ensure you have Xcode installed.  Field won't build without it.  You'll also need a JDK 1.7 (you can run Field on 1.8, but you need 1.7 to build it); and `ant` installed. 
 
 To build Field with Java 7 (as supplied by Apple):
 
@@ -27,7 +27,7 @@ To build Field with Java 7 (as supplied by Apple):
 	$ cd Field.app/Contents/Plugins/1.7.0.jdk/Contents
 	$ ln -s /System/Library/Frameworks/JavaVM.framework/Home
 	$ cd ../../..
-	$ ant
+	$ JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home/ ant
 
 This will build the core of Field. Individual plugins have additional targets inside the `Contents/build.xml` file.
 
@@ -78,7 +78,7 @@ To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simp
 
 #### Building Field
 
-To build Field:
+To build Field (you can run Field on 1.8, but you need 1.7 to build it);
 
 	$ git clone git://github.com/OpenEndedGroup/Field.git
 	$ cd Field/Contents
@@ -103,17 +103,30 @@ For the less bold, you can add individual plugins:
 
 To run:
 
-	$ ./Contents/Linux/field_linux32.sh -field.scratch nameOfFileToOpen.field
+	$ ./Contents/linux/field_linux32.sh -field.scratch nameOfFileToOpen.field
 
 or:
 
-	$ ./Contents/Linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
+	$ ./Contents/linux/field_linux64.sh -field.scratch nameOfFileToOpen.field
+
+On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace), and it will check to see if you have Mercurial installed.
+
+To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+
+#### Common Problems
 
 Should you find that Field crashes on startup complaining of "No Handles", you need to install libwebkitgtk-1.0. For example:
 
 	$ sudo apt-get install libwebkitgtk-1.0-0
 
-On first launch Field will ask where to store your Field files (we suggest ~/Documents/FieldWorkspace), and it will check to see if you have Mercurial installed.
+Should you find that Field crashes on startup inside libsoup (https://bugs.eclipse.org/bugs/show_bug.cgi?id=400626#c4), you'll need to use:
 
-To start with [the tutorials](http://openendedgroup.com/field/FieldGATech), simply uncompress them and put them inside your workspace.
+	$ ./Contents/linux/field_linux64_mozilla.sh -field.scratch nameOfFileToOpen.field
+	
+to launch Field instead (this may disable the internal webbrowser). 
+
+Should you find that Field doesn't seem to be drawing its UI correctly (black or missing boxes) then you are almost certainly using buggy graphics card drivers on Linux. Field is developed with the latest Nvidia proprietary drivers and generally requires a correctly functioning OpenGL 3.2+ stack.
+
+
+
 
