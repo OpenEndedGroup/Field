@@ -146,6 +146,29 @@ public class Histogram<T> implements iHistogram<T>, Serializable {
 
 		return this;
 	}
+	
+	public Histogram<T> intersectAndAdd(Histogram<T> h) {
+		Set<Entry<T, MutableFloat>> e = counts.entrySet();
+		for (Entry<T, MutableFloat> entry : e) {
+			MutableFloat c = h.counts.get(entry.getKey());
+			if (c != null) {
+				entry.getValue().d += c.d;
+			}
+		}
+
+		counts.keySet().retainAll(h.counts.keySet());
+
+		// redo the normalization
+
+		Iterator<MutableFloat> c = counts.values().iterator();
+		normalization = 0;
+		while (c.hasNext()) {
+			normalization += c.next().d;
+		}
+
+		return this;
+	}
+
 
 	public void multiplyWeightBy(T t, float by) {
 		MutableFloat f = counts.get(t);

@@ -148,6 +148,8 @@ public class PythonTextEditor extends BaseTextEditor2 {
 
 		public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside);
 
+		public TokenMaker getCustomTokenMaker();
+
 	}
 
 	boolean scrollLock = false;
@@ -2535,6 +2537,12 @@ public class PythonTextEditor extends BaseTextEditor2 {
 			return "" + o;
 		}
 		return "";
+	}
+
+	public void setTokenMaker(TokenMaker tok) {
+
+		this.tok = tok == null ? new PythonTokenMaker() : tok;
+		(((BaseTextEditor2) this).cache).clear();
 	}
 
 }

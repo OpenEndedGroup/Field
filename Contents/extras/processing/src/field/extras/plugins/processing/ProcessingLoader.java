@@ -48,6 +48,7 @@ import field.core.execution.TimeSystem;
 import field.core.execution.iExecutesPromise;
 import field.core.plugins.pseudo.PseudoPropertiesPlugin;
 import field.core.ui.text.BaseTextEditor2;
+import field.core.ui.text.TokenMaker;
 import field.core.ui.text.BaseTextEditor2.Completion;
 import field.core.ui.text.GlobalKeyboardShortcuts;
 import field.core.ui.text.PythonTextEditor.EditorExecutionInterface;
@@ -702,6 +703,12 @@ public class ProcessingLoader implements iProcessingLoader, iProvidesQueue {
 			public boolean globalCompletionHook(String leftText, boolean publicOnly, ArrayList<Completion> comp, BaseTextEditor2 inside) {
 				return false;
 			}
+
+			@Override
+			public TokenMaker getCustomTokenMaker() {
+				return delegateTo.getCustomTokenMaker();
+			}
+
 		};
 	}
 
