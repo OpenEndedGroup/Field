@@ -1,3 +1,5 @@
+A new version of Field can be found here: https://github.com/OpenEndedGroup/Field4
+
 ## Field
 
 Field is an open-source software project initiated by OpenEndedGroup, for the creation of their digital artworks.
